@@ -153,30 +153,30 @@ export default function FormularioAvva({ origem }) {
               <span className="fp-badge">Mentoria Avva</span>
 
               <p className="fp-intro__lead">
-                Se você chegou até aqui, provavelmente seu negócio já funciona,{' '}
+                Se você chegou até aqui, provavelmente <strong>seu negócio já funciona</strong>,{' '}
                 <em>mas tem pesado mais do que deveria</em>, e você sabe disso.
               </p>
 
               <p className="fp-intro__body">
-                Você está aqui porque quer mais do que um negócio que roda — quer um negócio que sustente a vida que você escolheu viver.
+                Você está aqui porque quer mais do que um negócio que roda. Quer <strong>um negócio que sustente a vida que você escolheu viver</strong>.
               </p>
 
               <div className="fp-divider" />
 
               <p className="fp-intro__body">
-                A Mentoria Avva é um acompanhamento individual para empreendedoras que já têm um negócio digital rodando, mas sabem que precisam construir a estrutura que sustenta essa vida, e não o contrário.
+                A Mentoria Avva é um <strong>acompanhamento individual</strong> para empreendedoras que já têm um negócio digital rodando, mas sabem que precisam construir a estrutura que sustenta essa vida, e não o contrário.
               </p>
 
               <p className="fp-intro__body">
-                Nossa metodologia é organizada em quatro dimensões — <span className="fp-highlight">Alma</span>, <span className="fp-highlight">Voz</span>, <span className="fp-highlight">Vida</span> e <span className="fp-highlight">Ascensão</span> — porque acreditamos que negócio e pessoa não se separam. Antes de qualquer estratégia de negócio, vem clareza sobre o que funciona para a sua vida. Antes de qualquer movimento, vem estrutura.
+                Nossa metodologia é organizada em quatro dimensões: <span className="fp-highlight">Alma</span>, <span className="fp-highlight">Voz</span>, <span className="fp-highlight">Vida</span> e <span className="fp-highlight">Ascensão</span>. Acreditamos que negócio e pessoa não se separam. <strong>Antes de qualquer estratégia de negócio, vem clareza sobre o que funciona para a sua vida.</strong> Antes de qualquer movimento, vem estrutura.
               </p>
 
               <p className="fp-intro__body">
-                Esse acompanhamento não é pra quem está começando do zero, pra quem busca fórmula pronta ou checklist pra seguir.
+                Esse acompanhamento <strong>não é pra quem está começando do zero</strong>, pra quem busca fórmula pronta ou checklist pra seguir.
               </p>
 
               <p className="fp-intro__closing">
-                É pra quem está pronta pra olhar de verdade pro que construiu — e decidir o que fica, o que muda e o que vai.
+                É pra quem está pronta pra olhar de verdade pro que construiu e decidir o que fica, o que muda e o que vai.
               </p>
 
               <button className="fp-btn" onClick={handleNext}>
