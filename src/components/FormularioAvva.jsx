@@ -79,6 +79,7 @@ export default function FormularioAvva({ origem }) {
       const el = inputRef.current.querySelector('input, textarea')
       if (el) setTimeout(() => el.focus(), 500)
     }
+    window.scrollTo({ top: 0, behavior: 'smooth' })
   }, [step])
 
   const transition = (nextStep) => {
@@ -87,7 +88,7 @@ export default function FormularioAvva({ origem }) {
       setStep(nextStep)
       setAnimClass('enter')
       setTimeout(() => setAnimClass('visible'), 50)
-    }, 450)
+    }, 400)
   }
 
   const pi = step - 2
@@ -121,12 +122,22 @@ export default function FormularioAvva({ origem }) {
 
   return (
     <div className="fp" onKeyDown={handleKeyDown}>
+      {/* Progress */}
       {step >= 2 && (
         <div className="fp-progress">
           <div className="fp-progress__bar" style={{ width: `${progress}%` }} />
         </div>
       )}
 
+      {/* Back button — always visible after step 0 */}
+      {step > 0 && (
+        <button className={`fp-back-global ${step === 1 ? 'fp-back-global--light' : ''}`} onClick={handleBack} type="button">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M19 12H5"/><path d="M12 19l-7-7 7-7"/></svg>
+          <span>Voltar</span>
+        </button>
+      )}
+
+      {/* Counter */}
       {step >= 2 && (
         <div className="fp-counter">
           {String(pi + 1).padStart(2, '0')}<span className="fp-counter__sep">/</span>{String(PERGUNTAS.length).padStart(2, '0')}
@@ -135,64 +146,86 @@ export default function FormularioAvva({ origem }) {
 
       <div className={`fp-step fp-step--${animClass}`}>
 
+        {/* ═══ INTRO ═══ */}
         {step === 0 && (
           <div className="fp-intro">
-            <div className="fp-intro__left">
-              <div className="fp-intro__badge">Mentoria Avva</div>
+            <div className="fp-intro__content">
+              <span className="fp-badge">Mentoria Avva</span>
+
               <h1 className="fp-intro__h1">
-                Seu negócio já funciona.
-                <br />
-                <em>Mas tem pesado mais do que deveria.</em>
+                Se você chegou até aqui, provavelmente seu negócio já funciona,{' '}
+                <em>mas tem pesado mais do que deveria</em>, e você sabe disso.
               </h1>
+
+              <p className="fp-intro__body">
+                Você está aqui porque quer mais do que um negócio que roda — quer um negócio que sustente a vida que você escolheu viver.
+              </p>
+
+              <p className="fp-intro__body">
+                A Mentoria Avva é um acompanhamento individual para empreendedoras que já têm um negócio digital rodando, mas sabem que precisam construir a estrutura que sustenta essa vida, e não o contrário.
+              </p>
+
+              <p className="fp-intro__body">
+                Nossa metodologia é organizada em quatro dimensões — <strong>Alma, Voz, Vida e Ascensão</strong> — porque acreditamos que negócio e pessoa não se separam. Antes de qualquer estratégia de negócio, vem clareza sobre o que funciona para a sua vida. Antes de qualquer movimento, vem estrutura.
+              </p>
+
+              <div className="fp-dims">
+                <span className="fp-dim">Alma</span>
+                <span className="fp-dim">Voz</span>
+                <span className="fp-dim">Vida</span>
+                <span className="fp-dim">Ascensão</span>
+              </div>
+
+              <p className="fp-intro__body">
+                Esse acompanhamento não é pra quem está começando do zero, pra quem busca fórmula pronta ou checklist pra seguir.
+              </p>
+
+              <p className="fp-intro__closing">
+                É pra quem está pronta pra olhar de verdade pro que construiu — e decidir o que fica, o que muda e o que vai.
+              </p>
+
               <button className="fp-btn" onClick={handleNext}>
-                <span>Descobrir mais</span>
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                <span>Continuar</span>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg>
               </button>
-            </div>
-            <div className="fp-intro__right">
-              <div className="fp-intro__card">
-                <p>Você está aqui porque quer mais do que um negócio que roda — quer um negócio que sustente a vida que você escolheu viver.</p>
-              </div>
-              <div className="fp-intro__dims">
-                <span>Alma</span>
-                <span>Voz</span>
-                <span>Vida</span>
-                <span>Ascensão</span>
-              </div>
             </div>
           </div>
         )}
 
+        {/* ═══ AVISOS ═══ */}
         {step === 1 && (
           <div className="fp-avisos">
-            <div className="fp-avisos__inner">
-              <span className="fp-avisos__eyebrow">Antes de começar</span>
-              <h2 className="fp-avisos__title">Algumas coisas<br />importantes.</h2>
-              <div className="fp-avisos__grid">
-                <div className="fp-aviso">
-                  <div className="fp-aviso__line" />
+            <div className="fp-avisos__content">
+              <span className="fp-badge fp-badge--light">Antes de preencher</span>
+
+              <h2 className="fp-avisos__h2">
+                Algumas coisas importantes antes de preencher:
+              </h2>
+
+              <div className="fp-avisos__list">
+                <div className="fp-aviso-card">
                   <p>Responder o formulário não garante vaga ou chamada. Cada aplicação é lida com atenção para entender se consigo te ajudar de verdade.</p>
                 </div>
-                <div className="fp-aviso">
-                  <div className="fp-aviso__line" />
+                <div className="fp-aviso-card">
                   <p>Se fizer sentido pros dois lados, a gente marca uma conversa.</p>
                 </div>
-                <div className="fp-aviso">
-                  <div className="fp-aviso__line" />
+                <div className="fp-aviso-card">
                   <p>Seja honesta. Quanto mais real for o que você escrever, mais útil eu consigo ser desde o primeiro momento.</p>
                 </div>
               </div>
-              <button className="fp-btn fp-btn--light" onClick={handleNext}>
+
+              <button className="fp-btn fp-btn--on-dark" onClick={handleNext}>
                 <span>Vamos começar</span>
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg>
               </button>
             </div>
           </div>
         )}
 
+        {/* ═══ PERGUNTAS ═══ */}
         {step >= 2 && p && (
           <div className="fp-question">
-            <div className="fp-question__inner">
+            <div className="fp-question__content">
               <h2 className="fp-question__title">{p.titulo}</h2>
               {p.subtitulo && <p className="fp-question__sub">{p.subtitulo}</p>}
 
@@ -214,20 +247,16 @@ export default function FormularioAvva({ origem }) {
 
               {erro && <p className="fp-erro">Preencha este campo para continuar</p>}
 
-              <div className="fp-nav">
-                <button className="fp-nav__back" onClick={handleBack} type="button">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
-                  Voltar
-                </button>
+              <div className="fp-question__footer">
                 <button className="fp-btn" onClick={handleNext} disabled={sending} type="button">
                   <span>{sending ? 'Enviando...' : isLast ? 'Enviar aplicação' : 'Continuar'}</span>
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg>
                 </button>
-              </div>
 
-              {p.tipo === 'texto' && (
-                <p className="fp-hint">Pressione <kbd>Enter ↵</kbd> para continuar</p>
-              )}
+                {p.tipo === 'texto' && (
+                  <p className="fp-hint">Pressione <kbd>Enter ↵</kbd> para continuar</p>
+                )}
+              </div>
             </div>
           </div>
         )}
