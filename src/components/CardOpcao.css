@@ -1,0 +1,29 @@
+.card-opcao {
+  padding: 14px 20px;
+  border: 1.5px solid var(--teal-medio);
+  border-radius: 10px;
+  background: transparent;
+  color: var(--umber);
+  font-size: 0.95rem;
+  font-weight: 400;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  text-align: left;
+  line-height: 1.4;
+}
+
+.card-opcao:hover {
+  border-color: var(--teal-profundo);
+  background: rgba(26, 104, 104, 0.06);
+}
+
+.card-opcao--selected {
+  background: var(--teal-profundo);
+  color: var(--amendoado);
+  border-color: var(--teal-profundo);
+}
+
+.card-opcao--selected:hover {
+  background: var(--teal-profundo);
+  color: var(--amendoado);
+}

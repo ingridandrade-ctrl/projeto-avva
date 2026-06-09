@@ -1,0 +1,21 @@
+.confirmacao {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--teal-profundo);
+  padding: 40px 24px;
+}
+
+.confirmacao__container {
+  max-width: 600px;
+  text-align: center;
+}
+
+.confirmacao__texto {
+  font-family: var(--font-titulo);
+  font-size: clamp(1.4rem, 4vw, 1.9rem);
+  color: var(--amendoado);
+  line-height: 1.5;
+  font-weight: 400;
+}

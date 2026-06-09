@@ -1,0 +1,27 @@
+.campo-texto {
+  width: 100%;
+  padding: 14px 18px;
+  border: 1.5px solid #ccc;
+  border-radius: 10px;
+  background: #fff;
+  color: var(--umber);
+  font-size: 1rem;
+  font-weight: 400;
+  transition: border-color 0.25s ease, box-shadow 0.25s ease;
+  outline: none;
+}
+
+.campo-texto:focus {
+  border-color: var(--teal-medio);
+  box-shadow: 0 0 0 3px rgba(26, 104, 104, 0.1);
+}
+
+.campo-texto::placeholder {
+  color: #aaa;
+}
+
+.campo-texto--multiline {
+  resize: vertical;
+  min-height: 120px;
+  line-height: 1.6;
+}

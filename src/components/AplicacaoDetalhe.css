@@ -1,0 +1,133 @@
+.detalhe {
+  min-height: 100vh;
+  background: var(--off-white);
+  padding: 32px 24px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.detalhe__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.detalhe__back {
+  background: none;
+  border: none;
+  color: var(--teal-medio);
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 0;
+}
+
+.detalhe__back:hover {
+  color: var(--teal-profundo);
+}
+
+.detalhe__meta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.detalhe__data {
+  font-size: 0.85rem;
+  color: #888;
+}
+
+.detalhe__nome {
+  font-family: var(--font-titulo);
+  font-size: 2rem;
+  color: var(--teal-profundo);
+  margin-bottom: 36px;
+}
+
+.detalhe__respostas {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+  margin-bottom: 40px;
+}
+
+.detalhe__campo-label {
+  font-family: var(--font-titulo);
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--teal-medio);
+  margin-bottom: 4px;
+}
+
+.detalhe__campo-valor {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--umber);
+  white-space: pre-wrap;
+}
+
+.detalhe__notas {
+  background: #fff;
+  border: 1px solid #e8e4df;
+  border-radius: 10px;
+  padding: 24px;
+}
+
+.detalhe__notas-title {
+  font-family: var(--font-titulo);
+  font-size: 1.1rem;
+  color: var(--umber);
+  margin-bottom: 12px;
+}
+
+.detalhe__notas-textarea {
+  width: 100%;
+  padding: 14px;
+  border: 1.5px solid #ddd;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  color: var(--umber);
+  outline: none;
+  resize: vertical;
+  min-height: 100px;
+  margin-bottom: 12px;
+  transition: border-color 0.2s;
+}
+
+.detalhe__notas-textarea:focus {
+  border-color: var(--teal-medio);
+}
+
+.detalhe__notas-btn {
+  padding: 10px 24px;
+  background: var(--teal-profundo);
+  color: var(--off-white);
+  border: none;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.detalhe__notas-btn:hover:not(:disabled) {
+  background: var(--teal-medio);
+}
+
+.detalhe__notas-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+@media (max-width: 600px) {
+  .detalhe {
+    padding: 20px 16px;
+  }
+
+  .detalhe__nome {
+    font-size: 1.6rem;
+  }
+}
