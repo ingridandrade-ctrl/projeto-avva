@@ -152,29 +152,24 @@ export default function FormularioAvva({ origem }) {
             <div className="fp-intro__content">
               <span className="fp-badge">Mentoria Avva</span>
 
-              <h1 className="fp-intro__h1">
+              <p className="fp-intro__lead">
                 Se você chegou até aqui, provavelmente seu negócio já funciona,{' '}
                 <em>mas tem pesado mais do que deveria</em>, e você sabe disso.
-              </h1>
+              </p>
 
               <p className="fp-intro__body">
                 Você está aqui porque quer mais do que um negócio que roda — quer um negócio que sustente a vida que você escolheu viver.
               </p>
+
+              <div className="fp-divider" />
 
               <p className="fp-intro__body">
                 A Mentoria Avva é um acompanhamento individual para empreendedoras que já têm um negócio digital rodando, mas sabem que precisam construir a estrutura que sustenta essa vida, e não o contrário.
               </p>
 
               <p className="fp-intro__body">
-                Nossa metodologia é organizada em quatro dimensões — <strong>Alma, Voz, Vida e Ascensão</strong> — porque acreditamos que negócio e pessoa não se separam. Antes de qualquer estratégia de negócio, vem clareza sobre o que funciona para a sua vida. Antes de qualquer movimento, vem estrutura.
+                Nossa metodologia é organizada em quatro dimensões — <span className="fp-highlight">Alma</span>, <span className="fp-highlight">Voz</span>, <span className="fp-highlight">Vida</span> e <span className="fp-highlight">Ascensão</span> — porque acreditamos que negócio e pessoa não se separam. Antes de qualquer estratégia de negócio, vem clareza sobre o que funciona para a sua vida. Antes de qualquer movimento, vem estrutura.
               </p>
-
-              <div className="fp-dims">
-                <span className="fp-dim">Alma</span>
-                <span className="fp-dim">Voz</span>
-                <span className="fp-dim">Vida</span>
-                <span className="fp-dim">Ascensão</span>
-              </div>
 
               <p className="fp-intro__body">
                 Esse acompanhamento não é pra quem está começando do zero, pra quem busca fórmula pronta ou checklist pra seguir.

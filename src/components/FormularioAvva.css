@@ -22,7 +22,7 @@
 
 .fp-progress__bar {
   height: 100%;
-  background: var(--terracotta);
+  background: linear-gradient(90deg, var(--terracotta), #c97a4e);
   transition: width 0.8s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
@@ -64,14 +64,15 @@
 }
 
 .fp-back-global--light {
-  background: rgba(255, 255, 255, 0.08);
-  border-color: rgba(212, 185, 154, 0.15);
-  color: var(--amendoado);
+  background: rgba(212, 185, 154, 0.12);
+  border-color: rgba(212, 185, 154, 0.2);
+  color: #fff;
 }
 
 .fp-back-global--light:hover {
-  background: rgba(255, 255, 255, 0.14);
+  background: rgba(212, 185, 154, 0.2);
   box-shadow: none;
+  color: #fff;
 }
 
 /* ═══════════════════════════════════════
@@ -109,7 +110,8 @@
 }
 
 .fp-badge--light {
-  color: var(--terracotta);
+  color: #fff;
+  opacity: 0.6;
 }
 
 /* ═══════════════════════════════════════
@@ -133,36 +135,43 @@
 }
 
 /* ═══════════════════════════════════════
-   INTRO (step 0)
+   INTRO (step 0) — gradient background
    ═══════════════════════════════════════ */
 .fp-intro {
   min-height: 100vh;
   min-height: 100dvh;
-  background: var(--off-white);
+  background: linear-gradient(180deg, var(--off-white) 0%, #efe9e0 100%);
   display: flex;
   align-items: center;
   padding: 80px 24px 60px;
 }
 
 .fp-intro__content {
-  max-width: 640px;
+  max-width: 620px;
   margin: 0 auto;
 }
 
-.fp-intro__h1 {
+.fp-intro__lead {
   font-family: var(--font-titulo);
-  font-size: clamp(1.6rem, 5.5vw, 2.8rem);
-  font-weight: 600;
-  line-height: 1.25;
+  font-size: clamp(1.3rem, 4vw, 1.9rem);
+  font-weight: 500;
+  line-height: 1.4;
   color: var(--umber);
-  margin-bottom: 36px;
-  letter-spacing: -0.01em;
+  margin-bottom: 24px;
 }
 
-.fp-intro__h1 em {
+.fp-intro__lead em {
   color: var(--terracotta);
   font-style: italic;
   font-weight: 500;
+}
+
+.fp-divider {
+  width: 48px;
+  height: 2px;
+  background: linear-gradient(90deg, var(--terracotta), transparent);
+  margin: 28px 0;
+  border-radius: 2px;
 }
 
 .fp-intro__body {
@@ -172,21 +181,20 @@
   line-height: 1.85;
   color: var(--umber);
   margin-bottom: 18px;
-  opacity: 0.85;
+  opacity: 0.82;
 }
 
-.fp-intro__body strong {
+.fp-highlight {
   font-weight: 500;
-  color: var(--umber);
-  opacity: 1;
+  color: var(--teal-profundo);
 }
 
 .fp-intro__closing {
   font-family: var(--font-titulo);
-  font-size: clamp(1.15rem, 3vw, 1.4rem);
+  font-size: clamp(1.1rem, 3vw, 1.3rem);
   font-weight: 500;
   font-style: italic;
-  line-height: 1.5;
+  line-height: 1.55;
   color: var(--teal-profundo);
   margin-top: 28px;
   margin-bottom: 44px;
@@ -194,33 +202,13 @@
   border-left: 3px solid var(--terracotta);
 }
 
-/* Dimensões */
-.fp-dims {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin: 28px 0 32px;
-}
-
-.fp-dim {
-  padding: 10px 22px;
-  background: var(--teal-profundo);
-  color: var(--amendoado);
-  border-radius: 100px;
-  font-family: var(--font-corpo);
-  font-size: 0.76rem;
-  font-weight: 400;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-}
-
 /* ═══════════════════════════════════════
-   AVISOS (step 1)
+   AVISOS (step 1) — high contrast
    ═══════════════════════════════════════ */
 .fp-avisos {
   min-height: 100vh;
   min-height: 100dvh;
-  background: var(--teal-profundo);
+  background: linear-gradient(160deg, #082e2e 0%, var(--teal-profundo) 40%, #0a3a3a 100%);
   display: flex;
   align-items: center;
   padding: 80px 24px 60px;
@@ -236,7 +224,7 @@
   width: 600px;
   height: 600px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(26, 104, 104, 0.5), transparent 65%);
+  background: radial-gradient(circle, rgba(26, 104, 104, 0.4), transparent 65%);
   pointer-events: none;
 }
 
@@ -248,7 +236,7 @@
   width: 400px;
   height: 400px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(168, 92, 53, 0.12), transparent 60%);
+  background: radial-gradient(circle, rgba(168, 92, 53, 0.1), transparent 60%);
   pointer-events: none;
 }
 
@@ -263,7 +251,7 @@
   font-family: var(--font-titulo);
   font-size: clamp(1.6rem, 5vw, 2.4rem);
   font-weight: 500;
-  color: var(--amendoado);
+  color: #fff;
   line-height: 1.2;
   margin-bottom: 40px;
   letter-spacing: -0.01em;
@@ -277,20 +265,20 @@
 }
 
 .fp-aviso-card {
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(212, 185, 154, 0.1);
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.08);
   border-left: 3px solid var(--terracotta);
-  border-radius: 12px;
+  border-radius: 14px;
   padding: 22px 24px;
+  backdrop-filter: blur(8px);
 }
 
 .fp-aviso-card p {
   font-family: var(--font-corpo);
   font-size: 0.95rem;
   font-weight: 300;
-  line-height: 1.7;
-  color: var(--amendoado);
-  opacity: 0.9;
+  line-height: 1.75;
+  color: rgba(255, 255, 255, 0.88);
 }
 
 /* ═══════════════════════════════════════
@@ -390,7 +378,7 @@
   align-items: center;
   gap: 12px;
   padding: 16px 36px;
-  background: var(--terracotta);
+  background: linear-gradient(135deg, var(--terracotta), #c97a4e);
   color: #fff;
   font-family: var(--font-corpo);
   font-size: 0.95rem;
@@ -403,9 +391,9 @@
 }
 
 .fp-btn:hover {
-  background: #bf6830;
+  background: linear-gradient(135deg, #bf6830, var(--terracotta));
   transform: translateY(-1px);
-  box-shadow: 0 12px 36px rgba(168, 92, 53, 0.25);
+  box-shadow: 0 12px 36px rgba(168, 92, 53, 0.3);
 }
 
 .fp-btn:hover svg {
@@ -424,13 +412,14 @@
 }
 
 .fp-btn--on-dark {
-  background: var(--amendoado);
+  background: linear-gradient(135deg, #fff, #f0e8dd);
   color: var(--teal-profundo);
+  font-weight: 500;
 }
 
 .fp-btn--on-dark:hover {
-  background: #e0c8a8;
-  box-shadow: 0 12px 36px rgba(212, 185, 154, 0.25);
+  background: linear-gradient(135deg, #f0e8dd, #fff);
+  box-shadow: 0 12px 36px rgba(255, 255, 255, 0.15);
 }
 
 /* ═══════════════════════════════════════
@@ -443,9 +432,9 @@
     padding-top: 72px;
   }
 
-  .fp-intro__h1 {
-    font-size: 1.55rem;
-    margin-bottom: 28px;
+  .fp-intro__lead {
+    font-size: 1.25rem;
+    margin-bottom: 20px;
   }
 
   .fp-intro__body {
@@ -455,19 +444,13 @@
   }
 
   .fp-intro__closing {
-    font-size: 1.05rem;
+    font-size: 1.02rem;
     margin-bottom: 36px;
     padding-left: 16px;
   }
 
-  .fp-dims {
-    gap: 6px;
-    margin: 24px 0 28px;
-  }
-
-  .fp-dim {
-    padding: 8px 16px;
-    font-size: 0.7rem;
+  .fp-divider {
+    margin: 22px 0;
   }
 
   .fp-avisos {
@@ -476,7 +459,7 @@
   }
 
   .fp-avisos__h2 {
-    font-size: 1.45rem;
+    font-size: 1.4rem;
     margin-bottom: 32px;
   }
 
