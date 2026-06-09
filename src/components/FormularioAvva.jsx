@@ -191,8 +191,6 @@ export default function FormularioAvva({ origem }) {
         {step === 1 && (
           <div className="fp-avisos">
             <div className="fp-avisos__content">
-              <span className="fp-badge fp-badge--light">Antes de preencher</span>
-
               <h2 className="fp-avisos__h2">
                 Algumas coisas importantes antes de preencher:
               </h2>
