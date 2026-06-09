@@ -7,7 +7,7 @@ export default function CardOpcao({ label, selected, onClick }) {
       className={`card-opcao ${selected ? 'card-opcao--selected' : ''}`}
       onClick={onClick}
     >
-      {label}
+      <span>{label}</span>
     </button>
   )
 }
