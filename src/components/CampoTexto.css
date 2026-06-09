@@ -1,40 +1,42 @@
 .campo-texto {
   width: 100%;
-  padding: 20px 0;
+  padding: 24px 0 16px;
   border: none;
-  border-bottom: 1px solid rgba(76, 54, 45, 0.15);
+  border-bottom: 1.5px solid rgba(76, 54, 45, 0.12);
   background: transparent;
   color: var(--umber);
   font-family: var(--font-corpo);
-  font-size: 1.15rem;
+  font-size: 1.25rem;
   font-weight: 300;
-  letter-spacing: 0.01em;
-  transition: border-color 0.4s ease;
+  letter-spacing: 0.02em;
+  transition: border-color 0.5s ease;
   outline: none;
 }
 
 .campo-texto:focus {
-  border-bottom-color: var(--teal-medio);
+  border-bottom-color: var(--terracotta);
 }
 
 .campo-texto::placeholder {
-  color: rgba(76, 54, 45, 0.3);
+  color: rgba(76, 54, 45, 0.25);
   font-weight: 200;
+  font-style: italic;
 }
 
 .campo-texto--multiline {
-  border: 1px solid rgba(76, 54, 45, 0.12);
-  border-radius: 16px;
-  padding: 20px 24px;
+  border: 1px solid rgba(76, 54, 45, 0.1);
+  border-radius: 20px;
+  padding: 24px 28px;
   resize: none;
-  min-height: 140px;
-  line-height: 1.7;
-  background: rgba(255, 255, 255, 0.5);
-  backdrop-filter: blur(10px);
-  transition: border-color 0.4s ease, box-shadow 0.4s ease;
+  min-height: 160px;
+  line-height: 1.8;
+  font-size: 1.1rem;
+  background: rgba(255, 255, 255, 0.7);
+  transition: border-color 0.5s ease, box-shadow 0.5s ease, background 0.5s ease;
 }
 
 .campo-texto--multiline:focus {
-  border-color: rgba(26, 104, 104, 0.3);
-  box-shadow: 0 4px 24px rgba(12, 71, 71, 0.06);
+  border-color: rgba(168, 92, 53, 0.3);
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 8px 40px rgba(12, 71, 71, 0.04);
 }

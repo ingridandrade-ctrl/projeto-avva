@@ -1,55 +1,60 @@
 .card-opcao {
-  padding: 18px 24px;
-  border: 1px solid rgba(26, 104, 104, 0.2);
-  border-radius: 14px;
-  background: rgba(255, 255, 255, 0.6);
-  backdrop-filter: blur(10px);
+  padding: 20px 28px;
+  border: 1px solid rgba(76, 54, 45, 0.1);
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.5);
   color: var(--umber);
   font-family: var(--font-corpo);
-  font-size: 0.95rem;
+  font-size: 1rem;
   font-weight: 300;
-  letter-spacing: 0.01em;
+  letter-spacing: 0.02em;
   cursor: pointer;
-  transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+  transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
   text-align: left;
   line-height: 1.5;
   position: relative;
   overflow: hidden;
 }
 
-.card-opcao::before {
+.card-opcao::after {
   content: '';
   position: absolute;
-  inset: 0;
-  background: linear-gradient(135deg, var(--teal-profundo), var(--teal-medio));
-  opacity: 0;
-  transition: opacity 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+  top: 14px;
+  right: 16px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(76, 54, 45, 0.15);
+  transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.card-opcao:hover {
+  border-color: rgba(26, 104, 104, 0.25);
+  background: rgba(255, 255, 255, 0.8);
+  transform: translateY(-1px);
+}
+
+.card-opcao--selected {
+  background: var(--teal-profundo);
+  border-color: var(--teal-profundo);
+  color: var(--amendoado);
+  transform: translateY(-1px);
+}
+
+.card-opcao--selected::after {
+  background: var(--terracotta);
+  border-color: var(--terracotta);
+  box-shadow: inset 0 0 0 3px var(--teal-profundo);
+}
+
+.card-opcao--selected:hover {
+  background: var(--teal-profundo);
+  border-color: var(--teal-profundo);
+  transform: translateY(-2px);
 }
 
 .card-opcao span {
   position: relative;
   z-index: 1;
-}
-
-.card-opcao:hover {
-  border-color: var(--teal-medio);
-  transform: translateY(-2px);
-  box-shadow: 0 8px 32px rgba(12, 71, 71, 0.08);
-}
-
-.card-opcao--selected {
-  border-color: transparent;
-  color: var(--amendoado);
-  transform: translateY(-2px);
-  box-shadow: 0 8px 32px rgba(12, 71, 71, 0.15);
-}
-
-.card-opcao--selected::before {
-  opacity: 1;
-}
-
-.card-opcao--selected:hover {
-  border-color: transparent;
-  transform: translateY(-3px);
-  box-shadow: 0 12px 40px rgba(12, 71, 71, 0.2);
+  padding-right: 28px;
 }
