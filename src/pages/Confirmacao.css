@@ -47,7 +47,7 @@
   font-family: var(--font-titulo);
   font-size: clamp(2.2rem, 6vw, 3.4rem);
   font-weight: 500;
-  color: var(--off-white);
+  color: #f3efe9;
   line-height: 1.1;
   letter-spacing: -0.02em;
   margin-bottom: 28px;
@@ -57,7 +57,7 @@
   font-family: var(--font-corpo);
   font-size: 1.1rem;
   font-weight: 300;
-  color: var(--amendoado);
+  color: #f3efe9;
   line-height: 1.7;
 }
 

@@ -66,13 +66,13 @@
 .fp-back-global--light {
   background: rgba(212, 185, 154, 0.1);
   border-color: rgba(212, 185, 154, 0.2);
-  color: var(--amendoado);
+  color: #f3efe9;
 }
 
 .fp-back-global--light:hover {
   background: rgba(212, 185, 154, 0.18);
   box-shadow: none;
-  color: var(--amendoado);
+  color: #f3efe9;
 }
 
 /* ═══════════════════════════════════════
@@ -110,7 +110,7 @@
 }
 
 .fp-badge--light {
-  color: var(--amendoado);
+  color: #f3efe9;
   opacity: 0.7;
 }
 
