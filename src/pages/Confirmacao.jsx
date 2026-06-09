@@ -10,7 +10,7 @@ export default function Confirmacao() {
           Você deu um passo<br />importante.
         </h1>
         <p className="conf__text">
-          Vou ler sua aplicação com atenção e, se fizer sentido pros dois lados, entro em contato pra a gente conversar 🖤
+          Vou ler sua aplicação com atenção e, se fizer sentido pros dois lados, entro em contato pra a gente conversar <span className="conf__heart">♥</span>
         </p>
       </div>
     </div>
