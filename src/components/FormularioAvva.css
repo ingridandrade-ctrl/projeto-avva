@@ -105,7 +105,7 @@
   font-weight: 500;
   letter-spacing: 0.22em;
   text-transform: uppercase;
-  color: var(--terracotta);
+  color: var(--amendoado);
   margin-bottom: 28px;
 }
 
@@ -140,7 +140,7 @@
 .fp-intro {
   min-height: 100vh;
   min-height: 100dvh;
-  background: linear-gradient(180deg, var(--off-white) 0%, #f3efe9 100%);
+  background: linear-gradient(180deg, var(--umber) 0%, #3d2a22 100%);
   display: flex;
   align-items: center;
   padding: 80px 24px 60px;
@@ -156,16 +156,17 @@
   font-size: clamp(1.3rem, 4vw, 1.9rem);
   font-weight: 400;
   line-height: 1.4;
-  color: var(--umber);
+  color: #f3efe9;
   margin-bottom: 24px;
 }
 
 .fp-intro__lead strong {
   font-weight: 600;
+  color: #f3efe9;
 }
 
 .fp-intro__lead em {
-  color: var(--terracotta);
+  color: var(--amendoado);
   font-style: italic;
   font-weight: 500;
 }
@@ -173,7 +174,7 @@
 .fp-divider {
   width: 48px;
   height: 2px;
-  background: linear-gradient(90deg, var(--terracotta), transparent);
+  background: linear-gradient(90deg, var(--amendoado), transparent);
   margin: 28px 0;
   border-radius: 2px;
 }
@@ -183,13 +184,13 @@
   font-size: 1rem;
   font-weight: 300;
   line-height: 1.85;
-  color: var(--umber);
+  color: var(--amendoado);
   margin-bottom: 18px;
 }
 
 .fp-intro__body strong {
   font-weight: 500;
-  color: var(--umber);
+  color: #f3efe9;
 }
 
 .fp-highlight {
@@ -203,7 +204,7 @@
   font-weight: 500;
   font-style: italic;
   line-height: 1.55;
-  color: var(--teal-profundo);
+  color: #f3efe9;
   margin-top: 28px;
   margin-bottom: 44px;
   padding-left: 20px;
@@ -386,7 +387,7 @@
   gap: 12px;
   padding: 16px 36px;
   background: linear-gradient(135deg, var(--terracotta), #c97a4e);
-  color: var(--off-white);
+  color: #f3efe9;
   font-family: var(--font-corpo);
   font-size: 0.95rem;
   font-weight: 400;
