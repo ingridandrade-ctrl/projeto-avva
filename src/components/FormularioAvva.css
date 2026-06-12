@@ -105,7 +105,7 @@
   font-weight: 500;
   letter-spacing: 0.22em;
   text-transform: uppercase;
-  color: var(--amendoado);
+  color: var(--terracotta);
   margin-bottom: 28px;
 }
 
@@ -166,7 +166,7 @@
 }
 
 .fp-intro__lead em {
-  color: var(--amendoado);
+  color: var(--terracotta);
   font-style: italic;
   font-weight: 500;
 }
@@ -174,7 +174,7 @@
 .fp-divider {
   width: 48px;
   height: 2px;
-  background: linear-gradient(90deg, var(--amendoado), transparent);
+  background: linear-gradient(90deg, var(--terracotta), transparent);
   margin: 28px 0;
   border-radius: 2px;
 }
@@ -184,13 +184,13 @@
   font-size: 1rem;
   font-weight: 300;
   line-height: 1.85;
-  color: var(--amendoado);
+  color: #f3efe9;
   margin-bottom: 18px;
 }
 
 .fp-intro__body strong {
   font-weight: 500;
-  color: #f3efe9;
+  color: var(--off-white);
 }
 
 .fp-highlight {
