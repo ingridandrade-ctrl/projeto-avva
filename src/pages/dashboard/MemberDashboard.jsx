@@ -49,8 +49,19 @@ export default function MemberDashboard() {
         </div>
         <div className="dashboard-banner__content">
           <p className="dashboard-banner__greeting">Olá, {firstName} ✦</p>
-          <h1 className="dashboard-banner__title">Bem-vinda à sua<br />área de membros</h1>
+          <h1 className="dashboard-banner__title">
+            Bem-vinda à sua<br />
+            <span className="dashboard-banner__title-accent">área de membros</span>
+          </h1>
           <p className="dashboard-banner__subtitle">Escolha um produto para começar</p>
+          <div className="dashboard-banner__actions">
+            <Link to="/produto/acervo-anuncios" className="dashboard-banner__cta">
+              Ir para o Acervo de Anúncios
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </Link>
+            <span className="dashboard-banner__pill">6 coleções</span>
+            <span className="dashboard-banner__pill">Novos anúncios toda semana</span>
+          </div>
         </div>
       </div>
 
@@ -66,7 +77,7 @@ export default function MemberDashboard() {
               style={{ animationDelay: `${index * 0.12}s` }}
               onClick={e => product.locked && e.preventDefault()}
             >
-              <div className="product-card__visual" style={{ background: product.gradient }}>
+              <div className="product-card__visual" style={{ '--card-gradient': product.gradient }}>
                 <div className="product-card__icon">
                   {product.icon}
                 </div>

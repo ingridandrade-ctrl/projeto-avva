@@ -35,6 +35,7 @@ export default function LoginPage() {
         <div className="login-page__orb login-page__orb--1" />
         <div className="login-page__orb login-page__orb--2" />
         <div className="login-page__orb login-page__orb--3" />
+        <div className="login-page__orb login-page__orb--4" />
         <div className="login-page__grain" />
       </div>
 
@@ -47,7 +48,7 @@ export default function LoginPage() {
         <p className="login-card__subtitle">Seja bem-vinda à sua área de membros</p>
 
         <form className="login-form" onSubmit={handleSubmit}>
-          <div className={`login-form__field ${focused ? 'is-focused' : ''} ${email ? 'is-filled' : ''}`}>
+          <div className={`login-form__field ${focused ? 'is-focused' : ''} ${email ? 'is-filled' : ''} ${error ? 'is-error' : ''}`}>
             <label htmlFor="email">Email de compra</label>
             <div className="login-form__input-wrap">
               <svg className="login-form__icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="4" width="20" height="16" rx="3"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
@@ -55,7 +56,7 @@ export default function LoginPage() {
                 id="email"
                 type="email"
                 value={email}
-                onChange={e => setEmail(e.target.value)}
+                onChange={e => { setEmail(e.target.value); if (error) setError('') }}
                 onFocus={() => setFocused(true)}
                 onBlur={() => setFocused(false)}
                 placeholder="seu@email.com"

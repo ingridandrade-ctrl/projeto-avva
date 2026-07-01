@@ -10,6 +10,15 @@ export default function FilterBar({
 }) {
   return (
     <div className="filter-bar">
+      {(selectedNiche || selectedMedia) && (
+        <button
+          type="button"
+          className="filter-bar__clear"
+          onClick={() => { onNicheChange(null); onMediaChange(null) }}
+        >
+          Limpar filtros
+        </button>
+      )}
       <div className="filter-bar__group">
         <span className="filter-bar__label">Nicho:</span>
         <div className="filter-bar__tags">

@@ -276,6 +276,21 @@
   color: rgba(76, 54, 45, 0.4);
 }
 
+@keyframes count-shimmer {
+  0% { background-position: -100% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.module-card__count-skeleton {
+  display: inline-block;
+  width: 64px;
+  height: 12px;
+  border-radius: 6px;
+  background: linear-gradient(90deg, rgba(76, 54, 45, 0.08) 25%, rgba(76, 54, 45, 0.16) 50%, rgba(76, 54, 45, 0.08) 75%);
+  background-size: 200% 100%;
+  animation: count-shimmer 1.2s ease-in-out infinite;
+}
+
 /* CTA */
 .module-card__cta {
   display: inline-flex;

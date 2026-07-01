@@ -93,8 +93,10 @@
   font-size: 0.88rem;
   font-weight: 400;
   color: rgba(255, 255, 255, 0.55);
-  transition: color 0.25s ease, background 0.25s ease;
+  transition: color 0.25s ease, background 0.25s ease, transform 0.25s ease;
   text-decoration: none;
+  position: relative;
+  border: 1px solid transparent;
 }
 
 .sidebar__link svg {
@@ -106,6 +108,7 @@
 .sidebar__link:hover {
   background: rgba(255, 255, 255, 0.08);
   color: rgba(255, 255, 255, 0.9);
+  transform: translateX(3px);
 }
 
 .sidebar__link:hover svg {
@@ -113,9 +116,22 @@
 }
 
 .sidebar__link--active {
-  background: rgba(255, 255, 255, 0.1);
+  background: linear-gradient(90deg, rgba(168, 92, 53, 0.35) 0%, rgba(255, 255, 255, 0.06) 100%);
+  border-color: rgba(212, 185, 154, 0.25);
   color: #fff;
   font-weight: 500;
+}
+
+/* Indicador lateral do link ativo */
+.sidebar__link--active::before {
+  content: '';
+  position: absolute;
+  left: -12px;
+  top: 20%;
+  height: 60%;
+  width: 3px;
+  border-radius: 0 3px 3px 0;
+  background: linear-gradient(180deg, var(--terracotta), var(--amendoado));
 }
 
 .sidebar__link--active svg {
@@ -214,6 +230,17 @@
   .sidebar {
     transform: translateX(-100%);
     box-shadow: none;
+    width: min(82vw, 300px);
+  }
+
+  /* Alvos de toque confortáveis */
+  .sidebar__link {
+    min-height: 48px;
+    padding: 14px 16px;
+  }
+
+  .sidebar__signout {
+    min-height: 44px;
   }
 
   .sidebar--open {

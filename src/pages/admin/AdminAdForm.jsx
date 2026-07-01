@@ -61,9 +61,13 @@ export default function AdminAdForm() {
     }))
   }
 
-  async function handleSubmit(e) {
-    e.preventDefault()
+  async function save({ stayForNext = false } = {}) {
     setFeedback(null)
+
+    if (!form.title || !form.collection_id || !form.drive_url || !form.analysis) {
+      setFeedback({ type: 'error', msg: 'Preencha todos os campos obrigatórios.' })
+      return
+    }
 
     if (form.niches.length === 0) {
       setFeedback({ type: 'error', msg: 'Marque pelo menos um nicho.' })
@@ -83,12 +87,25 @@ export default function AdminAdForm() {
 
     if (error) {
       setFeedback({ type: 'error', msg: `Erro: ${error.message}` })
-    } else {
-      setFeedback({ type: 'success', msg: isEdit ? 'Anúncio atualizado!' : 'Anúncio criado!' })
-      if (!isEdit) {
-        setTimeout(() => navigate('/admin/ads'), 1000)
-      }
+      return
     }
+
+    if (isEdit) {
+      setFeedback({ type: 'success', msg: 'Anúncio atualizado!' })
+    } else if (stayForNext) {
+      // Mantém coleção e nichos para cadastrar o próximo em sequência
+      setForm(f => ({ ...f, title: '', drive_url: '', analysis: '' }))
+      setFeedback({ type: 'success', msg: 'Anúncio criado! Pode cadastrar o próximo.' })
+      window.scrollTo({ top: 0, behavior: 'smooth' })
+    } else {
+      setFeedback({ type: 'success', msg: 'Anúncio criado!' })
+      setTimeout(() => navigate('/admin/ads'), 1000)
+    }
+  }
+
+  async function handleSubmit(e) {
+    e.preventDefault()
+    await save()
   }
 
   return (
@@ -212,6 +229,16 @@ export default function AdminAdForm() {
           <Button type="submit" disabled={saving}>
             {saving ? 'Salvando...' : isEdit ? 'Salvar alterações' : 'Criar anúncio'}
           </Button>
+          {!isEdit && (
+            <Button
+              type="button"
+              variant="secondary"
+              disabled={saving}
+              onClick={() => save({ stayForNext: true })}
+            >
+              Salvar e criar próximo
+            </Button>
+          )}
           <Button type="button" variant="ghost" onClick={() => navigate('/admin/ads')}>
             Cancelar
           </Button>

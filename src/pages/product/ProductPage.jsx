@@ -44,7 +44,7 @@ export default function ProductPage() {
   const { slug } = useParams()
   const navigate = useNavigate()
   const { profile } = useAuth()
-  const [adCounts, setAdCounts] = useState({})
+  const [adCounts, setAdCounts] = useState(null)
 
   const product = PRODUCTS[slug]
 
@@ -121,9 +121,13 @@ export default function ProductPage() {
                 <h3>{col.title}</h3>
                 <p>{col.subtitle}</p>
                 <div className="module-card__footer">
-                  <span className="module-card__count">
-                    {adCounts[col.slug] || 0} anúncios
-                  </span>
+                  {adCounts === null ? (
+                    <span className="module-card__count-skeleton" />
+                  ) : (
+                    <span className="module-card__count">
+                      {adCounts[col.slug] || 0} anúncios
+                    </span>
+                  )}
                   <span className="module-card__cta">
                     Explorar
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>

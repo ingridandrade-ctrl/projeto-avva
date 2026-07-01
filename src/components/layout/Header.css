@@ -27,14 +27,14 @@
   background: none;
   border: none;
   cursor: pointer;
-  padding: 6px;
-  width: 32px;
-  height: 32px;
+  padding: 12px;
+  width: 44px;
+  height: 44px;
 }
 
 .header__menu-btn span {
   display: block;
-  width: 20px;
+  width: 22px;
   height: 2px;
   background: var(--umber);
   border-radius: 2px;
@@ -135,9 +135,17 @@
   .header {
     left: 0;
     padding: 0 16px;
+    /* Acima do overlay (99) e da sidebar (100) para o X ficar clicável */
+    z-index: 120;
   }
 
   .header__menu-btn {
     display: flex;
+  }
+
+  /* 16px+ evita o auto-zoom do iOS Safari ao focar */
+  .header__search-input {
+    font-size: 1rem;
+    padding: 12px 12px 12px 40px;
   }
 }

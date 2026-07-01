@@ -19,7 +19,7 @@
 .login-page__bg {
   position: absolute;
   inset: 0;
-  background: linear-gradient(155deg, #0C4747 0%, #1A6868 20%, #2C6B5A 40%, #A85C35 65%, #D4B99A 90%, #F0E6DA 100%);
+  background: linear-gradient(155deg, #0C4747 0%, #1A6868 25%, #2C6B5A 45%, #A85C35 75%, #7A4526 100%);
   z-index: 0;
 }
 
@@ -44,7 +44,7 @@
   position: absolute;
   border-radius: 50%;
   filter: blur(100px);
-  opacity: 0.35;
+  opacity: 0.5;
 }
 
 .login-page__orb--1 {
@@ -74,6 +74,15 @@
   animation: orb-drift-3 18s ease-in-out infinite;
 }
 
+.login-page__orb--4 {
+  width: 400px;
+  height: 400px;
+  bottom: 20%;
+  right: 15%;
+  background: radial-gradient(circle, #D4B99A 0%, transparent 70%);
+  animation: orb-drift-2 24s ease-in-out infinite reverse;
+}
+
 .login-page__grain {
   position: absolute;
   inset: 0;
@@ -96,10 +105,10 @@
   width: 100%;
   max-width: 420px;
   padding: 52px 40px 44px;
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.13);
   backdrop-filter: blur(40px) saturate(1.3);
   -webkit-backdrop-filter: blur(40px) saturate(1.3);
-  border: 1px solid rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.18);
   border-radius: 28px;
   text-align: center;
   animation: card-rise 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.15s both;
@@ -108,7 +117,35 @@
     0 0 0 1px rgba(255, 255, 255, 0.05) inset;
 }
 
+/* Highlight de topo — reflexo de vidro */
+.login-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 10%;
+  right: 10%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.6), transparent);
+}
+
+/* Entrada escalonada do conteúdo */
+@keyframes child-rise {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.login-card__badge { animation: child-rise 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.3s both; }
+.login-card__title { animation: child-rise 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.38s both; }
+.login-card__subtitle { animation: child-rise 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.46s both; }
+.login-form { animation: child-rise 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.54s both; }
+.login-card__footer { animation: child-rise 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.62s both; }
+
 /* ── Badge ── */
+
+@keyframes badge-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
 
 .login-card__badge {
   width: 64px;
@@ -117,10 +154,15 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(255, 255, 255, 0.12);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: linear-gradient(135deg, var(--teal-medio), var(--terracotta));
+  border: none;
   border-radius: 20px;
-  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow:
+    0 8px 24px rgba(168, 92, 53, 0.45),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  animation:
+    child-rise 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.3s both,
+    badge-float 4s ease-in-out 1s infinite;
 }
 
 .login-card__badge:hover {
@@ -245,6 +287,14 @@
 }
 
 /* ── Error ── */
+@keyframes error-shake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-6px); }
+  40% { transform: translateX(6px); }
+  60% { transform: translateX(-4px); }
+  80% { transform: translateX(4px); }
+}
+
 .login-form__error {
   display: flex;
   align-items: flex-start;
@@ -257,7 +307,17 @@
   border-radius: 12px;
   border: 1px solid rgba(255, 100, 80, 0.2);
   line-height: 1.5;
-  animation: card-rise 0.3s ease both;
+  animation: error-shake 0.4s ease both;
+}
+
+/* Input refletindo o erro */
+.login-form__field.is-error input {
+  border-color: rgba(255, 120, 96, 0.55);
+  box-shadow: 0 0 0 4px rgba(255, 100, 80, 0.08);
+}
+
+.login-form__field.is-error .login-form__icon {
+  color: #ff9b8a;
 }
 
 .login-form__error svg {
@@ -274,8 +334,10 @@
   width: 100%;
   margin-top: 6px;
   padding: 15px 24px;
-  background: #fff;
-  color: var(--umber);
+  background: linear-gradient(120deg, var(--teal-medio), var(--terracotta));
+  background-size: 200% 200%;
+  background-position: 0% 50%;
+  color: #fff;
   border: none;
   border-radius: 14px;
   font-family: var(--font-corpo);
@@ -285,14 +347,32 @@
   cursor: pointer;
   position: relative;
   overflow: hidden;
-  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s ease, background 0.3s ease;
-  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.15);
+  transition:
+    transform 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 0.25s ease,
+    background-position 0.5s ease;
+  box-shadow: 0 8px 28px rgba(168, 92, 53, 0.35);
+}
+
+/* Sheen que varre o botão no hover */
+.login-form__submit::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(105deg, transparent 40%, rgba(255, 255, 255, 0.25) 50%, transparent 60%);
+  transform: translateX(-120%);
+  transition: transform 0.6s ease;
+  pointer-events: none;
 }
 
 .login-form__submit:hover:not(:disabled) {
   transform: translateY(-2px);
-  box-shadow: 0 8px 36px rgba(0, 0, 0, 0.2);
-  background: var(--off-white);
+  box-shadow: 0 12px 40px rgba(168, 92, 53, 0.5);
+  background-position: 100% 50%;
+}
+
+.login-form__submit:hover:not(:disabled)::after {
+  transform: translateX(120%);
 }
 
 .login-form__submit:active:not(:disabled) {
@@ -320,8 +400,8 @@
 .login-form__spinner {
   width: 18px;
   height: 18px;
-  border: 2px solid rgba(76, 54, 45, 0.2);
-  border-top-color: var(--umber);
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top-color: #fff;
   border-radius: 50%;
   animation: login-spin 0.65s linear infinite;
 }
@@ -372,6 +452,11 @@
     padding: 16px;
   }
 
+  /* 16px+ evita o auto-zoom do iOS Safari ao focar */
+  .login-form__input-wrap input {
+    font-size: 1rem;
+  }
+
   .login-card {
     padding: 40px 24px 36px;
     border-radius: 24px;
@@ -419,7 +504,13 @@
 
 /* ── Reduced motion ── */
 @media (prefers-reduced-motion: reduce) {
-  .login-card {
+  .login-card,
+  .login-card__badge,
+  .login-card__title,
+  .login-card__subtitle,
+  .login-form,
+  .login-card__footer,
+  .login-form__error {
     animation: none;
   }
 
@@ -430,6 +521,7 @@
   .login-form__input-wrap input,
   .login-form__field label,
   .login-form__submit,
+  .login-form__submit::after,
   .login-card__badge {
     transition: none;
   }

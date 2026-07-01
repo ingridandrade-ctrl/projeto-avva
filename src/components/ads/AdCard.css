@@ -70,30 +70,42 @@
 }
 
 .ad-card__title {
-  font-family: var(--font-titulo);
-  font-size: 1.2rem;
+  font-family: var(--font-corpo);
+  font-size: 1.05rem;
   font-weight: 600;
+  letter-spacing: -0.02em;
   color: var(--umber);
   line-height: 1.35;
   margin: 0;
 }
 
-/* ── Favorite button ── */
+/* ── Favorite button (circular glass sobre o embed) ── */
 .ad-card__fav {
-  background: none;
-  border: none;
-  font-size: 1.35rem;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 2;
+  width: 36px;
+  height: 36px;
+  display: grid;
+  place-items: center;
+  background: rgba(247, 244, 240, 0.75);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: 50%;
+  box-shadow: 0 2px 8px rgba(76, 54, 45, 0.15);
   cursor: pointer;
-  color: var(--amendoado);
-  transition: color 0.2s ease, transform 0.2s ease;
-  flex-shrink: 0;
-  padding: 2px 4px;
+  color: var(--umber);
+  transition: color 0.2s ease, transform 0.2s ease, background 0.2s ease;
+  padding: 0;
   line-height: 1;
 }
 
 .ad-card__fav:hover {
-  transform: scale(1.2);
+  transform: scale(1.12);
   color: var(--terracotta);
+  background: rgba(247, 244, 240, 0.95);
 }
 
 .ad-card__fav--active {
