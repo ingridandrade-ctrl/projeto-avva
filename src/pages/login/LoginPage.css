@@ -19,7 +19,7 @@
 .login-page__bg {
   position: absolute;
   inset: 0;
-  background: linear-gradient(155deg, #1E1410 0%, #2C1F1A 20%, #4C362D 40%, #A85C35 65%, #D4B99A 90%, #F0E6DA 100%);
+  background: linear-gradient(155deg, #0C4747 0%, #1A6868 20%, #2C6B5A 40%, #A85C35 65%, #D4B99A 90%, #F0E6DA 100%);
   z-index: 0;
 }
 
@@ -61,7 +61,7 @@
   height: 500px;
   bottom: -10%;
   left: -8%;
-  background: radial-gradient(circle, #A85C35 0%, transparent 70%);
+  background: radial-gradient(circle, #1A6868 0%, transparent 70%);
   animation: orb-drift-2 28s ease-in-out infinite;
 }
 

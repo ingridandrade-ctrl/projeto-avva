@@ -6,8 +6,10 @@ import AppLayout from './components/layout/AppLayout'
 import AdminLayout from './components/layout/AdminLayout'
 import LoginPage from './pages/login/LoginPage'
 import MemberDashboard from './pages/dashboard/MemberDashboard'
+import ProductPage from './pages/product/ProductPage'
 import ModulePage from './pages/modules/ModulePage'
 import KitPage from './pages/kit/KitPage'
+import ProfilePage from './pages/profile/ProfilePage'
 import SearchPage from './pages/search/SearchPage'
 import AdminDashboard from './pages/admin/AdminDashboard'
 import AdminAdsList from './pages/admin/AdminAdsList'
@@ -41,12 +43,14 @@ export default function App() {
             }
           >
             <Route path="/dashboard" element={<MemberDashboard />} />
+            <Route path="/produto/:slug" element={<ProductPage />} />
             <Route path="/modulos/:slug" element={<ModulePage />} />
             <Route path="/kit" element={<KitPage />} />
+            <Route path="/perfil" element={<ProfilePage />} />
             <Route path="/busca" element={<SearchPage />} />
           </Route>
 
-          {/* Painel Admin */}
+          {/* Painel Admin (acesso separado, sem botão na área normal) */}
           <Route
             element={
               <AdminRoute>

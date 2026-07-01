@@ -12,7 +12,7 @@ export default function ProtectedRoute({ children }) {
         justifyContent: 'center',
         minHeight: '100vh',
         color: 'var(--teal-medio)',
-        fontFamily: 'var(--font-titulo)',
+        fontFamily: 'var(--font-corpo)',
         fontSize: '1.2rem',
       }}>
         Carregando...

@@ -18,9 +18,9 @@ export default function MemberDashboard() {
           <line x1="12" y1="17" x2="12" y2="21"/>
         </svg>
       ),
-      link: '/modulos/boas-vindas',
+      link: '/produto/acervo-criativos',
       tag: 'Disponível',
-      gradient: 'linear-gradient(135deg, #A85C35 0%, #D4B99A 100%)',
+      gradient: 'linear-gradient(135deg, #0C4747 0%, #1A6868 50%, #A85C35 100%)',
     },
     {
       id: 'kit-execucao',
@@ -32,9 +32,9 @@ export default function MemberDashboard() {
           <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4 12.5-12.5z"/>
         </svg>
       ),
-      link: '/kit',
+      link: '/produto/kit-execucao',
       tag: profile?.has_order_bump ? 'Disponível' : 'Premium',
-      gradient: 'linear-gradient(135deg, #4C362D 0%, #A85C35 100%)',
+      gradient: 'linear-gradient(135deg, #4C362D 0%, #A85C35 50%, #1A6868 100%)',
       locked: !profile?.has_order_bump,
     },
   ]
