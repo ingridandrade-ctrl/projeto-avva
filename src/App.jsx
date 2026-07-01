@@ -1,4 +1,18 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
+import { AuthProvider } from './hooks/useAuth'
+import ProtectedRoute from './components/ProtectedRoute'
+import AdminRoute from './components/AdminRoute'
+import AppLayout from './components/layout/AppLayout'
+import AdminLayout from './components/layout/AdminLayout'
+import LoginPage from './pages/login/LoginPage'
+import MemberDashboard from './pages/dashboard/MemberDashboard'
+import ModulePage from './pages/modules/ModulePage'
+import KitPage from './pages/kit/KitPage'
+import SearchPage from './pages/search/SearchPage'
+import AdminDashboard from './pages/admin/AdminDashboard'
+import AdminAdsList from './pages/admin/AdminAdsList'
+import AdminAdForm from './pages/admin/AdminAdForm'
+import AdminKit from './pages/admin/AdminKit'
 import FormFlora from './pages/FormFlora'
 import FormIngrid from './pages/FormIngrid'
 import Confirmacao from './pages/Confirmacao'
@@ -7,13 +21,51 @@ import Dashboard from './pages/Dashboard'
 export default function App() {
   return (
     <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<FormFlora />} />
-        <Route path="/flora" element={<FormFlora />} />
-        <Route path="/ingrid" element={<FormIngrid />} />
-        <Route path="/confirmacao" element={<Confirmacao />} />
-        <Route path="/dashboard" element={<Dashboard />} />
-      </Routes>
+      <AuthProvider>
+        <Routes>
+          {/* Formulários de aplicação (projeto existente) */}
+          <Route path="/aplicacao" element={<FormFlora />} />
+          <Route path="/aplicacao/flora" element={<FormFlora />} />
+          <Route path="/aplicacao/ingrid" element={<FormIngrid />} />
+          <Route path="/aplicacao/confirmacao" element={<Confirmacao />} />
+          <Route path="/aplicacao/dashboard" element={<Dashboard />} />
+
+          {/* Área de membros — Acervo de Criativos */}
+          <Route path="/login" element={<LoginPage />} />
+
+          <Route
+            element={
+              <ProtectedRoute>
+                <AppLayout />
+              </ProtectedRoute>
+            }
+          >
+            <Route path="/dashboard" element={<MemberDashboard />} />
+            <Route path="/modulos/:slug" element={<ModulePage />} />
+            <Route path="/kit" element={<KitPage />} />
+            <Route path="/busca" element={<SearchPage />} />
+          </Route>
+
+          {/* Painel Admin */}
+          <Route
+            element={
+              <AdminRoute>
+                <AdminLayout />
+              </AdminRoute>
+            }
+          >
+            <Route path="/admin" element={<AdminDashboard />} />
+            <Route path="/admin/ads" element={<AdminAdsList />} />
+            <Route path="/admin/ads/new" element={<AdminAdForm />} />
+            <Route path="/admin/ads/:id/edit" element={<AdminAdForm />} />
+            <Route path="/admin/kit" element={<AdminKit />} />
+          </Route>
+
+          {/* Redirect raiz para login */}
+          <Route path="/" element={<Navigate to="/login" replace />} />
+          <Route path="*" element={<Navigate to="/login" replace />} />
+        </Routes>
+      </AuthProvider>
     </BrowserRouter>
   )
 }

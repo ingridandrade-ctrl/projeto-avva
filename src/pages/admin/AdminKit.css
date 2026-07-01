@@ -1,0 +1,288 @@
+/* ─── AdminKit — Premium Upgrade ─── */
+
+.admin-kit h1 {
+  font-size: 1.6rem;
+  color: var(--teal-profundo);
+  margin-bottom: 28px;
+}
+
+/* ─── Inline Form (slide-open animation) ─── */
+
+.admin-kit__form {
+  margin-bottom: 36px;
+  max-width: 640px;
+  overflow: hidden;
+  max-height: 2000px;
+  animation: kitFormSlideIn 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+}
+
+@keyframes kitFormSlideIn {
+  from {
+    max-height: 0;
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    max-height: 2000px;
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.admin-kit__form h3 {
+  font-size: 1.1rem;
+  color: var(--teal-profundo);
+  margin-bottom: 4px;
+}
+
+/* ─── Section Base ─── */
+
+.admin-kit__section {
+  margin-bottom: 36px;
+}
+
+.admin-kit__section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.admin-kit__section-header h2 {
+  font-size: 1.2rem;
+  color: var(--umber);
+  padding-left: 14px;
+  border-left: 3px solid transparent;
+  transition: border-color 0.2s;
+}
+
+/* ─── Section Color Accents via nth-of-type ─── */
+
+/* 1st section: gancho — teal */
+.admin-kit__section:nth-of-type(1) .admin-kit__section-header h2 {
+  border-left-color: var(--teal-medio);
+  color: var(--teal-profundo);
+}
+
+.admin-kit__section:nth-of-type(1) .admin-kit__item {
+  border-left: 3px solid rgba(26, 104, 104, 0.15);
+}
+
+.admin-kit__section:nth-of-type(1) .admin-kit__item:hover {
+  border-left-color: var(--teal-medio);
+}
+
+/* 2nd section: narrativa — terracotta */
+.admin-kit__section:nth-of-type(2) .admin-kit__section-header h2 {
+  border-left-color: var(--terracotta);
+  color: var(--terracotta);
+}
+
+.admin-kit__section:nth-of-type(2) .admin-kit__item {
+  border-left: 3px solid rgba(168, 92, 53, 0.15);
+}
+
+.admin-kit__section:nth-of-type(2) .admin-kit__item:hover {
+  border-left-color: var(--terracotta);
+}
+
+/* 3rd section: angulo — umber */
+.admin-kit__section:nth-of-type(3) .admin-kit__section-header h2 {
+  border-left-color: var(--umber);
+  color: var(--umber);
+}
+
+.admin-kit__section:nth-of-type(3) .admin-kit__item {
+  border-left: 3px solid rgba(76, 54, 45, 0.15);
+}
+
+.admin-kit__section:nth-of-type(3) .admin-kit__item:hover {
+  border-left-color: var(--umber);
+}
+
+/* ─── Empty State ─── */
+
+.admin-kit__empty {
+  color: var(--umber);
+  opacity: 0.5;
+  font-size: 0.85rem;
+  padding: 12px 0;
+}
+
+/* ─── Items List ─── */
+
+.admin-kit__items {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+/* ─── Item Card (enhanced hover) ─── */
+
+.admin-kit__item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 14px 20px;
+  background: white;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  transition:
+    transform 0.22s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+    box-shadow 0.22s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+    border-left-color 0.22s ease,
+    background-color 0.3s ease;
+}
+
+.admin-kit__item:hover {
+  transform: translateY(-1px);
+  box-shadow:
+    0 4px 12px rgba(76, 54, 45, 0.08),
+    0 1px 3px rgba(76, 54, 45, 0.06);
+}
+
+.admin-kit__item--inactive {
+  opacity: 0.45;
+}
+
+.admin-kit__item--inactive:hover {
+  opacity: 0.55;
+}
+
+/* ─── Delete Danger Flash ─── */
+
+.admin-kit__item:has(.admin-btn-sm--danger:hover) {
+  background-color: rgba(192, 57, 43, 0.04);
+  box-shadow:
+    0 4px 12px rgba(192, 57, 43, 0.06),
+    0 1px 3px rgba(192, 57, 43, 0.04);
+}
+
+/* ─── Item Info ─── */
+
+.admin-kit__item-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.admin-kit__item-info strong {
+  font-size: 0.9rem;
+  display: block;
+  margin-bottom: 2px;
+}
+
+.admin-kit__item-info p {
+  font-size: 0.8rem;
+  color: var(--umber);
+  opacity: 0.6;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ─── Moment Badge ─── */
+
+.admin-kit__moment {
+  font-size: 0.7rem;
+  font-weight: 500;
+  color: var(--teal-medio);
+  background: rgba(26, 104, 104, 0.08);
+  padding: 2px 8px;
+  border-radius: 100px;
+  margin-top: 4px;
+  display: inline-block;
+}
+
+/* ─── Item Actions ─── */
+
+.admin-kit__item-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+/* ─── Toggle ─── */
+
+.admin-kit .admin-toggle {
+  position: relative;
+  width: 36px;
+  height: 20px;
+  border-radius: 10px;
+  border: none;
+  background: rgba(76, 54, 45, 0.15);
+  cursor: pointer;
+  transition: background 0.2s;
+  padding: 0;
+}
+
+.admin-kit .admin-toggle--on {
+  background: var(--teal-medio);
+}
+
+.admin-kit .admin-toggle__knob {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: white;
+  transition: transform 0.2s;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+}
+
+.admin-kit .admin-toggle--on .admin-toggle__knob {
+  transform: translateX(16px);
+}
+
+/* ─── Button Small ─── */
+
+.admin-kit .admin-btn-sm {
+  padding: 4px 10px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  border: 1px solid rgba(76, 54, 45, 0.15);
+  border-radius: var(--radius-sm);
+  background: white;
+  color: var(--teal-profundo);
+  cursor: pointer;
+  transition: all 0.15s;
+  white-space: nowrap;
+}
+
+.admin-kit .admin-btn-sm:hover {
+  border-color: var(--teal-medio);
+}
+
+.admin-kit .admin-btn-sm--danger {
+  color: #c0392b;
+  border-color: rgba(192, 57, 43, 0.2);
+}
+
+.admin-kit .admin-btn-sm--danger:hover {
+  background: rgba(192, 57, 43, 0.06);
+  border-color: #c0392b;
+}
+
+/* ─── Responsive ─── */
+
+@media (max-width: 640px) {
+  .admin-kit__item {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .admin-kit__item:hover {
+    transform: none;
+  }
+
+  .admin-kit__item-actions {
+    width: 100%;
+    justify-content: flex-end;
+    padding-top: 8px;
+    border-top: 1px solid rgba(76, 54, 45, 0.06);
+  }
+}

@@ -1,0 +1,400 @@
+/* ===== Page header with gradient ===== */
+.kit-page__header {
+  background: linear-gradient(135deg, var(--teal-profundo) 0%, var(--teal-medio) 100%);
+  padding: 48px 40px 40px;
+  border-radius: var(--radius-lg);
+  margin-bottom: 40px;
+  position: relative;
+  overflow: hidden;
+}
+
+.kit-page__header::before {
+  content: '';
+  position: absolute;
+  top: -40%;
+  right: -10%;
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(circle, rgba(212, 185, 154, 0.12) 0%, transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.kit-page__header::after {
+  content: '';
+  position: absolute;
+  bottom: -30%;
+  left: 10%;
+  width: 200px;
+  height: 200px;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.06) 0%, transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.kit-page h1 {
+  font-family: var(--font-titulo);
+  font-size: 2.2rem;
+  font-weight: 600;
+  color: var(--off-white);
+  margin-bottom: 10px;
+  position: relative;
+  z-index: 1;
+}
+
+.kit-page__desc {
+  font-family: var(--font-corpo);
+  font-size: 1rem;
+  color: var(--amendoado);
+  opacity: 0.9;
+  margin-bottom: 0;
+  line-height: 1.6;
+  max-width: 560px;
+  position: relative;
+  z-index: 1;
+}
+
+/* ===== Page content wrapper ===== */
+.kit-page__content {
+  padding: 0 4px;
+}
+
+/* ===== Section dividers ===== */
+.kit-section__divider {
+  position: relative;
+  height: 1px;
+  margin: 48px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.kit-section__divider::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    var(--amendoado) 20%,
+    var(--amendoado) 80%,
+    transparent 100%
+  );
+  opacity: 0.5;
+}
+
+.kit-section__divider::after {
+  content: '';
+  position: relative;
+  z-index: 1;
+  width: 10px;
+  height: 10px;
+  background: var(--off-white);
+  border: 2px solid var(--amendoado);
+  transform: rotate(45deg);
+  flex-shrink: 0;
+}
+
+/* ===== Sections ===== */
+.kit-section {
+  margin-bottom: 8px;
+}
+
+.kit-section h2 {
+  font-family: var(--font-titulo);
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--teal-profundo);
+  margin-bottom: 24px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid rgba(12, 71, 71, 0.1);
+  display: inline-block;
+}
+
+/* ===== Gancho cards ===== */
+.gancho-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+  gap: 20px;
+}
+
+.gancho-card {
+  position: relative;
+  background: white;
+  border-radius: var(--radius-lg);
+  padding: 24px 24px 20px;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  overflow: hidden;
+  border: 1px solid rgba(12, 71, 71, 0.06);
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.gancho-card:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+}
+
+.gancho-card__number {
+  position: absolute;
+  top: 10px;
+  right: 14px;
+  font-family: var(--font-titulo);
+  font-size: 2.8rem;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--teal-profundo);
+  opacity: 0.06;
+  pointer-events: none;
+  user-select: none;
+}
+
+.gancho-card__tipo {
+  font-family: var(--font-corpo);
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--teal-profundo);
+  background: rgba(26, 104, 104, 0.08);
+  padding: 5px 12px;
+  border-radius: 100px;
+  align-self: flex-start;
+}
+
+.gancho-card__desc {
+  font-family: var(--font-corpo);
+  font-size: 0.84rem;
+  color: var(--umber);
+  opacity: 0.7;
+  line-height: 1.5;
+}
+
+.gancho-card__exemplo {
+  font-family: var(--font-corpo);
+  font-size: 0.9rem;
+  line-height: 1.65;
+  color: var(--umber);
+  font-style: italic;
+  flex: 1;
+  padding-left: 12px;
+  border-left: 3px solid var(--amendoado);
+}
+
+/* ===== Prompt blocks (dark code-block style) ===== */
+.gancho-card__prompt,
+.estrutura-card__prompt-block,
+.angulo-card__prompt {
+  background: rgba(12, 71, 71, 0.95);
+  border-radius: var(--radius-md);
+  padding: 16px 18px;
+  margin-top: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  border-left: 3px solid var(--terracotta);
+}
+
+.gancho-card__prompt .mono,
+.estrutura-card__prompt-block .mono,
+.angulo-card__prompt .mono {
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  line-height: 1.7;
+  color: var(--amendoado);
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+/* ===== Estrutura cards ===== */
+.estrutura-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 24px;
+}
+
+.estrutura-card {
+  background: white;
+  border-radius: var(--radius-lg);
+  padding: 28px;
+  box-shadow: var(--shadow-sm);
+  border: 1px solid rgba(12, 71, 71, 0.06);
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.estrutura-card:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+}
+
+.estrutura-card h3 {
+  font-family: var(--font-titulo);
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--teal-profundo);
+  margin-bottom: 10px;
+}
+
+.estrutura-card__desc {
+  font-family: var(--font-corpo);
+  font-size: 0.86rem;
+  color: var(--umber);
+  opacity: 0.7;
+  margin-bottom: 18px;
+  line-height: 1.6;
+}
+
+.estrutura-card__exemplo {
+  background: var(--off-white);
+  border-radius: var(--radius-md);
+  padding: 16px 20px;
+  margin-bottom: 14px;
+  border-left: 3px solid var(--amendoado);
+}
+
+.estrutura-card__label {
+  font-family: var(--font-corpo);
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--terracotta);
+  display: block;
+  margin-bottom: 8px;
+}
+
+.estrutura-card__exemplo p {
+  font-family: var(--font-corpo);
+  font-size: 0.86rem;
+  line-height: 1.65;
+  color: var(--umber);
+}
+
+/* Override label color inside dark prompt blocks */
+.estrutura-card__prompt-block .estrutura-card__label {
+  color: var(--amendoado);
+  opacity: 0.7;
+}
+
+/* ===== Angulo cards ===== */
+.angulo-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.angulo-card {
+  background: white;
+  border-radius: var(--radius-lg);
+  padding: 28px 28px 24px;
+  box-shadow: var(--shadow-sm);
+  border: 1px solid rgba(12, 71, 71, 0.06);
+  border-left: 4px solid var(--umber);
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.angulo-card:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-1px);
+}
+
+/* Moment color-coding via left border */
+.angulo-card--topo {
+  border-left-color: var(--teal-profundo);
+}
+
+.angulo-card--meio {
+  border-left-color: var(--terracotta);
+}
+
+.angulo-card--fundo {
+  border-left-color: var(--umber);
+}
+
+.angulo-card h3 {
+  font-family: var(--font-titulo);
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--teal-profundo);
+  margin-bottom: 8px;
+}
+
+.angulo-card__desc {
+  font-family: var(--font-corpo);
+  font-size: 0.86rem;
+  color: var(--umber);
+  opacity: 0.7;
+  margin-bottom: 20px;
+  line-height: 1.6;
+}
+
+.angulo-card__phrases {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 18px;
+}
+
+.angulo-card__phrase {
+  background: var(--off-white);
+  border-radius: var(--radius-md);
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  transition: background 0.15s ease;
+}
+
+.angulo-card__phrase:hover {
+  background: rgba(212, 185, 154, 0.25);
+}
+
+.angulo-card__phrase p {
+  font-family: var(--font-corpo);
+  font-size: 0.86rem;
+  color: var(--umber);
+  flex: 1;
+  line-height: 1.5;
+}
+
+/* ===== Empty state ===== */
+.kit-page__empty {
+  text-align: center;
+  padding: 64px 20px;
+  color: var(--umber);
+  opacity: 0.45;
+  font-family: var(--font-corpo);
+  font-size: 1rem;
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 640px) {
+  .kit-page__header {
+    padding: 36px 24px 32px;
+    border-radius: 0;
+    margin: -16px -16px 32px;
+  }
+
+  .kit-page h1 {
+    font-size: 1.7rem;
+  }
+
+  .gancho-grid,
+  .estrutura-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .angulo-card {
+    padding: 20px 18px 18px;
+  }
+
+  .kit-section__divider {
+    margin: 36px 0;
+  }
+}

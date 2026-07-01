@@ -1,0 +1,188 @@
+/* ── Admin Dashboard — Premium Styles ── */
+
+.admin-dash {
+  position: relative;
+  background-image: radial-gradient(
+    circle,
+    var(--teal-profundo) 0.6px,
+    transparent 0.6px
+  );
+  background-size: 20px 20px;
+  background-color: var(--off-white);
+  padding: 32px;
+  min-height: 100%;
+  border-radius: var(--radius-lg);
+}
+
+/* ── Header ── */
+
+.admin-dash__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 36px;
+  flex-wrap: wrap;
+}
+
+.admin-dash__header h1 {
+  font-size: 1.75rem;
+  color: var(--teal-profundo);
+  letter-spacing: -0.02em;
+}
+
+/* ── Quick Actions ── */
+
+.admin-dash__actions {
+  display: flex;
+  gap: 12px;
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(6px);
+  padding: 10px 16px;
+  border-radius: var(--radius-lg);
+  box-shadow: 0 1px 4px rgba(12, 71, 71, 0.08);
+}
+
+/* ── Stat Cards Grid ── */
+
+.admin-dash__stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 20px;
+  margin-bottom: 40px;
+}
+
+.admin-stat-card {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(
+    135deg,
+    #ffffff 0%,
+    #f0ece8 100%
+  );
+  border-radius: var(--radius-lg);
+  padding: 28px 24px;
+  box-shadow:
+    0 1px 3px rgba(12, 71, 71, 0.06),
+    0 4px 12px rgba(12, 71, 71, 0.04);
+  text-align: center;
+  transition:
+    transform 0.25s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.admin-stat-card:hover {
+  transform: translateY(-4px);
+  box-shadow:
+    0 4px 8px rgba(12, 71, 71, 0.08),
+    0 12px 28px rgba(12, 71, 71, 0.1);
+}
+
+/* Highlight card */
+
+.admin-stat-card--highlight {
+  background: linear-gradient(
+    135deg,
+    var(--teal-profundo) 0%,
+    var(--teal-medio) 100%
+  );
+  color: white;
+}
+
+.admin-stat-card--highlight::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(
+    circle,
+    rgba(212, 185, 154, 0.15) 1px,
+    transparent 1px
+  );
+  background-size: 14px 14px;
+  pointer-events: none;
+}
+
+/* Stat card content */
+
+.admin-stat-card__number {
+  display: block;
+  font-family: var(--font-titulo);
+  font-size: 2.4rem;
+  font-weight: 700;
+  line-height: 1;
+  margin-bottom: 8px;
+  position: relative;
+}
+
+.admin-stat-card--highlight .admin-stat-card__number {
+  color: var(--amendoado);
+}
+
+.admin-stat-card__label {
+  font-size: 0.8rem;
+  opacity: 0.65;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  font-weight: 500;
+  position: relative;
+}
+
+/* ── Section Heading ── */
+
+.admin-dash h2 {
+  font-size: 1.2rem;
+  color: var(--umber);
+  margin-bottom: 18px;
+  letter-spacing: -0.01em;
+}
+
+/* ── Module Rows ── */
+
+.admin-dash__modules {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.admin-module-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 22px;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(4px);
+  border-radius: var(--radius-md);
+  box-shadow: 0 1px 3px rgba(12, 71, 71, 0.05);
+  transition:
+    transform 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+    background-color 0.3s ease,
+    box-shadow 0.3s ease;
+  text-decoration: none;
+  color: inherit;
+  border-left: 3px solid transparent;
+}
+
+.admin-module-row:hover {
+  transform: translateX(6px);
+  background-color: rgba(26, 104, 104, 0.06);
+  box-shadow:
+    0 2px 6px rgba(12, 71, 71, 0.08),
+    0 8px 20px rgba(12, 71, 71, 0.05);
+  border-left-color: var(--terracotta);
+}
+
+.admin-module-row__title {
+  font-weight: 600;
+  font-size: 0.92rem;
+  color: var(--teal-profundo);
+}
+
+.admin-module-row__count {
+  font-size: 0.8rem;
+  font-family: var(--font-mono);
+  color: var(--teal-medio);
+  font-weight: 500;
+  background: rgba(12, 71, 71, 0.06);
+  padding: 3px 10px;
+  border-radius: 20px;
+}

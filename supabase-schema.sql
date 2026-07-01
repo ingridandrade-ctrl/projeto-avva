@@ -1,4 +1,7 @@
--- Criar tabela de aplicações da Mentoria Avva
+-- ==============================================
+-- Mentoria Avva — Aplicações (existente)
+-- ==============================================
+
 create table aplicacoes (
   id uuid default gen_random_uuid() primary key,
   created_at timestamptz default now() not null,
@@ -23,7 +26,6 @@ create table aplicacoes (
   notas_internas text
 );
 
--- Permitir inserção pública (formulário) via anon key
 alter table aplicacoes enable row level security;
 
 create policy "Permitir inserção pública"
@@ -31,7 +33,6 @@ create policy "Permitir inserção pública"
   to anon
   with check (true);
 
--- Permitir leitura e atualização via anon key (dashboard usa mesma key)
 create policy "Permitir leitura"
   on aplicacoes for select
   to anon
@@ -43,7 +44,205 @@ create policy "Permitir atualização"
   using (true)
   with check (true);
 
--- Índices para filtros do dashboard
 create index idx_aplicacoes_origem on aplicacoes (origem);
 create index idx_aplicacoes_status on aplicacoes (status);
 create index idx_aplicacoes_created_at on aplicacoes (created_at desc);
+
+
+-- ==============================================
+-- Acervo de Criativos — Área de Membros
+-- ==============================================
+
+-- Perfis de usuárias (membros)
+create table users (
+  id uuid references auth.users on delete cascade primary key,
+  email text unique not null,
+  name text,
+  has_order_bump boolean default false,
+  is_admin boolean default false,
+  created_at timestamptz default now() not null,
+  hotmart_transaction_id text
+);
+
+alter table users enable row level security;
+
+create policy "Usuárias leem próprio perfil"
+  on users for select
+  using (auth.uid() = id);
+
+create policy "Service role insere usuárias"
+  on users for insert
+  with check (true);
+
+create policy "Usuárias atualizam próprio perfil"
+  on users for update
+  using (auth.uid() = id);
+
+-- Módulos
+create table modules (
+  id uuid default gen_random_uuid() primary key,
+  slug text unique not null,
+  title text not null,
+  "order" int not null,
+  description text
+);
+
+alter table modules enable row level security;
+
+create policy "Módulos visíveis para autenticados"
+  on modules for select
+  to authenticated
+  using (true);
+
+-- Anúncios
+create table ads (
+  id uuid default gen_random_uuid() primary key,
+  module_id uuid references modules on delete cascade not null,
+  title text not null,
+  subniche text,
+  format text,
+  moment text check (moment in ('topo', 'meio', 'fundo')),
+  drive_url text,
+  media_type text default 'video' check (media_type in ('video', 'image')),
+  analysis text,
+  active boolean default true,
+  created_at timestamptz default now() not null
+);
+
+alter table ads enable row level security;
+
+create policy "Anúncios visíveis para autenticados"
+  on ads for select
+  to authenticated
+  using (true);
+
+create policy "Admin insere anúncios"
+  on ads for insert
+  to authenticated
+  with check (exists (select 1 from users where id = auth.uid() and is_admin = true));
+
+create policy "Admin atualiza anúncios"
+  on ads for update
+  to authenticated
+  using (exists (select 1 from users where id = auth.uid() and is_admin = true));
+
+create policy "Admin deleta anúncios"
+  on ads for delete
+  to authenticated
+  using (exists (select 1 from users where id = auth.uid() and is_admin = true));
+
+-- Progresso por módulo
+create table user_progress (
+  id uuid default gen_random_uuid() primary key,
+  user_id uuid references users on delete cascade not null,
+  module_id uuid references modules on delete cascade not null,
+  section_key text,
+  completed_at timestamptz default now() not null,
+  unique(user_id, module_id, section_key)
+);
+
+alter table user_progress enable row level security;
+
+create policy "Progresso próprio - leitura"
+  on user_progress for select
+  using (auth.uid() = user_id);
+
+create policy "Progresso próprio - inserção"
+  on user_progress for insert
+  with check (auth.uid() = user_id);
+
+create policy "Progresso próprio - exclusão"
+  on user_progress for delete
+  using (auth.uid() = user_id);
+
+-- Favoritos
+create table user_favorites (
+  id uuid default gen_random_uuid() primary key,
+  user_id uuid references users on delete cascade not null,
+  ad_id uuid references ads on delete cascade not null,
+  created_at timestamptz default now() not null,
+  unique(user_id, ad_id)
+);
+
+alter table user_favorites enable row level security;
+
+create policy "Favoritos próprios - leitura"
+  on user_favorites for select
+  using (auth.uid() = user_id);
+
+create policy "Favoritos próprios - inserção"
+  on user_favorites for insert
+  with check (auth.uid() = user_id);
+
+create policy "Favoritos próprios - exclusão"
+  on user_favorites for delete
+  using (auth.uid() = user_id);
+
+-- Dados iniciais: módulos
+insert into modules (slug, title, "order", description) values
+  ('boas-vindas', 'Boas-vindas', 0, 'Vídeo de boas-vindas e orientações iniciais'),
+  ('o-basico', 'O básico que ninguém explica', 1, 'Fundamentos de criativos que convertem'),
+  ('negocio-local', 'Negócio local', 2, 'Anúncios para negócios locais'),
+  ('infoproduto', 'Infoproduto', 3, 'Anúncios para infoprodutos'),
+  ('servico', 'Serviço', 4, 'Anúncios para prestação de serviços'),
+  ('ecommerce', 'E-commerce', 5, 'Anúncios para e-commerce'),
+  ('bonus-datas', 'Datas especiais', 6, 'Anúncios para datas sazonais'),
+  ('kit-execucao', 'Kit de Execução', 7, 'Ganchos, estruturas narrativas e prompts de IA');
+
+-- Kit de Execução (order bump) — conteúdo dinâmico
+create table kit_items (
+  id uuid default gen_random_uuid() primary key,
+  type text not null check (type in ('gancho', 'narrativa', 'angulo')),
+  title text not null,
+  description text,
+  example text,
+  prompt text,
+  moment text check (moment in ('topo', 'meio', 'fundo')),
+  phrases text[],
+  active boolean default true,
+  created_at timestamptz default now() not null
+);
+
+alter table kit_items enable row level security;
+
+create policy "Kit visível para autenticados"
+  on kit_items for select
+  to authenticated
+  using (true);
+
+create policy "Admin insere kit"
+  on kit_items for insert
+  to authenticated
+  with check (exists (select 1 from users where id = auth.uid() and is_admin = true));
+
+create policy "Admin atualiza kit"
+  on kit_items for update
+  to authenticated
+  using (exists (select 1 from users where id = auth.uid() and is_admin = true));
+
+create policy "Admin deleta kit"
+  on kit_items for delete
+  to authenticated
+  using (exists (select 1 from users where id = auth.uid() and is_admin = true));
+
+-- Módulos: admin pode gerenciar
+create policy "Admin insere módulos"
+  on modules for insert
+  to authenticated
+  with check (exists (select 1 from users where id = auth.uid() and is_admin = true));
+
+create policy "Admin atualiza módulos"
+  on modules for update
+  to authenticated
+  using (exists (select 1 from users where id = auth.uid() and is_admin = true));
+
+-- Índices
+create index idx_ads_module on ads (module_id);
+create index idx_ads_moment on ads (moment);
+create index idx_ads_format on ads (format);
+create index idx_ads_subniche on ads (subniche);
+create index idx_ads_active on ads (active);
+create index idx_user_progress_user on user_progress (user_id);
+create index idx_user_favorites_user on user_favorites (user_id);
+create index idx_kit_items_type on kit_items (type);
+create index idx_kit_items_active on kit_items (active);

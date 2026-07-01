@@ -1,0 +1,183 @@
+/* ── Card container ── */
+.ad-card {
+  position: relative;
+  background: var(--off-white);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+              box-shadow 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+/* Premium top border gradient */
+.ad-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    var(--teal-profundo) 0%,
+    var(--teal-medio) 40%,
+    var(--terracotta) 70%,
+    var(--amendoado) 100%
+  );
+  z-index: 2;
+}
+
+.ad-card:hover {
+  transform: scale(1.02);
+  box-shadow: var(--shadow-lg);
+}
+
+/* ── Embed wrapper with format badge ── */
+.ad-card__embed-wrap {
+  position: relative;
+}
+
+.ad-card__format-badge {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 1;
+  font-family: var(--font-corpo);
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--off-white);
+  background: var(--teal-profundo);
+  padding: 3px 10px;
+  border-radius: var(--radius-sm);
+  backdrop-filter: blur(6px);
+  box-shadow: 0 2px 8px rgba(12, 71, 71, 0.3);
+}
+
+/* ── Body ── */
+.ad-card__body {
+  padding: 18px 22px 22px;
+}
+
+/* ── Header ── */
+.ad-card__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 14px;
+  margin-bottom: 14px;
+}
+
+.ad-card__title {
+  font-family: var(--font-titulo);
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--umber);
+  line-height: 1.35;
+  margin: 0;
+}
+
+/* ── Favorite button ── */
+.ad-card__fav {
+  background: none;
+  border: none;
+  font-size: 1.35rem;
+  cursor: pointer;
+  color: var(--amendoado);
+  transition: color 0.2s ease, transform 0.2s ease;
+  flex-shrink: 0;
+  padding: 2px 4px;
+  line-height: 1;
+}
+
+.ad-card__fav:hover {
+  transform: scale(1.2);
+  color: var(--terracotta);
+}
+
+.ad-card__fav--active {
+  color: var(--terracotta);
+  animation: pulse-heart 0.45s cubic-bezier(0.17, 0.89, 0.32, 1.28);
+}
+
+@keyframes pulse-heart {
+  0%   { transform: scale(1); }
+  25%  { transform: scale(1.35); }
+  50%  { transform: scale(0.95); }
+  75%  { transform: scale(1.15); }
+  100% { transform: scale(1); }
+}
+
+/* ── Tags ── */
+.ad-card__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.ad-card__tags > * {
+  border: 1px solid rgba(76, 54, 45, 0.08);
+  box-shadow: 0 1px 2px rgba(76, 54, 45, 0.04);
+}
+
+/* ── Analysis section ── */
+.ad-card__analysis {
+  border-top: 1px solid rgba(76, 54, 45, 0.08);
+  padding-top: 14px;
+}
+
+.ad-card__toggle {
+  background: none;
+  border: none;
+  font-family: var(--font-corpo);
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--teal-medio);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 0;
+  transition: color 0.2s ease;
+}
+
+.ad-card__toggle:hover {
+  color: var(--teal-profundo);
+}
+
+.ad-card__chevron {
+  display: inline-block;
+  transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  font-size: 1.1rem;
+  transform: rotate(90deg);
+}
+
+.ad-card__chevron--up {
+  transform: rotate(-90deg);
+}
+
+/* ── Analysis text with smooth expand/collapse ── */
+.ad-card__analysis-text {
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: max-height 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+              opacity 0.3s ease,
+              margin-top 0.3s ease;
+  font-family: var(--font-corpo);
+  font-size: 0.875rem;
+  line-height: 1.75;
+  color: var(--umber);
+  opacity: 0;
+  white-space: pre-wrap;
+  margin-top: 0;
+}
+
+.ad-card__analysis-text--visible {
+  max-height: 500px;
+  opacity: 0.85;
+  margin-top: 12px;
+}

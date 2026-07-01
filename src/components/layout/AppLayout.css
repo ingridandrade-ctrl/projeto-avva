@@ -1,0 +1,36 @@
+.app-layout {
+  min-height: 100vh;
+}
+
+.app-layout__main {
+  margin-left: var(--sidebar-width);
+  margin-top: var(--header-height);
+  padding: 36px 32px;
+  min-height: calc(100vh - var(--header-height));
+  animation: fadeIn 0.35s ease-out;
+}
+
+.app-layout__content {
+  max-width: 1120px;
+  margin: 0 auto;
+  animation: slideUp 0.4s ease-out;
+}
+
+@media (max-width: 1400px) {
+  .app-layout__main {
+    padding: 32px 28px;
+  }
+}
+
+@media (max-width: 768px) {
+  .app-layout__main {
+    margin-left: 0;
+    padding: 24px 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .app-layout__main {
+    padding: 20px 12px;
+  }
+}

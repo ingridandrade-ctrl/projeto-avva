@@ -1,0 +1,12 @@
+.search-page h1 {
+  font-size: 1.4rem;
+  color: var(--teal-profundo);
+  margin-bottom: 24px;
+}
+
+.search-page__status {
+  color: var(--umber);
+  opacity: 0.6;
+  font-size: 0.9rem;
+  padding: 20px 0;
+}
