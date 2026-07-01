@@ -14,6 +14,16 @@ const MODULE_ORDER = [
   'servico', 'ecommerce', 'bonus-datas',
 ]
 
+const MODULE_LABELS = {
+  'boas-vindas': 'Boas-vindas',
+  'o-basico': 'O Basico',
+  'negocio-local': 'Negocio Local',
+  'infoproduto': 'Infoproduto',
+  'servico': 'Servico',
+  'ecommerce': 'E-commerce',
+  'bonus-datas': 'Bonus Datas',
+}
+
 const BASICO_SECTIONS = [
   { key: 'atencao', title: 'O que prende atenção nos primeiros segundos' },
   { key: 'continuar', title: 'O que faz a pessoa continuar assistindo' },
@@ -85,9 +95,15 @@ export default function ModulePage() {
   }, [ads, selectedMoment, selectedFormat, selectedSubniche, selectedDate])
 
   const nextSlug = MODULE_ORDER[MODULE_ORDER.indexOf(slug) + 1]
+  const moduleNumber = MODULE_ORDER.indexOf(slug) + 1
 
   if (loading) {
-    return <div className="module-page__loading">Carregando...</div>
+    return (
+      <div className="module-page__loading">
+        <div className="module-page__loading-spinner" />
+        <span>Carregando...</span>
+      </div>
+    )
   }
 
   if (!mod) {
@@ -97,8 +113,15 @@ export default function ModulePage() {
   if (slug === 'boas-vindas') {
     return (
       <div className="module-page">
-        <h1>{mod.title}</h1>
-        <p className="module-page__desc">{mod.description}</p>
+        <div className="module-page__header">
+          <span className="module-page__header-number">
+            {String(moduleNumber).padStart(2, '0')}
+          </span>
+          <div className="module-page__header-text">
+            <h1>{mod.title}</h1>
+            <p className="module-page__desc">{mod.description}</p>
+          </div>
+        </div>
         {ads.length > 0 && (
           <div className="module-page__welcome-video">
             <DriveEmbed url={ads[0].drive_url} title={ads[0].title} />
@@ -118,22 +141,36 @@ export default function ModulePage() {
   if (slug === 'o-basico') {
     return (
       <div className="module-page">
-        <h1>{mod.title}</h1>
-        <p className="module-page__desc">{mod.description}</p>
+        <div className="module-page__header">
+          <span className="module-page__header-number">
+            {String(moduleNumber).padStart(2, '0')}
+          </span>
+          <div className="module-page__header-text">
+            <h1>{mod.title}</h1>
+            <p className="module-page__desc">{mod.description}</p>
+          </div>
+        </div>
 
         <div className="basico-sections">
-          {BASICO_SECTIONS.map(section => {
+          {BASICO_SECTIONS.map((section, idx) => {
             const sectionAds = ads.filter(a => a.subniche === section.key)
             const done = isComplete(mod.id, section.key)
             return (
               <div key={section.key} className="basico-section">
+                <span className="basico-section__number">
+                  {String(idx + 1).padStart(2, '0')}
+                </span>
                 <div className="basico-section__header">
                   <h2>{section.title}</h2>
                   <button
                     className={`basico-section__check ${done ? 'basico-section__check--done' : ''}`}
                     onClick={() => markComplete(mod.id, section.key)}
                   >
-                    {done ? '✓ Lido' : 'Marcar como lido'}
+                    {done ? (
+                      <><span className="basico-section__check-icon">✓</span> Lido</>
+                    ) : (
+                      'Marcar como lido'
+                    )}
                   </button>
                 </div>
                 {sectionAds.map(ad => (
@@ -167,11 +204,19 @@ export default function ModulePage() {
 
   return (
     <div className="module-page">
-      <h1>{mod.title}</h1>
-      <p className="module-page__desc">{mod.description}</p>
+      <div className="module-page__header">
+        <span className="module-page__header-number">
+          {String(moduleNumber).padStart(2, '0')}
+        </span>
+        <div className="module-page__header-text">
+          <h1>{mod.title}</h1>
+          <p className="module-page__desc">{mod.description}</p>
+        </div>
+      </div>
 
       {isBonus && (
         <div className="module-page__notice">
+          <span className="module-page__notice-icon">&#9888;</span>
           Esses anúncios funcionam para quem já tem audiência
         </div>
       )}
@@ -203,20 +248,29 @@ export default function ModulePage() {
       />
 
       <div className="ad-grid">
-        {filteredAds.map(ad => (
-          <AdCard
+        {filteredAds.map((ad, idx) => (
+          <div
             key={ad.id}
-            ad={ad}
-            isFavorite={isFavorite(ad.id)}
-            onToggleFavorite={toggleFavorite}
-          />
+            className="ad-grid__item"
+            style={{ animationDelay: `${idx * 60}ms` }}
+          >
+            <AdCard
+              ad={ad}
+              isFavorite={isFavorite(ad.id)}
+              onToggleFavorite={toggleFavorite}
+            />
+          </div>
         ))}
       </div>
 
       {filteredAds.length === 0 && (
-        <p className="module-page__empty">
-          Nenhum anúncio encontrado com esses filtros.
-        </p>
+        <div className="module-page__empty">
+          <div className="module-page__empty-icon" />
+          <p className="module-page__empty-title">Nenhum anúncio encontrado</p>
+          <p className="module-page__empty-sub">
+            Tente ajustar os filtros acima para ver mais resultados.
+          </p>
+        </div>
       )}
 
       {nextSlug && (

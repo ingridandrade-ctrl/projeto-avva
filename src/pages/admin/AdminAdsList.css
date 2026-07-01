@@ -1,62 +1,97 @@
+/* ============================================
+   Admin Ads List — Premium Stylesheet
+   ============================================ */
+
+/* Header */
 .admin-ads__header {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 16px;
-  margin-bottom: 24px;
+  margin-bottom: 28px;
 }
 
 .admin-ads__header h1 {
   font-size: 1.6rem;
   color: var(--teal-profundo);
+  letter-spacing: -0.01em;
 }
 
+/* Filters */
 .admin-ads__filters {
   display: flex;
   align-items: center;
   gap: 16px;
-  margin-bottom: 20px;
+  margin-bottom: 24px;
   flex-wrap: wrap;
 }
 
+/* Custom select — border-bottom style with custom arrow */
 .admin-select {
-  padding: 8px 14px;
-  border: 1px solid rgba(76, 54, 45, 0.15);
-  border-radius: var(--radius-sm);
-  background: white;
+  padding: 10px 36px 10px 2px;
+  border: none;
+  border-bottom: 2px solid rgba(76, 54, 45, 0.12);
+  border-radius: 0;
+  background-color: transparent;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='7' fill='none'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%234C362D' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-size: 12px 7px;
   font-size: 0.85rem;
   color: var(--umber);
   cursor: pointer;
   min-width: 200px;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  transition: border-color 0.25s ease, box-shadow 0.25s ease;
 }
 
 .admin-select:focus {
   outline: none;
   border-color: var(--teal-medio);
+  box-shadow: 0 2px 8px rgba(26, 104, 104, 0.12);
 }
 
+.admin-select:hover {
+  border-color: rgba(76, 54, 45, 0.3);
+}
+
+/* Count badge — pill style */
 .admin-ads__count {
-  font-size: 0.8rem;
-  color: var(--umber);
-  opacity: 0.6;
+  font-size: 0.75rem;
+  color: var(--teal-profundo);
   font-family: var(--font-mono);
+  background: rgba(26, 104, 104, 0.08);
+  padding: 4px 12px;
+  border-radius: 100px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
 }
 
+/* Loading & empty states */
 .admin-ads__loading,
 .admin-ads__empty {
-  padding: 40px 0;
+  padding: 48px 0;
   text-align: center;
   color: var(--umber);
-  opacity: 0.5;
+  opacity: 0.45;
+  font-size: 0.9rem;
 }
 
+/* Table wrapper */
 .admin-table-wrap {
   overflow-x: auto;
   background: white;
   border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-sm);
+  box-shadow:
+    0 1px 3px rgba(76, 54, 45, 0.06),
+    0 4px 16px rgba(76, 54, 45, 0.04);
+  border: 1px solid rgba(76, 54, 45, 0.06);
 }
 
+/* Table */
 .admin-table {
   width: 100%;
   border-collapse: collapse;
@@ -65,23 +100,43 @@
 
 .admin-table th {
   text-align: left;
-  padding: 12px 16px;
-  font-size: 0.7rem;
+  padding: 14px 16px;
+  font-size: 0.68rem;
   font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.04em;
-  color: var(--umber);
-  opacity: 0.5;
-  border-bottom: 1px solid rgba(76, 54, 45, 0.08);
+  letter-spacing: 0.06em;
+  color: var(--teal-profundo);
+  opacity: 0.45;
+  border-bottom: 2px solid rgba(76, 54, 45, 0.06);
   white-space: nowrap;
+  background: rgba(76, 54, 45, 0.015);
 }
 
 .admin-table td {
-  padding: 12px 16px;
+  padding: 13px 16px;
   border-bottom: 1px solid rgba(76, 54, 45, 0.04);
   vertical-align: middle;
 }
 
+/* Alternating row colours */
+.admin-table tbody tr:nth-child(odd) {
+  background: rgba(76, 54, 45, 0.02);
+}
+
+.admin-table tbody tr:nth-child(even) {
+  background: transparent;
+}
+
+/* Row hover */
+.admin-table tbody tr {
+  transition: background 0.2s ease;
+}
+
+.admin-table tbody tr:hover {
+  background: rgba(26, 104, 104, 0.045);
+}
+
+/* Title cell */
 .admin-table__title {
   font-weight: 500;
   max-width: 240px;
@@ -90,72 +145,94 @@
   white-space: nowrap;
 }
 
+/* Inactive rows: dimmed + strikethrough on title */
 .admin-table__row--inactive td {
-  opacity: 0.45;
+  opacity: 0.4;
 }
 
+.admin-table__row--inactive .admin-table__title {
+  text-decoration: line-through;
+  text-decoration-color: rgba(76, 54, 45, 0.35);
+}
+
+/* Actions */
 .admin-table__actions {
   display: flex;
   gap: 8px;
 }
 
+/* Small buttons */
 .admin-btn-sm {
-  padding: 4px 10px;
+  padding: 5px 12px;
   font-size: 0.75rem;
   font-weight: 500;
-  border: 1px solid rgba(76, 54, 45, 0.15);
+  border: 1px solid rgba(76, 54, 45, 0.12);
   border-radius: var(--radius-sm);
   background: white;
   color: var(--teal-profundo);
   cursor: pointer;
   text-decoration: none;
   display: inline-block;
-  transition: all 0.15s;
+  transition:
+    border-color 0.2s ease,
+    background 0.2s ease,
+    box-shadow 0.2s ease,
+    transform 0.15s ease;
   white-space: nowrap;
 }
 
 .admin-btn-sm:hover {
   border-color: var(--teal-medio);
-  background: rgba(26, 104, 104, 0.04);
+  background: rgba(26, 104, 104, 0.05);
+  box-shadow: 0 1px 4px rgba(26, 104, 104, 0.1);
+  transform: translateY(-1px);
+}
+
+.admin-btn-sm:active {
+  transform: translateY(0);
+  box-shadow: none;
 }
 
 .admin-btn-sm--danger {
   color: #c0392b;
-  border-color: rgba(192, 57, 43, 0.2);
+  border-color: rgba(192, 57, 43, 0.15);
 }
 
 .admin-btn-sm--danger:hover {
   background: rgba(192, 57, 43, 0.06);
   border-color: #c0392b;
+  box-shadow: 0 1px 4px rgba(192, 57, 43, 0.12);
 }
 
-/* Toggle */
+/* Toggle — spring animation */
 .admin-toggle {
   position: relative;
-  width: 36px;
-  height: 20px;
-  border-radius: 10px;
+  width: 38px;
+  height: 22px;
+  border-radius: 11px;
   border: none;
   background: rgba(76, 54, 45, 0.15);
   cursor: pointer;
-  transition: background 0.2s;
+  transition: background 0.3s ease;
   padding: 0;
+  flex-shrink: 0;
 }
 
 .admin-toggle--on {
   background: var(--teal-medio);
+  box-shadow: 0 0 8px rgba(26, 104, 104, 0.25);
 }
 
 .admin-toggle__knob {
   position: absolute;
-  top: 2px;
-  left: 2px;
+  top: 3px;
+  left: 3px;
   width: 16px;
   height: 16px;
   border-radius: 50%;
   background: white;
-  transition: transform 0.2s;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.18);
 }
 
 .admin-toggle--on .admin-toggle__knob {

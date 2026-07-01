@@ -1,0 +1,65 @@
+.skeleton {
+  background: rgba(76, 54, 45, 0.06);
+  position: relative;
+  overflow: hidden;
+}
+
+.skeleton::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(76, 54, 45, 0.1) 50%,
+    transparent 100%
+  );
+  animation: skeleton-shimmer 1.5s ease-in-out infinite;
+}
+
+@keyframes skeleton-shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+/* SkeletonCard */
+.skeleton-card {
+  background: var(--off-white, #F7F4F0);
+  border-radius: var(--radius-lg, 16px);
+  overflow: hidden;
+}
+
+.skeleton-card__body {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 14px 16px 16px;
+}
+
+.skeleton-card__tags {
+  display: flex;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+/* SkeletonModuleCard */
+.skeleton-module {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 16px;
+  background: var(--off-white, #F7F4F0);
+  border-radius: var(--radius-lg, 16px);
+}
+
+.skeleton-module__content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding-top: 2px;
+}

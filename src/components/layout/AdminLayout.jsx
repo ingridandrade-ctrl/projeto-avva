@@ -19,22 +19,27 @@ export default function AdminLayout() {
           <span>Acervo de Criativos</span>
         </div>
         <nav className="admin-header__nav">
-          {NAV.map(item => (
-            <NavLink
-              key={item.to}
-              to={item.to}
-              end={item.end}
-              className={({ isActive }) =>
-                `admin-header__link ${isActive ? 'admin-header__link--active' : ''}`
-              }
-            >
-              {item.label}
-            </NavLink>
+          {NAV.map((item, index) => (
+            <>
+              {index > 0 && (
+                <span key={`sep-${index}`} className="admin-header__sep" />
+              )}
+              <NavLink
+                key={item.to}
+                to={item.to}
+                end={item.end}
+                className={({ isActive }) =>
+                  `admin-header__link ${isActive ? 'admin-header__link--active' : ''}`
+                }
+              >
+                {item.label}
+              </NavLink>
+            </>
           ))}
         </nav>
         <div className="admin-header__actions">
           <NavLink to="/dashboard" className="admin-header__link">
-            Voltar ao site
+            ← Voltar ao site
           </NavLink>
           <button className="admin-header__signout" onClick={signOut}>Sair</button>
         </div>

@@ -11,8 +11,8 @@ export default function CopyButton({ text, label = 'Copiar' }) {
   }
 
   return (
-    <button className="copy-btn" onClick={handleCopy}>
-      {copied ? 'Copiado!' : label}
+    <button className={`copy-btn ${copied ? 'copy-btn--copied' : ''}`} onClick={handleCopy}>
+      <span className="copy-btn__label">{copied ? '✓ Copiado' : label}</span>
     </button>
   )
 }

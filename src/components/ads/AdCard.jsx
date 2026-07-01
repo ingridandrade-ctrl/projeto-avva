@@ -10,7 +10,12 @@ export default function AdCard({ ad, isFavorite, onToggleFavorite }) {
 
   return (
     <article className="ad-card">
-      <DriveEmbed url={ad.drive_url} title={ad.title} />
+      <div className="ad-card__embed-wrap">
+        <DriveEmbed url={ad.drive_url} title={ad.title} />
+        {ad.format && (
+          <span className="ad-card__format-badge">{ad.format}</span>
+        )}
+      </div>
 
       <div className="ad-card__body">
         <div className="ad-card__header">
@@ -39,11 +44,9 @@ export default function AdCard({ ad, isFavorite, onToggleFavorite }) {
               {expanded ? 'Ocultar análise' : 'Ver análise'}
               <span className={`ad-card__chevron ${expanded ? 'ad-card__chevron--up' : ''}`}>›</span>
             </button>
-            {expanded && (
-              <div className="ad-card__analysis-text">
-                {ad.analysis}
-              </div>
-            )}
+            <div className={`ad-card__analysis-text ${expanded ? 'ad-card__analysis-text--visible' : ''}`}>
+              {ad.analysis}
+            </div>
           </div>
         )}
       </div>

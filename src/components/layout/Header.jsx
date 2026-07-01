@@ -1,13 +1,16 @@
-import { useState } from 'react'
 import { useAuth } from '../../hooks/useAuth'
 import './Header.css'
 
-export default function Header({ onMenuToggle, searchValue, onSearchChange }) {
+export default function Header({ onMenuToggle, sidebarOpen, searchValue, onSearchChange }) {
   const { profile } = useAuth()
 
   return (
     <header className="header">
-      <button className="header__menu-btn" onClick={onMenuToggle} aria-label="Menu">
+      <button
+        className={`header__menu-btn ${sidebarOpen ? 'header__menu-btn--active' : ''}`}
+        onClick={onMenuToggle}
+        aria-label="Menu"
+      >
         <span /><span /><span />
       </button>
 
@@ -17,7 +20,7 @@ export default function Header({ onMenuToggle, searchValue, onSearchChange }) {
         </svg>
         <input
           type="text"
-          placeholder="Buscar anúncios..."
+          placeholder="Buscar anuncios..."
           value={searchValue}
           onChange={e => onSearchChange(e.target.value)}
           className="header__search-input"

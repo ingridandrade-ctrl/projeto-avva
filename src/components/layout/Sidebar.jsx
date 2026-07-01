@@ -3,17 +3,17 @@ import { useAuth } from '../../hooks/useAuth'
 import './Sidebar.css'
 
 const NAV_ITEMS = [
-  { to: '/dashboard', label: 'Início', icon: '◈' },
-  { to: '/modulos/boas-vindas', label: 'Boas-vindas', icon: '○' },
-  { to: '/modulos/o-basico', label: 'O básico', icon: '○' },
-  { to: '/modulos/negocio-local', label: 'Negócio local', icon: '○' },
-  { to: '/modulos/infoproduto', label: 'Infoproduto', icon: '○' },
-  { to: '/modulos/servico', label: 'Serviço', icon: '○' },
-  { to: '/modulos/ecommerce', label: 'E-commerce', icon: '○' },
-  { to: '/modulos/bonus-datas', label: 'Datas especiais', icon: '★' },
+  { to: '/dashboard', label: 'Inicio', status: 'complete' },
+  { to: '/modulos/boas-vindas', label: 'Boas-vindas', status: 'not-started' },
+  { to: '/modulos/o-basico', label: 'O basico', status: 'not-started' },
+  { to: '/modulos/negocio-local', label: 'Negocio local', status: 'not-started' },
+  { to: '/modulos/infoproduto', label: 'Infoproduto', status: 'not-started' },
+  { to: '/modulos/servico', label: 'Servico', status: 'not-started' },
+  { to: '/modulos/ecommerce', label: 'E-commerce', status: 'not-started' },
+  { to: '/modulos/bonus-datas', label: 'Datas especiais', status: 'not-started' },
 ]
 
-const ORDER_BUMP_ITEM = { to: '/kit', label: 'Kit de Execução', icon: '◆' }
+const ORDER_BUMP_ITEM = { to: '/kit', label: 'Kit de Execucao', status: 'not-started' }
 
 export default function Sidebar({ open, onClose }) {
   const { profile, signOut } = useAuth()
@@ -25,6 +25,7 @@ export default function Sidebar({ open, onClose }) {
         <div className="sidebar__brand">
           <h2>Acervo de Criativos</h2>
           <span className="sidebar__subtitle">Pronta pro Digital</span>
+          <span className="sidebar__brand-line" />
         </div>
 
         <nav className="sidebar__nav">
@@ -37,8 +38,8 @@ export default function Sidebar({ open, onClose }) {
               }
               onClick={onClose}
             >
-              <span className="sidebar__icon">{item.icon}</span>
               {item.label}
+              <span className={`sidebar__status-dot sidebar__status-dot--${item.status}`} />
             </NavLink>
           ))}
 
@@ -50,8 +51,8 @@ export default function Sidebar({ open, onClose }) {
               }
               onClick={onClose}
             >
-              <span className="sidebar__icon">{ORDER_BUMP_ITEM.icon}</span>
               {ORDER_BUMP_ITEM.label}
+              <span className={`sidebar__status-dot sidebar__status-dot--${ORDER_BUMP_ITEM.status}`} />
             </NavLink>
           )}
         </nav>

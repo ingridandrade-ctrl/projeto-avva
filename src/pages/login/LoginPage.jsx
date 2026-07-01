@@ -30,6 +30,7 @@ export default function LoginPage() {
     <div className="login-page">
       <div className="login-card">
         <div className="login-card__header">
+          <span className="login-card__brand-mark" aria-hidden="true" />
           <h1>Acervo de Criativos</h1>
           <p>Pronta pro Digital</p>
         </div>
@@ -63,9 +64,18 @@ export default function LoginPage() {
 
           {error && <p className="login-form__error">{error}</p>}
 
-          <Button type="submit" disabled={submitting}>
+          <Button
+            type="submit"
+            disabled={submitting}
+            loading={submitting}
+            className={submitting ? 'login-form__btn--loading' : ''}
+          >
             {submitting ? 'Entrando...' : 'Entrar'}
           </Button>
+
+          <button type="button" className="login-form__forgot">
+            Esqueceu a senha?
+          </button>
         </form>
       </div>
     </div>

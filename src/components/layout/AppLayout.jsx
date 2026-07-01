@@ -21,11 +21,14 @@ export default function AppLayout() {
       <Sidebar open={sidebarOpen} onClose={() => setSidebarOpen(false)} />
       <Header
         onMenuToggle={() => setSidebarOpen(o => !o)}
+        sidebarOpen={sidebarOpen}
         searchValue={search}
         onSearchChange={handleSearchChange}
       />
       <main className="app-layout__main">
-        <Outlet context={{ search }} />
+        <div className="app-layout__content">
+          <Outlet context={{ search }} />
+        </div>
       </main>
     </div>
   )

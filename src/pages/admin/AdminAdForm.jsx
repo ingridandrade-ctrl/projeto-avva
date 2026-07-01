@@ -109,7 +109,7 @@ export default function AdminAdForm() {
 
       <form onSubmit={handleSubmit} className="admin-form">
         <div className="admin-form__field">
-          <label>Título *</label>
+          <label>Título <span className="admin-form__required">*</span></label>
           <input
             type="text"
             value={form.title}
@@ -121,7 +121,7 @@ export default function AdminAdForm() {
 
         <div className="admin-form__row">
           <div className="admin-form__field">
-            <label>Módulo *</label>
+            <label>Módulo <span className="admin-form__required">*</span></label>
             <select
               value={form.module_id}
               onChange={e => handleChange('module_id', e.target.value)}
@@ -135,7 +135,7 @@ export default function AdminAdForm() {
           </div>
 
           <div className="admin-form__field">
-            <label>Sub-nicho *</label>
+            <label>Sub-nicho <span className="admin-form__required">*</span></label>
             <input
               type="text"
               value={form.subniche}
@@ -148,7 +148,7 @@ export default function AdminAdForm() {
 
         <div className="admin-form__row">
           <div className="admin-form__field">
-            <label>Formato *</label>
+            <label>Formato <span className="admin-form__required">*</span></label>
             <select
               value={form.format}
               onChange={e => handleChange('format', e.target.value)}
@@ -162,7 +162,7 @@ export default function AdminAdForm() {
           </div>
 
           <div className="admin-form__field">
-            <label>Momento *</label>
+            <label>Momento <span className="admin-form__required">*</span></label>
             <select
               value={form.moment}
               onChange={e => handleChange('moment', e.target.value)}
@@ -178,7 +178,7 @@ export default function AdminAdForm() {
 
         <div className="admin-form__row">
           <div className="admin-form__field">
-            <label>Link do Drive *</label>
+            <label>Link do Drive <span className="admin-form__required">*</span></label>
             <input
               type="url"
               value={form.drive_url}
@@ -189,7 +189,7 @@ export default function AdminAdForm() {
           </div>
 
           <div className="admin-form__field">
-            <label>Tipo de mídia *</label>
+            <label>Tipo de mídia <span className="admin-form__required">*</span></label>
             <select
               value={form.media_type}
               onChange={e => handleChange('media_type', e.target.value)}
@@ -202,8 +202,23 @@ export default function AdminAdForm() {
           </div>
         </div>
 
+        {form.drive_url && form.drive_url.includes('drive.google.com') && (
+          <div className="admin-form__preview">
+            <label>Preview do arquivo</label>
+            <div className="admin-form__preview-frame">
+              <iframe
+                src={`https://drive.google.com/file/d/${form.drive_url.match(/\/d\/([a-zA-Z0-9_-]+)/)?.[1]}/preview`}
+                width="100%"
+                height="200"
+                allow="autoplay"
+                title="Preview"
+              />
+            </div>
+          </div>
+        )}
+
         <div className="admin-form__field">
-          <label>Análise * (por que funciona)</label>
+          <label>Análise <span className="admin-form__required">*</span> (por que funciona)</label>
           <textarea
             value={form.analysis}
             onChange={e => handleChange('analysis', e.target.value)}

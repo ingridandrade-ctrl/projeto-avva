@@ -1,4 +1,6 @@
+/* ── Base ── */
 .copy-btn {
+  position: relative;
   padding: 6px 14px;
   font-size: 0.75rem;
   font-weight: 500;
@@ -7,10 +9,69 @@
   border: none;
   border-radius: var(--radius-sm);
   cursor: pointer;
-  transition: all 0.15s ease;
+  transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.3s ease;
   font-family: var(--font-mono);
+  overflow: hidden;
 }
 
+/* ── Hover pulse ── */
 .copy-btn:hover {
   background: var(--teal-medio);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(12, 71, 71, 0.2);
+  animation: copy-pulse 1.2s ease-in-out infinite;
+}
+
+.copy-btn:active {
+  transform: translateY(1px);
+  box-shadow: 0 1px 4px rgba(12, 71, 71, 0.12);
+  animation: none;
+}
+
+/* ── Label transition ── */
+.copy-btn__label {
+  display: inline-block;
+  transition: transform 0.25s ease, opacity 0.25s ease;
+}
+
+/* ── Copied state: green flash + checkmark ── */
+.copy-btn--copied {
+  background: #2e7d32;
+  animation: copy-flash 0.4s ease;
+}
+
+.copy-btn--copied:hover {
+  background: #2e7d32;
+  animation: none;
+}
+
+.copy-btn--copied .copy-btn__label {
+  animation: copy-check-in 0.35s ease both;
+}
+
+/* ── Keyframes ── */
+@keyframes copy-pulse {
+  0%, 100% { box-shadow: 0 4px 12px rgba(12, 71, 71, 0.2); }
+  50% { box-shadow: 0 4px 18px rgba(12, 71, 71, 0.35); }
+}
+
+@keyframes copy-flash {
+  0% { background: var(--teal-profundo); }
+  30% { background: #4caf50; }
+  100% { background: #2e7d32; }
+}
+
+@keyframes copy-check-in {
+  0% {
+    transform: scale(0.6);
+    opacity: 0;
+  }
+  60% {
+    transform: scale(1.1);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
 }
