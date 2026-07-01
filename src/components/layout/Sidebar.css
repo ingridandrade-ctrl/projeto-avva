@@ -101,6 +101,22 @@
   color: var(--off-white);
 }
 
+.sidebar__admin-link {
+  display: block;
+  text-align: center;
+  padding: 8px 16px;
+  margin-bottom: 10px;
+  font-size: 0.8rem;
+  color: var(--amendoado);
+  border: 1px solid rgba(212, 185, 154, 0.3);
+  border-radius: var(--radius-sm);
+  transition: all 0.15s ease;
+}
+
+.sidebar__admin-link:hover {
+  background: rgba(212, 185, 154, 0.1);
+}
+
 .sidebar-overlay {
   display: none;
 }

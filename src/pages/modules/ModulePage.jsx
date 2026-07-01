@@ -57,6 +57,7 @@ export default function ModulePage() {
           .from('ads')
           .select('*')
           .eq('module_id', modData.id)
+          .eq('active', true)
           .order('created_at')
         setAds(adsData || [])
       }

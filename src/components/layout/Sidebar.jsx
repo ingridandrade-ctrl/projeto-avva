@@ -57,6 +57,15 @@ export default function Sidebar({ open, onClose }) {
         </nav>
 
         <div className="sidebar__footer">
+          {profile?.is_admin && (
+            <NavLink
+              to="/admin"
+              className="sidebar__admin-link"
+              onClick={onClose}
+            >
+              Painel Admin
+            </NavLink>
+          )}
           <button className="sidebar__signout" onClick={signOut}>
             Sair
           </button>

@@ -157,6 +157,53 @@
   color: var(--umber);
 }
 
+.kit-page__empty {
+  text-align: center;
+  padding: 40px 0;
+  color: var(--umber);
+  opacity: 0.5;
+}
+
+.gancho-card__desc {
+  font-size: 0.82rem;
+  color: var(--umber);
+  opacity: 0.7;
+}
+
+.gancho-card__prompt,
+.estrutura-card__prompt-block {
+  background: var(--off-white);
+  border-radius: var(--radius-md);
+  padding: 12px;
+  margin-top: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.angulo-card__phrases {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+.angulo-card__phrase {
+  background: var(--off-white);
+  border-radius: var(--radius-md);
+  padding: 10px 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.angulo-card__phrase p {
+  font-size: 0.85rem;
+  color: var(--umber);
+  flex: 1;
+}
+
 @media (max-width: 640px) {
   .gancho-grid,
   .estrutura-grid {

@@ -1,12 +1,18 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import { AuthProvider } from './hooks/useAuth'
 import ProtectedRoute from './components/ProtectedRoute'
+import AdminRoute from './components/AdminRoute'
 import AppLayout from './components/layout/AppLayout'
+import AdminLayout from './components/layout/AdminLayout'
 import LoginPage from './pages/login/LoginPage'
 import MemberDashboard from './pages/dashboard/MemberDashboard'
 import ModulePage from './pages/modules/ModulePage'
 import KitPage from './pages/kit/KitPage'
 import SearchPage from './pages/search/SearchPage'
+import AdminDashboard from './pages/admin/AdminDashboard'
+import AdminAdsList from './pages/admin/AdminAdsList'
+import AdminAdForm from './pages/admin/AdminAdForm'
+import AdminKit from './pages/admin/AdminKit'
 import FormFlora from './pages/FormFlora'
 import FormIngrid from './pages/FormIngrid'
 import Confirmacao from './pages/Confirmacao'
@@ -38,6 +44,21 @@ export default function App() {
             <Route path="/modulos/:slug" element={<ModulePage />} />
             <Route path="/kit" element={<KitPage />} />
             <Route path="/busca" element={<SearchPage />} />
+          </Route>
+
+          {/* Painel Admin */}
+          <Route
+            element={
+              <AdminRoute>
+                <AdminLayout />
+              </AdminRoute>
+            }
+          >
+            <Route path="/admin" element={<AdminDashboard />} />
+            <Route path="/admin/ads" element={<AdminAdsList />} />
+            <Route path="/admin/ads/new" element={<AdminAdForm />} />
+            <Route path="/admin/ads/:id/edit" element={<AdminAdForm />} />
+            <Route path="/admin/kit" element={<AdminKit />} />
           </Route>
 
           {/* Redirect raiz para login */}

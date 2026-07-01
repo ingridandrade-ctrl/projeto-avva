@@ -59,6 +59,7 @@ create table users (
   email text unique not null,
   name text,
   has_order_bump boolean default false,
+  is_admin boolean default false,
   created_at timestamptz default now() not null,
   hotmart_transaction_id text
 );
@@ -102,7 +103,9 @@ create table ads (
   format text,
   moment text check (moment in ('topo', 'meio', 'fundo')),
   drive_url text,
+  media_type text default 'video' check (media_type in ('video', 'image')),
   analysis text,
+  active boolean default true,
   created_at timestamptz default now() not null
 );
 
@@ -112,6 +115,21 @@ create policy "Anúncios visíveis para autenticados"
   on ads for select
   to authenticated
   using (true);
+
+create policy "Admin insere anúncios"
+  on ads for insert
+  to authenticated
+  with check (exists (select 1 from users where id = auth.uid() and is_admin = true));
+
+create policy "Admin atualiza anúncios"
+  on ads for update
+  to authenticated
+  using (exists (select 1 from users where id = auth.uid() and is_admin = true));
+
+create policy "Admin deleta anúncios"
+  on ads for delete
+  to authenticated
+  using (exists (select 1 from users where id = auth.uid() and is_admin = true));
 
 -- Progresso por módulo
 create table user_progress (
@@ -171,10 +189,60 @@ insert into modules (slug, title, "order", description) values
   ('bonus-datas', 'Datas especiais', 6, 'Anúncios para datas sazonais'),
   ('kit-execucao', 'Kit de Execução', 7, 'Ganchos, estruturas narrativas e prompts de IA');
 
+-- Kit de Execução (order bump) — conteúdo dinâmico
+create table kit_items (
+  id uuid default gen_random_uuid() primary key,
+  type text not null check (type in ('gancho', 'narrativa', 'angulo')),
+  title text not null,
+  description text,
+  example text,
+  prompt text,
+  moment text check (moment in ('topo', 'meio', 'fundo')),
+  phrases text[],
+  active boolean default true,
+  created_at timestamptz default now() not null
+);
+
+alter table kit_items enable row level security;
+
+create policy "Kit visível para autenticados"
+  on kit_items for select
+  to authenticated
+  using (true);
+
+create policy "Admin insere kit"
+  on kit_items for insert
+  to authenticated
+  with check (exists (select 1 from users where id = auth.uid() and is_admin = true));
+
+create policy "Admin atualiza kit"
+  on kit_items for update
+  to authenticated
+  using (exists (select 1 from users where id = auth.uid() and is_admin = true));
+
+create policy "Admin deleta kit"
+  on kit_items for delete
+  to authenticated
+  using (exists (select 1 from users where id = auth.uid() and is_admin = true));
+
+-- Módulos: admin pode gerenciar
+create policy "Admin insere módulos"
+  on modules for insert
+  to authenticated
+  with check (exists (select 1 from users where id = auth.uid() and is_admin = true));
+
+create policy "Admin atualiza módulos"
+  on modules for update
+  to authenticated
+  using (exists (select 1 from users where id = auth.uid() and is_admin = true));
+
 -- Índices
 create index idx_ads_module on ads (module_id);
 create index idx_ads_moment on ads (moment);
 create index idx_ads_format on ads (format);
 create index idx_ads_subniche on ads (subniche);
+create index idx_ads_active on ads (active);
 create index idx_user_progress_user on user_progress (user_id);
 create index idx_user_favorites_user on user_favorites (user_id);
+create index idx_kit_items_type on kit_items (type);
+create index idx_kit_items_active on kit_items (active);
