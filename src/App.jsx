@@ -30,7 +30,7 @@ export default function App() {
           <Route path="/aplicacao/confirmacao" element={<Confirmacao />} />
           <Route path="/aplicacao/dashboard" element={<Dashboard />} />
 
-          {/* Área de membros — Acervo de Criativos */}
+          {/* Área de membros — Método AVVA */}
           <Route path="/login" element={<LoginPage />} />
 
           <Route
