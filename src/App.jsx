@@ -61,9 +61,9 @@ export default function App() {
             <Route path="/admin/kit" element={<AdminKit />} />
           </Route>
 
-          {/* Redirect raiz para login */}
-          <Route path="/" element={<Navigate to="/login" replace />} />
-          <Route path="*" element={<Navigate to="/login" replace />} />
+          {/* Raiz vai para o formulário (projeto original) */}
+          <Route path="/" element={<FormFlora />} />
+          <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </AuthProvider>
     </BrowserRouter>
