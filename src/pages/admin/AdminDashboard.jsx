@@ -5,25 +5,25 @@ import Button from '../../components/ui/Button'
 import './AdminDashboard.css'
 
 export default function AdminDashboard() {
-  const [modules, setModules] = useState([])
+  const [collections, setCollections] = useState([])
   const [stats, setStats] = useState({})
   const [kitCount, setKitCount] = useState(0)
 
   useEffect(() => {
     async function load() {
-      const { data: mods } = await supabase
-        .from('modules')
+      const { data: cols } = await supabase
+        .from('collections')
         .select('*')
         .order('order')
-      setModules(mods || [])
+      setCollections(cols || [])
 
       const { data: ads } = await supabase
         .from('ads')
-        .select('id, module_id')
+        .select('id, collection_id')
       const counts = {}
       let total = 0
       for (const ad of (ads || [])) {
-        counts[ad.module_id] = (counts[ad.module_id] || 0) + 1
+        counts[ad.collection_id] = (counts[ad.collection_id] || 0) + 1
         total++
       }
       counts._total = total
@@ -58,22 +58,22 @@ export default function AdminDashboard() {
         </div>
       </div>
 
-      <h2>Anúncios por módulo</h2>
+      <h2>Anúncios por coleção</h2>
       <div className="admin-dash__modules">
-        {modules
-          .filter(m => m.slug !== 'kit-execucao')
-          .map(mod => (
-            <Link
-              key={mod.id}
-              to={`/admin/ads?module=${mod.id}`}
-              className="admin-module-row"
-            >
-              <span className="admin-module-row__title">{mod.title}</span>
-              <span className="admin-module-row__count">
-                {stats[mod.id] || 0} anúncios
-              </span>
-            </Link>
-          ))}
+        {collections.map(col => (
+          <Link
+            key={col.id}
+            to={`/admin/ads?collection=${col.id}`}
+            className="admin-module-row"
+          >
+            <span className="admin-module-row__title">
+              {col.is_bonus ? `Bônus — ${col.title}` : col.title}
+            </span>
+            <span className="admin-module-row__count">
+              {stats[col.id] || 0} anúncios
+            </span>
+          </Link>
+        ))}
       </div>
     </div>
   )

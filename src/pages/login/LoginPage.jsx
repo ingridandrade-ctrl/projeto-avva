@@ -6,10 +6,9 @@ import './LoginPage.css'
 export default function LoginPage() {
   const { session, signIn, loading } = useAuth()
   const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
   const [error, setError] = useState('')
   const [submitting, setSubmitting] = useState(false)
-  const [focused, setFocused] = useState(null)
+  const [focused, setFocused] = useState(false)
 
   if (loading) return null
   if (session) return <Navigate to="/dashboard" replace />
@@ -19,9 +18,13 @@ export default function LoginPage() {
     setError('')
     setSubmitting(true)
 
-    const { error } = await signIn(email, password)
+    const { error } = await signIn(email)
     if (error) {
-      setError('Email ou senha incorretos. Verifique seus dados e tente novamente.')
+      setError(
+        error.code === 'email_not_found'
+          ? 'Não encontramos esse email. Use o mesmo email da sua compra.'
+          : 'Não foi possível entrar agora. Tente novamente em instantes.'
+      )
     }
     setSubmitting(false)
   }
@@ -44,8 +47,8 @@ export default function LoginPage() {
         <p className="login-card__subtitle">Seja bem-vinda à sua área de membros</p>
 
         <form className="login-form" onSubmit={handleSubmit}>
-          <div className={`login-form__field ${focused === 'email' ? 'is-focused' : ''} ${email ? 'is-filled' : ''}`}>
-            <label htmlFor="email">Email</label>
+          <div className={`login-form__field ${focused ? 'is-focused' : ''} ${email ? 'is-filled' : ''}`}>
+            <label htmlFor="email">Email de compra</label>
             <div className="login-form__input-wrap">
               <svg className="login-form__icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="4" width="20" height="16" rx="3"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
               <input
@@ -53,31 +56,16 @@ export default function LoginPage() {
                 type="email"
                 value={email}
                 onChange={e => setEmail(e.target.value)}
-                onFocus={() => setFocused('email')}
-                onBlur={() => setFocused(null)}
+                onFocus={() => setFocused(true)}
+                onBlur={() => setFocused(false)}
                 placeholder="seu@email.com"
                 required
                 autoComplete="email"
               />
             </div>
-          </div>
-
-          <div className={`login-form__field ${focused === 'password' ? 'is-focused' : ''} ${password ? 'is-filled' : ''}`}>
-            <label htmlFor="password">Senha</label>
-            <div className="login-form__input-wrap">
-              <svg className="login-form__icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-              <input
-                id="password"
-                type="password"
-                value={password}
-                onChange={e => setPassword(e.target.value)}
-                onFocus={() => setFocused('password')}
-                onBlur={() => setFocused(null)}
-                placeholder="Sua senha"
-                required
-                autoComplete="current-password"
-              />
-            </div>
+            <span className="login-form__hint">
+              Use o email que você usou na compra
+            </span>
           </div>
 
           {error && (
@@ -103,10 +91,6 @@ export default function LoginPage() {
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
               </>
             )}
-          </button>
-
-          <button type="button" className="login-form__forgot">
-            Esqueceu a senha?
           </button>
         </form>
 

@@ -237,6 +237,13 @@
   box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.05);
 }
 
+.login-form__hint {
+  font-family: var(--font-corpo);
+  font-size: 0.72rem;
+  color: rgba(255, 255, 255, 0.3);
+  margin-top: 6px;
+}
+
 /* ── Error ── */
 .login-form__error {
   display: flex;

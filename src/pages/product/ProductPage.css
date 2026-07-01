@@ -269,6 +269,13 @@
   flex-shrink: 0;
 }
 
+.module-card__count {
+  font-family: var(--font-corpo);
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: rgba(76, 54, 45, 0.4);
+}
+
 /* CTA */
 .module-card__cta {
   display: inline-flex;

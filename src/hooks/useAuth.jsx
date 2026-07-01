@@ -37,9 +37,30 @@ export function AuthProvider({ children }) {
     setLoading(false)
   }
 
-  async function signIn(email, password) {
-    const { error } = await supabase.auth.signInWithPassword({ email, password })
-    return { error }
+  // Login só por email: valida o email de compra no servidor e troca
+  // o token retornado por uma sessão (sem senha).
+  async function signIn(email) {
+    try {
+      const resp = await fetch('/api/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email }),
+      })
+
+      if (!resp.ok) {
+        const body = await resp.json().catch(() => ({}))
+        return { error: { code: body.error || 'login_failed' } }
+      }
+
+      const { token_hash } = await resp.json()
+      const { error } = await supabase.auth.verifyOtp({
+        type: 'email',
+        token_hash,
+      })
+      return { error }
+    } catch {
+      return { error: { code: 'network_error' } }
+    }
   }
 
   async function signOut() {

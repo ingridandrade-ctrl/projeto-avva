@@ -1,57 +1,46 @@
 import Tag from '../ui/Tag'
+import { NICHES, MEDIA_TYPES } from '../../lib/catalog'
 import './FilterBar.css'
 
-const MOMENTS = ['topo', 'meio', 'fundo']
-const MOMENT_LABELS = { topo: 'Topo de funil', meio: 'Meio de funil', fundo: 'Fundo de funil' }
-
 export default function FilterBar({
-  moments = MOMENTS,
-  formats = [],
-  subniches = [],
-  selectedMoment,
-  selectedFormat,
-  selectedSubniche,
-  onMomentChange,
-  onFormatChange,
-  onSubnicheChange,
+  selectedNiche,
+  selectedMedia,
+  onNicheChange,
+  onMediaChange,
 }) {
   return (
     <div className="filter-bar">
       <div className="filter-bar__group">
-        <span className="filter-bar__label">Momento:</span>
+        <span className="filter-bar__label">Nicho:</span>
         <div className="filter-bar__tags">
-          <Tag onClick={() => onMomentChange(null)} active={!selectedMoment}>Todos</Tag>
-          {moments.map(m => (
-            <Tag key={m} type={m} onClick={() => onMomentChange(selectedMoment === m ? null : m)} active={selectedMoment === m}>
-              {MOMENT_LABELS[m] || m}
+          <Tag onClick={() => onNicheChange(null)} active={!selectedNiche}>Todos</Tag>
+          {NICHES.map(n => (
+            <Tag
+              key={n.value}
+              onClick={() => onNicheChange(selectedNiche === n.value ? null : n.value)}
+              active={selectedNiche === n.value}
+            >
+              {n.label}
             </Tag>
           ))}
         </div>
       </div>
 
-      {formats.length > 0 && (
-        <div className="filter-bar__group">
-          <span className="filter-bar__label">Formato:</span>
-          <div className="filter-bar__tags">
-            <Tag onClick={() => onFormatChange(null)} active={!selectedFormat}>Todos</Tag>
-            {formats.map(f => (
-              <Tag key={f} onClick={() => onFormatChange(selectedFormat === f ? null : f)} active={selectedFormat === f}>{f}</Tag>
-            ))}
-          </div>
+      <div className="filter-bar__group">
+        <span className="filter-bar__label">Mídia:</span>
+        <div className="filter-bar__tags">
+          <Tag onClick={() => onMediaChange(null)} active={!selectedMedia}>Todas</Tag>
+          {MEDIA_TYPES.map(m => (
+            <Tag
+              key={m.value}
+              onClick={() => onMediaChange(selectedMedia === m.value ? null : m.value)}
+              active={selectedMedia === m.value}
+            >
+              {m.label}
+            </Tag>
+          ))}
         </div>
-      )}
-
-      {subniches.length > 0 && (
-        <div className="filter-bar__group">
-          <span className="filter-bar__label">Sub-nicho:</span>
-          <div className="filter-bar__tags">
-            <Tag onClick={() => onSubnicheChange(null)} active={!selectedSubniche}>Todos</Tag>
-            {subniches.map(s => (
-              <Tag key={s} onClick={() => onSubnicheChange(selectedSubniche === s ? null : s)} active={selectedSubniche === s}>{s}</Tag>
-            ))}
-          </div>
-        </div>
-      )}
+      </div>
     </div>
   )
 }

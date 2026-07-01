@@ -203,3 +203,41 @@
     padding: 24px 16px 20px;
   }
 }
+
+/* ── Nichos (multi-select em pills) ── */
+
+.admin-form__checks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.admin-form__check {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 16px;
+  border: 1.5px solid rgba(76, 54, 45, 0.15);
+  border-radius: 100px;
+  font-size: 0.85rem;
+  color: var(--umber);
+  cursor: pointer;
+  user-select: none;
+  transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+
+.admin-form__check input {
+  accent-color: var(--teal-medio);
+  margin: 0;
+}
+
+.admin-form__check:hover {
+  border-color: var(--teal-medio);
+}
+
+.admin-form__check--on {
+  background: rgba(26, 104, 104, 0.08);
+  border-color: var(--teal-medio);
+  color: var(--teal-profundo);
+  font-weight: 600;
+}

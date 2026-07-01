@@ -1,9 +1,8 @@
 import { useState } from 'react'
 import DriveEmbed from './DriveEmbed'
 import Tag from '../ui/Tag'
+import { NICHE_LABELS, MEDIA_LABELS } from '../../lib/catalog'
 import './AdCard.css'
-
-const MOMENT_LABELS = { topo: 'Topo', meio: 'Meio', fundo: 'Fundo' }
 
 export default function AdCard({ ad, isFavorite, onToggleFavorite }) {
   const [expanded, setExpanded] = useState(false)
@@ -12,8 +11,8 @@ export default function AdCard({ ad, isFavorite, onToggleFavorite }) {
     <article className="ad-card">
       <div className="ad-card__embed-wrap">
         <DriveEmbed url={ad.drive_url} title={ad.title} />
-        {ad.format && (
-          <span className="ad-card__format-badge">{ad.format}</span>
+        {ad.media_type && (
+          <span className="ad-card__format-badge">{MEDIA_LABELS[ad.media_type] || ad.media_type}</span>
         )}
       </div>
 
@@ -29,11 +28,13 @@ export default function AdCard({ ad, isFavorite, onToggleFavorite }) {
           </button>
         </div>
 
-        <div className="ad-card__tags">
-          {ad.moment && <Tag type={ad.moment}>{MOMENT_LABELS[ad.moment]}</Tag>}
-          {ad.format && <Tag>{ad.format}</Tag>}
-          {ad.subniche && <Tag>{ad.subniche}</Tag>}
-        </div>
+        {(ad.niches || []).length > 0 && (
+          <div className="ad-card__tags">
+            {ad.niches.map(n => (
+              <Tag key={n}>{NICHE_LABELS[n] || n}</Tag>
+            ))}
+          </div>
+        )}
 
         {ad.analysis && (
           <div className="ad-card__analysis">

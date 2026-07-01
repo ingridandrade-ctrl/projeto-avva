@@ -1,38 +1,37 @@
 import { useEffect, useState } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 import { supabase } from '../../lib/supabase'
+import { NICHE_LABELS, MEDIA_LABELS } from '../../lib/catalog'
 import Button from '../../components/ui/Button'
 import Tag from '../../components/ui/Tag'
 import './AdminAdsList.css'
 
-const MOMENT_LABELS = { topo: 'Topo', meio: 'Meio', fundo: 'Fundo' }
-
 export default function AdminAdsList() {
   const [params] = useSearchParams()
-  const moduleFilter = params.get('module')
+  const collectionFilter = params.get('collection')
   const [ads, setAds] = useState([])
-  const [modules, setModules] = useState([])
-  const [selectedModule, setSelectedModule] = useState(moduleFilter || '')
+  const [collections, setCollections] = useState([])
+  const [selectedCollection, setSelectedCollection] = useState(collectionFilter || '')
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    supabase.from('modules').select('*').order('order').then(({ data }) => {
-      setModules(data || [])
+    supabase.from('collections').select('*').order('order').then(({ data }) => {
+      setCollections(data || [])
     })
   }, [])
 
   useEffect(() => {
     loadAds()
-  }, [selectedModule])
+  }, [selectedCollection])
 
   async function loadAds() {
     setLoading(true)
     let query = supabase
       .from('ads')
-      .select('*, modules(title, slug)')
+      .select('*, collections(title, slug)')
       .order('created_at', { ascending: false })
-    if (selectedModule) {
-      query = query.eq('module_id', selectedModule)
+    if (selectedCollection) {
+      query = query.eq('collection_id', selectedCollection)
     }
     const { data } = await query
     setAds(data || [])
@@ -59,16 +58,16 @@ export default function AdminAdsList() {
 
       <div className="admin-ads__filters">
         <select
-          value={selectedModule}
-          onChange={e => setSelectedModule(e.target.value)}
+          value={selectedCollection}
+          onChange={e => setSelectedCollection(e.target.value)}
           className="admin-select"
         >
-          <option value="">Todos os módulos</option>
-          {modules
-            .filter(m => m.slug !== 'kit-execucao')
-            .map(m => (
-              <option key={m.id} value={m.id}>{m.title}</option>
-            ))}
+          <option value="">Todas as coleções</option>
+          {collections.map(c => (
+            <option key={c.id} value={c.id}>
+              {c.is_bonus ? `Bônus — ${c.title}` : c.title}
+            </option>
+          ))}
         </select>
         <span className="admin-ads__count">{ads.length} anúncios</span>
       </div>
@@ -83,10 +82,9 @@ export default function AdminAdsList() {
             <thead>
               <tr>
                 <th>Título</th>
-                <th>Módulo</th>
-                <th>Formato</th>
-                <th>Momento</th>
-                <th>Sub-nicho</th>
+                <th>Coleção</th>
+                <th>Nichos</th>
+                <th>Mídia</th>
                 <th>Ativo</th>
                 <th>Ações</th>
               </tr>
@@ -95,14 +93,15 @@ export default function AdminAdsList() {
               {ads.map(ad => (
                 <tr key={ad.id} className={!ad.active ? 'admin-table__row--inactive' : ''}>
                   <td className="admin-table__title">{ad.title}</td>
-                  <td>{ad.modules?.title || '—'}</td>
-                  <td>{ad.format || '—'}</td>
+                  <td>{ad.collections?.title || '—'}</td>
                   <td>
-                    {ad.moment ? (
-                      <Tag type={ad.moment}>{MOMENT_LABELS[ad.moment]}</Tag>
-                    ) : '—'}
+                    <div className="admin-table__tags">
+                      {(ad.niches || []).map(n => (
+                        <Tag key={n}>{NICHE_LABELS[n] || n}</Tag>
+                      ))}
+                    </div>
                   </td>
-                  <td>{ad.subniche || '—'}</td>
+                  <td>{MEDIA_LABELS[ad.media_type] || '—'}</td>
                   <td>
                     <button
                       className={`admin-toggle ${ad.active ? 'admin-toggle--on' : ''}`}

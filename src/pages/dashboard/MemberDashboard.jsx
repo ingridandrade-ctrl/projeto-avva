@@ -8,9 +8,9 @@ export default function MemberDashboard() {
 
   const products = [
     {
-      id: 'acervo-criativos',
-      title: 'Acervo de Criativos',
-      description: 'Sua biblioteca completa de anúncios analisados, organizados por nicho e momento de funil.',
+      id: 'acervo-anuncios',
+      title: 'Acervo de Anúncios',
+      description: 'Sua biblioteca de anúncios que funcionam, organizados por objetivo — do primeiro contato até a venda.',
       icon: (
         <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
           <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
@@ -18,7 +18,7 @@ export default function MemberDashboard() {
           <line x1="12" y1="17" x2="12" y2="21"/>
         </svg>
       ),
-      link: '/produto/acervo-criativos',
+      link: '/produto/acervo-anuncios',
       tag: 'Disponível',
       gradient: 'linear-gradient(135deg, #0C4747 0%, #1A6868 50%, #A85C35 100%)',
     },

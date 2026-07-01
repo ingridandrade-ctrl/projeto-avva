@@ -16,7 +16,7 @@ export default function AdminLayout() {
       <header className="admin-header">
         <div className="admin-header__brand">
           <h1>Admin</h1>
-          <span>Acervo de Criativos</span>
+          <span>Acervo de Anúncios</span>
         </div>
         <nav className="admin-header__nav">
           {NAV.map((item, index) => (
