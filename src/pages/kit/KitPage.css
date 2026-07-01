@@ -1,0 +1,165 @@
+.kit-page h1 {
+  font-size: 1.8rem;
+  color: var(--teal-profundo);
+  margin-bottom: 8px;
+}
+
+.kit-page__desc {
+  font-size: 0.95rem;
+  color: var(--umber);
+  opacity: 0.7;
+  margin-bottom: 36px;
+}
+
+.kit-section {
+  margin-bottom: 48px;
+}
+
+.kit-section h2 {
+  font-size: 1.3rem;
+  color: var(--umber);
+  margin-bottom: 20px;
+}
+
+/* Ganchos */
+.gancho-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 16px;
+}
+
+.gancho-card {
+  background: white;
+  border-radius: var(--radius-lg);
+  padding: 20px;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.gancho-card__tipo {
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--teal-profundo);
+  background: rgba(26, 104, 104, 0.08);
+  padding: 4px 10px;
+  border-radius: 100px;
+  align-self: flex-start;
+}
+
+.gancho-card__exemplo {
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: var(--umber);
+  font-style: italic;
+  flex: 1;
+}
+
+/* Estruturas */
+.estrutura-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 20px;
+}
+
+.estrutura-card {
+  background: white;
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  box-shadow: var(--shadow-sm);
+}
+
+.estrutura-card h3 {
+  font-size: 1.1rem;
+  color: var(--teal-profundo);
+  margin-bottom: 8px;
+}
+
+.estrutura-card__desc {
+  font-size: 0.85rem;
+  color: var(--umber);
+  opacity: 0.7;
+  margin-bottom: 16px;
+  line-height: 1.5;
+}
+
+.estrutura-card__exemplo {
+  background: var(--off-white);
+  border-radius: var(--radius-md);
+  padding: 14px 18px;
+  margin-bottom: 12px;
+}
+
+.estrutura-card__label {
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--terracotta);
+  display: block;
+  margin-bottom: 6px;
+}
+
+.estrutura-card__exemplo p {
+  font-size: 0.85rem;
+  line-height: 1.6;
+  color: var(--umber);
+}
+
+/* Ângulos */
+.angulo-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.angulo-card {
+  background: white;
+  border-radius: var(--radius-lg);
+  padding: 28px;
+  box-shadow: var(--shadow-sm);
+}
+
+.angulo-card h3 {
+  font-size: 1.15rem;
+  color: var(--teal-profundo);
+  margin-bottom: 6px;
+}
+
+.angulo-card__desc {
+  font-size: 0.85rem;
+  color: var(--umber);
+  opacity: 0.7;
+  margin-bottom: 20px;
+}
+
+.angulo-card__prompts {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.angulo-card__prompt {
+  background: var(--off-white);
+  border-radius: var(--radius-md);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.angulo-card__prompt .mono {
+  font-size: 0.82rem;
+  line-height: 1.6;
+  color: var(--umber);
+}
+
+@media (max-width: 640px) {
+  .gancho-grid,
+  .estrutura-grid {
+    grid-template-columns: 1fr;
+  }
+}

@@ -1,0 +1,46 @@
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: none;
+  border-radius: var(--radius-sm);
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+
+.btn--sm { padding: 6px 14px; font-size: 0.8rem; }
+.btn--md { padding: 10px 20px; font-size: 0.875rem; }
+.btn--lg { padding: 14px 28px; font-size: 1rem; }
+
+.btn--primary {
+  background: var(--teal-profundo);
+  color: white;
+}
+.btn--primary:hover { background: var(--teal-medio); }
+
+.btn--secondary {
+  background: transparent;
+  border: 1px solid var(--teal-profundo);
+  color: var(--teal-profundo);
+}
+.btn--secondary:hover { background: var(--teal-profundo); color: white; }
+
+.btn--ghost {
+  background: transparent;
+  color: var(--teal-profundo);
+}
+.btn--ghost:hover { background: rgba(12, 71, 71, 0.06); }
+
+.btn--terracotta {
+  background: var(--terracotta);
+  color: white;
+}
+.btn--terracotta:hover { opacity: 0.9; }
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

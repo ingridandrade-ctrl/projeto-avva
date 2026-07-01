@@ -1,0 +1,32 @@
+.filter-bar {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 20px;
+  background: white;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  margin-bottom: 24px;
+}
+
+.filter-bar__group {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.filter-bar__label {
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--umber);
+  opacity: 0.6;
+  min-width: 70px;
+  flex-shrink: 0;
+}
+
+.filter-bar__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}

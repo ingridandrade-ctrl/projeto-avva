@@ -1,0 +1,88 @@
+.login-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: linear-gradient(135deg, var(--teal-profundo) 0%, var(--teal-medio) 100%);
+}
+
+.login-card {
+  background: var(--off-white);
+  border-radius: var(--radius-lg);
+  padding: 48px 40px;
+  width: 100%;
+  max-width: 420px;
+  box-shadow: var(--shadow-lg);
+}
+
+.login-card__header {
+  text-align: center;
+  margin-bottom: 36px;
+}
+
+.login-card__header h1 {
+  font-family: var(--font-titulo);
+  font-size: 1.8rem;
+  color: var(--teal-profundo);
+  margin-bottom: 4px;
+}
+
+.login-card__header p {
+  font-size: 0.85rem;
+  color: var(--terracotta);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.login-form__field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.login-form__field label {
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--umber);
+}
+
+.login-form__field input {
+  padding: 12px 16px;
+  border: 1px solid rgba(76, 54, 45, 0.15);
+  border-radius: var(--radius-sm);
+  font-size: 0.9rem;
+  color: var(--umber);
+  background: white;
+  transition: border-color 0.15s;
+}
+
+.login-form__field input:focus {
+  outline: none;
+  border-color: var(--teal-medio);
+}
+
+.login-form__error {
+  font-size: 0.8rem;
+  color: #c0392b;
+  background: rgba(192, 57, 43, 0.06);
+  padding: 10px 14px;
+  border-radius: var(--radius-sm);
+}
+
+.login-form .btn {
+  width: 100%;
+  margin-top: 4px;
+}
+
+@media (max-width: 480px) {
+  .login-card {
+    padding: 36px 24px;
+  }
+}
