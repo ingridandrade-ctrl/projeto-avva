@@ -31,8 +31,8 @@ export default function LoginPage() {
       <div className="login-card">
         <div className="login-card__header">
           <span className="login-card__brand-mark" aria-hidden="true" />
-          <h1>Acervo de Criativos</h1>
-          <p>Pronta pro Digital</p>
+          <h1>Método AVVA</h1>
+          <p>Área de Membros</p>
         </div>
 
         <form className="login-form" onSubmit={handleSubmit}>

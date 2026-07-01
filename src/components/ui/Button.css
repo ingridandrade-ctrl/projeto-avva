@@ -21,44 +21,44 @@
 /* ── Hover lift & active press (all variants) ── */
 .btn:hover:not(:disabled) {
   transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(12, 71, 71, 0.18);
+  box-shadow: 0 4px 12px rgba(76, 54, 45, 0.16);
 }
 
 .btn:active:not(:disabled) {
   transform: translateY(1px);
-  box-shadow: 0 1px 4px rgba(12, 71, 71, 0.12);
+  box-shadow: 0 1px 4px rgba(76, 54, 45, 0.1);
 }
 
-/* ── Primary (subtle gradient) ── */
+/* ── Primary (warm gradient) ── */
 .btn--primary {
-  background: linear-gradient(135deg, var(--teal-profundo) 0%, var(--teal-medio) 100%);
+  background: linear-gradient(135deg, var(--terracotta) 0%, #c06a3d 100%);
   color: white;
 }
 
 .btn--primary:hover:not(:disabled) {
-  background: linear-gradient(135deg, var(--teal-medio) 0%, var(--teal-profundo) 100%);
+  background: linear-gradient(135deg, #c06a3d 0%, var(--terracotta) 100%);
 }
 
 /* ── Secondary ── */
 .btn--secondary {
   background: transparent;
-  border: 1px solid var(--teal-profundo);
-  color: var(--teal-profundo);
+  border: 1px solid var(--umber);
+  color: var(--umber);
 }
 
 .btn--secondary:hover:not(:disabled) {
-  background: var(--teal-profundo);
+  background: var(--umber);
   color: white;
 }
 
 /* ── Ghost ── */
 .btn--ghost {
   background: transparent;
-  color: var(--teal-profundo);
+  color: var(--umber);
 }
 
 .btn--ghost:hover:not(:disabled) {
-  background: rgba(12, 71, 71, 0.06);
+  background: rgba(76, 54, 45, 0.06);
 }
 
 /* ── Terracotta ── */
@@ -69,6 +69,16 @@
 
 .btn--terracotta:hover:not(:disabled) {
   background: linear-gradient(135deg, #c06a3d 0%, var(--terracotta) 100%);
+}
+
+/* ── Teal (accent variant) ── */
+.btn--teal {
+  background: linear-gradient(135deg, var(--teal-profundo) 0%, var(--teal-medio) 100%);
+  color: white;
+}
+
+.btn--teal:hover:not(:disabled) {
+  background: linear-gradient(135deg, var(--teal-medio) 0%, var(--teal-profundo) 100%);
 }
 
 /* ── Disabled ── */

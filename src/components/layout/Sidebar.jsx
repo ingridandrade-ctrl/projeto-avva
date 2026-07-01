@@ -23,8 +23,8 @@ export default function Sidebar({ open, onClose }) {
       {open && <div className="sidebar-overlay" onClick={onClose} />}
       <aside className={`sidebar ${open ? 'sidebar--open' : ''}`}>
         <div className="sidebar__brand">
-          <h2>Acervo de Criativos</h2>
-          <span className="sidebar__subtitle">Pronta pro Digital</span>
+          <h2>Método AVVA</h2>
+          <span className="sidebar__subtitle">Área de Membros</span>
           <span className="sidebar__brand-line" />
         </div>
 

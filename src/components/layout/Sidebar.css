@@ -7,9 +7,9 @@
   background:
     linear-gradient(
       175deg,
-      #0e5050 0%,
-      var(--teal-profundo) 40%,
-      #0a3c3c 100%
+      #3A2A22 0%,
+      #2C1F1A 40%,
+      #1E1410 100%
     );
   color: var(--off-white);
   display: flex;
@@ -18,14 +18,14 @@
   transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* subtle noise texture overlay */
+/* subtle warm glow overlay */
 .sidebar::before {
   content: '';
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(ellipse at 20% 0%, rgba(26, 104, 104, 0.3) 0%, transparent 60%),
-    radial-gradient(ellipse at 80% 100%, rgba(212, 185, 154, 0.05) 0%, transparent 50%);
+    radial-gradient(ellipse at 20% 0%, rgba(168, 92, 53, 0.12) 0%, transparent 60%),
+    radial-gradient(ellipse at 80% 100%, rgba(212, 185, 154, 0.06) 0%, transparent 50%);
   pointer-events: none;
   z-index: 0;
 }
@@ -39,7 +39,7 @@
 
 .sidebar__brand {
   padding: 28px 24px 22px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  border-bottom: 1px solid rgba(212, 185, 154, 0.1);
 }
 
 .sidebar__brand h2 {
@@ -64,9 +64,9 @@
   display: block;
   width: 32px;
   height: 1px;
-  background: linear-gradient(90deg, var(--amendoado), transparent);
+  background: linear-gradient(90deg, var(--terracotta), transparent);
   margin-top: 12px;
-  opacity: 0.5;
+  opacity: 0.6;
 }
 
 /* ── Navigation ── */
@@ -88,7 +88,7 @@
   border-radius: var(--radius-sm);
   font-size: 0.88rem;
   font-weight: 400;
-  color: rgba(255, 255, 255, 0.65);
+  color: rgba(247, 244, 240, 0.6);
   transition:
     color 0.25s ease,
     background 0.25s ease,
@@ -99,8 +99,8 @@
 }
 
 .sidebar__link:hover {
-  background: rgba(255, 255, 255, 0.07);
-  color: var(--off-white);
+  background: rgba(168, 92, 53, 0.12);
+  color: var(--amendoado);
   padding-left: 18px;
 }
 
@@ -109,16 +109,16 @@
 }
 
 .sidebar__link--active {
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(168, 92, 53, 0.15);
   color: var(--amendoado);
   font-weight: 500;
-  border-left-color: var(--amendoado);
+  border-left-color: var(--terracotta);
   padding-left: 18px;
 }
 
 .sidebar__link--bump {
   margin-top: 8px;
-  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  border-top: 1px solid rgba(212, 185, 154, 0.08);
   padding-top: 18px;
 }
 
@@ -134,16 +134,16 @@
 }
 
 .sidebar__status-dot--not-started {
-  background: rgba(255, 255, 255, 0.25);
+  background: rgba(212, 185, 154, 0.25);
 }
 
 .sidebar__status-dot--in-progress {
-  background: var(--amendoado);
+  background: var(--terracotta);
   opacity: 0.7;
 }
 
 .sidebar__status-dot--complete {
-  background: #5cb87a;
+  background: var(--amendoado);
   opacity: 0.8;
 }
 
@@ -151,7 +151,7 @@
 
 .sidebar__footer {
   padding: 20px 24px 24px;
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  border-top: 1px solid rgba(212, 185, 154, 0.1);
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -159,8 +159,8 @@
 
 .sidebar__signout {
   background: none;
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  color: rgba(255, 255, 255, 0.5);
+  border: 1px solid rgba(212, 185, 154, 0.2);
+  color: rgba(247, 244, 240, 0.5);
   padding: 9px 16px;
   border-radius: var(--radius-sm);
   font-size: 0.78rem;
@@ -174,9 +174,9 @@
 }
 
 .sidebar__signout:hover {
-  border-color: rgba(255, 255, 255, 0.35);
-  color: var(--off-white);
-  background: rgba(255, 255, 255, 0.04);
+  border-color: var(--terracotta);
+  color: var(--amendoado);
+  background: rgba(168, 92, 53, 0.08);
 }
 
 .sidebar__admin-link {
@@ -184,8 +184,8 @@
   text-align: center;
   padding: 9px 16px;
   font-size: 0.78rem;
-  color: var(--amendoado);
-  border: 1px solid rgba(212, 185, 154, 0.25);
+  color: var(--terracotta);
+  border: 1px solid rgba(168, 92, 53, 0.3);
   border-radius: var(--radius-sm);
   letter-spacing: 0.04em;
   transition:
@@ -194,8 +194,8 @@
 }
 
 .sidebar__admin-link:hover {
-  background: rgba(212, 185, 154, 0.1);
-  border-color: rgba(212, 185, 154, 0.4);
+  background: rgba(168, 92, 53, 0.12);
+  border-color: rgba(168, 92, 53, 0.5);
 }
 
 /* ── Overlay ── */
@@ -214,14 +214,14 @@
 
   .sidebar--open {
     transform: translateX(0);
-    box-shadow: 4px 0 24px rgba(0, 0, 0, 0.25);
+    box-shadow: 4px 0 24px rgba(30, 20, 16, 0.4);
   }
 
   .sidebar-overlay {
     display: block;
     position: fixed;
     inset: 0;
-    background: rgba(0, 0, 0, 0.5);
+    background: rgba(30, 20, 16, 0.6);
     z-index: 99;
     animation: fadeIn 0.25s ease-out;
     backdrop-filter: blur(2px);

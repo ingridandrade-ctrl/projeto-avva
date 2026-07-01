@@ -6,12 +6,12 @@
   align-items: center;
   justify-content: center;
   padding: 24px;
-  background: linear-gradient(135deg, var(--teal-profundo) 0%, var(--teal-medio) 100%);
+  background: var(--off-white);
   position: relative;
   overflow: hidden;
 }
 
-/* Decorative background pattern */
+/* Warm decorative gradients */
 .login-page::before,
 .login-page::after {
   content: '';
@@ -21,87 +21,97 @@
 }
 
 .login-page::before {
-  width: 600px;
-  height: 600px;
-  top: -180px;
-  right: -120px;
-  background: radial-gradient(circle, rgba(212, 185, 154, 0.08) 0%, transparent 70%);
+  width: 800px;
+  height: 800px;
+  top: -300px;
+  right: -200px;
+  background: radial-gradient(circle, rgba(212, 185, 154, 0.35) 0%, rgba(168, 92, 53, 0.08) 40%, transparent 70%);
 }
 
 .login-page::after {
-  width: 500px;
-  height: 500px;
-  bottom: -140px;
-  left: -100px;
-  background: radial-gradient(circle, rgba(168, 92, 53, 0.07) 0%, transparent 70%);
+  width: 700px;
+  height: 700px;
+  bottom: -250px;
+  left: -150px;
+  background: radial-gradient(circle, rgba(168, 92, 53, 0.12) 0%, rgba(212, 185, 154, 0.06) 40%, transparent 70%);
 }
 
 /* ── Card ── */
 
-@keyframes card-float {
-  0%, 100% {
-    transform: translateY(0);
+@keyframes card-entrance {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
   }
-  50% {
-    transform: translateY(-7px);
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
 .login-card {
   position: relative;
   z-index: 1;
-  background: var(--off-white);
-  border-radius: var(--radius-lg);
-  padding: 52px 44px 44px;
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(212, 185, 154, 0.25);
+  border-radius: 24px;
+  padding: 60px 48px 48px;
   width: 100%;
-  max-width: 420px;
+  max-width: 440px;
   box-shadow:
-    var(--shadow-lg),
-    0 30px 80px -20px rgba(12, 71, 71, 0.25);
-  animation: card-float 6s ease-in-out infinite;
+    0 4px 24px -4px rgba(76, 54, 45, 0.06),
+    0 24px 64px -12px rgba(76, 54, 45, 0.08);
+  animation: card-entrance 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
 /* ── Header & Brand Mark ── */
 
 .login-card__header {
   text-align: center;
-  margin-bottom: 40px;
+  margin-bottom: 48px;
 }
 
 .login-card__brand-mark {
-  display: block;
-  margin: 0 auto 18px;
-  width: 28px;
-  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 20px;
+  width: 52px;
+  height: 52px;
   position: relative;
+  background: linear-gradient(145deg, var(--terracotta), var(--amendoado));
+  border-radius: 16px;
 }
 
 .login-card__brand-mark::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  width: 28px;
-  height: 28px;
-  background: linear-gradient(135deg, var(--terracotta), var(--amendoado));
-  transform: rotate(45deg);
-  border-radius: 4px 4px 4px 14px;
+  content: 'A';
+  font-family: var(--font-titulo);
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: -0.02em;
+  position: relative;
+  top: -1px;
 }
 
 .login-card__header h1 {
   font-family: var(--font-titulo);
-  font-size: 1.9rem;
-  font-weight: 600;
-  color: var(--teal-profundo);
-  margin-bottom: 6px;
-  letter-spacing: -0.01em;
+  font-size: 2.4rem;
+  font-weight: 700;
+  color: var(--umber);
+  margin-bottom: 8px;
+  letter-spacing: -0.025em;
+  line-height: 1.15;
 }
 
 .login-card__header p {
   font-family: var(--font-corpo);
-  font-size: 0.8rem;
+  font-size: 0.82rem;
   font-weight: 500;
   color: var(--terracotta);
-  letter-spacing: 0.12em;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
 }
 
@@ -110,52 +120,53 @@
 .login-form {
   display: flex;
   flex-direction: column;
-  gap: 22px;
+  gap: 24px;
 }
 
 .login-form__field {
   display: flex;
   flex-direction: column;
-  gap: 7px;
+  gap: 0;
 }
 
 .login-form__field label {
   font-family: var(--font-corpo);
-  font-size: 0.78rem;
+  font-size: 0.75rem;
   font-weight: 600;
   color: var(--umber);
   text-transform: uppercase;
-  letter-spacing: 0.04em;
-  transition: color 0.25s ease;
+  letter-spacing: 0.06em;
+  margin-bottom: 10px;
+  transition: color 0.3s ease;
 }
 
 .login-form__field:focus-within label {
-  color: var(--teal-medio);
+  color: var(--terracotta);
 }
 
 .login-form__field input {
-  padding: 13px 16px;
-  border: 1.5px solid rgba(76, 54, 45, 0.12);
-  border-radius: var(--radius-sm);
+  padding: 16px 0;
+  border: none;
+  border-bottom: 1.5px solid rgba(76, 54, 45, 0.15);
+  border-radius: 0;
   font-family: var(--font-corpo);
-  font-size: 0.9rem;
+  font-size: 0.95rem;
   color: var(--umber);
-  background: white;
+  background: transparent;
   transition:
-    border-color 0.25s ease,
-    box-shadow 0.25s ease,
-    background-color 0.25s ease;
+    border-color 0.3s ease,
+    box-shadow 0.3s ease;
 }
 
 .login-form__field input::placeholder {
-  color: rgba(76, 54, 45, 0.35);
+  color: rgba(76, 54, 45, 0.3);
+  font-weight: 300;
 }
 
 .login-form__field input:focus {
   outline: none;
-  border-color: var(--teal-medio);
-  box-shadow: 0 0 0 3px rgba(26, 104, 104, 0.15);
-  background-color: #fff;
+  border-color: var(--terracotta);
+  box-shadow: 0 2px 0 0 var(--terracotta);
 }
 
 /* ── Error message ── */
@@ -164,30 +175,52 @@
   font-family: var(--font-corpo);
   font-size: 0.8rem;
   color: #b93a2b;
-  background: rgba(185, 58, 43, 0.06);
-  padding: 11px 16px;
-  border-radius: var(--radius-sm);
+  background: rgba(185, 58, 43, 0.05);
+  padding: 12px 18px;
+  border-radius: var(--radius-md);
   border-left: 3px solid #b93a2b;
-  line-height: 1.45;
+  line-height: 1.5;
 }
 
 /* ── Submit button ── */
 
 .login-form .btn {
   width: 100%;
-  margin-top: 6px;
+  margin-top: 8px;
   position: relative;
+  background: linear-gradient(135deg, var(--terracotta), #c06a3a);
+  border: none;
+  color: #fff;
+  padding: 16px 24px;
+  border-radius: var(--radius-md);
+  font-family: var(--font-corpo);
+  font-size: 0.9rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+  box-shadow: 0 4px 16px -4px rgba(168, 92, 53, 0.35);
+}
+
+.login-form .btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 24px -4px rgba(168, 92, 53, 0.4);
+}
+
+.login-form .btn:active {
+  transform: translateY(0);
 }
 
 /* Loading spinner override for login context */
 .login-form__btn--loading {
   pointer-events: none;
+  opacity: 0.85;
 }
 
 .login-form__btn--loading::after {
   content: '';
   position: absolute;
-  right: 16px;
+  right: 18px;
   top: 50%;
   width: 16px;
   height: 16px;
@@ -211,25 +244,26 @@
   display: block;
   text-align: center;
   font-family: var(--font-corpo);
-  font-size: 0.78rem;
-  color: var(--teal-medio);
+  font-size: 0.8rem;
+  color: var(--umber);
   cursor: pointer;
   padding: 4px 0;
-  opacity: 0.75;
-  transition: opacity 0.2s ease, color 0.2s ease;
+  opacity: 0.55;
+  transition: opacity 0.25s ease, color 0.25s ease;
   letter-spacing: 0.01em;
 }
 
 .login-form__forgot:hover {
   opacity: 1;
-  color: var(--teal-profundo);
+  color: var(--terracotta);
   text-decoration: underline;
-  text-underline-offset: 3px;
+  text-underline-offset: 4px;
+  text-decoration-thickness: 1px;
 }
 
 .login-form__forgot:focus-visible {
-  outline: 2px solid var(--teal-medio);
-  outline-offset: 3px;
+  outline: 2px solid var(--terracotta);
+  outline-offset: 4px;
   border-radius: 2px;
   opacity: 1;
 }
@@ -238,12 +272,22 @@
 
 @media (max-width: 480px) {
   .login-card {
-    padding: 40px 24px 32px;
-    animation: none; /* disable float on small screens for stability */
+    padding: 48px 28px 36px;
+    border-radius: 20px;
   }
 
   .login-card__header h1 {
-    font-size: 1.6rem;
+    font-size: 2rem;
+  }
+
+  .login-card__brand-mark {
+    width: 44px;
+    height: 44px;
+    border-radius: 13px;
+  }
+
+  .login-card__brand-mark::before {
+    font-size: 1.35rem;
   }
 }
 
@@ -253,7 +297,8 @@
   }
 
   .login-form__field input,
-  .login-form__field label {
+  .login-form__field label,
+  .login-form .btn {
     transition: none;
   }
 }
