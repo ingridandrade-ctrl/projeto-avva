@@ -1,3 +1,4 @@
+/* ── ProgressBar layout ── */
 .progress-bar {
   display: flex;
   align-items: center;
@@ -11,21 +12,59 @@
   min-width: 60px;
 }
 
+/* ── Track ── */
 .progress-bar__track {
   flex: 1;
   height: 6px;
   background: rgba(76, 54, 45, 0.08);
   border-radius: 3px;
   overflow: hidden;
+  position: relative;
+}
+
+/* ── Fill with gradient + mount animation ── */
+@keyframes progressGrow {
+  from {
+    width: 0;
+  }
+  to {
+    width: var(--target-width, 0%);
+  }
 }
 
 .progress-bar__fill {
   height: 100%;
-  background: var(--teal-medio);
   border-radius: 3px;
-  transition: width 0.4s ease;
+  background: linear-gradient(90deg, var(--teal-profundo), var(--teal-medio));
+  animation: progressGrow 0.7s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  position: relative;
 }
 
+/* Shimmer highlight on the fill */
+.progress-bar__fill::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.2) 50%,
+    transparent 100%
+  );
+  border-radius: 3px;
+}
+
+/* ── Complete state glow ── */
+.progress-bar__fill--complete {
+  box-shadow:
+    0 0 8px rgba(26, 104, 104, 0.4),
+    0 0 16px rgba(26, 104, 104, 0.2);
+}
+
+/* ── Percentage text ── */
 .progress-bar__pct {
   font-size: 0.75rem;
   font-weight: 600;
