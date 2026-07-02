@@ -8,6 +8,12 @@
   --amendoado: #D4B99A;
   --off-white: #F7F4F0;
 
+  /* Paleta editorial */
+  --verde-noite: #0B211E;
+  --verde-floresta: #123430;
+  --creme: #F3EDE4;
+
+  --font-display: 'Unbounded', 'Outfit', sans-serif;
   --font-titulo: 'Outfit', system-ui, sans-serif;
   --font-corpo: 'Outfit', system-ui, sans-serif;
   --font-mono: 'Inconsolata', monospace;

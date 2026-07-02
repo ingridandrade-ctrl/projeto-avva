@@ -1,5 +1,6 @@
 .app-layout {
   min-height: 100vh;
+  background: var(--creme);
 }
 
 .app-layout__main {
