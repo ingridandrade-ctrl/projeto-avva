@@ -62,20 +62,21 @@ export default function CollectionPage() {
 
   return (
     <div className="collection-page">
-      {/* Header editorial */}
-      <header className="collection-page__header">
-        <Link to="/produto/acervo-anuncios" className="collection-page__back">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
-          Coleções
-        </Link>
-        <span className="collection-page__number">
-          {collection.isBonus ? 'Bônus' : `Coleção ${String(collection.order).padStart(2, '0')}`}
-        </span>
-        <h1>{collection.title}</h1>
-        <div className="collection-page__rule">
-          <span>{collection.subtitle}</span>
+      {/* Header */}
+      <div className="collection-page__header" style={{ background: collection.gradient }}>
+        <div className="collection-page__header-orb" />
+        <div className="collection-page__header-content">
+          <Link to="/produto/acervo-anuncios" className="collection-page__back">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+            Coleções
+          </Link>
+          <span className="collection-page__number">
+            {collection.isBonus ? 'Bônus' : `Coleção ${String(collection.order).padStart(2, '0')}`}
+          </span>
+          <h1>{collection.title}</h1>
+          <p>{collection.subtitle}</p>
         </div>
-      </header>
+      </div>
 
       {/* Aviso fixo do bônus */}
       {collection.isBonus && (

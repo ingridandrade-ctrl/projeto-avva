@@ -2,17 +2,31 @@
    Collection Page — anúncios por objetivo
    ═══════════════════════════════════════════════ */
 
-/* ── Header editorial ── */
-
-@keyframes col-rise {
-  from { opacity: 0; transform: translateY(24px); }
-  to { opacity: 1; transform: translateY(0); }
-}
+/* ── Header ── */
 
 .collection-page__header {
-  padding: 12px 0 32px;
-  margin-bottom: 24px;
-  animation: col-rise 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+  position: relative;
+  border-radius: 24px;
+  padding: 36px 32px 40px;
+  margin-bottom: 32px;
+  overflow: hidden;
+}
+
+.collection-page__header-orb {
+  position: absolute;
+  width: 260px;
+  height: 260px;
+  top: -30%;
+  right: -8%;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  filter: blur(50px);
+  pointer-events: none;
+}
+
+.collection-page__header-content {
+  position: relative;
+  z-index: 1;
 }
 
 .collection-page__back {
@@ -20,48 +34,43 @@
   align-items: center;
   gap: 6px;
   font-family: var(--font-corpo);
-  font-size: 0.72rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.18em;
-  color: rgba(11, 33, 30, 0.5);
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.6);
   text-decoration: none;
-  margin-bottom: 24px;
+  margin-bottom: 18px;
   transition: color 0.2s ease;
 }
 
 .collection-page__back:hover {
-  color: var(--terracotta);
+  color: #fff;
 }
 
 .collection-page__number {
   display: block;
   font-family: var(--font-corpo);
-  font-size: 0.72rem;
-  font-weight: 600;
+  font-size: 0.7rem;
+  font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.28em;
-  color: var(--terracotta);
-  margin-bottom: 12px;
+  letter-spacing: 0.12em;
+  color: rgba(255, 255, 255, 0.5);
+  margin-bottom: 8px;
 }
 
 .collection-page__header h1 {
-  font-family: var(--font-display);
-  font-size: clamp(1.9rem, 5vw, 3.2rem);
+  font-family: var(--font-corpo);
+  font-size: 1.9rem;
   font-weight: 700;
-  line-height: 1;
-  text-transform: uppercase;
-  color: var(--verde-noite);
-  margin-bottom: 20px;
+  color: #fff;
+  letter-spacing: -0.03em;
+  margin-bottom: 6px;
 }
 
-.collection-page__rule {
-  border-top: 1px solid rgba(11, 33, 30, 0.2);
-  padding-top: 12px;
+.collection-page__header p {
   font-family: var(--font-corpo);
-  font-size: 0.85rem;
+  font-size: 0.92rem;
   font-weight: 300;
-  color: rgba(11, 33, 30, 0.55);
+  color: rgba(255, 255, 255, 0.65);
 }
 
 /* ── Aviso (bônus) ── */

@@ -9,64 +9,102 @@ export default function MemberDashboard() {
   const products = [
     {
       id: 'acervo-anuncios',
-      number: '01',
       title: 'Acervo de Anúncios',
       description: 'Sua biblioteca de anúncios que funcionam, organizados por objetivo — do primeiro contato até a venda.',
-      meta: '6 coleções',
+      icon: (
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+          <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
+          <line x1="8" y1="21" x2="16" y2="21"/>
+          <line x1="12" y1="17" x2="12" y2="21"/>
+        </svg>
+      ),
       link: '/produto/acervo-anuncios',
+      tag: 'Disponível',
+      gradient: 'linear-gradient(135deg, #0C4747 0%, #1A6868 50%, #A85C35 100%)',
     },
     {
       id: 'kit-execucao',
-      number: '02',
       title: 'Kit de Execução',
       description: 'Ganchos, estruturas narrativas e prompts de IA prontos para você usar nos seus criativos.',
-      meta: profile?.has_order_bump ? 'Disponível' : 'Upgrade',
+      icon: (
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M12 20h9"/>
+          <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4 12.5-12.5z"/>
+        </svg>
+      ),
       link: '/produto/kit-execucao',
+      tag: profile?.has_order_bump ? 'Disponível' : 'Premium',
+      gradient: 'linear-gradient(135deg, #4C362D 0%, #A85C35 50%, #1A6868 100%)',
       locked: !profile?.has_order_bump,
     },
   ]
 
   return (
     <div className="member-dashboard">
-      {/* Cabeçalho editorial */}
-      <header className="dash-hero">
-        <span className="dash-hero__eyebrow">Olá, {firstName} ✦</span>
-        <h1 className="dash-hero__title">
-          Sua área<br />de <em>membros</em>
-        </h1>
-        <div className="dash-hero__rule">
-          <span>Método AVVA</span>
-          <span>{new Date().getFullYear()}</span>
+      {/* Banner */}
+      <div className="dashboard-banner">
+        <div className="dashboard-banner__bg">
+          <div className="dashboard-banner__orb dashboard-banner__orb--1" />
+          <div className="dashboard-banner__orb dashboard-banner__orb--2" />
         </div>
-      </header>
+        <div className="dashboard-banner__content">
+          <p className="dashboard-banner__greeting">Olá, {firstName} ✦</p>
+          <h1 className="dashboard-banner__title">
+            Bem-vinda à sua<br />
+            <span className="dashboard-banner__title-accent">área de membros</span>
+          </h1>
+          <p className="dashboard-banner__subtitle">Escolha um produto para começar</p>
+          <div className="dashboard-banner__actions">
+            <Link to="/produto/acervo-anuncios" className="dashboard-banner__cta">
+              Ir para o Acervo de Anúncios
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </Link>
+            <span className="dashboard-banner__pill">6 coleções</span>
+            <span className="dashboard-banner__pill">Novos anúncios toda semana</span>
+          </div>
+        </div>
+      </div>
 
-      {/* Produtos em linhas editoriais */}
-      <section className="dash-products">
-        <span className="dash-products__label">Seus produtos</span>
-
-        {products.map(product => (
-          <Link
-            key={product.id}
-            to={product.locked ? '#' : product.link}
-            className={`dash-row ${product.locked ? 'dash-row--locked' : ''}`}
-            onClick={e => product.locked && e.preventDefault()}
-          >
-            <span className="dash-row__number">{product.number}</span>
-            <div className="dash-row__info">
-              <h2 className="dash-row__title">{product.title}</h2>
-              <p className="dash-row__desc">{product.description}</p>
-            </div>
-            <span className="dash-row__meta">
-              {product.locked && (
-                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-              )}
-              {product.meta}
-            </span>
-            <span className="dash-row__arrow" aria-hidden="true">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
-            </span>
-          </Link>
-        ))}
+      {/* Product Cards */}
+      <section className="dashboard-products">
+        <h2 className="dashboard-products__title">Seus produtos</h2>
+        <div className="dashboard-products__grid">
+          {products.map((product, index) => (
+            <Link
+              key={product.id}
+              to={product.locked ? '#' : product.link}
+              className={`product-card ${product.locked ? 'product-card--locked' : ''}`}
+              style={{ animationDelay: `${index * 0.12}s` }}
+              onClick={e => product.locked && e.preventDefault()}
+            >
+              <div className="product-card__visual" style={{ '--card-gradient': product.gradient }}>
+                <div className="product-card__icon">
+                  {product.icon}
+                </div>
+                <span className={`product-card__tag ${product.locked ? 'product-card__tag--premium' : ''}`}>
+                  {product.tag}
+                </span>
+              </div>
+              <div className="product-card__info">
+                <h3 className="product-card__name">{product.title}</h3>
+                <p className="product-card__desc">{product.description}</p>
+                <div className="product-card__action">
+                  {product.locked ? (
+                    <span className="product-card__lock">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                      Faça upgrade para acessar
+                    </span>
+                  ) : (
+                    <span className="product-card__enter">
+                      Acessar
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                    </span>
+                  )}
+                </div>
+              </div>
+            </Link>
+          ))}
+        </div>
       </section>
     </div>
   )
