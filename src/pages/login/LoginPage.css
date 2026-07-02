@@ -19,7 +19,7 @@
 .login-page__bg {
   position: absolute;
   inset: 0;
-  background: linear-gradient(155deg, #0C4747 0%, #1A6868 25%, #2C6B5A 45%, #A85C35 75%, #7A4526 100%);
+  background: linear-gradient(155deg, #1A6868 0%, #3F7A66 28%, #8A5C3F 55%, #B97A4E 78%, #D9B999 100%);
   z-index: 0;
 }
 
@@ -70,7 +70,7 @@
   height: 350px;
   top: 40%;
   left: 45%;
-  background: radial-gradient(circle, rgba(255,255,255,0.06) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(255, 248, 240, 0.14) 0%, transparent 70%);
   animation: orb-drift-3 18s ease-in-out infinite;
 }
 
@@ -105,16 +105,16 @@
   width: 100%;
   max-width: 420px;
   padding: 52px 40px 44px;
-  background: rgba(255, 255, 255, 0.13);
-  backdrop-filter: blur(40px) saturate(1.3);
-  -webkit-backdrop-filter: blur(40px) saturate(1.3);
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  border-radius: 28px;
+  background: rgba(255, 252, 248, 0.16);
+  backdrop-filter: blur(40px) saturate(1.4);
+  -webkit-backdrop-filter: blur(40px) saturate(1.4);
+  border: 1px solid rgba(255, 250, 244, 0.3);
+  border-radius: 30px;
   text-align: center;
   animation: card-rise 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.15s both;
   box-shadow:
-    0 8px 32px rgba(0, 0, 0, 0.15),
-    0 0 0 1px rgba(255, 255, 255, 0.05) inset;
+    0 8px 40px rgba(76, 54, 45, 0.18),
+    0 0 0 1px rgba(255, 255, 255, 0.08) inset;
 }
 
 /* Highlight de topo — reflexo de vidro */

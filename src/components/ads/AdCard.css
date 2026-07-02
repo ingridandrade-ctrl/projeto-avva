@@ -1,12 +1,14 @@
 /* ── Card container ── */
 .ad-card {
   position: relative;
-  background: var(--off-white);
+  background: #fff;
+  border: 1px solid rgba(212, 185, 154, 0.3);
   border-radius: var(--radius-lg);
   overflow: hidden;
   box-shadow: var(--shadow-sm);
   transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94),
-              box-shadow 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+              box-shadow 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+              border-color 0.3s ease;
 }
 
 /* Premium top border gradient */
@@ -29,7 +31,8 @@
 
 .ad-card:hover {
   transform: scale(1.02);
-  box-shadow: var(--shadow-lg);
+  border-color: rgba(212, 185, 154, 0.55);
+  box-shadow: 0 10px 32px rgba(168, 92, 53, 0.12);
 }
 
 /* ── Embed wrapper with format badge ── */

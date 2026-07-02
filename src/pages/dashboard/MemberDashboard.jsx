@@ -20,7 +20,7 @@ export default function MemberDashboard() {
       ),
       link: '/produto/acervo-anuncios',
       tag: 'Disponível',
-      gradient: 'linear-gradient(135deg, #0C4747 0%, #1A6868 50%, #A85C35 100%)',
+      gradient: 'linear-gradient(135deg, #1A6868 0%, #3F7A66 40%, #C98A5E 100%)',
     },
     {
       id: 'kit-execucao',
@@ -34,7 +34,7 @@ export default function MemberDashboard() {
       ),
       link: '/produto/kit-execucao',
       tag: profile?.has_order_bump ? 'Disponível' : 'Premium',
-      gradient: 'linear-gradient(135deg, #4C362D 0%, #A85C35 50%, #1A6868 100%)',
+      gradient: 'linear-gradient(135deg, #A85C35 0%, #C98A5E 55%, #D4B99A 100%)',
       locked: !profile?.has_order_bump,
     },
   ]

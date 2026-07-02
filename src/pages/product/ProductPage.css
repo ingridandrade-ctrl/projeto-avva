@@ -79,12 +79,23 @@
 /* ── Modules Section ── */
 
 .product-page__modules h2 {
+  display: flex;
+  align-items: center;
+  gap: 14px;
   font-family: var(--font-corpo);
-  font-size: 1.15rem;
+  font-size: 0.78rem;
   font-weight: 600;
-  color: var(--umber);
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: rgba(76, 54, 45, 0.55);
   margin-bottom: 24px;
-  letter-spacing: -0.01em;
+}
+
+.product-page__modules h2::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, rgba(212, 185, 154, 0.6), transparent);
 }
 
 /* ── Module Cards Grid ── */
@@ -106,21 +117,23 @@
   display: flex;
   flex-direction: column;
   background: #fff;
-  border-radius: 20px;
+  border: 1px solid rgba(212, 185, 154, 0.35);
+  border-radius: 22px;
   overflow: hidden;
   text-decoration: none;
   color: inherit;
   box-shadow:
-    0 1px 3px rgba(76, 54, 45, 0.06),
-    0 4px 16px rgba(76, 54, 45, 0.04);
-  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease;
+    0 1px 3px rgba(76, 54, 45, 0.05),
+    0 6px 20px rgba(76, 54, 45, 0.05);
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease, border-color 0.3s ease;
   animation: card-slide-up 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
 .module-card:hover {
   transform: translateY(-5px);
+  border-color: rgba(212, 185, 154, 0.6);
   box-shadow:
-    0 12px 36px rgba(76, 54, 45, 0.1),
+    0 14px 40px rgba(168, 92, 53, 0.12),
     0 4px 12px rgba(76, 54, 45, 0.06);
 }
 
