@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Inconsolata:wght@400;500;600;700&display=swap');
+/* Fontes carregadas via <link> no index.html (evita @import render-blocking) */
 
 :root {
   --teal-profundo: #0C4747;
