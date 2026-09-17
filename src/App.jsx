@@ -50,7 +50,7 @@ export default function App() {
             <Route path="/aplicacao/flora" element={<FormFlora />} />
             <Route path="/aplicacao/ingrid" element={<FormIngrid />} />
             <Route path="/aplicacao/confirmacao" element={<Confirmacao />} />
-            <Route path="/aplicacao/dashboard" element={<Dashboard />} />
+            <Route path="/aplicacao/dashboard" element={<AdminRoute><Dashboard /></AdminRoute>} />
 
             {/* Área de membros — Método AVVA */}
             <Route path="/login" element={<LoginPage />} />

@@ -37,13 +37,13 @@ create policy "Permitir inserção pública"
 create policy "Permitir leitura"
   on aplicacoes for select
   to authenticated
-  using (true);
+  using (exists (select 1 from users where id = auth.uid() and is_admin = true));
 
 create policy "Permitir atualização"
   on aplicacoes for update
   to authenticated
-  using (true)
-  with check (true);
+  using (exists (select 1 from users where id = auth.uid() and is_admin = true))
+  with check (exists (select 1 from users where id = auth.uid() and is_admin = true));
 
 create index idx_aplicacoes_origem on aplicacoes (origem);
 create index idx_aplicacoes_status on aplicacoes (status);

@@ -1,17 +1,18 @@
 import { useState } from 'react'
-import { Navigate } from 'react-router-dom'
+import { Navigate, useLocation } from 'react-router-dom'
 import { useAuth } from '../../hooks/useAuth'
 import './LoginPage.css'
 
 export default function LoginPage() {
   const { session, signIn, loading } = useAuth()
+  const location = useLocation()
   const [email, setEmail] = useState('')
   const [error, setError] = useState('')
   const [submitting, setSubmitting] = useState(false)
   const [focused, setFocused] = useState(false)
 
   if (loading) return null
-  if (session) return <Navigate to="/dashboard" replace />
+  if (session) return <Navigate to={location.state?.from || '/dashboard'} replace />
 
   async function handleSubmit(e) {
     e.preventDefault()
