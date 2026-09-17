@@ -5,11 +5,16 @@ import CardOpcao from './CardOpcao'
 import CampoTexto from './CampoTexto'
 import './FormularioAvva.css'
 
+const STORAGE_KEY = 'avva_form_draft'
+
+const validarEmail = (v) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)
+const validarWhatsApp = (v) => { const d = v.replace(/\D/g, ''); return d.length >= 8 && d.length <= 15 }
+
 const PERGUNTAS = [
-  { key: 'nome', titulo: 'Qual é o seu nome?', tipo: 'texto' },
-  { key: 'whatsapp', titulo: 'Qual o seu melhor WhatsApp?', subtitulo: 'Prometo não te encher de mensagem 😂', tipo: 'texto' },
-  { key: 'email', titulo: 'Qual o seu melhor e-mail?', tipo: 'texto' },
-  { key: 'instagram', titulo: 'Qual o seu @ do Instagram?', tipo: 'texto', placeholder: '@seuuser' },
+  { key: 'nome', titulo: 'Qual é o seu nome?', tipo: 'texto', maxLength: 200 },
+  { key: 'whatsapp', titulo: 'Qual o seu melhor WhatsApp?', subtitulo: 'Prometo não te encher de mensagem 😂', tipo: 'texto', inputType: 'tel', placeholder: '(11) 99999-9999', validar: validarWhatsApp, erroValidacao: 'Digite um número de WhatsApp válido' },
+  { key: 'email', titulo: 'Qual o seu melhor e-mail?', tipo: 'texto', inputType: 'email', placeholder: 'voce@email.com', validar: validarEmail, erroValidacao: 'Digite um e-mail válido' },
+  { key: 'instagram', titulo: 'Qual o seu @ do Instagram?', tipo: 'texto', placeholder: '@seuuser', maxLength: 100 },
   { key: 'nicho', titulo: 'Qual é o seu nicho ou área de atuação?', tipo: 'texto' },
   { key: 'tempo_atuacao', titulo: 'Há quanto tempo você atua na sua área?', tipo: 'texto' },
   {
@@ -61,22 +66,36 @@ const PERGUNTAS = [
 ]
 
 export default function FormularioAvva({ origem }) {
-  const [step, setStep] = useState(0)
+  const [step, setStep] = useState(() => {
+    try { return parseInt(sessionStorage.getItem(`${STORAGE_KEY}_step`)) || 0 } catch { return 0 }
+  })
   const [form, setForm] = useState(() => {
     const init = {}
     PERGUNTAS.forEach(p => { init[p.key] = '' })
+    try {
+      const saved = JSON.parse(localStorage.getItem(STORAGE_KEY))
+      if (saved) return { ...init, ...saved }
+    } catch {}
     return init
   })
   const [animClass, setAnimClass] = useState('visible')
   const [erro, setErro] = useState(false)
+  const [erroMsg, setErroMsg] = useState('')
   const [sending, setSending] = useState(false)
   const inputRef = useRef(null)
   const navigate = useNavigate()
 
   const set = (key, value) => {
-    setForm(prev => ({ ...prev, [key]: value }))
+    setForm(prev => {
+      const next = { ...prev, [key]: value }
+      try { localStorage.setItem(STORAGE_KEY, JSON.stringify(next)) } catch {}
+      return next
+    })
     setErro(false)
+    setErroMsg('')
   }
+
+  useEffect(() => { document.title = 'Mentoria Avva — Aplicação' }, [])
 
   useEffect(() => {
     if (step >= 2 && inputRef.current) {
@@ -90,6 +109,7 @@ export default function FormularioAvva({ origem }) {
     setAnimClass('exit')
     setTimeout(() => {
       setStep(nextStep)
+      try { sessionStorage.setItem(`${STORAGE_KEY}_step`, nextStep) } catch {}
       setAnimClass('enter')
       setTimeout(() => setAnimClass('visible'), 50)
     }, 400)
@@ -100,8 +120,12 @@ export default function FormularioAvva({ origem }) {
   const isLast = pi === PERGUNTAS.length - 1
 
   const handleNext = () => {
+    if (sending) return
     if (step < 2) { transition(step + 1); return }
-    if (!form[p.key].trim()) { setErro(true); return }
+    const val = form[p.key].trim()
+    if (!val) { setErro(true); setErroMsg('Preencha este campo para continuar'); return }
+    if (p.maxLength && val.length > p.maxLength) { setErro(true); setErroMsg(`Máximo de ${p.maxLength} caracteres`); return }
+    if (p.validar && !p.validar(val)) { setErro(true); setErroMsg(p.erroValidacao); return }
     if (isLast) { handleSubmit(); return }
     transition(step + 1)
   }
@@ -119,7 +143,8 @@ export default function FormularioAvva({ origem }) {
     setSending(true)
     const { error } = await supabase.from('aplicacoes').insert({ ...form, origem, status: 'nova' })
     if (error) { alert('Erro ao enviar. Tente novamente.'); setSending(false); return }
-    navigate('/confirmacao')
+    try { localStorage.removeItem(STORAGE_KEY); sessionStorage.removeItem(`${STORAGE_KEY}_step`) } catch {}
+    navigate('/aplicacao/confirmacao')
   }
 
   const progress = step < 2 ? 0 : ((pi + 1) / PERGUNTAS.length) * 100
@@ -201,12 +226,15 @@ export default function FormularioAvva({ origem }) {
 
               <div className="fp-avisos__list">
                 <div className="fp-aviso-card">
+                  <span className="fp-aviso-card__num">01</span>
                   <p>Responder o formulário não garante vaga ou chamada. Cada aplicação é lida com atenção para entender se consigo te ajudar de verdade.</p>
                 </div>
                 <div className="fp-aviso-card">
+                  <span className="fp-aviso-card__num">02</span>
                   <p>Se fizer sentido pros dois lados, a gente marca uma conversa.</p>
                 </div>
                 <div className="fp-aviso-card">
+                  <span className="fp-aviso-card__num">03</span>
                   <p>Seja honesta. Quanto mais real for o que você escrever, mais útil eu consigo ser desde o primeiro momento.</p>
                 </div>
               </div>
@@ -223,12 +251,12 @@ export default function FormularioAvva({ origem }) {
         {step >= 2 && p && (
           <div className="fp-question">
             <div className="fp-question__content">
-              <h2 className="fp-question__title">{p.titulo}</h2>
+              <h2 className="fp-question__title" id="fp-question-title">{p.titulo}</h2>
               {p.subtitulo && <p className="fp-question__sub">{p.subtitulo}</p>}
 
               <div className="fp-question__input" ref={inputRef}>
                 {p.tipo === 'texto' && (
-                  <CampoTexto value={form[p.key]} onChange={v => set(p.key, v)} placeholder={p.placeholder} />
+                  <CampoTexto value={form[p.key]} onChange={v => set(p.key, v)} placeholder={p.placeholder} type={p.inputType} maxLength={p.maxLength} />
                 )}
                 {p.tipo === 'textarea' && (
                   <CampoTexto value={form[p.key]} onChange={v => set(p.key, v)} multiline />
@@ -242,7 +270,7 @@ export default function FormularioAvva({ origem }) {
                 )}
               </div>
 
-              {erro && <p className="fp-erro">Preencha este campo para continuar</p>}
+              {erro && <p className="fp-erro">{erroMsg}</p>}
 
               <div className="fp-question__footer">
                 <button className="fp-btn" onClick={handleNext} disabled={sending} type="button">

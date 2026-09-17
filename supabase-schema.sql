@@ -36,12 +36,12 @@ create policy "Permitir inserção pública"
 
 create policy "Permitir leitura"
   on aplicacoes for select
-  to anon
+  to authenticated
   using (true);
 
 create policy "Permitir atualização"
   on aplicacoes for update
-  to anon
+  to authenticated
   using (true)
   with check (true);
 

@@ -1,11 +1,16 @@
+import { useEffect } from 'react'
 import './Confirmacao.css'
 
 export default function Confirmacao() {
+  useEffect(() => { document.title = 'Mentoria Avva — Aplicação' }, [])
+
   return (
     <div className="conf">
       <div className="conf__glow" />
       <div className="conf__inner">
-        <span className="conf__symbol">✦</span>
+        <span className="conf__symbol" aria-hidden="true">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+        </span>
         <h1 className="conf__title">
           Você deu um passo<br />importante.
         </h1>
