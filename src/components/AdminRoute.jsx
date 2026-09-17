@@ -1,7 +1,7 @@
 import { Navigate, useLocation } from 'react-router-dom'
 import { useAuth } from '../hooks/useAuth'
 
-export default function AdminRoute({ children }) {
+export default function AdminRoute({ children, loginPath = '/login' }) {
   const { session, profile, loading } = useAuth()
   const location = useLocation()
 
@@ -21,7 +21,7 @@ export default function AdminRoute({ children }) {
     )
   }
 
-  if (!session) return <Navigate to="/login" replace state={{ from: location.pathname }} />
+  if (!session) return <Navigate to={loginPath} replace state={{ from: location.pathname }} />
   if (!profile?.is_admin) return <Navigate to="/dashboard" replace />
   return children
 }
