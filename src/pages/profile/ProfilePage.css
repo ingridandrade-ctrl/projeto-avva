@@ -1,0 +1,128 @@
+.profile-page {
+  max-width: 560px;
+}
+
+.profile-page__header {
+  margin-bottom: 40px;
+}
+
+.profile-page__avatar {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #0C4747, #1A6868, #A85C35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 20px rgba(12, 71, 71, 0.2);
+}
+
+.profile-page__avatar span {
+  font-family: var(--font-corpo);
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #fff;
+}
+
+.profile-page__header h1 {
+  font-family: var(--font-corpo);
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--umber);
+  letter-spacing: -0.03em;
+  margin-bottom: 6px;
+}
+
+.profile-page__header p {
+  font-family: var(--font-corpo);
+  font-size: 0.92rem;
+  color: rgba(76, 54, 45, 0.5);
+}
+
+/* ── Form ── */
+
+.profile-form {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.profile-form__field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.profile-form__field label {
+  font-family: var(--font-corpo);
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--umber);
+  letter-spacing: 0.02em;
+}
+
+.profile-form__field input {
+  padding: 14px 16px;
+  border: 1.5px solid rgba(76, 54, 45, 0.12);
+  border-radius: 14px;
+  font-family: var(--font-corpo);
+  font-size: 0.92rem;
+  color: var(--umber);
+  background: #fff;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.profile-form__field input:focus {
+  outline: none;
+  border-color: var(--teal-medio);
+  box-shadow: 0 0 0 4px rgba(26, 104, 104, 0.08);
+}
+
+.profile-form__field input:disabled {
+  background: rgba(76, 54, 45, 0.04);
+  color: rgba(76, 54, 45, 0.4);
+  cursor: not-allowed;
+}
+
+.profile-form__hint {
+  font-family: var(--font-corpo);
+  font-size: 0.72rem;
+  color: rgba(76, 54, 45, 0.35);
+}
+
+.profile-form__actions {
+  margin-top: 8px;
+}
+
+.profile-form__save {
+  padding: 14px 32px;
+  background: linear-gradient(135deg, #0C4747, #1A6868);
+  color: #fff;
+  border: none;
+  border-radius: 14px;
+  font-family: var(--font-corpo);
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.3s ease;
+  box-shadow: 0 4px 16px rgba(12, 71, 71, 0.2);
+}
+
+.profile-form__save:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 28px rgba(12, 71, 71, 0.25);
+}
+
+.profile-form__save:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.profile-form__save--saved {
+  background: linear-gradient(135deg, #2a7a5a, #1A6868);
+}
+
+.profile-form__save:disabled {
+  opacity: 0.7;
+  cursor: wait;
+}

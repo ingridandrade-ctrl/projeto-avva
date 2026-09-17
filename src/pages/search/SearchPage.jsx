@@ -23,7 +23,7 @@ export default function SearchPage() {
       const { data } = await supabase
         .from('ads')
         .select('*')
-        .or(`title.ilike.${term},analysis.ilike.${term},subniche.ilike.${term}`)
+        .or(`title.ilike.${term},analysis.ilike.${term}`)
         .order('created_at', { ascending: false })
         .limit(50)
       setResults(data || [])

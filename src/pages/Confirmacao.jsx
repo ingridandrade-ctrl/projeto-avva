@@ -1,6 +1,9 @@
+import { useEffect } from 'react'
 import './Confirmacao.css'
 
 export default function Confirmacao() {
+  useEffect(() => { document.title = 'Mentoria Avva — Aplicação' }, [])
+
   return (
     <div className="conf">
       <div className="conf__glow" />

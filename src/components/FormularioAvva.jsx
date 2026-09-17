@@ -95,6 +95,8 @@ export default function FormularioAvva({ origem }) {
     setErroMsg('')
   }
 
+  useEffect(() => { document.title = 'Mentoria Avva — Aplicação' }, [])
+
   useEffect(() => {
     if (step >= 2 && inputRef.current) {
       const el = inputRef.current.querySelector('input, textarea')

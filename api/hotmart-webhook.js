@@ -1,5 +1,4 @@
 import { createClient } from '@supabase/supabase-js'
-import crypto from 'node:crypto'
 
 const supabase = createClient(
   process.env.VITE_SUPABASE_URL,
@@ -9,10 +8,6 @@ const supabase = createClient(
 function verifyHottok(req) {
   const hottok = req.headers['x-hotmart-hottok']
   return hottok === process.env.HOTMART_HOTTOK
-}
-
-function generateTempPassword() {
-  return crypto.randomBytes(6).toString('base64url')
 }
 
 export default async function handler(req, res) {
@@ -61,11 +56,9 @@ export default async function handler(req, res) {
       return res.status(200).json({ ok: true, existing: true })
     }
 
-    const tempPassword = generateTempPassword()
-
+    // Sem senha: o acesso é só pelo email de compra (ver api/login.js)
     const { data: authUser, error: authError } = await supabase.auth.admin.createUser({
       email,
-      password: tempPassword,
       email_confirm: true,
     })
 
