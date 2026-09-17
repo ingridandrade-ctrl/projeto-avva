@@ -22,6 +22,7 @@ const SearchPage = lazy(() => import('./pages/search/SearchPage'))
 const FormIngrid = lazy(() => import('./pages/FormIngrid'))
 const Confirmacao = lazy(() => import('./pages/Confirmacao'))
 const Dashboard = lazy(() => import('./pages/Dashboard'))
+const AdminLogin = lazy(() => import('./pages/AdminLogin'))
 
 function PageLoader() {
   return (
@@ -50,7 +51,8 @@ export default function App() {
             <Route path="/aplicacao/flora" element={<FormFlora />} />
             <Route path="/aplicacao/ingrid" element={<FormIngrid />} />
             <Route path="/aplicacao/confirmacao" element={<Confirmacao />} />
-            <Route path="/aplicacao/dashboard" element={<Dashboard />} />
+            <Route path="/aplicacao/login" element={<AdminLogin />} />
+            <Route path="/aplicacao/dashboard" element={<AdminRoute loginPath="/aplicacao/login"><Dashboard /></AdminRoute>} />
 
             {/* Área de membros — Método AVVA */}
             <Route path="/login" element={<LoginPage />} />

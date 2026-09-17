@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react'
 import { supabase } from '../lib/supabase'
+import { useAuth } from '../hooks/useAuth'
+import { FAIXAS_FATURAMENTO } from '../lib/faixas'
 import AplicacaoDetalhe from '../components/AplicacaoDetalhe'
 import './Dashboard.css'
 
@@ -13,9 +15,7 @@ const STATUS_LABELS = {
 }
 
 export default function Dashboard() {
-  const [autenticada, setAutenticada] = useState(false)
-  const [senha, setSenha] = useState('')
-  const [senhaErro, setSenhaErro] = useState(false)
+  const { profile, signOut } = useAuth()
   const [aplicacoes, setAplicacoes] = useState([])
   const [loading, setLoading] = useState(false)
   const [erro, setErro] = useState(null)
@@ -24,22 +24,10 @@ export default function Dashboard() {
   const [filtroStatus, setFiltroStatus] = useState('')
   const [filtroFaturamento, setFiltroFaturamento] = useState('')
 
-  const dashPassword = import.meta.env.VITE_DASHBOARD_PASSWORD || 'avva2024'
-
-  const handleLogin = (e) => {
-    e.preventDefault()
-    if (senha === dashPassword) {
-      setAutenticada(true)
-      setSenhaErro(false)
-    } else {
-      setSenhaErro(true)
-    }
-  }
-
   useEffect(() => {
-    if (!autenticada) return
+    document.title = 'Mentoria Avva — Aplicações'
     fetchAplicacoes()
-  }, [autenticada])
+  }, [])
 
   const fetchAplicacoes = async () => {
     setLoading(true)
@@ -122,26 +110,6 @@ export default function Dashboard() {
   const countByOrigem = (origem) => aplicacoes.filter(a => a.origem === origem).length
   const countByStatus = (status) => aplicacoes.filter(a => a.status === status).length
 
-  if (!autenticada) {
-    return (
-      <div className="dash-login">
-        <form className="dash-login__form" onSubmit={handleLogin}>
-          <h1 className="dash-login__title">Dashboard Avva</h1>
-          <input
-            type="password"
-            className="dash-login__input"
-            placeholder="Senha de acesso"
-            value={senha}
-            onChange={e => setSenha(e.target.value)}
-            autoFocus
-          />
-          {senhaErro && <p className="dash-login__erro">Senha incorreta</p>}
-          <button type="submit" className="dash-login__btn">Entrar</button>
-        </form>
-      </div>
-    )
-  }
-
   if (selecionada) {
     return (
       <AplicacaoDetalhe
@@ -159,7 +127,11 @@ export default function Dashboard() {
     <div className="dashboard">
       <header className="dash-header">
         <h1 className="dash-header__title">Dashboard Avva</h1>
-        <button className="dash-header__export" onClick={exportCSV}>Exportar CSV</button>
+        <div className="dash-header__actions">
+          {profile?.email && <span className="dash-header__user">{profile.email}</span>}
+          <button className="dash-header__export" onClick={exportCSV}>Exportar CSV</button>
+          <button className="dash-header__logout" onClick={signOut}>Sair</button>
+        </div>
       </header>
 
       <div className="dash-stats">
@@ -197,12 +169,9 @@ export default function Dashboard() {
         </select>
         <select value={filtroFaturamento} onChange={e => setFiltroFaturamento(e.target.value)}>
           <option value="">Todos os faturamentos</option>
-          <option value="até R$1.000">até R$1.000</option>
-          <option value="entre R$2.000 e R$4.000">R$2k–4k</option>
-          <option value="entre R$5.000 e R$8.000">R$5k–8k</option>
-          <option value="entre R$10.000 e R$17.000">R$10k–17k</option>
-          <option value="entre R$17.000 e R$30.000">R$17k–30k</option>
-          <option value="mais de R$30.000">+R$30k</option>
+          {FAIXAS_FATURAMENTO.map(f => (
+            <option key={f} value={f}>{f}</option>
+          ))}
         </select>
         <button className="dash-filters__refresh" onClick={fetchAplicacoes}>↻ Atualizar</button>
       </div>
