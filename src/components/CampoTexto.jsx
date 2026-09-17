@@ -9,6 +9,7 @@ export default function CampoTexto({ value, onChange, multiline, placeholder, ty
         onChange={e => onChange(e.target.value)}
         placeholder={placeholder}
         rows={5}
+        maxLength={maxLength}
         aria-labelledby="fp-question-title"
       />
     )

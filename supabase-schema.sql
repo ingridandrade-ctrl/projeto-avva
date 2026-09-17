@@ -32,7 +32,20 @@ alter table aplicacoes enable row level security;
 create policy "Permitir inserção pública"
   on aplicacoes for insert
   to anon
-  with check (true);
+  with check (
+    status = 'nova'
+    and notas_internas is null
+    and length(nome) <= 200
+    and length(whatsapp) <= 50
+    and length(email) <= 200
+    and length(instagram) <= 100
+    and length(nicho) <= 300
+    and length(tempo_atuacao) <= 300
+    and length(o_que_trava) <= 3000
+    and length(rotina_ideal) <= 3000
+    and length(visao_futuro) <= 3000
+    and length(por_que_eu) <= 3000
+  );
 
 create policy "Permitir leitura"
   on aplicacoes for select
@@ -83,6 +96,10 @@ create policy "Service role insere usuárias"
 create policy "Usuárias atualizam próprio perfil"
   on users for update
   using (auth.uid() = id);
+
+-- Membros só podem alterar o próprio nome; is_admin e demais colunas ficam fora do alcance da API
+revoke update on users from authenticated, anon;
+grant update (name) on users to authenticated;
 
 -- Módulos
 create table modules (

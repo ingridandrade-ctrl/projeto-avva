@@ -2,7 +2,7 @@ import { useEffect } from 'react'
 import './Confirmacao.css'
 
 export default function Confirmacao() {
-  useEffect(() => { document.title = 'Mentoria Avva — Aplicação' }, [])
+  useEffect(() => { document.title = 'Aplicação enviada — Mentoria Avva' }, [])
 
   return (
     <div className="conf">

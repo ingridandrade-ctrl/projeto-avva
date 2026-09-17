@@ -100,6 +100,17 @@
   margin-bottom: 16px;
 }
 
+.al__link {
+  background: none;
+  border: none;
+  padding: 0;
+  color: inherit;
+  font-size: inherit;
+  font-weight: 600;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
 .al__btn {
   height: 52px;
   border: none;
