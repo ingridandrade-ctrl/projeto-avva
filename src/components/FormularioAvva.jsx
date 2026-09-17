@@ -5,11 +5,16 @@ import CardOpcao from './CardOpcao'
 import CampoTexto from './CampoTexto'
 import './FormularioAvva.css'
 
+const STORAGE_KEY = 'avva_form_draft'
+
+const validarEmail = (v) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)
+const validarWhatsApp = (v) => /^\+?\d[\d\s()-]{7,}$/.test(v.replace(/\s/g, ''))
+
 const PERGUNTAS = [
-  { key: 'nome', titulo: 'Qual é o seu nome?', tipo: 'texto' },
-  { key: 'whatsapp', titulo: 'Qual o seu melhor WhatsApp?', subtitulo: 'Prometo não te encher de mensagem 😂', tipo: 'texto' },
-  { key: 'email', titulo: 'Qual o seu melhor e-mail?', tipo: 'texto' },
-  { key: 'instagram', titulo: 'Qual o seu @ do Instagram?', tipo: 'texto', placeholder: '@seuuser' },
+  { key: 'nome', titulo: 'Qual é o seu nome?', tipo: 'texto', maxLength: 200 },
+  { key: 'whatsapp', titulo: 'Qual o seu melhor WhatsApp?', subtitulo: 'Prometo não te encher de mensagem 😂', tipo: 'texto', validar: validarWhatsApp, erroValidacao: 'Digite um número de WhatsApp válido' },
+  { key: 'email', titulo: 'Qual o seu melhor e-mail?', tipo: 'texto', validar: validarEmail, erroValidacao: 'Digite um e-mail válido' },
+  { key: 'instagram', titulo: 'Qual o seu @ do Instagram?', tipo: 'texto', placeholder: '@seuuser', maxLength: 100 },
   { key: 'nicho', titulo: 'Qual é o seu nicho ou área de atuação?', tipo: 'texto' },
   { key: 'tempo_atuacao', titulo: 'Há quanto tempo você atua na sua área?', tipo: 'texto' },
   {
@@ -61,21 +66,33 @@ const PERGUNTAS = [
 ]
 
 export default function FormularioAvva({ origem }) {
-  const [step, setStep] = useState(0)
+  const [step, setStep] = useState(() => {
+    try { return parseInt(sessionStorage.getItem(`${STORAGE_KEY}_step`)) || 0 } catch { return 0 }
+  })
   const [form, setForm] = useState(() => {
     const init = {}
     PERGUNTAS.forEach(p => { init[p.key] = '' })
+    try {
+      const saved = JSON.parse(localStorage.getItem(STORAGE_KEY))
+      if (saved) return { ...init, ...saved }
+    } catch {}
     return init
   })
   const [animClass, setAnimClass] = useState('visible')
   const [erro, setErro] = useState(false)
+  const [erroMsg, setErroMsg] = useState('')
   const [sending, setSending] = useState(false)
   const inputRef = useRef(null)
   const navigate = useNavigate()
 
   const set = (key, value) => {
-    setForm(prev => ({ ...prev, [key]: value }))
+    setForm(prev => {
+      const next = { ...prev, [key]: value }
+      try { localStorage.setItem(STORAGE_KEY, JSON.stringify(next)) } catch {}
+      return next
+    })
     setErro(false)
+    setErroMsg('')
   }
 
   useEffect(() => {
@@ -90,6 +107,7 @@ export default function FormularioAvva({ origem }) {
     setAnimClass('exit')
     setTimeout(() => {
       setStep(nextStep)
+      try { sessionStorage.setItem(`${STORAGE_KEY}_step`, nextStep) } catch {}
       setAnimClass('enter')
       setTimeout(() => setAnimClass('visible'), 50)
     }, 400)
@@ -102,7 +120,10 @@ export default function FormularioAvva({ origem }) {
   const handleNext = () => {
     if (sending) return
     if (step < 2) { transition(step + 1); return }
-    if (!form[p.key].trim()) { setErro(true); return }
+    const val = form[p.key].trim()
+    if (!val) { setErro(true); setErroMsg('Preencha este campo para continuar'); return }
+    if (p.maxLength && val.length > p.maxLength) { setErro(true); setErroMsg(`Máximo de ${p.maxLength} caracteres`); return }
+    if (p.validar && !p.validar(val)) { setErro(true); setErroMsg(p.erroValidacao); return }
     if (isLast) { handleSubmit(); return }
     transition(step + 1)
   }
@@ -120,6 +141,7 @@ export default function FormularioAvva({ origem }) {
     setSending(true)
     const { error } = await supabase.from('aplicacoes').insert({ ...form, origem, status: 'nova' })
     if (error) { alert('Erro ao enviar. Tente novamente.'); setSending(false); return }
+    try { localStorage.removeItem(STORAGE_KEY); sessionStorage.removeItem(`${STORAGE_KEY}_step`) } catch {}
     navigate('/aplicacao/confirmacao')
   }
 
@@ -243,7 +265,7 @@ export default function FormularioAvva({ origem }) {
                 )}
               </div>
 
-              {erro && <p className="fp-erro">Preencha este campo para continuar</p>}
+              {erro && <p className="fp-erro">{erroMsg}</p>}
 
               <div className="fp-question__footer">
                 <button className="fp-btn" onClick={handleNext} disabled={sending} type="button">

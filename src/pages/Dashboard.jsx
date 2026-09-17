@@ -18,6 +18,7 @@ export default function Dashboard() {
   const [senhaErro, setSenhaErro] = useState(false)
   const [aplicacoes, setAplicacoes] = useState([])
   const [loading, setLoading] = useState(false)
+  const [erro, setErro] = useState(null)
   const [selecionada, setSelecionada] = useState(null)
   const [filtroOrigem, setFiltroOrigem] = useState('')
   const [filtroStatus, setFiltroStatus] = useState('')
@@ -42,23 +43,40 @@ export default function Dashboard() {
 
   const fetchAplicacoes = async () => {
     setLoading(true)
+    setErro(null)
     const { data, error } = await supabase
       .from('aplicacoes')
       .select('*')
       .order('created_at', { ascending: false })
 
-    if (!error) setAplicacoes(data || [])
+    if (error) {
+      setErro('Erro ao carregar aplicações: ' + error.message)
+    } else {
+      setAplicacoes(data || [])
+    }
     setLoading(false)
   }
 
   const updateStatus = async (id, status) => {
-    await supabase.from('aplicacoes').update({ status }).eq('id', id)
+    const prevAplicacoes = aplicacoes
+    const prevSelecionada = selecionada
     setAplicacoes(prev => prev.map(a => a.id === id ? { ...a, status } : a))
     if (selecionada?.id === id) setSelecionada(prev => ({ ...prev, status }))
+
+    const { error } = await supabase.from('aplicacoes').update({ status }).eq('id', id)
+    if (error) {
+      alert('Erro ao atualizar status: ' + error.message)
+      setAplicacoes(prevAplicacoes)
+      if (prevSelecionada?.id === id) setSelecionada(prevSelecionada)
+    }
   }
 
   const updateNotas = async (id, notas_internas) => {
-    await supabase.from('aplicacoes').update({ notas_internas }).eq('id', id)
+    const { error } = await supabase.from('aplicacoes').update({ notas_internas }).eq('id', id)
+    if (error) {
+      alert('Erro ao salvar notas: ' + error.message)
+      return
+    }
     setAplicacoes(prev => prev.map(a => a.id === id ? { ...a, notas_internas } : a))
   }
 
@@ -78,7 +96,11 @@ export default function Dashboard() {
     ])
 
     const csvContent = [headers, ...rows]
-      .map(row => row.map(cell => `"${String(cell).replace(/"/g, '""')}"`).join(','))
+      .map(row => row.map(cell => {
+        let val = String(cell)
+        if (/^[=+\-@\t\r]/.test(val)) val = "'" + val
+        return `"${val.replace(/"/g, '""')}"`
+      }).join(','))
       .join('\n')
 
     const blob = new Blob(['﻿' + csvContent], { type: 'text/csv;charset=utf-8;' })
@@ -184,6 +206,8 @@ export default function Dashboard() {
         </select>
         <button className="dash-filters__refresh" onClick={fetchAplicacoes}>↻ Atualizar</button>
       </div>
+
+      {erro && <p className="dash-erro" style={{ color: '#e74c3c', padding: '1rem' }}>{erro}</p>}
 
       {loading ? (
         <p className="dash-loading">Carregando...</p>
