@@ -8,12 +8,12 @@ import './FormularioAvva.css'
 const STORAGE_KEY = 'avva_form_draft'
 
 const validarEmail = (v) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)
-const validarWhatsApp = (v) => /^\+?\d[\d\s()-]{7,}$/.test(v.replace(/\s/g, ''))
+const validarWhatsApp = (v) => { const d = v.replace(/\D/g, ''); return d.length >= 8 && d.length <= 15 }
 
 const PERGUNTAS = [
   { key: 'nome', titulo: 'Qual é o seu nome?', tipo: 'texto', maxLength: 200 },
-  { key: 'whatsapp', titulo: 'Qual o seu melhor WhatsApp?', subtitulo: 'Prometo não te encher de mensagem 😂', tipo: 'texto', validar: validarWhatsApp, erroValidacao: 'Digite um número de WhatsApp válido' },
-  { key: 'email', titulo: 'Qual o seu melhor e-mail?', tipo: 'texto', validar: validarEmail, erroValidacao: 'Digite um e-mail válido' },
+  { key: 'whatsapp', titulo: 'Qual o seu melhor WhatsApp?', subtitulo: 'Prometo não te encher de mensagem 😂', tipo: 'texto', inputType: 'tel', placeholder: '(11) 99999-9999', validar: validarWhatsApp, erroValidacao: 'Digite um número de WhatsApp válido' },
+  { key: 'email', titulo: 'Qual o seu melhor e-mail?', tipo: 'texto', inputType: 'email', placeholder: 'voce@email.com', validar: validarEmail, erroValidacao: 'Digite um e-mail válido' },
   { key: 'instagram', titulo: 'Qual o seu @ do Instagram?', tipo: 'texto', placeholder: '@seuuser', maxLength: 100 },
   { key: 'nicho', titulo: 'Qual é o seu nicho ou área de atuação?', tipo: 'texto' },
   { key: 'tempo_atuacao', titulo: 'Há quanto tempo você atua na sua área?', tipo: 'texto' },
@@ -224,12 +224,15 @@ export default function FormularioAvva({ origem }) {
 
               <div className="fp-avisos__list">
                 <div className="fp-aviso-card">
+                  <span className="fp-aviso-card__num">01</span>
                   <p>Responder o formulário não garante vaga ou chamada. Cada aplicação é lida com atenção para entender se consigo te ajudar de verdade.</p>
                 </div>
                 <div className="fp-aviso-card">
+                  <span className="fp-aviso-card__num">02</span>
                   <p>Se fizer sentido pros dois lados, a gente marca uma conversa.</p>
                 </div>
                 <div className="fp-aviso-card">
+                  <span className="fp-aviso-card__num">03</span>
                   <p>Seja honesta. Quanto mais real for o que você escrever, mais útil eu consigo ser desde o primeiro momento.</p>
                 </div>
               </div>
@@ -246,12 +249,12 @@ export default function FormularioAvva({ origem }) {
         {step >= 2 && p && (
           <div className="fp-question">
             <div className="fp-question__content">
-              <h2 className="fp-question__title">{p.titulo}</h2>
+              <h2 className="fp-question__title" id="fp-question-title">{p.titulo}</h2>
               {p.subtitulo && <p className="fp-question__sub">{p.subtitulo}</p>}
 
               <div className="fp-question__input" ref={inputRef}>
                 {p.tipo === 'texto' && (
-                  <CampoTexto value={form[p.key]} onChange={v => set(p.key, v)} placeholder={p.placeholder} />
+                  <CampoTexto value={form[p.key]} onChange={v => set(p.key, v)} placeholder={p.placeholder} type={p.inputType} maxLength={p.maxLength} />
                 )}
                 {p.tipo === 'textarea' && (
                   <CampoTexto value={form[p.key]} onChange={v => set(p.key, v)} multiline />

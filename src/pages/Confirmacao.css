@@ -1,13 +1,29 @@
 .conf {
+  --fp-font: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Segoe UI', system-ui, sans-serif;
+  --fp-ease: cubic-bezier(0.32, 0.72, 0, 1);
+
+  font-family: var(--fp-font);
+  font-feature-settings: 'cv11', 'ss01';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
   min-height: 100vh;
   min-height: 100dvh;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: var(--teal-profundo);
-  padding: 40px 32px;
+  background: #0b4040;
+  background-image:
+    radial-gradient(800px 560px at 100% 0%, rgba(26, 104, 104, 0.55), transparent 60%),
+    radial-gradient(600px 460px at -10% 100%, rgba(168, 92, 53, 0.16), transparent 60%),
+    linear-gradient(180deg, #0C4747 0%, #083232 100%);
+  padding: 48px 24px;
   position: relative;
   overflow: hidden;
+  color: #f3efe9;
+}
+
+.conf * {
+  font-family: inherit;
 }
 
 .conf__glow {
@@ -15,52 +31,78 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 600px;
-  height: 600px;
+  width: 640px;
+  height: 640px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(26, 104, 104, 0.35), transparent 60%);
+  background: radial-gradient(circle, rgba(26, 104, 104, 0.40), transparent 60%);
   pointer-events: none;
 }
 
 .conf__inner {
   position: relative;
   z-index: 1;
-  max-width: 520px;
+  max-width: 560px;
   text-align: center;
-  animation: confIn 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation: confIn 0.9s var(--fp-ease) forwards;
 }
 
 @keyframes confIn {
-  from { opacity: 0; transform: translateY(32px) scale(0.97); }
+  from { opacity: 0; transform: translateY(24px) scale(0.98); }
   to { opacity: 1; transform: translateY(0) scale(1); }
 }
 
 .conf__symbol {
-  display: block;
-  font-size: 1.6rem;
-  color: var(--terracotta);
-  opacity: 0.5;
-  margin-bottom: 36px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: var(--terracotta);
+  color: var(--off-white);
+  margin-bottom: 32px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.12), 0 12px 32px rgba(168, 92, 53, 0.40);
+  animation: confPop 0.7s var(--fp-ease) 0.15s both;
+}
+
+@keyframes confPop {
+  from { opacity: 0; transform: scale(0.6); }
+  to { opacity: 1; transform: scale(1); }
 }
 
 .conf__title {
-  font-family: var(--font-titulo);
-  font-size: clamp(2.2rem, 6vw, 3.4rem);
-  font-weight: 500;
+  font-size: clamp(2.1rem, 6vw, 3.2rem);
+  font-weight: 600;
   color: #f3efe9;
-  line-height: 1.1;
-  letter-spacing: -0.02em;
-  margin-bottom: 28px;
+  line-height: 1.08;
+  letter-spacing: -0.03em;
+  margin-bottom: 20px;
 }
 
 .conf__text {
-  font-family: var(--font-corpo);
   font-size: 1.1rem;
-  font-weight: 300;
-  color: #f3efe9;
-  line-height: 1.7;
+  font-weight: 400;
+  color: rgba(243, 239, 233, 0.86);
+  line-height: 1.65;
+  letter-spacing: -0.006em;
 }
 
 .conf__heart {
-  color: var(--terracotta);
+  color: #d4845a;
+}
+
+@media (max-width: 640px) {
+  .conf {
+    padding: 40px 20px;
+  }
+
+  .conf__symbol {
+    width: 56px;
+    height: 56px;
+    margin-bottom: 24px;
+  }
+
+  .conf__text {
+    font-size: 1rem;
+  }
 }
