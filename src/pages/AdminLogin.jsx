@@ -44,7 +44,7 @@ export default function AdminLogin() {
     <div className="al">
       <form className="al__card" onSubmit={handleSubmit}>
         <span className="al__badge">Mentoria Avva</span>
-        <h1 className="al__title">Acesso ao dashboard</h1>
+        <h1 className="al__title">Dashboard de Aplicações</h1>
         <p className="al__sub">Entre com seu e-mail e senha de administradora.</p>
 
         <label className="al__label" htmlFor="al-email">E-mail</label>
