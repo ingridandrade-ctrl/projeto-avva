@@ -47,6 +47,10 @@ const PERGUNTAS = [
     opcoes: ['é prioridade pra mim estruturar isso o quanto antes', 'sei que preciso, mas ainda não encontrei o caminho certo', 'estou pesquisando, ainda não decidi'],
   },
   {
+    key: 'rotina_ideal', titulo: 'Como seria a sua rotina se ela não girasse apenas em torno do seu negócio?',
+    subtitulo: 'Pense em tempo livre, tempo pra você, tempo pra quem você ama. Não tem resposta certa, só queremos entender pra que vida esse negócio deveria estar servindo.', tipo: 'textarea',
+  },
+  {
     key: 'visao_futuro', titulo: 'Como você imagina seu negócio daqui a um ano?',
     subtitulo: 'Faturamento, rotina, presença, processos, descreva o cenário que você quer construir.', tipo: 'textarea',
   },

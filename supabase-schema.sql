@@ -20,6 +20,7 @@ create table aplicacoes (
   experiencia_mentoria text not null,
   como_chegou text not null,
   momento_atual text not null,
+  rotina_ideal text not null,
   visao_futuro text not null,
   por_que_eu text not null,
   status text default 'nova' not null check (status in ('nova', 'lida', 'em_analise', 'aprovada', 'recusada')),
