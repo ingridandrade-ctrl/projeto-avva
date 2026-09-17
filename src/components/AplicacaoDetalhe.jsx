@@ -29,7 +29,7 @@ const instagramHandle = (v) => (v || '')
 const whatsappHref = (v) => {
   const d = (v || '').replace(/\D/g, '')
   if (d.length < 8) return null
-  return `https://wa.me/${d.length <= 11 ? '55' + d : d}`
+  return `https://wa.me/${d.length === 10 || d.length === 11 ? '55' + d : d}`
 }
 
 export default function AplicacaoDetalhe({ aplicacao, onBack, onUpdateStatus, onUpdateNotas, onDelete, statusOptions, statusLabels }) {
@@ -41,7 +41,7 @@ export default function AplicacaoDetalhe({ aplicacao, onBack, onUpdateStatus, on
   useEffect(() => {
     document.title = `${aplicacao.nome} — Mentoria Avva`
     window.scrollTo({ top: 0 })
-  }, [aplicacao.id])
+  }, [aplicacao.id, aplicacao.nome])
 
   const salvarNotas = async () => {
     setSalvando(true)

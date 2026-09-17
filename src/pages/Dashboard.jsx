@@ -19,7 +19,7 @@ const formatData = (iso) => new Date(iso).toLocaleDateString('pt-BR')
 export default function Dashboard() {
   const { profile, signOut } = useAuth()
   const [aplicacoes, setAplicacoes] = useState([])
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(true)
   const [erro, setErro] = useState(null)
   const [selecionada, setSelecionada] = useState(null)
   const [busca, setBusca] = useState('')
@@ -27,14 +27,7 @@ export default function Dashboard() {
   const [filtroStatus, setFiltroStatus] = useState('')
   const [filtroFaturamento, setFiltroFaturamento] = useState('')
 
-  useEffect(() => {
-    document.title = 'Dashboard de Aplicações — Mentoria Avva'
-    fetchAplicacoes()
-  }, [])
-
   const fetchAplicacoes = async () => {
-    setLoading(true)
-    setErro(null)
     const { data, error } = await supabase
       .from('aplicacoes')
       .select('*')
@@ -43,10 +36,24 @@ export default function Dashboard() {
     if (error) {
       setErro('Erro ao carregar aplicações: ' + error.message)
     } else {
+      setErro(null)
       setAplicacoes(data || [])
     }
     setLoading(false)
   }
+
+  const recarregar = () => {
+    setLoading(true)
+    fetchAplicacoes()
+  }
+
+  useEffect(() => {
+    document.title = 'Dashboard de Aplicações — Mentoria Avva'
+    async function load() {
+      await fetchAplicacoes()
+    }
+    load()
+  }, [])
 
   const updateStatus = async (id, status) => {
     const prevAplicacoes = aplicacoes
@@ -99,7 +106,7 @@ export default function Dashboard() {
 
     const csvContent = [headers, ...rows]
       .map(row => row.map(cell => {
-        let val = String(cell)
+        let val = String(cell ?? '')
         if (/^[=+\-@\t\r]/.test(val)) val = "'" + val
         return `"${val.replace(/"/g, '""')}"`
       }).join(','))
@@ -215,7 +222,7 @@ export default function Dashboard() {
                 <option key={f} value={f}>{f}</option>
               ))}
             </select>
-            <button className="dash-btn dash-btn--ghost dash-btn--icon" onClick={fetchAplicacoes} title="Atualizar" aria-label="Atualizar">
+            <button className="dash-btn dash-btn--ghost dash-btn--icon" onClick={recarregar} title="Atualizar" aria-label="Atualizar">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
             </button>
           </div>
@@ -273,7 +280,17 @@ export default function Dashboard() {
                 </thead>
                 <tbody>
                   {filtered.map(a => (
-                    <tr key={a.id} onClick={() => setSelecionada(a)} className="dash-table__row">
+                    <tr
+                      key={a.id}
+                      className="dash-table__row"
+                      role="button"
+                      tabIndex={0}
+                      onClick={() => setSelecionada(a)}
+                      onKeyDown={e => {
+                        if (e.target !== e.currentTarget) return
+                        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setSelecionada(a) }
+                      }}
+                    >
                       <td data-label="Candidata">
                         <div className="cell-person">
                           <span className="cell-person__avatar">{(a.nome || '?').trim().charAt(0).toUpperCase()}</span>

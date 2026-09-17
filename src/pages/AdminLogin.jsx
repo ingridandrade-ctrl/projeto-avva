@@ -14,28 +14,31 @@ export default function AdminLogin() {
 
   useEffect(() => { document.title = 'Mentoria Avva — Acesso' }, [])
 
-  useEffect(() => {
-    if (session && profile && !profile.is_admin) {
-      setErro('Esta conta não tem acesso ao dashboard.')
-      signOut()
-    }
-  }, [session, profile])
-
   if (loading) return null
   if (session && profile?.is_admin) {
     return <Navigate to={location.state?.from || '/aplicacao/dashboard'} replace />
   }
+  const semAcesso = session && !profile?.is_admin
 
   const handleSubmit = async (e) => {
     e.preventDefault()
     if (enviando) return
     setErro('')
     setEnviando(true)
-    const { error } = await supabase.auth.signInWithPassword({ email: email.trim(), password: senha })
+
+    const { data, error } = await supabase.auth.signInWithPassword({ email: email.trim(), password: senha })
     if (error) {
       setErro(error.message === 'Invalid login credentials'
         ? 'E-mail ou senha incorretos.'
         : 'Não foi possível entrar agora. Tente novamente.')
+      setEnviando(false)
+      return
+    }
+
+    const { data: perfil } = await supabase.from('users').select('is_admin').eq('id', data.user.id).single()
+    if (!perfil?.is_admin) {
+      await signOut()
+      setErro('Esta conta não tem acesso ao dashboard.')
       setEnviando(false)
     }
   }
@@ -46,6 +49,13 @@ export default function AdminLogin() {
         <span className="al__badge">Mentoria Avva</span>
         <h1 className="al__title">Dashboard de Aplicações</h1>
         <p className="al__sub">Entre com seu e-mail e senha de administradora.</p>
+
+        {semAcesso && (
+          <p className="al__erro" role="alert">
+            Você está logada como {session.user.email}, mas essa conta não tem acesso ao dashboard.{' '}
+            <button type="button" className="al__link" onClick={signOut}>Sair dessa conta</button>
+          </p>
+        )}
 
         <label className="al__label" htmlFor="al-email">E-mail</label>
         <input

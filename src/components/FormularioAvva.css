@@ -4,10 +4,7 @@
 .fp {
   --fp-font: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Segoe UI', system-ui, sans-serif;
   --fp-ease: cubic-bezier(0.32, 0.72, 0, 1);
-  --fp-ease-out: cubic-bezier(0.16, 1, 0.3, 1);
-  --fp-r-lg: 24px;
   --fp-r-md: 16px;
-  --fp-r-sm: 12px;
   --fp-ink: var(--umber);
   --fp-ink-2: rgba(76, 54, 45, 0.62);
   --fp-ink-3: rgba(76, 54, 45, 0.42);

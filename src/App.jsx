@@ -52,7 +52,7 @@ export default function App() {
             <Route path="/aplicacao/ingrid" element={<FormIngrid />} />
             <Route path="/aplicacao/confirmacao" element={<Confirmacao />} />
             <Route path="/aplicacao/login" element={<AdminLogin />} />
-            <Route path="/aplicacao/dashboard" element={<AdminRoute loginPath="/aplicacao/login"><Dashboard /></AdminRoute>} />
+            <Route path="/aplicacao/dashboard" element={<AdminRoute loginPath="/aplicacao/login" deniedPath="/aplicacao/login"><Dashboard /></AdminRoute>} />
 
             {/* Área de membros — Método AVVA */}
             <Route path="/login" element={<LoginPage />} />
