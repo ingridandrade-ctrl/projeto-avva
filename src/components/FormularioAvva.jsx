@@ -18,12 +18,12 @@ const PERGUNTAS = [
   },
   {
     key: 'objetivo_faturamento', titulo: 'Qual é o seu objetivo de faturamento nos próximos 6 meses?',
-    subtitulo: 'Pensa de forma realista — não o sonho máximo, o próximo nível real.', tipo: 'cards',
+    subtitulo: 'Pense de forma realista, não o sonho máximo, o próximo nível real.', tipo: 'cards',
     opcoes: ['R$5.000 por mês', 'entre R$5.000 e R$10.000 por mês', 'entre R$10.000 e R$15.000 por mês', 'entre R$15.000 e R$20.000 por mês', 'entre R$20.000 e R$30.000 por mês', 'mais de R$30.000 por mês'],
   },
   {
     key: 'preco_produto_principal', titulo: 'Quanto você cobra pelo seu serviço ou produto principal hoje?',
-    subtitulo: 'Seja mentoria, consultoria, serviço, prestação de serviço no digital ou curso online — pensa na entrega que você mais quer vender agora.', tipo: 'cards',
+    subtitulo: 'Seja mentoria, consultoria, serviço, prestação de serviço no digital ou curso online, pense na entrega que você mais quer vender agora.', tipo: 'cards',
     opcoes: ['a partir de R$500', 'entre R$1.000 e R$2.000', 'entre R$2.000 e R$3.500', 'entre R$3.500 e R$5.000', 'entre R$5.000 e R$10.000', 'mais de R$10.000'],
   },
   {
@@ -48,7 +48,7 @@ const PERGUNTAS = [
   },
   {
     key: 'visao_futuro', titulo: 'Como você imagina seu negócio daqui a um ano?',
-    subtitulo: 'Faturamento, rotina, presença, processos — descreve o cenário que você quer construir.', tipo: 'textarea',
+    subtitulo: 'Faturamento, rotina, presença, processos, descreva o cenário que você quer construir.', tipo: 'textarea',
   },
   {
     key: 'por_que_eu', titulo: 'O que te fez pensar em mim para te acompanhar nesse momento?',
