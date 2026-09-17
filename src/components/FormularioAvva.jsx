@@ -100,6 +100,7 @@ export default function FormularioAvva({ origem }) {
   const isLast = pi === PERGUNTAS.length - 1
 
   const handleNext = () => {
+    if (sending) return
     if (step < 2) { transition(step + 1); return }
     if (!form[p.key].trim()) { setErro(true); return }
     if (isLast) { handleSubmit(); return }
@@ -119,7 +120,7 @@ export default function FormularioAvva({ origem }) {
     setSending(true)
     const { error } = await supabase.from('aplicacoes').insert({ ...form, origem, status: 'nova' })
     if (error) { alert('Erro ao enviar. Tente novamente.'); setSending(false); return }
-    navigate('/confirmacao')
+    navigate('/aplicacao/confirmacao')
   }
 
   const progress = step < 2 ? 0 : ((pi + 1) / PERGUNTAS.length) * 100

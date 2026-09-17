@@ -16,6 +16,7 @@ const FIELD_LABELS = {
   experiencia_mentoria: 'Experiência com mentoria',
   como_chegou: 'Como chegou',
   momento_atual: 'Momento atual',
+  rotina_ideal: 'Rotina ideal',
   visao_futuro: 'Visão de futuro',
   por_que_eu: 'Por que eu',
 }
