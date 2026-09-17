@@ -45,6 +45,11 @@ create policy "Permitir atualização"
   using (exists (select 1 from users where id = auth.uid() and is_admin = true))
   with check (exists (select 1 from users where id = auth.uid() and is_admin = true));
 
+create policy "Permitir exclusão"
+  on aplicacoes for delete
+  to authenticated
+  using (exists (select 1 from users where id = auth.uid() and is_admin = true));
+
 create index idx_aplicacoes_origem on aplicacoes (origem);
 create index idx_aplicacoes_status on aplicacoes (status);
 create index idx_aplicacoes_created_at on aplicacoes (created_at desc);
