@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { supabase } from '../lib/supabase'
+import { FAIXAS_FATURAMENTO, FAIXAS_OBJETIVO, FAIXAS_PRECO } from '../lib/faixas'
 import CardOpcao from './CardOpcao'
 import CampoTexto from './CampoTexto'
 import './FormularioAvva.css'
@@ -19,17 +20,17 @@ const PERGUNTAS = [
   { key: 'tempo_atuacao', titulo: 'Há quanto tempo você atua na sua área?', tipo: 'texto' },
   {
     key: 'faturamento_atual', titulo: 'Qual é o seu faturamento médio mensal hoje?', tipo: 'cards',
-    opcoes: ['até R$1.000', 'entre R$2.000 e R$4.000', 'entre R$5.000 e R$8.000', 'entre R$10.000 e R$17.000', 'entre R$17.000 e R$30.000', 'mais de R$30.000'],
+    opcoes: FAIXAS_FATURAMENTO,
   },
   {
     key: 'objetivo_faturamento', titulo: 'Qual é o seu objetivo de faturamento nos próximos 6 meses?',
     subtitulo: 'Pense de forma realista, não o sonho máximo, o próximo nível real.', tipo: 'cards',
-    opcoes: ['R$5.000 por mês', 'entre R$5.000 e R$10.000 por mês', 'entre R$10.000 e R$15.000 por mês', 'entre R$15.000 e R$20.000 por mês', 'entre R$20.000 e R$30.000 por mês', 'mais de R$30.000 por mês'],
+    opcoes: FAIXAS_OBJETIVO,
   },
   {
     key: 'preco_produto_principal', titulo: 'Quanto você cobra pelo seu serviço ou produto principal hoje?',
     subtitulo: 'Seja mentoria, consultoria, serviço, prestação de serviço no digital ou curso online, pense na entrega que você mais quer vender agora.', tipo: 'cards',
-    opcoes: ['a partir de R$500', 'entre R$1.000 e R$2.000', 'entre R$2.000 e R$3.500', 'entre R$3.500 e R$5.000', 'entre R$5.000 e R$10.000', 'mais de R$10.000'],
+    opcoes: FAIXAS_PRECO,
   },
   {
     key: 'tem_equipe', titulo: 'Você já tem equipe?', subtitulo: 'Designer, social media, assistente, contabilidade...', tipo: 'cards',

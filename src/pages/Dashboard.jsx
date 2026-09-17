@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { supabase } from '../lib/supabase'
 import { useAuth } from '../hooks/useAuth'
+import { FAIXAS_FATURAMENTO } from '../lib/faixas'
 import AplicacaoDetalhe from '../components/AplicacaoDetalhe'
 import './Dashboard.css'
 
@@ -168,12 +169,9 @@ export default function Dashboard() {
         </select>
         <select value={filtroFaturamento} onChange={e => setFiltroFaturamento(e.target.value)}>
           <option value="">Todos os faturamentos</option>
-          <option value="até R$1.000">até R$1.000</option>
-          <option value="entre R$2.000 e R$4.000">R$2k–4k</option>
-          <option value="entre R$5.000 e R$8.000">R$5k–8k</option>
-          <option value="entre R$10.000 e R$17.000">R$10k–17k</option>
-          <option value="entre R$17.000 e R$30.000">R$17k–30k</option>
-          <option value="mais de R$30.000">+R$30k</option>
+          {FAIXAS_FATURAMENTO.map(f => (
+            <option key={f} value={f}>{f}</option>
+          ))}
         </select>
         <button className="dash-filters__refresh" onClick={fetchAplicacoes}>↻ Atualizar</button>
       </div>
