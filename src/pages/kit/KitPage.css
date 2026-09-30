@@ -148,10 +148,19 @@
   font-size: 2.8rem;
   font-weight: 700;
   line-height: 1;
-  color: var(--teal-profundo);
-  opacity: 0.06;
+  background: linear-gradient(135deg, var(--terracotta), var(--amendoado));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  opacity: 0.22;
   pointer-events: none;
   user-select: none;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.gancho-card:hover .gancho-card__number {
+  opacity: 0.38;
+  transform: translateY(-2px);
 }
 
 .gancho-card__tipo {
@@ -186,18 +195,36 @@
   border-left: 3px solid var(--amendoado);
 }
 
-/* ===== Prompt blocks (dark code-block style) ===== */
+/* ===== Prompt blocks (teal com vidro) ===== */
 .gancho-card__prompt,
 .estrutura-card__prompt-block,
 .angulo-card__prompt {
-  background: rgba(12, 71, 71, 0.95);
+  position: relative;
+  background: linear-gradient(135deg, #0C4747, #1A6868);
   border-radius: var(--radius-md);
-  padding: 16px 18px;
+  padding: 16px 18px 16px 21px;
   margin-top: 8px;
   display: flex;
   flex-direction: column;
   gap: 10px;
-  border-left: 3px solid var(--terracotta);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.12),
+    0 8px 20px rgba(12, 71, 71, 0.18);
+  overflow: hidden;
+}
+
+/* Faixa lateral quente */
+.gancho-card__prompt::before,
+.estrutura-card__prompt-block::before,
+.angulo-card__prompt::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: linear-gradient(180deg, var(--terracotta), var(--amendoado));
 }
 
 .gancho-card__prompt .mono,

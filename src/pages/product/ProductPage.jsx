@@ -113,7 +113,7 @@ export default function ProductPage() {
                 <div className="module-card__banner-icon">
                   {COLLECTION_ICONS[col.slug]}
                 </div>
-                <span className="module-card__order">
+                <span className={`module-card__order ${col.isBonus ? 'module-card__order--bonus' : ''}`}>
                   {col.isBonus ? 'Bônus' : String(col.order).padStart(2, '0')}
                 </span>
               </div>

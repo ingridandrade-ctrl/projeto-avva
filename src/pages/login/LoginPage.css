@@ -23,6 +23,15 @@
   z-index: 0;
 }
 
+/* Halo de luz quente atrás do card */
+.login-page__bg::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 720px 560px at 50% 46%, rgba(247, 244, 240, 0.22) 0%, rgba(212, 185, 154, 0.1) 40%, transparent 70%);
+  pointer-events: none;
+}
+
 @keyframes orb-drift-1 {
   0%, 100% { transform: translate(0, 0) scale(1); }
   33% { transform: translate(60px, -80px) scale(1.15); }
@@ -108,13 +117,28 @@
   background: rgba(255, 252, 248, 0.16);
   backdrop-filter: blur(40px) saturate(1.4);
   -webkit-backdrop-filter: blur(40px) saturate(1.4);
-  border: 1px solid rgba(255, 250, 244, 0.3);
+  border: 1px solid transparent;
   border-radius: 30px;
   text-align: center;
   animation: card-rise 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.15s both;
   box-shadow:
     0 8px 40px rgba(76, 54, 45, 0.18),
     0 0 0 1px rgba(255, 255, 255, 0.08) inset;
+}
+
+/* Borda-gradiente: a luz escorre pelo contorno do vidro */
+.login-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(160deg, rgba(255, 255, 255, 0.65), rgba(212, 185, 154, 0.25) 35%, rgba(255, 255, 255, 0.05) 60%, rgba(185, 122, 78, 0.35));
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  pointer-events: none;
 }
 
 /* Highlight de topo — reflexo de vidro */
@@ -165,17 +189,24 @@
     badge-float 4s ease-in-out 1s infinite;
 }
 
-.login-card__badge:hover {
-  transform: scale(1.08) rotate(-3deg);
+/* Hover no span interno: a animação badge-float controla o transform do badge */
+.login-card__badge:hover span {
+  transform: scale(1.1) rotate(-4deg);
 }
 
 .login-card__badge span {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
   font-family: var(--font-corpo);
   font-size: 1.8rem;
   font-weight: 700;
   color: #fff;
   letter-spacing: -0.03em;
   line-height: 1;
+  transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 /* ── Title & subtitle — tudo em Outfit (sans-serif moderna) ── */
@@ -274,9 +305,11 @@
 
 .login-form__input-wrap input:focus {
   outline: none;
-  border-color: rgba(255, 255, 255, 0.35);
-  background: rgba(255, 255, 255, 0.1);
-  box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.05);
+  border-color: rgba(212, 185, 154, 0.75);
+  background: rgba(255, 255, 255, 0.12);
+  box-shadow:
+    0 0 0 4px rgba(212, 185, 154, 0.16),
+    0 4px 18px rgba(168, 92, 53, 0.18);
 }
 
 .login-form__hint {

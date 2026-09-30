@@ -94,9 +94,10 @@ export default function CollectionPage() {
       />
 
       {loading ? (
-        <div className="collection-page__loading">
-          <div className="collection-page__loading-spinner" />
-          <span>Carregando...</span>
+        <div className="ad-grid" aria-hidden="true">
+          {Array.from({ length: 6 }).map((_, i) => (
+            <div key={i} className="ad-skeleton" style={{ animationDelay: `${i * 120}ms` }} />
+          ))}
         </div>
       ) : (
         <>

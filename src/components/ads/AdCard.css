@@ -11,7 +11,7 @@
               border-color 0.3s ease;
 }
 
-/* Premium top border gradient */
+/* Premium top border gradient — acende no hover */
 .ad-card::before {
   content: '';
   position: absolute;
@@ -19,6 +19,7 @@
   left: 0;
   right: 0;
   height: 2px;
+  opacity: 0.6;
   background: linear-gradient(
     90deg,
     var(--teal-profundo) 0%,
@@ -27,12 +28,21 @@
     var(--amendoado) 100%
   );
   z-index: 2;
+  transition: height 0.3s ease, opacity 0.3s ease;
+}
+
+.ad-card:hover::before {
+  height: 3px;
+  opacity: 1;
 }
 
 .ad-card:hover {
-  transform: scale(1.02);
+  transform: translateY(-4px);
   border-color: rgba(212, 185, 154, 0.55);
-  box-shadow: 0 10px 32px rgba(168, 92, 53, 0.12);
+  box-shadow:
+    0 12px 32px rgba(168, 92, 53, 0.14),
+    0 4px 12px rgba(12, 71, 71, 0.06),
+    0 1px 0 rgba(255, 255, 255, 0.8) inset;
 }
 
 /* ── Embed wrapper with format badge ── */
@@ -195,4 +205,11 @@
   max-height: 500px;
   opacity: 0.85;
   margin-top: 12px;
+}
+
+/* ── Foco por teclado na cor da marca ── */
+.ad-card__fav:focus-visible,
+.ad-card__toggle:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(168, 92, 53, 0.28);
 }
