@@ -64,7 +64,9 @@ export default function App() {
                 </ProtectedRoute>
               }
             >
-              <Route path="/dashboard" element={<MemberDashboard />} />
+              <Route path="/alunas" element={<MemberDashboard />} />
+              {/* Endereço antigo continua funcionando */}
+              <Route path="/dashboard" element={<Navigate to="/alunas" replace />} />
               <Route path="/produto/:slug" element={<ProductPage />} />
               <Route path="/colecao/:slug" element={<CollectionPage />} />
               <Route path="/kit" element={<KitPage />} />

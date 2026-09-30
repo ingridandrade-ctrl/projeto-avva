@@ -12,7 +12,7 @@ export default function LoginPage() {
   const [focused, setFocused] = useState(false)
 
   if (loading) return null
-  if (session) return <Navigate to={location.state?.from || '/dashboard'} replace />
+  if (session) return <Navigate to={location.state?.from || '/alunas'} replace />
 
   async function handleSubmit(e) {
     e.preventDefault()

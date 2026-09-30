@@ -1,7 +1,7 @@
 import { Navigate, useLocation } from 'react-router-dom'
 import { useAuth } from '../hooks/useAuth'
 
-export default function AdminRoute({ children, loginPath = '/login', deniedPath = '/dashboard' }) {
+export default function AdminRoute({ children, loginPath = '/login', deniedPath = '/alunas' }) {
   const { session, profile, loading } = useAuth()
   const location = useLocation()
 

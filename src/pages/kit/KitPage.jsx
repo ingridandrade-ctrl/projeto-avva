@@ -32,7 +32,7 @@ export default function KitPage() {
   }, [])
 
   if (!profile?.has_order_bump) {
-    return <Navigate to="/dashboard" replace />
+    return <Navigate to="/alunas" replace />
   }
 
   if (loading) {

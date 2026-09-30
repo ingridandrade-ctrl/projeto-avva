@@ -38,7 +38,7 @@ export default function AdminLayout() {
           ))}
         </nav>
         <div className="admin-header__actions">
-          <NavLink to="/dashboard" className="admin-header__link">
+          <NavLink to="/alunas" className="admin-header__link">
             ← Voltar ao site
           </NavLink>
           <button className="admin-header__signout" onClick={signOut}>Sair</button>

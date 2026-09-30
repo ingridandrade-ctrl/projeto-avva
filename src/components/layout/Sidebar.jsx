@@ -19,7 +19,7 @@ export default function Sidebar({ open, onClose }) {
 
         <nav className="sidebar__nav">
           <NavLink
-            to="/dashboard"
+            to="/alunas"
             className={({ isActive }) => `sidebar__link ${isActive ? 'sidebar__link--active' : ''}`}
             onClick={onClose}
           >
