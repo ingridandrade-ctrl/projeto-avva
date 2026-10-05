@@ -31,7 +31,7 @@ alter table aplicacoes enable row level security;
 
 create policy "Permitir inserção pública"
   on aplicacoes for insert
-  to anon
+  to anon, authenticated
   with check (
     status = 'nova'
     and notas_internas is null
