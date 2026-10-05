@@ -79,24 +79,26 @@ export default async function handler(req, res) {
     `Dashboard: ${DASHBOARD_URL}`,
   ].join('\n')
 
-  const r = await fetch('https://api.resend.com/emails', {
+  const enviar = (dest) => fetch('https://api.resend.com/emails', {
     method: 'POST',
     headers: { Authorization: `Bearer ${apiKey}`, 'Content-Type': 'application/json' },
     body: JSON.stringify({
       from,
-      to,
+      to: [dest],
       reply_to: a.email || undefined,
       subject: `Nova aplicação: ${a.nome} · ${a.faturamento_atual}`,
       html,
       text: texto,
     }),
-  })
+  }).then(async r => ({ dest, status: r.status, body: r.ok ? '' : await r.text().catch(() => '') }))
 
-  if (!r.ok) {
-    const body = await r.text().catch(() => '')
-    console.error('resend error', r.status, body)
-    return res.status(502).json({ error: 'email_failed', status: r.status })
+  // Um envio por destinatária: se o Resend recusar uma (ex.: domínio não verificado), a outra ainda recebe
+  const resultados = await Promise.all(to.map(enviar))
+  const falhas = resultados.filter(r => r.status >= 300)
+  falhas.forEach(f => console.error('resend error', f.dest, f.status, f.body))
+
+  if (falhas.length === resultados.length) {
+    return res.status(502).json({ error: 'email_failed', resultados })
   }
-
-  return res.status(200).json({ ok: true })
+  return res.status(200).json({ ok: true, resultados })
 }
