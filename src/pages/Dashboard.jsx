@@ -94,13 +94,13 @@ export default function Dashboard() {
       'Nome', 'WhatsApp', 'Email', 'Instagram', 'Nicho', 'Tempo de Atuação',
       'Faturamento Atual', 'Objetivo Faturamento', 'Preço Produto', 'Tem Equipe',
       'O que trava', 'Experiência Mentoria', 'Como chegou', 'Momento Atual',
-      'Rotina Ideal', 'Visão Futuro', 'Por que eu', 'Origem', 'Status', 'Data', 'Notas'
+      'Rotina Ideal', 'Visão Futuro', 'Expectativa da Mentoria', 'Por que eu', 'Origem', 'Status', 'Data', 'Notas'
     ]
     const rows = filtered.map(a => [
       a.nome, a.whatsapp, a.email, a.instagram, a.nicho, a.tempo_atuacao,
       a.faturamento_atual, a.objetivo_faturamento, a.preco_produto_principal,
       a.tem_equipe, a.o_que_trava, a.experiencia_mentoria, a.como_chegou,
-      a.momento_atual, a.rotina_ideal || '', a.visao_futuro, a.por_que_eu, a.origem, a.status,
+      a.momento_atual, a.rotina_ideal || '', a.visao_futuro, a.expectativa_mentoria || '', a.por_que_eu, a.origem, a.status,
       formatData(a.created_at), a.notas_internas || ''
     ])
 

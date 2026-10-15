@@ -22,6 +22,7 @@ create table aplicacoes (
   momento_atual text not null,
   rotina_ideal text not null,
   visao_futuro text not null,
+  expectativa_mentoria text not null default '',
   por_que_eu text not null,
   status text default 'nova' not null check (status in ('nova', 'lida', 'em_analise', 'aprovada', 'recusada')),
   notas_internas text
@@ -44,6 +45,7 @@ create policy "Permitir inserção pública"
     and length(o_que_trava) <= 3000
     and length(rotina_ideal) <= 3000
     and length(visao_futuro) <= 3000
+    and length(expectativa_mentoria) <= 3000
     and length(por_que_eu) <= 3000
   );
 

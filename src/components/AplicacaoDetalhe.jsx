@@ -17,6 +17,7 @@ const ABERTAS = [
   ['o_que_trava', 'O que está travando o crescimento hoje'],
   ['rotina_ideal', 'Como seria a rotina se não girasse só em torno do negócio'],
   ['visao_futuro', 'Como imagina o negócio daqui a um ano'],
+  ['expectativa_mentoria', 'O que espera de um acompanhamento como a mentoria'],
   ['por_que_eu', 'O que a fez pensar em mim para acompanhá-la'],
 ]
 
