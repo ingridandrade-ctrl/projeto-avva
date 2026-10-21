@@ -41,7 +41,7 @@
 
 .admin-kit__item-info strong {
   display: block;
-  font-size: 0.98rem;
+  font-size: 1.08rem;
   font-weight: 600;
   color: var(--a-ink);
   margin-bottom: 2px;
@@ -49,7 +49,7 @@
 
 .admin-kit__item-info p {
   margin: 0;
-  font-size: 0.86rem;
+  font-size: 0.95rem;
   color: var(--a-ink-2);
   line-height: 1.45;
   display: -webkit-box;
@@ -65,7 +65,7 @@
   border-radius: 100px;
   background: var(--a-teal-soft);
   color: var(--a-teal);
-  font-size: 0.74rem;
+  font-size: 0.82rem;
   font-weight: 600;
 }
 
@@ -79,7 +79,7 @@
 .admin-kit__empty {
   margin: 0;
   padding: 28px 24px;
-  font-size: 0.9rem;
+  font-size: 1rem;
   color: var(--a-ink-3);
 }
 

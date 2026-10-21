@@ -51,7 +51,7 @@
 
 .admin-product__type {
   font-family: var(--font-corpo);
-  font-size: 0.7rem;
+  font-size: 0.8rem;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -69,7 +69,7 @@
 
 .admin-product__body h2 {
   font-family: var(--font-corpo);
-  font-size: 1.2rem;
+  font-size: 1.4rem;
   font-weight: 700;
   color: var(--umber);
   letter-spacing: -0.02em;
@@ -78,7 +78,7 @@
 
 .admin-product__body p {
   font-family: var(--font-corpo);
-  font-size: 0.86rem;
+  font-size: 1rem;
   color: rgba(76, 54, 45, 0.6);
   line-height: 1.5;
   margin-bottom: 18px;
@@ -93,14 +93,14 @@
 
 .admin-product__count {
   font-family: var(--font-corpo);
-  font-size: 0.78rem;
+  font-size: 0.92rem;
   font-weight: 600;
   color: rgba(76, 54, 45, 0.45);
 }
 
 .admin-product__action {
   font-family: var(--font-corpo);
-  font-size: 0.84rem;
+  font-size: 1rem;
   font-weight: 600;
   color: var(--terracotta);
 }

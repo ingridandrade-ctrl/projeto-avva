@@ -1,121 +1,96 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { supabase } from '../../lib/supabase'
+import { useAuth } from '../../hooks/useAuth'
 import './AdminDashboard.css'
 
+const TZ = 'America/Sao_Paulo'
+
+function saudacaoBrasilia() {
+  const hora = Number(
+    new Intl.DateTimeFormat('pt-BR', { hour: 'numeric', hour12: false, timeZone: TZ }).format(new Date())
+  )
+  if (hora >= 5 && hora < 12) return 'Bom dia'
+  if (hora >= 12 && hora < 18) return 'Boa tarde'
+  return 'Boa noite'
+}
+
+function dataBrasilia() {
+  const txt = new Intl.DateTimeFormat('pt-BR', {
+    weekday: 'long', day: 'numeric', month: 'long', timeZone: TZ,
+  }).format(new Date())
+  return txt.charAt(0).toUpperCase() + txt.slice(1)
+}
+
 export default function AdminDashboard() {
-  const [collections, setCollections] = useState([])
-  const [stats, setStats] = useState({})
-  const [kitCount, setKitCount] = useState(0)
-  const [novasAplicacoes, setNovasAplicacoes] = useState(0)
-  const [alunas, setAlunas] = useState(0)
+  const { profile, session } = useAuth()
+  const [adsCount, setAdsCount] = useState(null)
+  const [kitCount, setKitCount] = useState(null)
+  const [novas, setNovas] = useState(null)
+  const [totalAplicacoes, setTotalAplicacoes] = useState(null)
 
   useEffect(() => {
     async function load() {
-      const { data: cols } = await supabase
-        .from('collections')
-        .select('*')
-        .order('order')
-      setCollections(cols || [])
-
-      const { data: ads } = await supabase
-        .from('ads')
-        .select('id, collection_id, active')
-      const counts = {}
-      let total = 0
-      let active = 0
-      for (const ad of (ads || [])) {
-        counts[ad.collection_id] = (counts[ad.collection_id] || 0) + 1
-        total++
-        if (ad.active) active++
-      }
-      counts._total = total
-      counts._active = active
-      setStats(counts)
-
-      const { count } = await supabase
-        .from('kit_items')
-        .select('id', { count: 'exact', head: true })
-      setKitCount(count || 0)
-
-      const { count: novas } = await supabase
-        .from('aplicacoes')
-        .select('id', { count: 'exact', head: true })
-        .eq('status', 'nova')
-      setNovasAplicacoes(novas || 0)
-
-      const { count: users } = await supabase
-        .from('users')
-        .select('id', { count: 'exact', head: true })
-      setAlunas(users || 0)
+      const [ads, kit, nov, tot] = await Promise.all([
+        supabase.from('ads').select('id', { count: 'exact', head: true }),
+        supabase.from('kit_items').select('id', { count: 'exact', head: true }),
+        supabase.from('aplicacoes').select('id', { count: 'exact', head: true }).eq('status', 'nova'),
+        supabase.from('aplicacoes').select('id', { count: 'exact', head: true }),
+      ])
+      setAdsCount(ads.count || 0)
+      setKitCount(kit.count || 0)
+      setNovas(nov.count || 0)
+      setTotalAplicacoes(tot.count || 0)
     }
     load()
   }, [])
 
-  const hora = new Date().getHours()
-  const saudacao = hora < 12 ? 'Bom dia' : hora < 18 ? 'Boa tarde' : 'Boa noite'
+  const nome = profile?.name?.split(' ')[0] || 'Admin'
+  const email = profile?.email || session?.user?.email || ''
+  const n = v => (v === null ? '…' : v)
 
   return (
     <div className="admin-dash">
-      <div className="adm-page-header">
-        <div>
-          <span className="adm-eyebrow">Painel</span>
-          <h1>{saudacao} ✦</h1>
-          <p>Visão geral dos produtos e da mentoria.</p>
-        </div>
-        <div className="adm-page-header__actions">
-          <Link to="/admin/ads/new" className="adm-btn adm-btn--primary">+ Novo anúncio</Link>
-        </div>
-      </div>
+      <header className="admin-dash__hello">
+        <span className="admin-dash__date">{dataBrasilia()}</span>
+        <h1>{saudacaoBrasilia()}, {nome} ✦</h1>
+        <p>
+          Logada como <strong>{email}</strong>. Por onde você quer começar?
+        </p>
+      </header>
 
-      <div className="admin-dash__stats">
-        <Link to="/admin/ads" className="admin-stat-card admin-stat-card--highlight">
-          <span className="admin-stat-card__label">Anúncios no Acervo</span>
-          <span className="admin-stat-card__number">{stats._total || 0}</span>
-          <span className="admin-stat-card__sub">{stats._active || 0} ativos</span>
+      <div className="admin-dash__areas">
+        <Link to="/admin/produtos" className="area-card area-card--produtos">
+          <div className="area-card__top">
+            <span className="area-card__icon">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M21 8l-9-5-9 5 9 5 9-5z"/><path d="M3 8v8l9 5 9-5V8"/><path d="M12 13v8"/></svg>
+            </span>
+            <span className="area-card__badge">Área de membros</span>
+          </div>
+          <h2>Produtos</h2>
+          <p>Acervo de Anúncios e Kit de Execução — tudo que as alunas veem.</p>
+          <div className="area-card__stats">
+            <span><strong>{n(adsCount)}</strong> anúncios</span>
+            <span><strong>{n(kitCount)}</strong> itens no Kit</span>
+          </div>
+          <span className="area-card__cta">Gerenciar produtos →</span>
         </Link>
-        <Link to="/admin/kit" className="admin-stat-card">
-          <span className="admin-stat-card__label">Itens no Kit</span>
-          <span className="admin-stat-card__number">{kitCount}</span>
-          <span className="admin-stat-card__sub">ganchos, estruturas e ângulos</span>
-        </Link>
-        <Link to="/admin/mentoria" className="admin-stat-card">
-          <span className="admin-stat-card__label">Aplicações novas</span>
-          <span className="admin-stat-card__number">{novasAplicacoes}</span>
-          <span className="admin-stat-card__sub">mentoria — aguardando leitura</span>
-        </Link>
-        <div className="admin-stat-card">
-          <span className="admin-stat-card__label">Alunas cadastradas</span>
-          <span className="admin-stat-card__number">{alunas}</span>
-          <span className="admin-stat-card__sub">com acesso à área de membros</span>
-        </div>
-      </div>
 
-      <div className="adm-card">
-        <div className="adm-card__header">
-          <h2>Anúncios por coleção</h2>
-          <Link to="/admin/ads" className="adm-btn adm-btn--ghost adm-btn--sm">Ver todos →</Link>
-        </div>
-        <div className="admin-dash__modules">
-          {collections.map(col => (
-            <Link
-              key={col.id}
-              to={`/admin/ads?collection=${col.id}`}
-              className="admin-module-row"
-            >
-              <span className="admin-module-row__order">
-                {col.is_bonus ? '✦' : String(col.order).padStart(2, '0')}
-              </span>
-              <span className="admin-module-row__title">
-                {col.title}
-                <small>{col.subtitle}</small>
-              </span>
-              <span className="admin-module-row__count">
-                {stats[col.id] || 0} {stats[col.id] === 1 ? 'anúncio' : 'anúncios'}
-              </span>
-            </Link>
-          ))}
-        </div>
+        <Link to="/admin/mentoria" className="area-card area-card--mentoria">
+          <div className="area-card__top">
+            <span className="area-card__icon">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            </span>
+            {novas > 0 && <span className="area-card__badge area-card__badge--alert">{novas} {novas === 1 ? 'nova' : 'novas'}</span>}
+          </div>
+          <h2>Mentoria</h2>
+          <p>Aplicações que chegaram pelo formulário, com status e notas.</p>
+          <div className="area-card__stats">
+            <span><strong>{n(totalAplicacoes)}</strong> aplicações</span>
+            <span><strong>{n(novas)}</strong> aguardando leitura</span>
+          </div>
+          <span className="area-card__cta">Ver aplicações →</span>
+        </Link>
       </div>
     </div>
   )
