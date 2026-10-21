@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react'
 import { supabase } from '../../lib/supabase'
-import Button from '../../components/ui/Button'
 import './AdminKit.css'
 
 const TYPES = [
@@ -128,10 +127,10 @@ export default function AdminKit() {
   function renderSection(type, label) {
     const sectionItems = items.filter(i => i.type === type)
     return (
-      <section className="admin-kit__section">
-        <div className="admin-kit__section-header">
-          <h2>{label}</h2>
-          <Button size="sm" onClick={() => startNew(type)}>+ Novo</Button>
+      <section className="adm-card admin-kit__section">
+        <div className="adm-card__header">
+          <h2>{label} <span className="admin-kit__n">{sectionItems.length}</span></h2>
+          <button type="button" className="adm-btn adm-btn--secondary adm-btn--sm" onClick={() => startNew(type)}>+ Novo</button>
         </div>
 
         {sectionItems.length === 0 ? (
@@ -177,11 +176,20 @@ export default function AdminKit() {
     )
   }
 
-  if (loading) return <p>Carregando...</p>
+  if (loading) return <div className="adm-card"><p className="adm-empty">Carregando…</p></div>
 
   return (
     <div className="admin-kit">
-      <h1>Kit de Execução</h1>
+      <div className="adm-page-header">
+        <div>
+          <span className="adm-eyebrow">Order bump</span>
+          <h1>Kit de Execução</h1>
+          <p>Ganchos, estruturas narrativas e ângulos com prompts — o que a aluna copia e usa.</p>
+        </div>
+        <div className="adm-page-header__actions">
+          <button type="button" className="adm-btn adm-btn--primary" onClick={() => startNew('gancho')}>+ Novo item</button>
+        </div>
+      </div>
 
       {(editing !== null || form.title || form.type !== 'gancho') && (
         <form onSubmit={handleSubmit} className="admin-form admin-kit__form">
@@ -273,10 +281,10 @@ export default function AdminKit() {
           )}
 
           <div className="admin-form__actions">
-            <Button type="submit" disabled={saving}>
+            <button type="submit" className="adm-btn adm-btn--primary" disabled={saving}>
               {saving ? 'Salvando...' : editing ? 'Salvar' : 'Criar'}
-            </Button>
-            <Button type="button" variant="ghost" onClick={cancelForm}>Cancelar</Button>
+            </button>
+            <button type="button" className="adm-btn adm-btn--ghost" onClick={cancelForm}>Cancelar</button>
           </div>
         </form>
       )}

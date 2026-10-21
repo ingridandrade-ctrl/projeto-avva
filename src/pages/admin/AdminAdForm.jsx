@@ -1,8 +1,7 @@
 import { useEffect, useState } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import { supabase } from '../../lib/supabase'
 import { NICHES, MEDIA_TYPES } from '../../lib/catalog'
-import Button from '../../components/ui/Button'
 import './AdminAdForm.css'
 
 export default function AdminAdForm() {
@@ -110,7 +109,14 @@ export default function AdminAdForm() {
 
   return (
     <div className="admin-ad-form">
-      <h1>{isEdit ? 'Editar anúncio' : 'Novo anúncio'}</h1>
+      <Link to="/admin/ads" className="admin-ad-form__back">← Anúncios</Link>
+      <div className="adm-page-header">
+        <div>
+          <span className="adm-eyebrow">Acervo de Anúncios</span>
+          <h1>{isEdit ? 'Editar anúncio' : 'Novo anúncio'}</h1>
+          <p>{isEdit ? 'As alterações aparecem na hora para as alunas.' : 'Preencha os 6 campos. Nichos aceitam mais de um.'}</p>
+        </div>
+      </div>
 
       <form onSubmit={handleSubmit} className="admin-form">
         <div className="admin-form__field">
@@ -226,22 +232,22 @@ export default function AdminAdForm() {
         )}
 
         <div className="admin-form__actions">
-          <Button type="submit" disabled={saving}>
+          <button type="submit" className="adm-btn adm-btn--primary" disabled={saving}>
             {saving ? 'Salvando...' : isEdit ? 'Salvar alterações' : 'Criar anúncio'}
-          </Button>
+          </button>
           {!isEdit && (
-            <Button
+            <button
               type="button"
-              variant="secondary"
+              className="adm-btn adm-btn--secondary"
               disabled={saving}
               onClick={() => save({ stayForNext: true })}
             >
               Salvar e criar próximo
-            </Button>
+            </button>
           )}
-          <Button type="button" variant="ghost" onClick={() => navigate('/admin/ads')}>
+          <button type="button" className="adm-btn adm-btn--ghost" onClick={() => navigate('/admin/ads')}>
             Cancelar
-          </Button>
+          </button>
         </div>
       </form>
     </div>

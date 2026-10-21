@@ -46,9 +46,12 @@ export default function AdminProducts() {
 
   return (
     <div className="admin-products">
-      <div className="admin-products__header">
-        <h1>Produtos</h1>
-        <p>Cada produto da área de membros e o conteúdo que as alunas veem.</p>
+      <div className="adm-page-header">
+        <div>
+          <span className="adm-eyebrow">Produtos</span>
+          <h1>Todos os produtos</h1>
+          <p>Cada produto da área de membros e o conteúdo que as alunas veem.</p>
+        </div>
       </div>
 
       <div className="admin-products__grid">

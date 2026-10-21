@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 import { supabase } from '../../lib/supabase'
 import { NICHE_LABELS, MEDIA_LABELS } from '../../lib/catalog'
-import Button from '../../components/ui/Button'
 import Tag from '../../components/ui/Tag'
 import './AdminAdsList.css'
 
@@ -12,6 +11,7 @@ export default function AdminAdsList() {
   const [ads, setAds] = useState([])
   const [collections, setCollections] = useState([])
   const [selectedCollection, setSelectedCollection] = useState(collectionFilter || '')
+  const [search, setSearch] = useState('')
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
@@ -49,14 +49,32 @@ export default function AdminAdsList() {
     loadAds()
   }
 
+  const term = search.trim().toLowerCase()
+  const visible = term
+    ? ads.filter(a => `${a.title} ${a.analysis || ''}`.toLowerCase().includes(term))
+    : ads
+
   return (
     <div className="admin-ads">
-      <div className="admin-ads__header">
-        <h1>Anúncios</h1>
-        <Link to="/admin/ads/new"><Button>Novo anúncio</Button></Link>
+      <div className="adm-page-header">
+        <div>
+          <span className="adm-eyebrow">Acervo de Anúncios</span>
+          <h1>Anúncios</h1>
+          <p>Tudo que as alunas veem nas Coleções. Desative para esconder sem apagar.</p>
+        </div>
+        <div className="adm-page-header__actions">
+          <Link to="/admin/ads/new" className="adm-btn adm-btn--primary">+ Novo anúncio</Link>
+        </div>
       </div>
 
       <div className="admin-ads__filters">
+        <input
+          type="search"
+          className="adm-input admin-ads__search"
+          placeholder="Buscar por título ou análise…"
+          value={search}
+          onChange={e => setSearch(e.target.value)}
+        />
         <select
           value={selectedCollection}
           onChange={e => setSelectedCollection(e.target.value)}
@@ -69,13 +87,24 @@ export default function AdminAdsList() {
             </option>
           ))}
         </select>
-        <span className="admin-ads__count">{ads.length} anúncios</span>
+        <span className="admin-ads__count">
+          {visible.length} {visible.length === 1 ? 'anúncio' : 'anúncios'}
+        </span>
       </div>
 
       {loading ? (
-        <p className="admin-ads__loading">Carregando...</p>
-      ) : ads.length === 0 ? (
-        <p className="admin-ads__empty">Nenhum anúncio cadastrado.</p>
+        <div className="adm-card"><p className="adm-empty">Carregando…</p></div>
+      ) : visible.length === 0 ? (
+        <div className="adm-card">
+          <div className="adm-empty">
+            <p>{ads.length === 0 ? 'Nenhum anúncio cadastrado ainda.' : 'Nenhum anúncio com esses filtros.'}</p>
+            {ads.length === 0 && (
+              <Link to="/admin/ads/new" className="adm-btn adm-btn--primary" style={{ marginTop: 16 }}>
+                Cadastrar o primeiro
+              </Link>
+            )}
+          </div>
+        </div>
       ) : (
         <div className="admin-table-wrap">
           <table className="admin-table">
@@ -86,11 +115,11 @@ export default function AdminAdsList() {
                 <th>Nichos</th>
                 <th>Mídia</th>
                 <th>Ativo</th>
-                <th>Ações</th>
+                <th></th>
               </tr>
             </thead>
             <tbody>
-              {ads.map(ad => (
+              {visible.map(ad => (
                 <tr key={ad.id} className={!ad.active ? 'admin-table__row--inactive' : ''}>
                   <td className="admin-table__title">{ad.title}</td>
                   <td>{ad.collections?.title || '—'}</td>
