@@ -11,9 +11,11 @@ import FormFlora from './pages/FormFlora'
 // Code-splitting: cada área baixa seu código só quando acessada
 const AdminLayout = lazy(() => import('./components/layout/AdminLayout'))
 const AdminDashboard = lazy(() => import('./pages/admin/AdminDashboard'))
+const AdminProducts = lazy(() => import('./pages/admin/AdminProducts'))
 const AdminAdsList = lazy(() => import('./pages/admin/AdminAdsList'))
 const AdminAdForm = lazy(() => import('./pages/admin/AdminAdForm'))
 const AdminKit = lazy(() => import('./pages/admin/AdminKit'))
+const AdminLogin = lazy(() => import('./pages/AdminLogin'))
 const ProductPage = lazy(() => import('./pages/product/ProductPage'))
 const CollectionPage = lazy(() => import('./pages/collections/CollectionPage'))
 const KitPage = lazy(() => import('./pages/kit/KitPage'))
@@ -22,7 +24,6 @@ const SearchPage = lazy(() => import('./pages/search/SearchPage'))
 const FormIngrid = lazy(() => import('./pages/FormIngrid'))
 const Confirmacao = lazy(() => import('./pages/Confirmacao'))
 const Dashboard = lazy(() => import('./pages/Dashboard'))
-const AdminLogin = lazy(() => import('./pages/AdminLogin'))
 
 function PageLoader() {
   return (
@@ -46,15 +47,21 @@ export default function App() {
       <AuthProvider>
         <Suspense fallback={<PageLoader />}>
           <Routes>
-            {/* Formulários de aplicação (projeto existente) */}
-            <Route path="/aplicacao" element={<FormFlora />} />
-            <Route path="/aplicacao/flora" element={<FormFlora />} />
-            <Route path="/aplicacao/ingrid" element={<FormIngrid />} />
-            <Route path="/aplicacao/confirmacao" element={<Confirmacao />} />
-            <Route path="/aplicacao/login" element={<AdminLogin />} />
-            <Route path="/aplicacao/dashboard" element={<AdminRoute loginPath="/aplicacao/login" deniedPath="/aplicacao/login"><Dashboard /></AdminRoute>} />
+            {/* ── Mentoria (formulários de aplicação) ── */}
+            <Route path="/mentoria" element={<FormFlora />} />
+            <Route path="/mentoria/flora" element={<FormFlora />} />
+            <Route path="/mentoria/ingrid" element={<FormIngrid />} />
+            <Route path="/mentoria/confirmacao" element={<Confirmacao />} />
 
-            {/* Área de membros — Método AVVA */}
+            {/* Endereços antigos continuam funcionando */}
+            <Route path="/aplicacao" element={<Navigate to="/mentoria" replace />} />
+            <Route path="/aplicacao/flora" element={<Navigate to="/mentoria/flora" replace />} />
+            <Route path="/aplicacao/ingrid" element={<Navigate to="/mentoria/ingrid" replace />} />
+            <Route path="/aplicacao/confirmacao" element={<Navigate to="/mentoria/confirmacao" replace />} />
+            <Route path="/aplicacao/login" element={<Navigate to="/admin/login" replace />} />
+            <Route path="/aplicacao/dashboard" element={<Navigate to="/admin/mentoria" replace />} />
+
+            {/* ── Área de membros — alunas ── */}
             <Route path="/login" element={<LoginPage />} />
 
             <Route
@@ -65,7 +72,6 @@ export default function App() {
               }
             >
               <Route path="/alunas" element={<MemberDashboard />} />
-              {/* Endereço antigo continua funcionando */}
               <Route path="/dashboard" element={<Navigate to="/alunas" replace />} />
               <Route path="/produto/:slug" element={<ProductPage />} />
               <Route path="/colecao/:slug" element={<CollectionPage />} />
@@ -74,23 +80,27 @@ export default function App() {
               <Route path="/busca" element={<SearchPage />} />
             </Route>
 
-            {/* Painel Admin (acesso separado, sem botão na área normal) */}
+            {/* ── Admin geral: Produtos + Mentoria ── */}
+            <Route path="/admin/login" element={<AdminLogin />} />
+
             <Route
               element={
-                <AdminRoute>
+                <AdminRoute loginPath="/admin/login" deniedPath="/alunas">
                   <AdminLayout />
                 </AdminRoute>
               }
             >
               <Route path="/admin" element={<AdminDashboard />} />
+              <Route path="/admin/produtos" element={<AdminProducts />} />
               <Route path="/admin/ads" element={<AdminAdsList />} />
               <Route path="/admin/ads/new" element={<AdminAdForm />} />
               <Route path="/admin/ads/:id/edit" element={<AdminAdForm />} />
               <Route path="/admin/kit" element={<AdminKit />} />
+              <Route path="/admin/mentoria" element={<Dashboard embedded />} />
             </Route>
 
-            {/* Raiz vai para o formulário (projeto original) */}
-            <Route path="/" element={<FormFlora />} />
+            {/* Raiz: por enquanto leva pro formulário da mentoria */}
+            <Route path="/" element={<Navigate to="/mentoria" replace />} />
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </Suspense>

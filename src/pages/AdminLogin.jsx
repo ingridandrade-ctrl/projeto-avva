@@ -16,7 +16,7 @@ export default function AdminLogin() {
 
   if (loading) return null
   if (session && profile?.is_admin) {
-    return <Navigate to={location.state?.from || '/aplicacao/dashboard'} replace />
+    return <Navigate to={location.state?.from || '/admin'} replace />
   }
   const semAcesso = session && !profile?.is_admin
 

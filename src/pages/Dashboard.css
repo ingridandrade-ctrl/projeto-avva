@@ -622,3 +622,23 @@
   .dash-table td:last-child { border-bottom: none; }
   .cell-contact { align-items: flex-end; text-align: right; }
 }
+
+/* ── Dentro do admin geral: sem fundo de página inteira ── */
+.dashboard--embedded {
+  min-height: auto;
+  background: transparent;
+  background-image: none;
+}
+
+.dashboard--embedded .dash-top {
+  position: static;
+  background: transparent;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+.dashboard--embedded .dash-top__inner,
+.dashboard--embedded .dash-main {
+  padding-left: 0;
+  padding-right: 0;
+}

@@ -154,7 +154,7 @@ export default function FormularioAvva({ origem }) {
     const { error } = await supabase.from('aplicacoes').insert({ ...form, origem, status: 'nova' })
     if (error) { alert('Erro ao enviar. Tente novamente.'); setSending(false); return }
     safe(() => { localStorage.removeItem(STORAGE_KEY); sessionStorage.removeItem(`${STORAGE_KEY}_step`) })
-    navigate('/aplicacao/confirmacao', { replace: true })
+    navigate('/mentoria/confirmacao', { replace: true })
   }
 
   const progress = step < 2 ? 0 : ((pi + 1) / PERGUNTAS.length) * 100

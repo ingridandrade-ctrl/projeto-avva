@@ -8,6 +8,7 @@ export default function AdminDashboard() {
   const [collections, setCollections] = useState([])
   const [stats, setStats] = useState({})
   const [kitCount, setKitCount] = useState(0)
+  const [novasAplicacoes, setNovasAplicacoes] = useState(0)
 
   useEffect(() => {
     async function load() {
@@ -33,6 +34,12 @@ export default function AdminDashboard() {
         .from('kit_items')
         .select('id', { count: 'exact', head: true })
       setKitCount(count || 0)
+
+      const { count: novas } = await supabase
+        .from('aplicacoes')
+        .select('id', { count: 'exact', head: true })
+        .eq('status', 'nova')
+      setNovasAplicacoes(novas || 0)
     }
     load()
   }, [])
@@ -43,7 +50,8 @@ export default function AdminDashboard() {
         <h1>Painel Admin</h1>
         <div className="admin-dash__actions">
           <Link to="/admin/ads/new"><Button>Novo anúncio</Button></Link>
-          <Link to="/admin/kit"><Button variant="secondary">Kit de Execução</Button></Link>
+          <Link to="/admin/produtos"><Button variant="secondary">Produtos</Button></Link>
+          <Link to="/admin/mentoria"><Button variant="secondary">Mentoria</Button></Link>
         </div>
       </div>
 
@@ -56,6 +64,10 @@ export default function AdminDashboard() {
           <span className="admin-stat-card__number">{kitCount}</span>
           <span className="admin-stat-card__label">Itens no Kit</span>
         </div>
+        <Link to="/admin/mentoria" className="admin-stat-card" style={{ textDecoration: 'none' }}>
+          <span className="admin-stat-card__number">{novasAplicacoes}</span>
+          <span className="admin-stat-card__label">Aplicações novas (mentoria)</span>
+        </Link>
       </div>
 
       <h2>Anúncios por coleção</h2>

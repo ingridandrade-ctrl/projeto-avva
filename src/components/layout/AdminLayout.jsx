@@ -1,45 +1,41 @@
-import { NavLink, Outlet } from 'react-router-dom'
+import { NavLink, Outlet, useLocation } from 'react-router-dom'
 import { useAuth } from '../../hooks/useAuth'
 import './AdminLayout.css'
 
+// "Produtos" fica ativo em qualquer tela de produto (anúncios, kit)
 const NAV = [
-  { to: '/admin', label: 'Painel', end: true },
-  { to: '/admin/ads', label: 'Anúncios' },
-  { to: '/admin/kit', label: 'Kit de Execução' },
+  { to: '/admin', label: 'Painel', match: p => p === '/admin' },
+  { to: '/admin/produtos', label: 'Produtos', match: p => p.startsWith('/admin/produtos') || p.startsWith('/admin/ads') || p.startsWith('/admin/kit') },
+  { to: '/admin/mentoria', label: 'Mentoria', match: p => p.startsWith('/admin/mentoria') },
 ]
 
 export default function AdminLayout() {
   const { signOut } = useAuth()
+  const { pathname } = useLocation()
 
   return (
     <div className="admin-layout">
       <header className="admin-header">
         <div className="admin-header__brand">
           <h1>Admin</h1>
-          <span>Acervo de Anúncios</span>
+          <span>Método AVVA</span>
         </div>
         <nav className="admin-header__nav">
           {NAV.map((item, index) => (
-            <>
-              {index > 0 && (
-                <span key={`sep-${index}`} className="admin-header__sep" />
-              )}
+            <span key={item.to} style={{ display: 'contents' }}>
+              {index > 0 && <span className="admin-header__sep" />}
               <NavLink
-                key={item.to}
                 to={item.to}
-                end={item.end}
-                className={({ isActive }) =>
-                  `admin-header__link ${isActive ? 'admin-header__link--active' : ''}`
-                }
+                className={`admin-header__link ${item.match(pathname) ? 'admin-header__link--active' : ''}`}
               >
                 {item.label}
               </NavLink>
-            </>
+            </span>
           ))}
         </nav>
         <div className="admin-header__actions">
           <NavLink to="/alunas" className="admin-header__link">
-            ← Voltar ao site
+            ← Área das alunas
           </NavLink>
           <button className="admin-header__signout" onClick={signOut}>Sair</button>
         </div>
