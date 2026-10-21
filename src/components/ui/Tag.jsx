@@ -4,6 +4,9 @@ const COLOR_MAP = {
   topo: 'tag--teal',
   meio: 'tag--terracotta',
   fundo: 'tag--umber',
+  teal: 'tag--teal',
+  terracotta: 'tag--terracotta',
+  umber: 'tag--umber',
 }
 
 export default function Tag({ children, type, onClick, active }) {

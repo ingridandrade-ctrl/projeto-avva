@@ -90,7 +90,7 @@
   padding: 12px 14px;
   border-radius: 12px;
   font-family: var(--font-corpo);
-  font-size: 0.88rem;
+  font-size: 1rem;
   font-weight: 400;
   color: rgba(255, 255, 255, 0.55);
   transition: color 0.25s ease, background 0.25s ease, transform 0.25s ease;

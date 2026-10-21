@@ -2,39 +2,44 @@ import { useEffect, useState, useMemo } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { supabase } from '../../lib/supabase'
 import { useFavorites } from '../../hooks/useFavorites'
-import { getCollection, COLLECTIONS } from '../../lib/catalog'
+import { getCollectionStyle } from '../../lib/catalog'
 import AdCard from '../../components/ads/AdCard'
+import AdModal from '../../components/ads/AdModal'
 import FilterBar from '../../components/filters/FilterBar'
 import './CollectionPage.css'
 
 export default function CollectionPage() {
   const { slug } = useParams()
   const { toggleFavorite, isFavorite } = useFavorites()
+  const [collection, setCollection] = useState(undefined)
+  const [allCollections, setAllCollections] = useState([])
   const [ads, setAds] = useState([])
   const [loading, setLoading] = useState(true)
+  const [openAd, setOpenAd] = useState(null)
 
   const [selectedNiche, setSelectedNiche] = useState(null)
   const [selectedMedia, setSelectedMedia] = useState(null)
-
-  const collection = getCollection(slug)
+  const [search, setSearch] = useState('')
 
   useEffect(() => {
     async function load() {
       setLoading(true)
       setSelectedNiche(null)
       setSelectedMedia(null)
+      setSearch('')
+      setOpenAd(null)
 
-      const { data: colData } = await supabase
-        .from('collections')
-        .select('id')
-        .eq('slug', slug)
-        .single()
+      const { data: cols } = await supabase.from('collections').select('*').order('order')
+      const list = cols || []
+      setAllCollections(list)
+      const col = list.find(c => c.slug === slug) || null
+      setCollection(col)
 
-      if (colData) {
+      if (col) {
         const { data: adsData } = await supabase
           .from('ads')
           .select('*')
-          .eq('collection_id', colData.id)
+          .eq('collection_id', col.id)
           .eq('active', true)
           .order('created_at')
         setAds(adsData || [])
@@ -50,36 +55,43 @@ export default function CollectionPage() {
     let result = ads
     if (selectedNiche) result = result.filter(a => (a.niches || []).includes(selectedNiche))
     if (selectedMedia) result = result.filter(a => a.media_type === selectedMedia)
+    const term = search.trim().toLowerCase()
+    if (term) result = result.filter(a => `${a.title} ${a.analysis || ''}`.toLowerCase().includes(term))
     return result
-  }, [ads, selectedNiche, selectedMedia])
+  }, [ads, selectedNiche, selectedMedia, search])
 
-  if (!collection) {
+  if (collection === null) {
     return <div className="collection-page__loading">Coleção não encontrada.</div>
   }
+  if (collection === undefined) {
+    return <div className="collection-page__loading"><div className="collection-page__loading-spinner" /></div>
+  }
 
-  const idx = COLLECTIONS.findIndex(c => c.slug === slug)
-  const next = COLLECTIONS[idx + 1]
+  const style = getCollectionStyle(collection.slug)
+  const idx = allCollections.findIndex(c => c.id === collection.id)
+  const next = allCollections[idx + 1]
+  const label = collection.is_bonus
+    ? 'Bônus'
+    : style.kind === 'fixa'
+      ? `Coleção ${String(collection.order).padStart(2, '0')}`
+      : style.kind === 'melhores' ? 'Melhores do mês' : 'Especial'
 
   return (
     <div className="collection-page">
-      {/* Header */}
-      <div className="collection-page__header" style={{ background: collection.gradient }}>
+      <div className="collection-page__header" style={{ background: style.gradient }}>
         <div className="collection-page__header-orb" />
         <div className="collection-page__header-content">
           <Link to="/produto/acervo-anuncios" className="collection-page__back">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
             Coleções
           </Link>
-          <span className="collection-page__number">
-            {collection.isBonus ? 'Bônus' : `Coleção ${String(collection.order).padStart(2, '0')}`}
-          </span>
+          <span className="collection-page__number">{label}</span>
           <h1>{collection.title}</h1>
           <p>{collection.subtitle}</p>
         </div>
       </div>
 
-      {/* Aviso fixo do bônus */}
-      {collection.isBonus && (
+      {collection.is_bonus && (
         <div className="collection-page__notice">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
           Esses anúncios funcionam melhor para quem já tem audiência.
@@ -87,10 +99,14 @@ export default function CollectionPage() {
       )}
 
       <FilterBar
+        search={search}
+        onSearchChange={setSearch}
         selectedNiche={selectedNiche}
         selectedMedia={selectedMedia}
         onNicheChange={setSelectedNiche}
         onMediaChange={setSelectedMedia}
+        total={ads.length}
+        shown={filteredAds.length}
       />
 
       {loading ? (
@@ -108,6 +124,7 @@ export default function CollectionPage() {
                   ad={ad}
                   isFavorite={isFavorite(ad.id)}
                   onToggleFavorite={toggleFavorite}
+                  onOpen={() => setOpenAd(ad)}
                 />
               </div>
             ))}
@@ -118,7 +135,7 @@ export default function CollectionPage() {
               <p className="collection-page__empty-title">Nenhum anúncio encontrado</p>
               <p className="collection-page__empty-sub">
                 {ads.length > 0
-                  ? 'Tente ajustar os filtros acima.'
+                  ? 'Tente ajustar os filtros ou a busca.'
                   : 'Os anúncios dessa coleção chegam em breve.'}
               </p>
             </div>
@@ -136,6 +153,16 @@ export default function CollectionPage() {
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
           </Link>
         </div>
+      )}
+
+      {openAd && (
+        <AdModal
+          ad={openAd}
+          collectionTitle={collection.title}
+          isFavorite={isFavorite(openAd.id)}
+          onToggleFavorite={toggleFavorite}
+          onClose={() => setOpenAd(null)}
+        />
       )}
     </div>
   )

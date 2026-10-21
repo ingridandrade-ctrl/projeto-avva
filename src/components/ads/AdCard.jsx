@@ -1,11 +1,10 @@
-import { useState } from 'react'
 import DriveEmbed from './DriveEmbed'
 import Tag from '../ui/Tag'
 import { NICHE_LABELS, MEDIA_LABELS } from '../../lib/catalog'
 import './AdCard.css'
 
-export default function AdCard({ ad, isFavorite, onToggleFavorite }) {
-  const [expanded, setExpanded] = useState(false)
+export default function AdCard({ ad, isFavorite, onToggleFavorite, onOpen }) {
+  const hasAnalysis = Boolean(ad.analysis && ad.analysis.trim())
 
   return (
     <article className="ad-card">
@@ -26,9 +25,7 @@ export default function AdCard({ ad, isFavorite, onToggleFavorite }) {
       </div>
 
       <div className="ad-card__body">
-        <div className="ad-card__header">
-          <h3 className="ad-card__title">{ad.title}</h3>
-        </div>
+        <h3 className="ad-card__title">{ad.title}</h3>
 
         {(ad.niches || []).length > 0 && (
           <div className="ad-card__tags">
@@ -38,20 +35,14 @@ export default function AdCard({ ad, isFavorite, onToggleFavorite }) {
           </div>
         )}
 
-        {ad.analysis && (
-          <div className="ad-card__analysis">
-            <button
-              className="ad-card__toggle"
-              onClick={() => setExpanded(e => !e)}
-            >
-              {expanded ? 'Ocultar análise' : 'Ver análise'}
-              <span className={`ad-card__chevron ${expanded ? 'ad-card__chevron--up' : ''}`}>›</span>
-            </button>
-            <div className={`ad-card__analysis-text ${expanded ? 'ad-card__analysis-text--visible' : ''}`}>
-              {ad.analysis}
-            </div>
-          </div>
+        {hasAnalysis && (
+          <p className="ad-card__excerpt">{ad.analysis}</p>
         )}
+
+        <button type="button" className="ad-card__open" onClick={onOpen}>
+          {hasAnalysis ? 'Ver análise completa' : 'Ver anúncio'}
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </button>
       </div>
     </article>
   )

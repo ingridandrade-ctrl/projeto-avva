@@ -3,6 +3,7 @@ import { useSearchParams } from 'react-router-dom'
 import { supabase } from '../../lib/supabase'
 import { useFavorites } from '../../hooks/useFavorites'
 import AdCard from '../../components/ads/AdCard'
+import AdModal from '../../components/ads/AdModal'
 import './SearchPage.css'
 
 export default function SearchPage() {
@@ -11,6 +12,7 @@ export default function SearchPage() {
   const { toggleFavorite, isFavorite } = useFavorites()
   const [results, setResults] = useState([])
   const [loading, setLoading] = useState(false)
+  const [openAd, setOpenAd] = useState(null)
 
   useEffect(() => {
     async function search() {
@@ -22,7 +24,8 @@ export default function SearchPage() {
       const term = `%${query}%`
       const { data } = await supabase
         .from('ads')
-        .select('*')
+        .select('*, collections(title)')
+        .eq('active', true)
         .or(`title.ilike.${term},analysis.ilike.${term}`)
         .order('created_at', { ascending: false })
         .limit(50)
@@ -53,9 +56,20 @@ export default function SearchPage() {
             ad={ad}
             isFavorite={isFavorite(ad.id)}
             onToggleFavorite={toggleFavorite}
+            onOpen={() => setOpenAd(ad)}
           />
         ))}
       </div>
+
+      {openAd && (
+        <AdModal
+          ad={openAd}
+          collectionTitle={openAd.collections?.title}
+          isFavorite={isFavorite(openAd.id)}
+          onToggleFavorite={toggleFavorite}
+          onClose={() => setOpenAd(null)}
+        />
+      )}
     </div>
   )
 }

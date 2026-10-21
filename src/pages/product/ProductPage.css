@@ -261,7 +261,7 @@
 
 .module-card__body h3 {
   font-family: var(--font-corpo);
-  font-size: 1.1rem;
+  font-size: 1.25rem;
   font-weight: 700;
   color: var(--umber);
   letter-spacing: -0.02em;
@@ -270,7 +270,7 @@
 
 .module-card__body p {
   font-family: var(--font-corpo);
-  font-size: 0.82rem;
+  font-size: 0.95rem;
   font-weight: 400;
   color: rgba(76, 54, 45, 0.55);
   line-height: 1.5;
@@ -319,7 +319,7 @@
 
 .module-card__count {
   font-family: var(--font-corpo);
-  font-size: 0.75rem;
+  font-size: 0.85rem;
   font-weight: 500;
   color: rgba(76, 54, 45, 0.4);
 }
@@ -348,7 +348,7 @@
   border-radius: 100px;
   background: rgba(168, 92, 53, 0.08);
   font-family: var(--font-corpo);
-  font-size: 0.82rem;
+  font-size: 0.92rem;
   font-weight: 600;
   color: var(--terracotta);
   margin-left: auto;
@@ -424,4 +424,17 @@
     animation: none;
     transition: none;
   }
+}
+
+/* Skeleton enquanto as coleções carregam */
+.module-card--skeleton {
+  min-height: 280px;
+  background: linear-gradient(100deg, rgba(212, 185, 154, 0.14) 25%, rgba(212, 185, 154, 0.28) 50%, rgba(212, 185, 154, 0.14) 75%);
+  background-size: 200% 100%;
+  animation: count-shimmer 1.2s ease-in-out infinite;
+  border-color: transparent;
+}
+
+.product-page__modules + .product-page__modules {
+  margin-top: 44px;
 }

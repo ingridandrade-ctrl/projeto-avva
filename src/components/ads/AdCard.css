@@ -70,7 +70,7 @@
 
 /* ── Body ── */
 .ad-card__body {
-  padding: 18px 22px 22px;
+  padding: 20px 24px 24px;
 }
 
 /* ── Header ── */
@@ -84,12 +84,12 @@
 
 .ad-card__title {
   font-family: var(--font-corpo);
-  font-size: 1.05rem;
-  font-weight: 600;
+  font-size: 1.25rem;
+  font-weight: 700;
   letter-spacing: -0.02em;
   color: var(--umber);
-  line-height: 1.35;
-  margin: 0;
+  line-height: 1.3;
+  margin: 0 0 12px;
 }
 
 /* ── Favorite button (circular glass sobre o embed) ── */
@@ -147,69 +147,50 @@
   box-shadow: 0 1px 2px rgba(76, 54, 45, 0.04);
 }
 
-/* ── Analysis section ── */
-.ad-card__analysis {
-  border-top: 1px solid rgba(76, 54, 45, 0.08);
-  padding-top: 14px;
+/* ── Trecho da análise + botão de abrir ── */
+.ad-card__excerpt {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: rgba(76, 54, 45, 0.7);
+  margin: 0 0 16px;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
-.ad-card__toggle {
-  background: none;
-  border: none;
-  font-family: var(--font-corpo);
-  font-size: 0.8rem;
-  font-weight: 600;
-  letter-spacing: 0.02em;
-  color: var(--teal-medio);
-  cursor: pointer;
+.ad-card__open {
   display: inline-flex;
   align-items: center;
-  gap: 5px;
-  padding: 4px 0;
-  transition: color 0.2s ease;
-}
-
-.ad-card__toggle:hover {
-  color: var(--teal-profundo);
-}
-
-.ad-card__chevron {
-  display: inline-block;
-  transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  font-size: 1.1rem;
-  transform: rotate(90deg);
-}
-
-.ad-card__chevron--up {
-  transform: rotate(-90deg);
-}
-
-/* ── Analysis text with smooth expand/collapse ── */
-.ad-card__analysis-text {
-  max-height: 0;
-  overflow: hidden;
-  opacity: 0;
-  transition: max-height 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94),
-              opacity 0.3s ease,
-              margin-top 0.3s ease;
+  gap: 8px;
+  padding: 11px 18px;
+  border: none;
+  border-radius: 100px;
+  background: rgba(168, 92, 53, 0.1);
   font-family: var(--font-corpo);
-  font-size: 0.875rem;
-  line-height: 1.75;
-  color: var(--umber);
-  opacity: 0;
-  white-space: pre-wrap;
-  margin-top: 0;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--terracotta);
+  cursor: pointer;
+  transition: background 0.25s ease, color 0.25s ease;
 }
 
-.ad-card__analysis-text--visible {
-  max-height: 500px;
-  opacity: 0.85;
-  margin-top: 12px;
+.ad-card__open svg {
+  transition: transform 0.25s ease;
+}
+
+.ad-card__open:hover {
+  background: var(--terracotta);
+  color: #fff;
+}
+
+.ad-card__open:hover svg {
+  transform: translateX(3px);
 }
 
 /* ── Foco por teclado na cor da marca ── */
 .ad-card__fav:focus-visible,
-.ad-card__toggle:focus-visible {
+.ad-card__open:focus-visible {
   outline: none;
   box-shadow: 0 0 0 3px rgba(168, 92, 53, 0.28);
 }

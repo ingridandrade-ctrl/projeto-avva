@@ -46,13 +46,6 @@ export const COLLECTIONS = [
     gradient: 'linear-gradient(135deg, #C98A5E 0%, #D4B99A 55%, #7FA588 100%)',
   },
   {
-    slug: 'melhores-do-mes',
-    title: 'Melhores do mês',
-    subtitle: 'Os anúncios que mais se destacaram, mês a mês',
-    order: 7,
-    gradient: 'linear-gradient(135deg, #3F7A66 0%, #8A5C3F 55%, #D4B99A 100%)',
-  },
-  {
     slug: 'especial-black',
     title: 'Especial Black',
     subtitle: 'Black Friday: páginas e criativos que venderam',
@@ -63,6 +56,31 @@ export const COLLECTIONS = [
 
 export function getCollection(slug) {
   return COLLECTIONS.find(c => c.slug === slug)
+}
+
+// As coleções vêm do banco; o catálogo acima só dá o visual das fixas.
+// Para coleções criadas depois (ex.: "melhores-de-novembro-2026"), o estilo
+// é escolhido pelo prefixo do slug.
+const MELHORES_GRADIENTS = [
+  'linear-gradient(135deg, #3F7A66 0%, #8A5C3F 55%, #D4B99A 100%)',
+  'linear-gradient(135deg, #1A6868 0%, #7FA588 60%, #D4B99A 100%)',
+  'linear-gradient(135deg, #8A5C3F 0%, #C98A5E 60%, #7FA588 100%)',
+  'linear-gradient(135deg, #2C6B5A 0%, #A85C35 60%, #D4B99A 100%)',
+  'linear-gradient(135deg, #B97A4E 0%, #D4B99A 50%, #3F7A66 100%)',
+]
+
+export function getCollectionStyle(slug = '') {
+  const fixed = getCollection(slug)
+  if (fixed) return { gradient: fixed.gradient, kind: 'fixa' }
+  if (slug.startsWith('especial-')) {
+    return { gradient: 'linear-gradient(135deg, #2E211B 0%, #4C362D 45%, #A85C35 100%)', kind: 'especial' }
+  }
+  if (slug.startsWith('melhores-')) {
+    let h = 0
+    for (const ch of slug) h = (h * 31 + ch.charCodeAt(0)) % 997
+    return { gradient: MELHORES_GRADIENTS[h % MELHORES_GRADIENTS.length], kind: 'melhores' }
+  }
+  return { gradient: 'linear-gradient(135deg, #1A6868 0%, #3F7A66 100%)', kind: 'outra' }
 }
 
 // Tags de nicho — fixas, só estas 4 (multi-select)

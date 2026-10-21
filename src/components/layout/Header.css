@@ -80,7 +80,7 @@
   border: 1px solid rgba(76, 54, 45, 0.1);
   border-radius: var(--radius-md);
   background: rgba(255, 255, 255, 0.7);
-  font-size: 0.875rem;
+  font-size: 1rem;
   color: var(--umber);
   transition:
     border-color 0.25s ease,
