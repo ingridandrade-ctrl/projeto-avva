@@ -68,6 +68,8 @@ export default function SearchPage() {
           isFavorite={isFavorite(openAd.id)}
           onToggleFavorite={toggleFavorite}
           onClose={() => setOpenAd(null)}
+          list={results}
+          onNavigate={setOpenAd}
         />
       )}
     </div>

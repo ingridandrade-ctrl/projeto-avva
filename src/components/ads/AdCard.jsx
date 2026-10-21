@@ -14,7 +14,7 @@ export function driveThumb(url, width = 900) {
   return id ? `https://drive.google.com/thumbnail?id=${id}&sz=w${width}` : null
 }
 
-export default function AdCard({ ad, isFavorite, onToggleFavorite, onOpen }) {
+export default function AdCard({ ad, isFavorite, onToggleFavorite, onOpen, seen = false }) {
   const [broken, setBroken] = useState(false)
   const thumb = driveThumb(ad.drive_url)
   const hasAnalysis = Boolean(ad.analysis && ad.analysis.trim())
@@ -50,6 +50,13 @@ export default function AdCard({ ad, isFavorite, onToggleFavorite, onOpen }) {
             <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
           </svg>
         </button>
+
+        {seen && (
+          <span className="ad-card__seen" title="Visto">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            Visto
+          </span>
+        )}
 
         {isVideo && (
           <span className="ad-card__play" aria-hidden="true">

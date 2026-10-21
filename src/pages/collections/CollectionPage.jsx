@@ -2,6 +2,7 @@ import { useEffect, useState, useMemo } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { supabase } from '../../lib/supabase'
 import { useFavorites } from '../../hooks/useFavorites'
+import { useActivity } from '../../hooks/useActivity'
 import { getCollectionStyle } from '../../lib/catalog'
 import AdCard from '../../components/ads/AdCard'
 import AdModal from '../../components/ads/AdModal'
@@ -11,6 +12,7 @@ import './CollectionPage.css'
 export default function CollectionPage() {
   const { slug } = useParams()
   const { toggleFavorite, isFavorite } = useFavorites()
+  const { isSeen } = useActivity()
   const [collection, setCollection] = useState(undefined)
   const [allCollections, setAllCollections] = useState([])
   const [ads, setAds] = useState([])
@@ -122,6 +124,7 @@ export default function CollectionPage() {
               <div key={ad.id} className="ad-grid__item" style={{ animationDelay: `${i * 60}ms` }}>
                 <AdCard
                   ad={ad}
+                  seen={isSeen(ad.id)}
                   isFavorite={isFavorite(ad.id)}
                   onToggleFavorite={toggleFavorite}
                   onOpen={() => setOpenAd(ad)}
@@ -162,6 +165,8 @@ export default function CollectionPage() {
           isFavorite={isFavorite(openAd.id)}
           onToggleFavorite={toggleFavorite}
           onClose={() => setOpenAd(null)}
+          list={filteredAds}
+          onNavigate={setOpenAd}
         />
       )}
     </div>
