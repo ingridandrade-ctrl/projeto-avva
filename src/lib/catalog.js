@@ -45,6 +45,20 @@ export const COLLECTIONS = [
     isBonus: true,
     gradient: 'linear-gradient(135deg, #C98A5E 0%, #D4B99A 55%, #7FA588 100%)',
   },
+  {
+    slug: 'melhores-do-mes',
+    title: 'Melhores do mês',
+    subtitle: 'Os anúncios que mais se destacaram, mês a mês',
+    order: 7,
+    gradient: 'linear-gradient(135deg, #3F7A66 0%, #8A5C3F 55%, #D4B99A 100%)',
+  },
+  {
+    slug: 'especial-black',
+    title: 'Especial Black',
+    subtitle: 'Black Friday: páginas e criativos que venderam',
+    order: 8,
+    gradient: 'linear-gradient(135deg, #2E211B 0%, #4C362D 45%, #A85C35 100%)',
+  },
 ]
 
 export function getCollection(slug) {
@@ -66,6 +80,7 @@ export const MEDIA_TYPES = [
   { value: 'video', label: 'Vídeo' },
   { value: 'image', label: 'Imagem estática' },
   { value: 'carousel', label: 'Carrossel' },
+  { value: 'pdf', label: 'Página (PDF)' },
 ]
 
 export const MEDIA_LABELS = Object.fromEntries(MEDIA_TYPES.map(m => [m.value, m.label]))
