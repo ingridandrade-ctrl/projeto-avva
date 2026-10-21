@@ -64,6 +64,10 @@ const PERGUNTAS = [
     subtitulo: 'Faturamento, rotina, presença, processos, descreva o cenário que você quer construir.', tipo: 'textarea', maxLength: 3000,
   },
   {
+    key: 'expectativa_mentoria', titulo: 'O que você espera de um acompanhamento como a mentoria?',
+    subtitulo: 'Pode ser direção, estrutura, clareza, alguém pra pensar junto... o que faria valer a pena pra você.', tipo: 'textarea', maxLength: 3000,
+  },
+  {
     key: 'por_que_eu', titulo: 'O que te fez pensar em mim para te acompanhar nesse momento?',
     subtitulo: 'Pode ser honesta. Isso importa pra mim ❤️', tipo: 'textarea', maxLength: 3000,
   },

@@ -26,7 +26,7 @@ export default async function handler(req, res) {
   }
 
   const a = payload.record
-  const to = (process.env.NOTIFY_TO || 'ingridandrade@arthea.com.br,agenciaestradadigital@gmail.com')
+  const to = (process.env.NOTIFY_TO || 'ingridandrade@arthea.com.br,floraschueler@gmail.com')
     .split(',').map(s => s.trim()).filter(Boolean)
   const from = process.env.NOTIFY_FROM || 'Mentoria Avva <onboarding@resend.dev>'
   const origem = a.origem === 'ingrid' ? 'Ingrid' : 'Flora'
