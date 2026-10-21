@@ -1,5 +1,5 @@
 // Recebe o Database Webhook do Supabase (INSERT em aplicacoes) e avisa por e-mail via Resend.
-const DASHBOARD_URL = 'https://metodoavva.com/aplicacao/dashboard'
+const DASHBOARD_URL = 'https://metodoavva.com/admin/mentoria'
 
 const esc = (v) => String(v ?? '')
   .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;')
