@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { supabase } from '../../lib/supabase'
 import { useAuth } from '../../hooks/useAuth'
@@ -6,7 +6,6 @@ import { useFavorites } from '../../hooks/useFavorites'
 import { useActivity } from '../../hooks/useActivity'
 import { collectionCover } from '../../lib/drive'
 import { getCollectionStyle, belongsTo } from '../../lib/catalog'
-import Row from '../../components/ui/Row'
 import CoverCard from '../../components/ads/CoverCard'
 import AdModal from '../../components/ads/AdModal'
 import './MemberDashboard.css'
@@ -25,6 +24,8 @@ export default function MemberDashboard() {
   const [kitCount, setKitCount] = useState(null)
   const [loaded, setLoaded] = useState(false)
   const [openAd, setOpenAd] = useState(null)
+  const [slide, setSlide] = useState(0)
+  const timer = useRef(null)
 
   const firstName = profile?.name?.split(' ')[0] || 'Aluna'
   const hasKit = Boolean(profile?.has_order_bump)
@@ -53,6 +54,20 @@ export default function MemberDashboard() {
   const featuredAds = useMemo(() => (featured ? ads.filter(a => belongsTo(a, featured)) : []), [ads, featured])
   const cover = featured ? collectionCover(featured, ads, 1400) : null
 
+  const slides = featured && featuredAds.length > 0 ? 2 : 1
+
+  // Passa sozinho a cada 8s; para quando o modal está aberto
+  useEffect(() => {
+    clearInterval(timer.current)
+    if (slides < 2 || openAd) return
+    timer.current = setInterval(() => setSlide(s => (s + 1) % slides), 8000)
+    return () => clearInterval(timer.current)
+  }, [slides, openAd])
+
+  function go(n) {
+    setSlide(((n % slides) + slides) % slides)
+  }
+
   const products = [
     {
       key: 'acervo',
@@ -77,14 +92,56 @@ export default function MemberDashboard() {
 
   return (
     <div className="member-dashboard">
-      <section className="home-hero">
+      <section className="home-hero" aria-roledescription="carrossel">
         <div className="home-hero__orb home-hero__orb--1" />
         <div className="home-hero__orb home-hero__orb--2" />
-        <div className="home-hero__content">
-          <p className="home-hero__greeting">Olá, {firstName} ✦</p>
-          <h1 className="home-hero__title">Bem-vinda à sua área de membros</h1>
-          <p className="home-hero__subtitle">Seus produtos do Método AVVA estão aqui. Escolha um para começar.</p>
+
+        <div className="home-hero__track" style={{ transform: `translateX(-${slide * 100}%)` }}>
+          <div className="home-hero__slide" aria-hidden={slide !== 0}>
+            <div className="home-hero__content">
+              <p className="home-hero__greeting">Olá, {firstName} ✦</p>
+              <h1 className="home-hero__title">Bem-vinda à sua área de membros</h1>
+              <p className="home-hero__subtitle">Seus produtos do Método AVVA estão aqui. Escolha um para começar.</p>
+            </div>
+          </div>
+
+          {slides > 1 && (
+            <div className="home-hero__slide home-hero__slide--featured" aria-hidden={slide !== 1}>
+              <div className="home-hero__content">
+                <p className="home-hero__greeting">Em destaque no Acervo de Anúncios</p>
+                <h2 className="home-hero__title">{featured.title}</h2>
+                <p className="home-hero__subtitle">{featured.subtitle}</p>
+                <Link to={`/colecao/${featured.slug}`} className="home-hero__cta">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+                  Explorar coleção
+                </Link>
+              </div>
+              <div className="home-hero__stack" aria-hidden="true">
+                {featuredAds.slice(0, 3).map((ad, i) => (
+                  <div key={ad.id} className={`home-hero__stack-item home-hero__stack-item--${i}`}>
+                    <CoverCard ad={ad} seen={isSeen(ad.id)} onClick={() => setOpenAd(ad)} size="sm" />
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
+
+        {slides > 1 && (
+          <>
+            <button type="button" className="home-hero__arrow home-hero__arrow--prev" onClick={() => go(slide - 1)} aria-label="Anterior">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+            </button>
+            <button type="button" className="home-hero__arrow home-hero__arrow--next" onClick={() => go(slide + 1)} aria-label="Próximo">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+            </button>
+            <div className="home-hero__dots">
+              {Array.from({ length: slides }).map((_, i) => (
+                <button key={i} type="button" className={`home-hero__dot ${i === slide ? 'home-hero__dot--on' : ''}`} onClick={() => go(i)} aria-label={`Slide ${i + 1}`} />
+              ))}
+            </div>
+          </>
+        )}
       </section>
 
       <section className="home-products">
@@ -136,18 +193,6 @@ export default function MemberDashboard() {
         </div>
       </section>
 
-      {featured && featuredAds.length > 0 && (
-        <Row
-          title={`Em destaque no Acervo: ${featured.title}`}
-          subtitle={featured.subtitle}
-          link={`/colecao/${featured.slug}`}
-          linkLabel="Ver a coleção"
-        >
-          {featuredAds.slice(0, 12).map(ad => (
-            <CoverCard key={ad.id} ad={ad} seen={isSeen(ad.id)} onClick={() => setOpenAd(ad)} />
-          ))}
-        </Row>
-      )}
 
       {openAd && (
         <AdModal
