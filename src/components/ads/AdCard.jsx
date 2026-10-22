@@ -27,7 +27,7 @@ export default function AdCard({ ad, isFavorite, onToggleFavorite, onOpen, seen 
   return (
     <PhoneCard
       onClick={onOpen}
-      image={driveThumb(ad.drive_url, 700)}
+      image={driveThumb(ad.drive_url, 1000)}
       title={ad.title}
       meta={niches || undefined}
       badge={ad.media_type ? (MEDIA_LABELS[ad.media_type] || ad.media_type) : null}

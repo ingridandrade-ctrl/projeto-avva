@@ -45,7 +45,7 @@ export default function DriveEmbed({ url, title, mediaType = 'video' }) {
       {isImage ? (
         <img
           className="drive-embed__img"
-          src={driveThumb(url, 1600)}
+          src={driveThumb(url, 2400)}
           alt={title || 'Criativo'}
           onError={() => setImgFailed(true)}
         />

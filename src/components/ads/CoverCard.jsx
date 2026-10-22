@@ -8,7 +8,7 @@ export default function CoverCard({ ad, seen, onClick, subtitle, size }) {
   return (
     <PhoneCard
       onClick={onClick}
-      image={driveThumb(ad.drive_url, 700)}
+      image={driveThumb(ad.drive_url, 1000)}
       title={ad.title}
       kicker={subtitle}
       badge={ad.media_type ? (MEDIA_LABELS[ad.media_type] || ad.media_type) : null}
