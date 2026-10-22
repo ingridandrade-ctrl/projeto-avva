@@ -15,10 +15,10 @@
   grid-template-columns: 1.25fr 1fr;
   align-items: center;
   gap: 32px;
-  min-height: 440px;
-  padding: 52px 48px;
-  margin-bottom: 44px;
-  border-radius: 28px;
+  min-height: 480px;
+  padding: 52px var(--page-gutter, 32px);
+  margin: calc(-1 * var(--page-top, 36px)) calc(-1 * var(--page-gutter, 32px)) 48px;
+  border-radius: 0 0 32px 32px;
   overflow: hidden;
   background: linear-gradient(150deg, #1A6868 0%, #3F7A66 32%, #A85C35 72%, #C98A5E 100%);
   color: #fff;
@@ -37,8 +37,8 @@
   height: 100%;
   object-fit: cover;
   object-position: center 30%;
-  filter: blur(16px) saturate(1.1);
-  transform: scale(1.15);
+  filter: blur(6px) saturate(1.1);
+  transform: scale(1.08);
   opacity: 0.6;
 }
 
@@ -226,10 +226,10 @@
 
 @media (max-width: 640px) {
   .hero {
-    min-height: 420px;
+    min-height: 440px;
     align-items: flex-end;
     padding: 28px 20px;
-    margin: 0 calc(-1 * var(--page-gutter, 16px)) 32px;
+    margin: calc(-1 * var(--page-top, 20px)) calc(-1 * var(--page-gutter, 16px)) 32px;
     border-radius: 0 0 26px 26px;
   }
 

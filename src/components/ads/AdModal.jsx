@@ -3,7 +3,6 @@ import DriveEmbed from './DriveEmbed'
 import Tag from '../ui/Tag'
 import CopyButton from '../ui/CopyButton'
 import { NICHE_LABELS, MEDIA_LABELS } from '../../lib/catalog'
-import { driveThumb } from '../../lib/drive'
 import { useActivity } from '../../hooks/useActivity'
 import './AdModal.css'
 
@@ -32,7 +31,6 @@ export default function AdModal({
   onNavigate,
 }) {
   const { isSeen, toggleSeen, markSeen, markRecent } = useActivity()
-  const railRef = useRef(null)
   const touch = useRef(null)
 
   const index = list.findIndex(a => a.id === ad.id)
@@ -45,12 +43,6 @@ export default function AdModal({
     const t = setTimeout(() => markSeen?.(ad.id), 8000)
     return () => clearTimeout(t)
   }, [ad.id]) // eslint-disable-line react-hooks/exhaustive-deps
-
-  // Centraliza a miniatura atual na trilha
-  useEffect(() => {
-    const el = railRef.current?.querySelector('[data-current="true"]')
-    el?.scrollIntoView({ inline: 'center', block: 'nearest', behavior: 'smooth' })
-  }, [ad.id])
 
   useEffect(() => {
     function onKey(e) {
@@ -174,35 +166,6 @@ export default function AdModal({
             )}
           </div>
 
-          {onNavigate && list.length > 1 && (
-            <div className="ad-modal__rail-wrap">
-              <span className="ad-modal__rail-title">
-                {collectionTitle ? 'Nesta coleção' : 'Nesta lista'} · {index + 1} de {list.length}
-              </span>
-              <div className="ad-modal__rail" ref={railRef}>
-                {list.map(a => {
-                  const t = driveThumb(a.drive_url, 300)
-                  return (
-                    <button
-                      key={a.id}
-                      type="button"
-                      className={`ad-modal__thumb ${a.id === ad.id ? 'ad-modal__thumb--current' : ''}`}
-                      data-current={a.id === ad.id ? 'true' : undefined}
-                      onClick={() => onNavigate(a)}
-                      title={a.title}
-                    >
-                      {t ? <img src={t} alt="" loading="lazy" /> : <span>{(a.title || '?').charAt(0)}</span>}
-                      {isSeen(a.id) && (
-                        <i className="ad-modal__thumb-seen">
-                          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-                        </i>
-                      )}
-                    </button>
-                  )
-                })}
-              </div>
-            </div>
-          )}
         </div>
       </div>
     </div>

@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { driveId, driveThumb } from '../../lib/drive'
 import './DriveEmbed.css'
 
@@ -9,19 +9,38 @@ import './DriveEmbed.css'
 export default function DriveEmbed({ url, title, mediaType = 'video' }) {
   const [loaded, setLoaded] = useState(false)
   const [imgFailed, setImgFailed] = useState(false)
+  const [ratio, setRatio] = useState(null)
+
+  const poster = driveThumb(url, 1000)
+
+  // Descobre a proporção real do criativo pela miniatura (vertical, quadrado, horizontal…)
+  useEffect(() => {
+    setRatio(null)
+    setLoaded(false)
+    setImgFailed(false)
+    if (!poster) return
+    let alive = true
+    const img = new Image()
+    img.onload = () => {
+      if (!alive || !img.naturalWidth || !img.naturalHeight) return
+      const r = img.naturalWidth / img.naturalHeight
+      setRatio(`${Math.max(0.45, Math.min(1.9, r))}`)
+    }
+    img.src = poster
+    return () => { alive = false }
+  }, [poster])
 
   if (!url) return null
 
   const id = driveId(url)
   const embedUrl = id ? `https://drive.google.com/file/d/${id}/preview` : url
-  const poster = driveThumb(url, 1000)
   const isImage = (mediaType === 'image' || mediaType === 'carousel') && poster && !imgFailed
-  const ratio = mediaType === 'pdf' ? '3 / 4' : '9 / 16'
+  const fallbackRatio = mediaType === 'pdf' ? '3 / 4' : mediaType === 'video' ? '9 / 16' : '4 / 5'
 
   return (
     <div
       className={`drive-embed drive-embed--${mediaType}${loaded || isImage ? ' drive-embed--loaded' : ''}`}
-      style={{ '--embed-ratio': ratio }}
+      style={{ '--embed-ratio': ratio || fallbackRatio }}
     >
       {isImage ? (
         <img

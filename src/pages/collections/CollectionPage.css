@@ -6,15 +6,26 @@
 
 .collection-page__header {
   position: relative;
-  display: grid;
-  grid-template-columns: 240px 1fr;
-  gap: 36px;
-  align-items: center;
-  border-radius: 24px;
-  padding: 36px;
-  margin-bottom: 32px;
+  border-radius: 0 0 32px 32px;
+  padding: 44px var(--page-gutter, 32px) 52px;
+  margin: calc(-1 * var(--page-top, 36px)) calc(-1 * var(--page-gutter, 32px)) 40px;
+  min-height: 420px;
+  display: flex;
+  align-items: flex-end;
   overflow: hidden;
   color: #fff;
+}
+
+.collection-page__header-inner {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  gap: 40px;
+  align-items: center;
+  width: 100%;
+  max-width: 1120px;
+  margin: 0 auto;
 }
 
 .collection-page__header-bg {
@@ -24,9 +35,9 @@
   height: 100%;
   object-fit: cover;
   object-position: center 30%;
-  filter: blur(18px) saturate(1.1);
-  transform: scale(1.2);
-  opacity: 0.55;
+  filter: blur(8px) saturate(1.1);
+  transform: scale(1.08);
+  opacity: 0.6;
 }
 
 .collection-page__header-veil {
@@ -52,9 +63,7 @@
 }
 
 .collection-page__header-content {
-  position: relative;
-  z-index: 1;
-  max-width: 640px;
+  max-width: 680px;
 }
 
 .collection-page__back {
@@ -82,7 +91,7 @@
 
 .collection-page__number {
   display: block;
-  font-size: 0.74rem;
+  font-size: 0.82rem;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.14em;
@@ -92,7 +101,7 @@
 
 .collection-page__header h1 {
   font-family: var(--font-corpo);
-  font-size: 2.3rem;
+  font-size: clamp(2.2rem, 4.2vw, 3.2rem);
   font-weight: 700;
   color: #fff;
   letter-spacing: -0.03em;
@@ -101,22 +110,22 @@
 }
 
 .collection-page__header p {
-  font-size: 1.08rem;
+  font-size: 1.2rem;
   font-weight: 300;
   color: rgba(255, 255, 255, 0.82);
 }
 
 /* Progresso (vistos) */
 .collection-page__progress {
-  margin-top: 22px;
-  max-width: 420px;
+  margin-top: 24px;
+  max-width: 460px;
 }
 
 .collection-page__progress-meta {
   display: flex;
   justify-content: space-between;
   gap: 12px;
-  font-size: 0.88rem;
+  font-size: 0.95rem;
   font-weight: 600;
   color: rgba(255, 255, 255, 0.85);
   margin-bottom: 8px;
@@ -141,14 +150,14 @@
   align-items: center;
   gap: 8px;
   margin-top: 20px;
-  padding: 13px 26px;
-  min-height: 48px;
+  padding: 14px 30px;
+  min-height: 52px;
   border: none;
   border-radius: 100px;
   background: #fff;
   color: var(--umber);
   font-family: var(--font-corpo);
-  font-size: 1rem;
+  font-size: 1.05rem;
   font-weight: 700;
   cursor: pointer;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
@@ -319,24 +328,28 @@
 
 @media (max-width: 760px) {
   .collection-page__header {
+    padding: 24px var(--page-gutter, 16px) 30px;
+    min-height: 0;
+  }
+
+  .collection-page__header-inner {
     grid-template-columns: 1fr;
     gap: 20px;
-    padding: 24px 20px 28px;
   }
 
   .collection-page__header-cover {
-    max-width: 150px;
+    max-width: 170px;
   }
 }
 
 @media (max-width: 640px) {
   .collection-page__header {
-    margin: 0 calc(-1 * var(--page-gutter, 16px)) 24px;
+    margin: calc(-1 * var(--page-top, 20px)) calc(-1 * var(--page-gutter, 16px)) 24px;
     border-radius: 0 0 24px 24px;
   }
 
   .collection-page__header h1 {
-    font-size: 1.6rem;
+    font-size: 1.9rem;
   }
 
   .collection-page__nav {

@@ -59,7 +59,7 @@
 /* ── Mídia: coluna clara com o criativo num "celular" ── */
 .ad-modal__media {
   position: relative;
-  width: clamp(300px, 34vw, 400px);
+  width: clamp(320px, 40vw, 520px);
   padding: 28px 28px;
   display: grid;
   place-items: center;
@@ -76,8 +76,7 @@
 .ad-modal__phone .drive-embed {
   width: 100%;
   max-height: calc(min(880px, 100dvh - 48px) - 56px);
-  border-radius: 26px;
-  border: 5px solid #fff;
+  border-radius: 22px;
   box-shadow: 0 22px 50px rgba(76, 54, 45, 0.28);
   margin: 0 auto;
 }
@@ -381,13 +380,8 @@
     background: linear-gradient(180deg, rgba(212, 185, 154, 0.35), rgba(26, 104, 104, 0.08));
   }
 
-  .ad-modal__media[data-media="video"] .drive-embed { height: 66dvh; width: auto; max-width: 100%; }
-  .ad-modal__media[data-media="image"] .drive-embed,
-  .ad-modal__media[data-media="carousel"] .drive-embed { height: 56dvh; width: auto; max-width: 100%; }
-  .ad-modal__media[data-media="pdf"] .drive-embed { height: 56dvh; width: auto; max-width: 100%; }
-
-  .ad-modal__phone { justify-items: center; }
-  .ad-modal__phone .drive-embed { max-height: none; border-width: 4px; border-radius: 22px; }
+  .ad-modal__phone { justify-items: center; width: 100%; }
+  .ad-modal__phone .drive-embed { max-height: 66dvh; width: auto; max-width: 100%; border-radius: 18px; }
 
   .ad-modal__arrow--prev { left: 4px; }
   .ad-modal__arrow--next { right: 4px; }

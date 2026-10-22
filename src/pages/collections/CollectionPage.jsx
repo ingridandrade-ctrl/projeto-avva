@@ -96,6 +96,7 @@ export default function CollectionPage() {
         {cover && <img className="collection-page__header-bg" src={cover} alt="" />}
         <div className="collection-page__header-veil" />
 
+        <div className="collection-page__header-inner">
         <div className="collection-page__header-cover">
           <PhoneCard
             image={cover}
@@ -133,6 +134,7 @@ export default function CollectionPage() {
               {seenCount === 0 ? 'Começar' : seenCount >= ads.length ? 'Rever do início' : 'Continuar'}
             </button>
           )}
+        </div>
         </div>
       </header>
 
