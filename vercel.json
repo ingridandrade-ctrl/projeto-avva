@@ -10,6 +10,7 @@
     { "source": "/mentoria", "destination": "/index.html" },
     { "source": "/mentoria/(.*)", "destination": "/index.html" },
     { "source": "/acervo-de-anuncios", "destination": "/acervo.html" },
+    { "source": "/acervo-de-an(.*)", "destination": "/acervo.html" },
     { "source": "/acervo", "destination": "/acervo.html" },
     { "source": "/(.*)", "destination": "/membros.html" }
   ]
