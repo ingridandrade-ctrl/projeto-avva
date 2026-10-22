@@ -73,7 +73,7 @@
 .row__track {
   display: grid;
   grid-auto-flow: column;
-  grid-auto-columns: var(--row-item, 200px);
+  grid-auto-columns: var(--row-item, 260px);
   gap: 18px;
   overflow-x: auto;
   scroll-snap-type: x proximity;
@@ -94,15 +94,15 @@
 }
 
 /* Larguras para capas 9:16 */
-.row--sm { --row-item: 170px; }
-.row--md { --row-item: 200px; }
-.row--lg { --row-item: 236px; }
+.row--sm { --row-item: 220px; }
+.row--md { --row-item: 260px; }
+.row--lg { --row-item: 300px; }
 
 @media (max-width: 640px) {
   .row { margin-bottom: 32px; }
   .row__head h2 { font-size: 1.25rem; }
   .row__arrow { display: none; }
   .row__track { gap: 12px; }
-  .row--sm, .row--md { --row-item: min(44vw, 190px); }
-  .row--lg { --row-item: min(52vw, 220px); }
+  .row--sm, .row--md { --row-item: min(62vw, 250px); }
+  .row--lg { --row-item: min(70vw, 280px); }
 }

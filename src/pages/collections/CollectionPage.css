@@ -7,7 +7,7 @@
 .collection-page__header {
   position: relative;
   display: grid;
-  grid-template-columns: 200px 1fr;
+  grid-template-columns: 240px 1fr;
   gap: 36px;
   align-items: center;
   border-radius: 24px;
@@ -60,14 +60,24 @@
 .collection-page__back {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  min-height: 40px;
-  font-size: 0.88rem;
-  font-weight: 500;
-  color: rgba(255, 255, 255, 0.75);
+  gap: 8px;
+  min-height: 46px;
+  padding: 10px 20px 10px 14px;
+  border-radius: 100px;
+  background: rgba(255, 255, 255, 0.94);
+  color: var(--umber);
+  font-size: 0.98rem;
+  font-weight: 700;
   text-decoration: none;
-  margin-bottom: 10px;
-  transition: color 0.2s ease;
+  margin-bottom: 18px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.18);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.collection-page__back svg {
+  width: 20px;
+  height: 20px;
+  color: var(--terracotta);
 }
 
 .collection-page__number {
@@ -212,7 +222,7 @@
 }
 
 .ad-skeleton {
-  aspect-ratio: 9 / 16;
+  aspect-ratio: 3 / 4;
   border-radius: 20px;
   background: linear-gradient(100deg, rgba(212, 185, 154, 0.14) 25%, rgba(212, 185, 154, 0.28) 50%, rgba(212, 185, 154, 0.14) 75%);
   background-size: 200% 100%;
@@ -262,8 +272,8 @@
 }
 
 .collection-page__next-thumb {
-  width: 54px;
-  aspect-ratio: 9 / 16;
+  width: 64px;
+  aspect-ratio: 3 / 4;
   border-radius: 10px;
   overflow: hidden;
   flex-shrink: 0;
@@ -300,7 +310,7 @@
 /* ── Hover só com mouse ── */
 
 @media (hover: hover) and (pointer: fine) {
-  .collection-page__back:hover { color: #fff; }
+  .collection-page__back:hover { transform: translateX(-3px); box-shadow: 0 10px 24px rgba(0, 0, 0, 0.24); }
   .collection-page__start:hover { transform: translateY(-2px); box-shadow: 0 12px 32px rgba(0, 0, 0, 0.28); }
   .collection-page__next:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(76, 54, 45, 0.1); }
 }

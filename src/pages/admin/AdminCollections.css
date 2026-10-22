@@ -6,7 +6,7 @@
 
 .admin-collection {
   display: grid;
-  grid-template-columns: 170px 1fr;
+  grid-template-columns: 200px 1fr;
   gap: 28px;
   padding: 24px;
 }

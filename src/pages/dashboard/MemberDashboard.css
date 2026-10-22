@@ -136,20 +136,20 @@
 .hero__stack {
   position: relative;
   z-index: 1;
-  height: 340px;
+  height: 320px;
 }
 
 .hero__stack-item {
   position: absolute;
-  width: 168px;
+  width: 210px;
   top: 0;
   transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
   filter: drop-shadow(0 22px 30px rgba(0, 0, 0, 0.32));
 }
 
-.hero__stack-item--0 { left: 50%; margin-left: -84px; z-index: 3; }
-.hero__stack-item--1 { left: 50%; margin-left: -186px; top: 30px; z-index: 2; transform: rotate(-9deg) scale(0.9); opacity: 0.92; }
-.hero__stack-item--2 { left: 50%; margin-left: 18px; top: 30px; z-index: 1; transform: rotate(9deg) scale(0.9); opacity: 0.92; }
+.hero__stack-item--0 { left: 50%; margin-left: -105px; z-index: 3; }
+.hero__stack-item--1 { left: 50%; margin-left: -230px; top: 26px; z-index: 2; transform: rotate(-8deg) scale(0.9); opacity: 0.92; }
+.hero__stack-item--2 { left: 50%; margin-left: 20px; top: 26px; z-index: 1; transform: rotate(8deg) scale(0.9); opacity: 0.92; }
 
 .hero__stack-item .phone-card:hover { transform: none; }
 
@@ -160,7 +160,7 @@
   align-items: center;
   justify-content: center;
   gap: 12px;
-  aspect-ratio: 9 / 16;
+  aspect-ratio: 3 / 4;
   padding: 20px;
   border: 2px dashed rgba(76, 54, 45, 0.2);
   border-radius: 20px;
@@ -178,7 +178,7 @@
 
 .home-skeleton {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
   gap: 18px;
 }
 
@@ -188,7 +188,7 @@
 }
 
 .home-skeleton > div {
-  aspect-ratio: 9 / 16;
+  aspect-ratio: 3 / 4;
   border-radius: 20px;
   background: linear-gradient(100deg, rgba(212, 185, 154, 0.14) 25%, rgba(212, 185, 154, 0.28) 50%, rgba(212, 185, 154, 0.14) 75%);
   background-size: 200% 100%;

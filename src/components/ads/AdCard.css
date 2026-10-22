@@ -3,11 +3,11 @@
 /* Favorito (canto superior direito; o selo "visto" desce quando existe) */
 .ad-card__fav {
   position: absolute;
-  top: 16px;
-  right: 10px;
+  top: 12px;
+  right: 12px;
   z-index: 3;
-  width: 38px;
-  height: 38px;
+  width: 42px;
+  height: 42px;
   display: grid;
   place-items: center;
   background: rgba(247, 244, 240, 0.88);
@@ -39,7 +39,7 @@
 }
 
 .ad-card .phone-card__seen {
-  top: 60px;
+  top: 62px;
 }
 
 @keyframes pulse-heart {
@@ -53,7 +53,7 @@
 /* Grade de anúncios (coleção e busca): colunas estreitas, cards altos */
 .ad-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
   gap: 20px;
 }
 
