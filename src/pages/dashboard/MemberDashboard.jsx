@@ -51,7 +51,6 @@ export default function MemberDashboard() {
   const featured = extras.length ? extras[extras.length - 1] : fixas[0]
   const featuredAds = featured ? ads.filter(a => belongsTo(a, featured)) : []
   const featuredStyle = featured ? getCollectionStyle(featured.slug) : null
-  const featuredCover = featured ? collectionCover(featured, adsAsc, 1600) : null
 
   const recentAds = recent.map(id => byId[id]).filter(Boolean)
   const favoriteAds = favorites.map(f => f.ads || byId[f.ad_id]).filter(Boolean)
@@ -86,8 +85,8 @@ export default function MemberDashboard() {
         <div className="hero hero--skeleton" aria-hidden="true" />
       ) : (
         <section className="hero" style={{ background: featuredStyle?.gradient }}>
-          {featuredCover && <img className="hero__bg" src={featuredCover} alt="" />}
-          <div className="hero__veil" />
+          <div className="hero__orb hero__orb--1" />
+          <div className="hero__orb hero__orb--2" />
           <div className="hero__content">
             <p className="hero__greeting">Olá, {firstName} ✦</p>
             {featured ? (

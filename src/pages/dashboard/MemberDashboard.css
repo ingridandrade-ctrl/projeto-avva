@@ -29,23 +29,29 @@
   animation: hero-in 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
-/* Foto da coleção em destaque como textura, sob um véu teal → terracotta */
-.hero__bg {
+/* Brilhos suaves sobre o gradiente da marca */
+.hero__orb {
   position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center 30%;
-  filter: blur(6px) saturate(1.1);
-  transform: scale(1.08);
-  opacity: 0.6;
+  border-radius: 50%;
+  filter: blur(60px);
+  opacity: 0.32;
+  pointer-events: none;
 }
 
-.hero__veil {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(100deg, rgba(26, 104, 104, 0.92) 0%, rgba(26, 104, 104, 0.72) 42%, rgba(168, 92, 53, 0.5) 100%);
+.hero__orb--1 {
+  width: 380px;
+  height: 380px;
+  top: -30%;
+  right: -4%;
+  background: radial-gradient(circle, #D4B99A 0%, transparent 70%);
+}
+
+.hero__orb--2 {
+  width: 260px;
+  height: 260px;
+  bottom: -25%;
+  left: 22%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.14) 0%, transparent 70%);
 }
 
 .hero--skeleton {
@@ -231,18 +237,6 @@
     padding: 28px 20px;
     margin: calc(-1 * var(--page-top, 20px)) calc(-1 * var(--page-gutter, 16px)) 32px;
     border-radius: 0 0 26px 26px;
-  }
-
-  /* No celular a capa vertical vira o banner, nítida */
-  .hero__bg {
-    filter: none;
-    transform: none;
-    opacity: 1;
-    object-position: center 20%;
-  }
-
-  .hero__veil {
-    background: linear-gradient(180deg, rgba(20, 12, 8, 0.2) 0%, rgba(20, 12, 8, 0.45) 45%, rgba(20, 12, 8, 0.88) 100%);
   }
 
   .hero__title {
