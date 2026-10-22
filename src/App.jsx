@@ -26,6 +26,7 @@ const AdminCollections = lazy(() => import('./pages/admin/AdminCollections'))
 const FormIngrid = lazy(() => import('./pages/FormIngrid'))
 const Confirmacao = lazy(() => import('./pages/Confirmacao'))
 const Dashboard = lazy(() => import('./pages/Dashboard'))
+const AcervoPage = lazy(() => import('./pages/acervo/AcervoPage'))
 
 function PageLoader() {
   return (
@@ -62,6 +63,9 @@ export default function App() {
             <Route path="/aplicacao/confirmacao" element={<Navigate to="/mentoria/confirmacao" replace />} />
             <Route path="/aplicacao/login" element={<Navigate to="/admin/login" replace />} />
             <Route path="/aplicacao/dashboard" element={<Navigate to="/admin/mentoria" replace />} />
+
+            {/* ── Página de vendas do Acervo de Anúncios (pública) ── */}
+            <Route path="/acervo" element={<AcervoPage />} />
 
             {/* ── Área de membros — alunas ── */}
             <Route path="/login" element={<LoginPage />} />

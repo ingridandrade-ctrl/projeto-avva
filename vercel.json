@@ -7,6 +7,9 @@
     { "source": "/", "destination": "/index.html" },
     { "source": "/aplicacao", "destination": "/index.html" },
     { "source": "/aplicacao/(.*)", "destination": "/index.html" },
+    { "source": "/mentoria", "destination": "/index.html" },
+    { "source": "/mentoria/(.*)", "destination": "/index.html" },
+    { "source": "/acervo", "destination": "/acervo.html" },
     { "source": "/(.*)", "destination": "/membros.html" }
   ]
 }
