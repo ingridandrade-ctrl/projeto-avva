@@ -17,8 +17,6 @@ const OFERTA = {
   acessoPor: '1 ano',           // AJUSTAR: tempo de acesso prometido
   // Order bump: aparece só como teaser (a oferta de verdade fica no checkout)
   orderBump: { nome: 'kit de execução', preco: 'R$ 17' }, // AJUSTAR preço
-  // Números mostrados na página (atualizar quando o acervo crescer)
-  totalAnuncios: '70+',
   totalColecoes: 6,
 }
 
@@ -39,7 +37,7 @@ const AFIRMACOES = [
 
 const ENTREGAS = [
   { icone: 'calendario', texto: <><strong>{OFERTA.acessoPor} de acesso</strong>, com tudo que entrar nesse período</> },
-  { icone: 'grid', texto: <><strong>{OFERTA.totalAnuncios} anúncios validados</strong>: vídeo, estático, carrossel e página de venda em pdf</> },
+  { icone: 'grid', texto: <><strong>anúncios validados</strong> em vídeo, estático, carrossel e página de venda em pdf, todos rodando de verdade</> },
   { icone: 'pasta', texto: <><strong>{OFERTA.totalColecoes} coleções por objetivo</strong>, do primeiro contato até a venda</> },
   { icone: 'estrela', texto: <><strong>melhores do mês</strong>: uma seleção nova todo mês, garimpada pela flora</> },
   { icone: 'lupa', texto: <><strong>análise de cada anúncio</strong>: por que funciona, em poucas linhas e sem jargão</> },
