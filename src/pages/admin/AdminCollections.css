@@ -31,6 +31,11 @@
   text-align: center;
 }
 
+.admin-collection__upload {
+  width: 100%;
+  justify-content: center;
+}
+
 .admin-collection__form {
   display: flex;
   flex-direction: column;

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { supabase } from '../../lib/supabase'
 import { getCollectionStyle, belongsTo } from '../../lib/catalog'
 import { collectionCover } from '../../lib/drive'
@@ -13,6 +13,8 @@ export default function AdminCollections() {
   const [drafts, setDrafts] = useState({})
   const [saving, setSaving] = useState(null)
   const [feedback, setFeedback] = useState({})
+  const [uploading, setUploading] = useState(null)
+  const fileInputs = useRef({})
 
   async function load() {
     const [{ data: cols }, { data: adsData }] = await Promise.all([
@@ -53,6 +55,58 @@ export default function AdminCollections() {
       return
     }
     setFeedback(f => ({ ...f, [col.id]: { type: 'ok', msg: 'Salvo! As alunas já veem a mudança.' } }))
+    load()
+  }
+
+  // Sobe a imagem para o Storage (bucket "covers") e já salva como capa
+  async function upload(col, file) {
+    if (!file) return
+    if (!file.type.startsWith('image/')) {
+      setFeedback(f => ({ ...f, [col.id]: { type: 'error', msg: 'Escolha um arquivo de imagem (JPG, PNG ou WebP).' } }))
+      return
+    }
+    if (file.size > 8 * 1024 * 1024) {
+      setFeedback(f => ({ ...f, [col.id]: { type: 'error', msg: 'Imagem muito grande (máx. 8 MB).' } }))
+      return
+    }
+    setUploading(col.id)
+    setFeedback(f => ({ ...f, [col.id]: null }))
+    const ext = (file.name.split('.').pop() || 'jpg').toLowerCase().replace(/[^a-z0-9]/g, '') || 'jpg'
+    const path = `${col.slug}-${Date.now()}.${ext}`
+    const { error: upErr } = await supabase.storage.from('covers').upload(path, file, { upsert: true, contentType: file.type })
+    if (upErr) {
+      setUploading(null)
+      const msg = /bucket|not found/i.test(upErr.message)
+        ? 'O espaço de imagens ainda não existe: rode o arquivo supabase-migration-capas.sql no Supabase.'
+        : /policy|permission|row-level|unauthorized/i.test(upErr.message)
+          ? 'Sem permissão para enviar imagens: rode o arquivo supabase-migration-capas.sql no Supabase.'
+          : upErr.message
+      setFeedback(f => ({ ...f, [col.id]: { type: 'error', msg } }))
+      return
+    }
+    const { data } = supabase.storage.from('covers').getPublicUrl(path)
+    const url = data?.publicUrl
+    const { error } = await supabase.from('collections').update({ cover_url: url }).eq('id', col.id)
+    setUploading(null)
+    if (error) {
+      setFeedback(f => ({ ...f, [col.id]: { type: 'error', msg: error.message } }))
+      return
+    }
+    setDrafts(d => ({ ...d, [col.id]: { ...d[col.id], cover_url: url } }))
+    setFeedback(f => ({ ...f, [col.id]: { type: 'ok', msg: 'Capa enviada e salva!' } }))
+    load()
+  }
+
+  async function removeCover(col) {
+    setSaving(col.id)
+    const { error } = await supabase.from('collections').update({ cover_url: null }).eq('id', col.id)
+    setSaving(null)
+    if (error) {
+      setFeedback(f => ({ ...f, [col.id]: { type: 'error', msg: error.message } }))
+      return
+    }
+    setDrafts(d => ({ ...d, [col.id]: { ...d[col.id], cover_url: '' } }))
+    setFeedback(f => ({ ...f, [col.id]: { type: 'ok', msg: 'Capa removida. Voltou para a capa automática.' } }))
     load()
   }
 
@@ -100,6 +154,26 @@ export default function AdminCollections() {
                   <span className="admin-collection__preview-label">
                     {d.cover_url ? 'Capa cadastrada' : n > 0 ? 'Capa automática (1º anúncio)' : 'Sem capa ainda'}
                   </span>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    hidden
+                    ref={el => { fileInputs.current[col.id] = el }}
+                    onChange={e => { upload(col, e.target.files?.[0]); e.target.value = '' }}
+                  />
+                  <button
+                    type="button"
+                    className="adm-btn adm-btn--primary admin-collection__upload"
+                    disabled={uploading === col.id}
+                    onClick={() => fileInputs.current[col.id]?.click()}
+                  >
+                    {uploading === col.id ? 'Enviando…' : d.cover_url ? 'Trocar imagem' : 'Enviar imagem'}
+                  </button>
+                  {col.cover_url && (
+                    <button type="button" className="adm-btn adm-btn--ghost adm-btn--sm" disabled={saving === col.id} onClick={() => removeCover(col)}>
+                      Remover capa
+                    </button>
+                  )}
                 </div>
 
                 <div className="admin-collection__form">
@@ -118,7 +192,7 @@ export default function AdminCollections() {
                   </div>
 
                   <div className="admin-form__field">
-                    <label htmlFor={`c-${col.id}`}>Capa (link do Drive ou URL de imagem)</label>
+                    <label htmlFor={`c-${col.id}`}>Ou cole um link (Drive ou imagem)</label>
                     <input
                       id={`c-${col.id}`}
                       type="url"
@@ -127,8 +201,8 @@ export default function AdminCollections() {
                       placeholder="Cole um link do Drive ou de uma imagem vertical (1080×1920)"
                     />
                     <small className="admin-collection__hint">
-                      Imagem vertical fica melhor. Links do Drive funcionam direto. Se a capa aparecer vazia,
-                      confira se o arquivo está com acesso "Qualquer pessoa com o link". Deixe em branco para usar a capa automática.
+                      O botão "Enviar imagem" ao lado da prévia é o jeito mais fácil. Imagem vertical (1080×1920) fica melhor.
+                      Links do Drive também funcionam, desde que o arquivo esteja com acesso "Qualquer pessoa com o link".
                     </small>
                   </div>
 
