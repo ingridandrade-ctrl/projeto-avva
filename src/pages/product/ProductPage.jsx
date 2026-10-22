@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { useParams, Link, useNavigate } from 'react-router-dom'
 import { supabase } from '../../lib/supabase'
 import { useAuth } from '../../hooks/useAuth'
-import { getCollectionStyle } from '../../lib/catalog'
+import { getCollectionStyle, belongsTo } from '../../lib/catalog'
 import { collectionCover } from '../../lib/drive'
 import PhoneCard from '../../components/ui/PhoneCard'
 import './ProductPage.css'
@@ -47,7 +47,7 @@ export default function ProductPage() {
     async function load() {
       const [{ data: cols }, { data: adsData }] = await Promise.all([
         supabase.from('collections').select('*').order('order'),
-        supabase.from('ads').select('id, collection_id, drive_url, media_type, created_at').eq('active', true).order('created_at'),
+        supabase.from('ads').select('id, collection_id, objectives, drive_url, media_type, created_at').eq('active', true).order('created_at'),
       ])
       setCollections(cols || [])
       setAds(adsData || [])
@@ -59,7 +59,7 @@ export default function ProductPage() {
 
   const fixas = (collections || []).filter(c => getCollectionStyle(c.slug).kind === 'fixa')
   const extras = (collections || []).filter(c => getCollectionStyle(c.slug).kind !== 'fixa')
-  const countOf = col => ads.filter(a => a.collection_id === col.id).length
+  const countOf = col => ads.filter(a => belongsTo(a, col)).length
 
   function renderCard(col, index) {
     const style = getCollectionStyle(col.slug)

@@ -54,6 +54,22 @@ export const COLLECTIONS = [
   },
 ]
 
+// Coleções por objetivo = tags que um anúncio pode ter (várias por anúncio).
+export const OBJECTIVES = COLLECTIONS
+  .filter(c => c.order <= 6)
+  .map(c => ({ value: c.slug, label: c.title, hint: c.subtitle }))
+
+export const OBJECTIVE_LABELS = Object.fromEntries(OBJECTIVES.map(o => [o.value, o.label]))
+
+// Um anúncio pertence a uma coleção por objetivo pela tag; às coleções
+// extras (melhores do mês, especiais) pela coleção "de origem".
+export function belongsTo(ad, col) {
+  if (!ad || !col) return false
+  if (ad.collection_id === col.id) return true
+  const isObjective = OBJECTIVES.some(o => o.value === col.slug)
+  return isObjective && (ad.objectives || []).includes(col.slug)
+}
+
 export function getCollection(slug) {
   return COLLECTIONS.find(c => c.slug === slug)
 }

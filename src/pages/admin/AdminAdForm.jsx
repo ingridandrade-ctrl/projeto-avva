@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { supabase } from '../../lib/supabase'
-import { NICHES, MEDIA_TYPES } from '../../lib/catalog'
+import { NICHES, MEDIA_TYPES, OBJECTIVES } from '../../lib/catalog'
 import './AdminAdForm.css'
 
 export default function AdminAdForm() {
@@ -16,6 +16,7 @@ export default function AdminAdForm() {
     title: '',
     collection_id: '',
     niches: [],
+    objectives: [],
     media_type: 'video',
     drive_url: '',
     analysis: '',
@@ -39,6 +40,7 @@ export default function AdminAdForm() {
         title: data.title || '',
         collection_id: data.collection_id || '',
         niches: data.niches || [],
+        objectives: data.objectives || [],
         media_type: data.media_type || 'video',
         drive_url: data.drive_url || '',
         analysis: data.analysis || '',
@@ -49,6 +51,15 @@ export default function AdminAdForm() {
 
   function handleChange(field, value) {
     setForm(f => ({ ...f, [field]: value }))
+  }
+
+  function toggleObjective(value) {
+    setForm(f => ({
+      ...f,
+      objectives: f.objectives.includes(value)
+        ? f.objectives.filter(o => o !== value)
+        : [...f.objectives, value],
+    }))
   }
 
   function toggleNiche(value) {
@@ -114,7 +125,7 @@ export default function AdminAdForm() {
         <div>
           <span className="adm-eyebrow">Acervo de Anúncios</span>
           <h1>{isEdit ? 'Editar anúncio' : 'Novo anúncio'}</h1>
-          <p>{isEdit ? 'As alterações aparecem na hora para as alunas.' : 'Preencha os 6 campos. Nichos aceitam mais de um.'}</p>
+          <p>{isEdit ? 'As alterações aparecem na hora para as alunas.' : 'Preencha os campos. Nichos e objetivos aceitam mais de um.'}</p>
         </div>
       </div>
 
@@ -159,6 +170,23 @@ export default function AdminAdForm() {
               ))}
             </select>
           </div>
+        </div>
+
+        <div className="admin-form__field">
+          <label>Objetivos (coleções por objetivo — pode marcar vários)</label>
+          <div className="admin-form__checks">
+            {OBJECTIVES.map(o => (
+              <label key={o.value} className={`admin-form__check ${form.objectives.includes(o.value) ? 'admin-form__check--on' : ''}`} title={o.hint}>
+                <input
+                  type="checkbox"
+                  checked={form.objectives.includes(o.value)}
+                  onChange={() => toggleObjective(o.value)}
+                />
+                {o.label}
+              </label>
+            ))}
+          </div>
+          <small className="admin-form__hint">O anúncio continua na coleção de origem (ex.: Melhores de Setembro) e aparece também em cada objetivo marcado.</small>
         </div>
 
         <div className="admin-form__field">

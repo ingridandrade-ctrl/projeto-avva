@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { supabase } from '../../lib/supabase'
-import { getCollectionStyle } from '../../lib/catalog'
+import { getCollectionStyle, belongsTo } from '../../lib/catalog'
 import { collectionCover } from '../../lib/drive'
 import PhoneCard from '../../components/ui/PhoneCard'
 import './AdminCollections.css'
@@ -17,7 +17,7 @@ export default function AdminCollections() {
   async function load() {
     const [{ data: cols }, { data: adsData }] = await Promise.all([
       supabase.from('collections').select('*').order('order'),
-      supabase.from('ads').select('id, collection_id, drive_url').eq('active', true).order('created_at'),
+      supabase.from('ads').select('id, collection_id, objectives, drive_url').eq('active', true).order('created_at'),
     ])
     setCollections(cols || [])
     setAds(adsData || [])
@@ -70,6 +70,7 @@ export default function AdminCollections() {
           <p>
             Cada coleção aparece para a aluna como uma capa vertical, no formato de tela de celular.
             Sem capa cadastrada, usamos automaticamente a miniatura do primeiro anúncio.
+            As coleções por objetivo são preenchidas pelas tags de objetivo de cada anúncio (em Acervo de Anúncios → editar).
           </p>
         </div>
       </div>
@@ -82,7 +83,7 @@ export default function AdminCollections() {
             const d = drafts[col.id] || {}
             const style = getCollectionStyle(col.slug)
             const preview = { ...col, cover_url: d.cover_url || null }
-            const n = ads.filter(a => a.collection_id === col.id).length
+            const n = ads.filter(a => belongsTo(a, col)).length
             const fb = feedback[col.id]
             const kind = col.is_bonus ? 'Bônus' : style.kind === 'fixa' ? `Coleção ${String(col.order).padStart(2, '0')}` : style.kind === 'melhores' ? 'Melhores do mês' : 'Especial'
             return (

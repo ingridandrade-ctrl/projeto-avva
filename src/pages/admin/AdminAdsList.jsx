@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 import { supabase } from '../../lib/supabase'
-import { NICHE_LABELS, MEDIA_LABELS } from '../../lib/catalog'
+import { NICHE_LABELS, MEDIA_LABELS, OBJECTIVE_LABELS, OBJECTIVES } from '../../lib/catalog'
 import Tag from '../../components/ui/Tag'
 import './AdminAdsList.css'
 
@@ -22,7 +22,7 @@ export default function AdminAdsList() {
 
   useEffect(() => {
     loadAds()
-  }, [selectedCollection])
+  }, [selectedCollection, collections]) // eslint-disable-line react-hooks/exhaustive-deps
 
   async function loadAds() {
     setLoading(true)
@@ -31,7 +31,11 @@ export default function AdminAdsList() {
       .select('*, collections(title, slug)')
       .order('created_at', { ascending: false })
     if (selectedCollection) {
-      query = query.eq('collection_id', selectedCollection)
+      const col = collections.find(c => c.id === selectedCollection)
+      const isObjective = col && OBJECTIVES.some(o => o.value === col.slug)
+      query = isObjective
+        ? query.or(`collection_id.eq.${selectedCollection},objectives.cs.{${col.slug}}`)
+        : query.eq('collection_id', selectedCollection)
     }
     const { data } = await query
     setAds(data || [])
@@ -112,6 +116,7 @@ export default function AdminAdsList() {
               <tr>
                 <th>Título</th>
                 <th>Coleção</th>
+                <th>Objetivos</th>
                 <th>Nichos</th>
                 <th>Mídia</th>
                 <th>Ativo</th>
@@ -123,6 +128,14 @@ export default function AdminAdsList() {
                 <tr key={ad.id} className={!ad.active ? 'admin-table__row--inactive' : ''}>
                   <td className="admin-table__title">{ad.title}</td>
                   <td>{ad.collections?.title || '—'}</td>
+                  <td>
+                    <div className="admin-table__tags">
+                      {(ad.objectives || []).length === 0 && <span className="admin-table__muted">—</span>}
+                      {(ad.objectives || []).map(o => (
+                        <Tag key={o} type="teal">{OBJECTIVE_LABELS[o] || o}</Tag>
+                      ))}
+                    </div>
+                  </td>
                   <td>
                     <div className="admin-table__tags">
                       {(ad.niches || []).map(n => (

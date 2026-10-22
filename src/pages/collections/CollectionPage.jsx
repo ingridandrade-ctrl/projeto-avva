@@ -3,7 +3,7 @@ import { useParams, Link } from 'react-router-dom'
 import { supabase } from '../../lib/supabase'
 import { useFavorites } from '../../hooks/useFavorites'
 import { useActivity } from '../../hooks/useActivity'
-import { getCollectionStyle } from '../../lib/catalog'
+import { getCollectionStyle, OBJECTIVES } from '../../lib/catalog'
 import { collectionCover } from '../../lib/drive'
 import AdCard from '../../components/ads/AdCard'
 import AdModal from '../../components/ads/AdModal'
@@ -36,7 +36,7 @@ export default function CollectionPage() {
 
       const [{ data: cols }, { data: covers }] = await Promise.all([
         supabase.from('collections').select('*').order('order'),
-        supabase.from('ads').select('id, collection_id, drive_url').eq('active', true).order('created_at'),
+        supabase.from('ads').select('id, collection_id, objectives, drive_url').eq('active', true).order('created_at'),
       ])
       const list = cols || []
       setAllCollections(list)
@@ -45,12 +45,12 @@ export default function CollectionPage() {
       setCollection(col)
 
       if (col) {
-        const { data: adsData } = await supabase
-          .from('ads')
-          .select('*')
-          .eq('collection_id', col.id)
-          .eq('active', true)
-          .order('created_at')
+        const isObjective = OBJECTIVES.some(o => o.value === col.slug)
+        let q = supabase.from('ads').select('*').eq('active', true).order('created_at')
+        q = isObjective
+          ? q.or(`collection_id.eq.${col.id},objectives.cs.{${col.slug}}`)
+          : q.eq('collection_id', col.id)
+        const { data: adsData } = await q
         setAds(adsData || [])
       } else {
         setAds([])

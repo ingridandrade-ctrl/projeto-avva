@@ -4,7 +4,7 @@ import { supabase } from '../../lib/supabase'
 import { useAuth } from '../../hooks/useAuth'
 import { useFavorites } from '../../hooks/useFavorites'
 import { useActivity } from '../../hooks/useActivity'
-import { getCollectionStyle } from '../../lib/catalog'
+import { getCollectionStyle, belongsTo } from '../../lib/catalog'
 import { collectionCover } from '../../lib/drive'
 import Row from '../../components/ui/Row'
 import PhoneCard from '../../components/ui/PhoneCard'
@@ -40,7 +40,7 @@ export default function MemberDashboard() {
   const byId = useMemo(() => Object.fromEntries(ads.map(a => [a.id, a])), [ads])
   const colById = useMemo(() => Object.fromEntries(collections.map(c => [c.id, c])), [collections])
   const colTitle = ad => colById[ad.collection_id]?.title
-  const countOf = col => ads.filter(a => a.collection_id === col.id).length
+  const countOf = col => ads.filter(a => belongsTo(a, col)).length
 
   // Capas de coleção: anúncios mais antigos primeiro (capa estável)
   const adsAsc = useMemo(() => [...ads].reverse(), [ads])
@@ -49,7 +49,7 @@ export default function MemberDashboard() {
   const extras = collections.filter(c => getCollectionStyle(c.slug).kind !== 'fixa')
   const fixas = collections.filter(c => getCollectionStyle(c.slug).kind === 'fixa')
   const featured = extras.length ? extras[extras.length - 1] : fixas[0]
-  const featuredAds = featured ? ads.filter(a => a.collection_id === featured.id) : []
+  const featuredAds = featured ? ads.filter(a => belongsTo(a, featured)) : []
   const featuredStyle = featured ? getCollectionStyle(featured.slug) : null
   const featuredCover = featured ? collectionCover(featured, adsAsc, 1600) : null
 

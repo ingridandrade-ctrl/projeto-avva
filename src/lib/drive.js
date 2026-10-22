@@ -1,4 +1,5 @@
 // Utilidades para links do Google Drive
+import { belongsTo } from './catalog'
 
 export function driveId(url) {
   const m = (url || '').match(/\/d\/([a-zA-Z0-9_-]+)/) || (url || '').match(/[?&]id=([a-zA-Z0-9_-]+)/)
@@ -22,6 +23,6 @@ export function resolveCover(url, width = 900) {
 export function collectionCover(col, ads = [], width = 900) {
   if (!col) return null
   if (col.cover_url) return resolveCover(col.cover_url, width)
-  const first = ads.find(a => a.collection_id === col.id && a.drive_url)
+  const first = ads.find(a => a.drive_url && belongsTo(a, col))
   return first ? driveThumb(first.drive_url, width) : null
 }
