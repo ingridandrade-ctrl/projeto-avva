@@ -158,8 +158,23 @@ function Reveal({ as: Tag = 'div', className = '', delay = 0, children, ...rest 
   return <Tag ref={ref} className={`lp-reveal ${vis ? 'is-in' : ''} ${className}`} style={{ transitionDelay: `${delay}ms` }} {...rest}>{children}</Tag>
 }
 
-// Celular do topo: mostra as coleções como na área de membros, trocando sozinho
-function Celular({ ativa, onPick }) {
+// Miniatura da área de membros: as coleções trocam sozinhas e por toque
+function Celular() {
+  const [ativa, setAtiva] = useState(0)
+  const pausado = useRef(false)
+
+  useEffect(() => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+    const t = setInterval(() => { if (!pausado.current) setAtiva(i => (i + 1) % 6) }, 3200)
+    return () => clearInterval(t)
+  }, [])
+
+  function escolher(i) {
+    setAtiva(i)
+    pausado.current = true
+    setTimeout(() => { pausado.current = false }, 7000)
+  }
+
   return (
     <div className="lp-phone" aria-hidden="true">
       <div className="lp-phone__frame">
@@ -183,7 +198,7 @@ function Celular({ ativa, onPick }) {
             <span className="lp-phone__rowtitle">Coleções por objetivo</span>
             <div className="lp-phone__cards">
               {COLECOES.slice(0, 6).map((c, i) => (
-                <button type="button" key={c.slug} className={`lp-phone__card ${i === ativa ? 'is-on' : ''}`} style={{ background: c.gradient }} onClick={() => onPick(i)} tabIndex={-1}>
+                <button type="button" key={c.slug} className={`lp-phone__card ${i === ativa ? 'is-on' : ''}`} style={{ background: c.gradient }} onClick={() => escolher(i)} tabIndex={-1}>
                   <span>{String(i + 1).padStart(2, '0')}</span>
                 </button>
               ))}
@@ -237,7 +252,7 @@ function CardColecao({ c, index }) {
 function Logo({ className = '' }) {
   return (
     <span className={`lp-logo ${className}`}>
-      <span className="lp-logo__a">Acervo</span>
+      <span className="lp-logo__a">acervo</span>
       <span className="lp-logo__b">de anúncios</span>
     </span>
   )
@@ -246,21 +261,6 @@ function Logo({ className = '' }) {
 export default function AcervoPage() {
   const [stickyVisible, setStickyVisible] = useState(false)
   const [aberta, setAberta] = useState(-1)
-  const [ativa, setAtiva] = useState(0)
-  const pausado = useRef(false)
-
-  // Troca a coleção do celular sozinha; pausa um pouco quando a pessoa escolhe
-  useEffect(() => {
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
-    const t = setInterval(() => { if (!pausado.current) setAtiva(i => (i + 1) % 6) }, 3200)
-    return () => clearInterval(t)
-  }, [])
-
-  function escolher(i) {
-    setAtiva(i)
-    pausado.current = true
-    setTimeout(() => { pausado.current = false }, 7000)
-  }
 
   useEffect(() => {
     document.title = 'Acervo de Anúncios — Método AVVA'
@@ -286,18 +286,6 @@ export default function AcervoPage() {
           </p>
           <Cta>Quero o acervo 🤎</Cta>
           <p className="lp-hero__nota">{OFERTA.preco} · pagamento único · {OFERTA.garantiaDias} dias de garantia</p>
-        </div>
-
-        <div className="lp-hero__phone">
-          <Celular ativa={ativa} onPick={escolher} />
-          <div className="lp-chips" role="tablist" aria-label="Coleções">
-            {COLECOES.slice(0, 6).map((c, i) => (
-              <button type="button" key={c.slug} role="tab" aria-selected={i === ativa} className={`lp-chip ${i === ativa ? 'is-on' : ''}`} onClick={() => escolher(i)}>
-                {c.titulo}
-              </button>
-            ))}
-          </div>
-          <p className="lp-hero__legenda">A área de membros, do jeito que ela abre no seu celular</p>
         </div>
       </section>
 
@@ -357,9 +345,12 @@ export default function AcervoPage() {
 
       {/* ── 5. Entregas ── */}
       <section className="lp-section lp-entregas">
-        <div className="lp-container lp-container--narrow">
-          <Reveal as="h2" className="lp-titulo lp-titulo--grande lp-titulo--centro">
+        <div className="lp-container lp-entregas__grid">
+          <Reveal as="h2" className="lp-titulo lp-titulo--grande lp-entregas__titulo">
             É aqui que você<br /><strong>para de adivinhar.</strong>
+          </Reveal>
+          <Reveal className="lp-entregas__phone" delay={100}>
+            <Celular />
           </Reveal>
           <ul className="lp-entregas__lista">
             {ENTREGAS.map((e, i) => (
