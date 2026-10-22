@@ -79,3 +79,34 @@
     margin: 0 auto;
   }
 }
+
+.admin-collections__new {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 22px 24px;
+  margin-bottom: 24px;
+}
+
+.admin-collections__new h2 {
+  font-size: 1.2rem;
+  margin: 0 0 4px;
+}
+
+.admin-collections__new p {
+  margin: 0;
+  font-size: 0.95rem;
+  color: var(--a-ink-3);
+}
+
+.admin-collections__new-form {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.admin-collections__new-form .adm-input {
+  width: auto;
+}

@@ -116,8 +116,13 @@
   background: linear-gradient(90deg, rgba(212, 185, 154, 0.6), transparent);
 }
 
-.product-page__modules + .product-page__modules {
+.product-page__modules + .product-page__modules,
+.product-page__modules + .product-page__rows {
   margin-top: 44px;
+}
+
+.product-page__modules {
+  margin-bottom: 44px;
 }
 
 /* ── Grade de capas ── */

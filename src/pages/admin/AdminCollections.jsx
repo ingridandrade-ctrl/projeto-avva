@@ -14,6 +14,12 @@ export default function AdminCollections() {
   const [saving, setSaving] = useState(null)
   const [feedback, setFeedback] = useState({})
   const [uploading, setUploading] = useState(null)
+  const [creating, setCreating] = useState(false)
+  const [newMonth, setNewMonth] = useState(() => {
+    const d = new Date()
+    return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`
+  })
+  const [createFb, setCreateFb] = useState(null)
   const fileInputs = useRef({})
 
   async function load() {
@@ -31,6 +37,47 @@ export default function AdminCollections() {
   function edit(id, field, value) {
     setDrafts(d => ({ ...d, [id]: { ...d[id], [field]: value } }))
     setFeedback(f => ({ ...f, [id]: null }))
+  }
+
+  // Cria "Melhores de <Mês> <Ano>" com um clique. A home passa a destacar
+  // automaticamente a coleção de mês mais recente.
+  async function createMonth() {
+    const [year, month] = newMonth.split('-').map(Number)
+    if (!year || !month) return
+    const names = ['janeiro', 'fevereiro', 'março', 'abril', 'maio', 'junho', 'julho', 'agosto', 'setembro', 'outubro', 'novembro', 'dezembro']
+    const slugs = ['janeiro', 'fevereiro', 'marco', 'abril', 'maio', 'junho', 'julho', 'agosto', 'setembro', 'outubro', 'novembro', 'dezembro']
+    const name = names[month - 1]
+    const slug = `melhores-de-${slugs[month - 1]}-${year}`
+    if ((collections || []).some(c => c.slug === slug)) {
+      setCreateFb({ type: 'error', msg: `"Melhores de ${name[0].toUpperCase() + name.slice(1)} ${year}" já existe.` })
+      return
+    }
+    setCreating(true)
+    setCreateFb(null)
+    // Fica depois de todos os meses, mas antes dos especiais (ex.: Especial Black)
+    const months = (collections || []).filter(c => c.slug.startsWith('melhores-'))
+    const specials = (collections || []).filter(c => c.slug.startsWith('especial-'))
+    const order = (months.length ? Math.max(...months.map(c => c.order)) : 6) + 1
+    const { error } = await supabase.from('collections').insert({
+      slug,
+      title: `Melhores de ${name[0].toUpperCase() + name.slice(1)} ${year}`,
+      subtitle: `Os anúncios que mais se destacaram em ${name} de ${year}`,
+      order,
+      is_bonus: false,
+    })
+    if (!error && specials.some(c => c.order <= order)) {
+      // empurra os especiais para depois do novo mês
+      for (const c of specials) {
+        await supabase.from('collections').update({ order: c.order + 1 }).eq('id', c.id)
+      }
+    }
+    setCreating(false)
+    if (error) {
+      setCreateFb({ type: 'error', msg: /policy|permission|row-level/i.test(error.message) ? 'Sem permissão: rode o arquivo supabase-migration-capas.sql no Supabase.' : error.message })
+      return
+    }
+    setCreateFb({ type: 'ok', msg: 'Coleção criada! Agora cadastre os anúncios nela em Acervo de Anúncios → Novo anúncio.' })
+    load()
   }
 
   async function save(col) {
@@ -122,11 +169,25 @@ export default function AdminCollections() {
           <span className="adm-eyebrow">Acervo de Anúncios</span>
           <h1>Coleções e capas</h1>
           <p>
-            Cada coleção aparece para a aluna como uma capa vertical, no formato de tela de celular.
+            Cada coleção aparece para a aluna como uma capa vertical (3:4).
             Sem capa cadastrada, usamos automaticamente a miniatura do primeiro anúncio.
             As coleções por objetivo são preenchidas pelas tags de objetivo de cada anúncio (em Acervo de Anúncios → editar).
           </p>
         </div>
+      </div>
+
+      <div className="adm-card admin-collections__new">
+        <div>
+          <h2>Nova coleção do mês</h2>
+          <p>Cria "Melhores de Mês Ano". A home das alunas passa a destacar o mês mais recente automaticamente.</p>
+        </div>
+        <div className="admin-collections__new-form">
+          <input type="month" className="adm-input" value={newMonth} onChange={e => setNewMonth(e.target.value)} />
+          <button type="button" className="adm-btn adm-btn--primary" disabled={creating} onClick={createMonth}>
+            {creating ? 'Criando…' : 'Criar coleção'}
+          </button>
+        </div>
+        {createFb && <span className={`admin-collection__fb admin-collection__fb--${createFb.type}`}>{createFb.msg}</span>}
       </div>
 
       {collections === null ? (

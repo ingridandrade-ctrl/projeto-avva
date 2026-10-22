@@ -1,10 +1,15 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useParams, Link, useNavigate } from 'react-router-dom'
 import { supabase } from '../../lib/supabase'
 import { useAuth } from '../../hooks/useAuth'
+import { useFavorites } from '../../hooks/useFavorites'
+import { useActivity } from '../../hooks/useActivity'
 import { getCollectionStyle, belongsTo } from '../../lib/catalog'
 import { collectionCover } from '../../lib/drive'
 import PhoneCard from '../../components/ui/PhoneCard'
+import Row from '../../components/ui/Row'
+import CoverCard from '../../components/ads/CoverCard'
+import AdModal from '../../components/ads/AdModal'
 import './ProductPage.css'
 
 const PRODUCTS = {
@@ -21,12 +26,18 @@ const PRODUCTS = {
   },
 }
 
+// Página do produto: tudo do Acervo mora aqui (continuar, coleções,
+// melhores do mês, novidades, favoritos).
 export default function ProductPage() {
   const { slug } = useParams()
   const navigate = useNavigate()
   const { profile } = useAuth()
+  const { favorites, toggleFavorite, isFavorite } = useFavorites()
+  const { recent, isSeen } = useActivity()
   const [collections, setCollections] = useState(null)
   const [ads, setAds] = useState([])
+  const [openAd, setOpenAd] = useState(null)
+  const [openList, setOpenList] = useState([])
 
   const product = PRODUCTS[slug]
 
@@ -47,7 +58,7 @@ export default function ProductPage() {
     async function load() {
       const [{ data: cols }, { data: adsData }] = await Promise.all([
         supabase.from('collections').select('*').order('order'),
-        supabase.from('ads').select('id, collection_id, objectives, drive_url, media_type, created_at').eq('active', true).order('created_at'),
+        supabase.from('ads').select('*').eq('active', true).order('created_at'),
       ])
       setCollections(cols || [])
       setAds(adsData || [])
@@ -55,11 +66,24 @@ export default function ProductPage() {
     load()
   }, [slug, product, profile, navigate])
 
+  const byId = useMemo(() => Object.fromEntries(ads.map(a => [a.id, a])), [ads])
+  const colById = useMemo(() => Object.fromEntries((collections || []).map(c => [c.id, c])), [collections])
+
   if (!product || slug === 'kit-execucao') return null
 
   const fixas = (collections || []).filter(c => getCollectionStyle(c.slug).kind === 'fixa')
   const extras = (collections || []).filter(c => getCollectionStyle(c.slug).kind !== 'fixa')
   const countOf = col => ads.filter(a => belongsTo(a, col)).length
+  const colTitle = ad => colById[ad.collection_id]?.title
+
+  const recentAds = recent.map(id => byId[id]).filter(Boolean)
+  const favoriteAds = favorites.map(f => f.ads || byId[f.ad_id]).filter(a => a && a.active !== false)
+  const latestAds = [...ads].reverse().slice(0, 12)
+
+  function open(ad, list) {
+    setOpenList(list)
+    setOpenAd(ad)
+  }
 
   function renderCard(col, index) {
     const style = getCollectionStyle(col.slug)
@@ -105,6 +129,14 @@ export default function ProductPage() {
         </div>
       </div>
 
+      {recentAds.length > 0 && (
+        <Row title="Continue de onde parou" subtitle="Os últimos anúncios que você abriu">
+          {recentAds.map(ad => (
+            <CoverCard key={ad.id} ad={ad} subtitle={colTitle(ad)} seen={isSeen(ad.id)} onClick={() => open(ad, recentAds)} />
+          ))}
+        </Row>
+      )}
+
       <section className="product-page__modules">
         <h2>Coleções por objetivo</h2>
         <div className="module-grid">
@@ -118,9 +150,39 @@ export default function ProductPage() {
         <section className="product-page__modules">
           <h2>Melhores do mês e especiais</h2>
           <div className="module-grid">
-            {extras.map(renderCard)}
+            {[...extras].reverse().map(renderCard)}
           </div>
         </section>
+      )}
+
+      {latestAds.length > 0 && (
+        <div className="product-page__rows">
+          <Row title="Novidades no acervo" subtitle="Últimos anúncios adicionados">
+            {latestAds.map(ad => (
+              <CoverCard key={ad.id} ad={ad} subtitle={colTitle(ad)} seen={isSeen(ad.id)} onClick={() => open(ad, latestAds)} />
+            ))}
+          </Row>
+
+          {favoriteAds.length > 0 && (
+            <Row title="Seus favoritos" subtitle="Os que você salvou com ♥" link="/favoritos">
+              {favoriteAds.map(ad => (
+                <CoverCard key={ad.id} ad={ad} subtitle={colTitle(ad)} seen={isSeen(ad.id)} onClick={() => open(ad, favoriteAds)} />
+              ))}
+            </Row>
+          )}
+        </div>
+      )}
+
+      {openAd && (
+        <AdModal
+          ad={openAd}
+          collectionTitle={colTitle(openAd)}
+          isFavorite={isFavorite(openAd.id)}
+          onToggleFavorite={toggleFavorite}
+          onClose={() => setOpenAd(null)}
+          list={openList}
+          onNavigate={setOpenAd}
+        />
       )}
     </div>
   )
