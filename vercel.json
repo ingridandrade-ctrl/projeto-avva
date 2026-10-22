@@ -1,17 +1,79 @@
 {
   "crons": [
-    { "path": "/api/keepalive", "schedule": "0 9 * * *" }
+    {
+      "path": "/api/keepalive",
+      "schedule": "0 9 * * *"
+    }
   ],
   "rewrites": [
-    { "source": "/api/(.*)", "destination": "/api/$1" },
-    { "source": "/", "destination": "/index.html" },
-    { "source": "/aplicacao", "destination": "/index.html" },
-    { "source": "/aplicacao/(.*)", "destination": "/index.html" },
-    { "source": "/mentoria", "destination": "/index.html" },
-    { "source": "/mentoria/(.*)", "destination": "/index.html" },
-    { "source": "/acervo-de-anuncios", "destination": "/acervo.html" },
-    { "source": "/acervo-de-an(.*)", "destination": "/acervo.html" },
-    { "source": "/acervo", "destination": "/acervo.html" },
-    { "source": "/(.*)", "destination": "/membros.html" }
+    {
+      "source": "/api/(.*)",
+      "destination": "/api/$1"
+    },
+    {
+      "source": "/",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/aplicacao",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/aplicacao/(.*)",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/mentoria",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/mentoria/(.*)",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/acervo-de-anuncios",
+      "destination": "/acervo.html"
+    },
+    {
+      "source": "/acervo-de-an(.*)",
+      "destination": "/acervo.html"
+    },
+    {
+      "source": "/acervo",
+      "destination": "/acervo.html"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/membros.html"
+    }
+  ],
+  "headers": [
+    {
+      "source": "/(.*)\\.html",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "no-store"
+        }
+      ]
+    },
+    {
+      "source": "/acervo-de-anuncios",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "no-store"
+        }
+      ]
+    },
+    {
+      "source": "/acervo",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "no-store"
+        }
+      ]
+    }
   ]
 }
