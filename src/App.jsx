@@ -67,6 +67,8 @@ export default function App() {
             {/* ── Página de vendas do Acervo de Anúncios (pública) ── */}
             <Route path="/acervo-de-anuncios" element={<AcervoPage />} />
             <Route path="/acervo" element={<Navigate to="/acervo-de-anuncios" replace />} />
+            {/* Endereço digitado com acento também chega na página */}
+            <Route path="/acervo-de-anúncios" element={<Navigate to="/acervo-de-anuncios" replace />} />
 
             {/* ── Área de membros — alunas ── */}
             <Route path="/login" element={<LoginPage />} />
