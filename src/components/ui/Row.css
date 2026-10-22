@@ -94,7 +94,7 @@
 }
 
 /* Larguras para capas 9:16 */
-.row--sm { --row-item: 220px; }
+.row--sm { --row-item: 170px; }
 .row--md { --row-item: 260px; }
 .row--lg { --row-item: 300px; }
 
@@ -103,6 +103,7 @@
   .row__head h2 { font-size: 1.25rem; }
   .row__arrow { display: none; }
   .row__track { gap: 12px; }
-  .row--sm, .row--md { --row-item: min(62vw, 250px); }
+  .row--sm { --row-item: min(40vw, 160px); }
+  .row--md { --row-item: min(62vw, 250px); }
   .row--lg { --row-item: min(70vw, 280px); }
 }

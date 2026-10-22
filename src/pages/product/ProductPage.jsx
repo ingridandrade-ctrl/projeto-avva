@@ -76,7 +76,7 @@ export default function ProductPage() {
   const countOf = col => ads.filter(a => belongsTo(a, col)).length
   const colTitle = ad => colById[ad.collection_id]?.title
 
-  const recentAds = recent.map(id => byId[id]).filter(Boolean)
+  const recentAds = recent.map(id => byId[id]).filter(Boolean).slice(0, 5)
   const favoriteAds = favorites.map(f => f.ads || byId[f.ad_id]).filter(a => a && a.active !== false)
   const latestAds = [...ads].reverse().slice(0, 12)
 
@@ -130,9 +130,9 @@ export default function ProductPage() {
       </div>
 
       {recentAds.length > 0 && (
-        <Row title="Continue de onde parou" subtitle="Os últimos anúncios que você abriu">
+        <Row title="Continue de onde parou" subtitle="Os últimos anúncios que você abriu" size="sm">
           {recentAds.map(ad => (
-            <CoverCard key={ad.id} ad={ad} subtitle={colTitle(ad)} seen={isSeen(ad.id)} onClick={() => open(ad, recentAds)} />
+            <CoverCard key={ad.id} ad={ad} subtitle={colTitle(ad)} seen={isSeen(ad.id)} onClick={() => open(ad, recentAds)} size="sm" />
           ))}
         </Row>
       )}
