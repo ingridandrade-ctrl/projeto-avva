@@ -65,7 +65,8 @@ export default function App() {
             <Route path="/aplicacao/dashboard" element={<Navigate to="/admin/mentoria" replace />} />
 
             {/* ── Página de vendas do Acervo de Anúncios (pública) ── */}
-            <Route path="/acervo" element={<AcervoPage />} />
+            <Route path="/acervo-de-anuncios" element={<AcervoPage />} />
+            <Route path="/acervo" element={<Navigate to="/acervo-de-anuncios" replace />} />
 
             {/* ── Área de membros — alunas ── */}
             <Route path="/login" element={<LoginPage />} />
