@@ -57,7 +57,6 @@ export default function MemberDashboard() {
     {
       key: 'acervo',
       to: '/produto/acervo-anuncios',
-      kicker: 'Produto principal',
       title: 'Acervo de Anúncios',
       description: 'Anúncios que funcionam, organizados por objetivo: do primeiro contato até a venda. Com a análise da Flora em cada um.',
       meta: loaded ? `${collections.length} coleções · ${ads.length} anúncios` : null,
@@ -68,7 +67,6 @@ export default function MemberDashboard() {
     {
       key: 'kit',
       to: '/kit',
-      kicker: hasKit ? 'Order bump' : 'Complemento do Acervo',
       title: 'Kit de Execução',
       description: 'Ganchos prontos, estruturas narrativas e ângulos com prompts de IA para você sair do anúncio direto para a execução.',
       meta: kitCount === null ? null : `${kitCount} itens prontos`,
@@ -102,7 +100,6 @@ export default function MemberDashboard() {
                 <div className="product-card__visual" style={{ background: p.gradient }}>
                   {p.cover && <img src={p.cover} alt="" loading="lazy" />}
                   <div className="product-card__shade" />
-                  <span className="product-card__kicker">{p.kicker}</span>
                   {!p.owned && (
                     <span className="product-card__lock">
                       <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
