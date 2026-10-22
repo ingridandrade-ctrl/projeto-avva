@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { getRecent, getSeen, onActivityChange, pushRecent, toggleSeen } from '../lib/activity'
+import { getRecent, getSeen, onActivityChange, markSeen, pushRecent, toggleSeen } from '../lib/activity'
 
 export function useActivity() {
   const [recent, setRecent] = useState(getRecent)
@@ -18,5 +18,6 @@ export function useActivity() {
     isSeen: id => seen.includes(id),
     markRecent: pushRecent,
     toggleSeen,
+    markSeen,
   }
 }

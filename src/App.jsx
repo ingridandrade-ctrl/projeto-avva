@@ -21,6 +21,8 @@ const CollectionPage = lazy(() => import('./pages/collections/CollectionPage'))
 const KitPage = lazy(() => import('./pages/kit/KitPage'))
 const ProfilePage = lazy(() => import('./pages/profile/ProfilePage'))
 const SearchPage = lazy(() => import('./pages/search/SearchPage'))
+const FavoritesPage = lazy(() => import('./pages/favorites/FavoritesPage'))
+const AdminCollections = lazy(() => import('./pages/admin/AdminCollections'))
 const FormIngrid = lazy(() => import('./pages/FormIngrid'))
 const Confirmacao = lazy(() => import('./pages/Confirmacao'))
 const Dashboard = lazy(() => import('./pages/Dashboard'))
@@ -78,6 +80,7 @@ export default function App() {
               <Route path="/kit" element={<KitPage />} />
               <Route path="/perfil" element={<ProfilePage />} />
               <Route path="/busca" element={<SearchPage />} />
+              <Route path="/favoritos" element={<FavoritesPage />} />
             </Route>
 
             {/* ── Admin geral: Produtos + Mentoria ── */}
@@ -92,6 +95,7 @@ export default function App() {
             >
               <Route path="/admin" element={<AdminDashboard />} />
               <Route path="/admin/produtos" element={<AdminProducts />} />
+              <Route path="/admin/colecoes" element={<AdminCollections />} />
               <Route path="/admin/ads" element={<AdminAdsList />} />
               <Route path="/admin/ads/new" element={<AdminAdForm />} />
               <Route path="/admin/ads/:id/edit" element={<AdminAdForm />} />

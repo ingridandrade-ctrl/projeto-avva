@@ -1,76 +1,152 @@
 /* ═══════════════════════════════════════════════
-   Collection Page — anúncios por objetivo
+   Collection Page — "página de curso": capa, progresso, grade 9:16
    ═══════════════════════════════════════════════ */
 
 /* ── Header ── */
 
 .collection-page__header {
   position: relative;
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  gap: 36px;
+  align-items: center;
   border-radius: 24px;
-  padding: 36px 32px 40px;
+  padding: 36px;
   margin-bottom: 32px;
   overflow: hidden;
+  color: #fff;
 }
 
-.collection-page__header-orb {
+.collection-page__header-bg {
   position: absolute;
-  width: 260px;
-  height: 260px;
-  top: -30%;
-  right: -8%;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.1);
-  filter: blur(50px);
-  pointer-events: none;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 30%;
+  filter: blur(18px) saturate(1.1);
+  transform: scale(1.2);
+  opacity: 0.55;
+}
+
+.collection-page__header-veil {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(100deg, rgba(60, 36, 26, 0.9) 0%, rgba(60, 36, 26, 0.7) 50%, rgba(168, 92, 53, 0.45) 100%);
+}
+
+.collection-page__header-cover {
+  position: relative;
+  z-index: 1;
+  filter: drop-shadow(0 24px 34px rgba(0, 0, 0, 0.35));
+}
+
+.collection-page__phone,
+.collection-page__phone:hover {
+  cursor: default;
+  transform: none;
+}
+
+.collection-page__phone .phone-card__text {
+  display: none;
 }
 
 .collection-page__header-content {
   position: relative;
   z-index: 1;
+  max-width: 640px;
 }
 
 .collection-page__back {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  font-family: var(--font-corpo);
-  font-size: 0.82rem;
+  min-height: 40px;
+  font-size: 0.88rem;
   font-weight: 500;
-  color: rgba(255, 255, 255, 0.6);
+  color: rgba(255, 255, 255, 0.75);
   text-decoration: none;
-  margin-bottom: 18px;
+  margin-bottom: 10px;
   transition: color 0.2s ease;
-}
-
-.collection-page__back:hover {
-  color: #fff;
 }
 
 .collection-page__number {
   display: block;
-  font-family: var(--font-corpo);
-  font-size: 0.7rem;
+  font-size: 0.74rem;
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.12em;
-  color: rgba(255, 255, 255, 0.5);
+  letter-spacing: 0.14em;
+  color: var(--amendoado);
   margin-bottom: 8px;
 }
 
 .collection-page__header h1 {
   font-family: var(--font-corpo);
-  font-size: 2.2rem;
+  font-size: 2.3rem;
   font-weight: 700;
   color: #fff;
   letter-spacing: -0.03em;
   margin-bottom: 6px;
+  text-shadow: 0 2px 20px rgba(0, 0, 0, 0.2);
 }
 
 .collection-page__header p {
-  font-family: var(--font-corpo);
-  font-size: 1.05rem;
+  font-size: 1.08rem;
   font-weight: 300;
-  color: rgba(255, 255, 255, 0.65);
+  color: rgba(255, 255, 255, 0.82);
+}
+
+/* Progresso (vistos) */
+.collection-page__progress {
+  margin-top: 22px;
+  max-width: 420px;
+}
+
+.collection-page__progress-meta {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.85);
+  margin-bottom: 8px;
+}
+
+.collection-page__progress-track {
+  height: 6px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.22);
+  overflow: hidden;
+}
+
+.collection-page__progress-fill {
+  height: 100%;
+  border-radius: 6px;
+  background: linear-gradient(90deg, var(--amendoado), #fff);
+  transition: width 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.collection-page__start {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 20px;
+  padding: 13px 26px;
+  min-height: 48px;
+  border: none;
+  border-radius: 100px;
+  background: #fff;
+  color: var(--umber);
+  font-family: var(--font-corpo);
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.collection-page__start svg {
+  color: var(--terracotta);
 }
 
 /* ── Aviso (bônus) ── */
@@ -84,8 +160,7 @@
   background: rgba(168, 92, 53, 0.06);
   border: 1px solid rgba(168, 92, 53, 0.18);
   border-radius: 14px;
-  font-family: var(--font-corpo);
-  font-size: 0.86rem;
+  font-size: 0.92rem;
   font-weight: 500;
   color: var(--terracotta);
   line-height: 1.5;
@@ -103,8 +178,7 @@
   align-items: center;
   gap: 16px;
   padding: 80px 24px;
-  font-family: var(--font-corpo);
-  font-size: 0.9rem;
+  font-size: 0.95rem;
   color: rgba(76, 54, 45, 0.5);
 }
 
@@ -121,13 +195,7 @@
   animation: collection-spin 0.7s linear infinite;
 }
 
-/* ── Grid ── */
-
-.ad-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 20px;
-}
+/* ── Grade (.ad-grid vive em AdCard.css) ── */
 
 @keyframes ad-item-in {
   from { opacity: 0; transform: translateY(16px); }
@@ -136,6 +204,19 @@
 
 .ad-grid__item {
   animation: ad-item-in 0.45s ease both;
+}
+
+@keyframes skeleton-shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+.ad-skeleton {
+  aspect-ratio: 9 / 16;
+  border-radius: 20px;
+  background: linear-gradient(100deg, rgba(212, 185, 154, 0.14) 25%, rgba(212, 185, 154, 0.28) 50%, rgba(212, 185, 154, 0.14) 75%);
+  background-size: 200% 100%;
+  animation: skeleton-shimmer 1.4s ease-in-out infinite;
 }
 
 /* ── Empty ── */
@@ -149,16 +230,14 @@
 }
 
 .collection-page__empty-title {
-  font-family: var(--font-corpo);
-  font-size: 1rem;
+  font-size: 1.05rem;
   font-weight: 600;
   color: var(--umber);
   margin-bottom: 6px;
 }
 
 .collection-page__empty-sub {
-  font-family: var(--font-corpo);
-  font-size: 0.85rem;
+  font-size: 0.92rem;
   color: rgba(76, 54, 45, 0.5);
 }
 
@@ -174,34 +253,43 @@
   display: inline-flex;
   align-items: center;
   gap: 16px;
-  padding: 16px 24px;
+  padding: 12px 20px 12px 12px;
   background: #fff;
-  border-radius: 16px;
+  border-radius: 18px;
   text-decoration: none;
   box-shadow: 0 2px 12px rgba(76, 54, 45, 0.06);
   transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
-.collection-page__next:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 8px 24px rgba(76, 54, 45, 0.1);
+.collection-page__next-thumb {
+  width: 54px;
+  aspect-ratio: 9 / 16;
+  border-radius: 10px;
+  overflow: hidden;
+  flex-shrink: 0;
 }
 
-.collection-page__next span {
+.collection-page__next-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.collection-page__next > span:not(.collection-page__next-thumb) {
   display: flex;
   flex-direction: column;
-  font-family: var(--font-corpo);
-  font-size: 0.92rem;
+  font-size: 1rem;
   font-weight: 600;
   color: var(--umber);
 }
 
 .collection-page__next small {
-  font-size: 0.68rem;
-  font-weight: 500;
+  font-size: 0.7rem;
+  font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  color: rgba(76, 54, 45, 0.4);
+  color: rgba(76, 54, 45, 0.45);
   margin-bottom: 2px;
 }
 
@@ -209,50 +297,49 @@
   color: var(--terracotta);
 }
 
+/* ── Hover só com mouse ── */
+
+@media (hover: hover) and (pointer: fine) {
+  .collection-page__back:hover { color: #fff; }
+  .collection-page__start:hover { transform: translateY(-2px); box-shadow: 0 12px 32px rgba(0, 0, 0, 0.28); }
+  .collection-page__next:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(76, 54, 45, 0.1); }
+}
+
 /* ── Responsive ── */
+
+@media (max-width: 760px) {
+  .collection-page__header {
+    grid-template-columns: 1fr;
+    gap: 20px;
+    padding: 24px 20px 28px;
+  }
+
+  .collection-page__header-cover {
+    max-width: 150px;
+  }
+}
 
 @media (max-width: 640px) {
   .collection-page__header {
-    padding: 28px 22px 32px;
-    border-radius: 20px;
+    margin: 0 calc(-1 * var(--page-gutter, 16px)) 24px;
+    border-radius: 0 0 24px 24px;
   }
 
   .collection-page__header h1 {
-    font-size: 1.5rem;
+    font-size: 1.6rem;
   }
 
-  .ad-grid {
-    grid-template-columns: 1fr;
+  .collection-page__nav {
+    justify-content: stretch;
+  }
+
+  .collection-page__next {
+    width: 100%;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .ad-grid__item {
-    animation: none;
-  }
-}
-
-/* ── Skeleton de carregamento (tons quentes) ── */
-
-@keyframes skeleton-shimmer {
-  0% { background-position: 200% 0; }
-  100% { background-position: -200% 0; }
-}
-
-.ad-skeleton {
-  height: 340px;
-  border-radius: var(--radius-lg);
-  background: linear-gradient(
-    100deg,
-    rgba(212, 185, 154, 0.14) 25%,
-    rgba(212, 185, 154, 0.28) 50%,
-    rgba(212, 185, 154, 0.14) 75%
-  );
-  background-size: 200% 100%;
-  animation: skeleton-shimmer 1.4s ease-in-out infinite;
-}
-
-@media (prefers-reduced-motion: reduce) {
+  .ad-grid__item,
   .ad-skeleton {
     animation: none;
   }

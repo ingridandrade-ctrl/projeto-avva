@@ -29,6 +29,7 @@ export default function AdminProducts() {
       countLabel: 'anúncios',
       link: '/admin/ads',
       action: 'Gerenciar anúncios',
+      secondary: { link: '/admin/colecoes', label: 'Coleções e capas' },
       gradient: 'linear-gradient(135deg, #1A6868 0%, #3F7A66 40%, #C98A5E 100%)',
     },
     {
@@ -68,6 +69,11 @@ export default function AdminProducts() {
                   {p.count === null ? '…' : `${p.count} ${p.countLabel}`}
                 </span>
                 <span className="admin-product__action">{p.action} →</span>
+                {p.secondary && (
+                  <Link to={p.secondary.link} className="admin-product__secondary" onClick={e => e.stopPropagation()}>
+                    {p.secondary.label} →
+                  </Link>
+                )}
               </div>
             </div>
           </Link>

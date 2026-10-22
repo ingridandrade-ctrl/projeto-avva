@@ -41,11 +41,23 @@
 /* ── Clickable ── */
 .tag--clickable {
   cursor: pointer;
+  min-height: 40px;
+  padding: 9px 16px;
+  font-size: 0.85rem;
+  white-space: nowrap;
+  -webkit-tap-highlight-color: transparent;
 }
 
-.tag--clickable:hover {
-  opacity: 0.85;
-  transform: scale(1.04);
+@media (hover: hover) and (pointer: fine) {
+  .tag--clickable:hover {
+    opacity: 0.85;
+    transform: scale(1.04);
+  }
+
+  .tag--clickable.tag--active:hover {
+    transform: scale(1.04);
+    opacity: 0.95;
+  }
 }
 
 .tag--clickable:active {
@@ -80,12 +92,6 @@
   background: var(--umber);
   color: white;
   box-shadow: 0 2px 8px rgba(76, 54, 45, 0.3);
-}
-
-/* Active + hover keeps scale stable */
-.tag--clickable.tag--active:hover {
-  transform: scale(1.04);
-  opacity: 0.95;
 }
 
 /* Active + click presses down */

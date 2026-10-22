@@ -1,61 +1,50 @@
-/* ── DriveEmbed container ── */
+/* ── DriveEmbed: proporção por tipo de mídia ── */
+
+@keyframes embed-shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
 .drive-embed {
   position: relative;
   width: 100%;
-  padding-bottom: 56.25%;
-  border-radius: var(--radius-md);
+  aspect-ratio: var(--embed-ratio, 9 / 16);
+  border-radius: 22px;
   overflow: hidden;
-  background: rgba(76, 54, 45, 0.04);
-  border: 1px solid rgba(76, 54, 45, 0.1);
-  box-shadow: var(--shadow-sm);
-  transition: box-shadow 0.3s ease;
+  background: linear-gradient(100deg, rgba(212, 185, 154, 0.25) 25%, rgba(212, 185, 154, 0.45) 50%, rgba(212, 185, 154, 0.25) 75%);
+  background-size: 200% 100%;
+  animation: embed-shimmer 1.4s ease-in-out infinite;
 }
 
-.drive-embed:hover {
-  box-shadow: var(--shadow-md);
+.drive-embed--loaded {
+  animation: none;
+  background: #000;
 }
 
-/* ── Loading placeholder with play icon ── */
-.drive-embed::before {
-  content: '';
+.drive-embed--image.drive-embed--loaded,
+.drive-embed--carousel.drive-embed--loaded {
+  background: #fff;
+}
+
+.drive-embed__img {
   position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 1;
-  width: 64px;
-  height: 64px;
-  border-radius: 50%;
-  background: rgba(12, 71, 71, 0.12);
-  backdrop-filter: blur(4px);
-  transition: opacity 0.4s ease;
-  pointer-events: none;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
 }
 
-.drive-embed::after {
-  content: '';
+.drive-embed__poster {
   position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-42%, -50%);
-  z-index: 2;
-  width: 0;
-  height: 0;
-  border-style: solid;
-  border-width: 10px 0 10px 18px;
-  border-color: transparent transparent transparent var(--teal-medio);
-  opacity: 0.7;
-  transition: opacity 0.4s ease;
-  pointer-events: none;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: blur(2px);
+  opacity: 0.8;
 }
 
-/* Hide placeholder once loaded */
-.drive-embed--loaded::before,
-.drive-embed--loaded::after {
-  opacity: 0;
-}
-
-/* ── iframe fade-in ── */
 .drive-embed iframe {
   position: absolute;
   top: 0;
@@ -69,4 +58,8 @@
 
 .drive-embed--loaded iframe {
   opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .drive-embed { animation: none; }
 }

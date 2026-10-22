@@ -119,12 +119,46 @@
 
 @media (max-width: 640px) {
   .filter-bar {
-    padding: 16px;
+    position: sticky;
+    top: var(--header-height);
+    z-index: 40;
+    gap: 12px;
+    padding: 12px 0 10px;
+    margin: 0 0 20px;
+    background: var(--off-white);
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+  }
+
+  .filter-bar__groups {
+    gap: 10px;
+    padding-top: 10px;
+  }
+
+  .filter-bar__group {
+    gap: 6px;
   }
 
   .filter-bar__label {
     min-width: 0;
     width: 100%;
+    font-size: 0.9rem;
+  }
+
+  /* Chips em linha única rolável, sangrando até a borda da tela */
+  .filter-bar__tags {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scrollbar-width: none;
+    width: calc(100% + 2 * var(--page-gutter, 16px));
+    margin: 0 calc(-1 * var(--page-gutter, 16px));
+    padding: 2px var(--page-gutter, 16px);
+    scroll-snap-type: x proximity;
+  }
+
+  .filter-bar__tags::-webkit-scrollbar {
+    display: none;
   }
 
   .filter-bar__meta {

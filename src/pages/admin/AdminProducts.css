@@ -105,6 +105,18 @@
   color: var(--terracotta);
 }
 
+.admin-product__secondary {
+  margin-left: 14px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--teal-medio);
+  text-decoration: none;
+}
+
+.admin-product__secondary:hover {
+  text-decoration: underline;
+}
+
 .admin-products__hint {
   margin-top: 28px;
   font-family: var(--font-corpo);

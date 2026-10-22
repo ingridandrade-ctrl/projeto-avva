@@ -1,8 +1,9 @@
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 import DriveEmbed from './DriveEmbed'
 import Tag from '../ui/Tag'
 import CopyButton from '../ui/CopyButton'
 import { NICHE_LABELS, MEDIA_LABELS } from '../../lib/catalog'
+import { driveThumb } from '../../lib/drive'
 import { useActivity } from '../../hooks/useActivity'
 import './AdModal.css'
 
@@ -30,30 +31,69 @@ export default function AdModal({
   list = [],
   onNavigate,
 }) {
-  const { isSeen, toggleSeen, markRecent } = useActivity()
+  const { isSeen, toggleSeen, markSeen, markRecent } = useActivity()
+  const railRef = useRef(null)
+  const touch = useRef(null)
 
   const index = list.findIndex(a => a.id === ad.id)
   const prev = index > 0 ? list[index - 1] : null
   const next = index >= 0 && index < list.length - 1 ? list[index + 1] : null
 
+  // Marca como recente ao abrir e como visto depois de 8s na tela
   useEffect(() => {
     markRecent(ad.id)
+    const t = setTimeout(() => markSeen?.(ad.id), 8000)
+    return () => clearTimeout(t)
   }, [ad.id]) // eslint-disable-line react-hooks/exhaustive-deps
+
+  // Centraliza a miniatura atual na trilha
+  useEffect(() => {
+    const el = railRef.current?.querySelector('[data-current="true"]')
+    el?.scrollIntoView({ inline: 'center', block: 'nearest', behavior: 'smooth' })
+  }, [ad.id])
 
   useEffect(() => {
     function onKey(e) {
+      const tag = (e.target?.tagName || '').toLowerCase()
+      if (tag === 'input' || tag === 'textarea') return
       if (e.key === 'Escape') onClose()
       if (e.key === 'ArrowLeft' && prev && onNavigate) onNavigate(prev)
       if (e.key === 'ArrowRight' && next && onNavigate) onNavigate(next)
+      if (e.key === 'f' || e.key === 'F') onToggleFavorite(ad.id)
+      if (e.key === 'v' || e.key === 'V') toggleSeen(ad.id)
     }
     document.addEventListener('keydown', onKey)
-    const prevOverflow = document.body.style.overflow
-    document.body.style.overflow = 'hidden'
+    // iOS ignora overflow:hidden; fixar o body evita a página de trás rolar
+    const scrollY = window.scrollY
+    const body = document.body
+    const prevStyle = { overflow: body.style.overflow, position: body.style.position, top: body.style.top, width: body.style.width }
+    body.style.overflow = 'hidden'
+    body.style.position = 'fixed'
+    body.style.top = `-${scrollY}px`
+    body.style.width = '100%'
     return () => {
       document.removeEventListener('keydown', onKey)
-      document.body.style.overflow = prevOverflow
+      body.style.overflow = prevStyle.overflow
+      body.style.position = prevStyle.position
+      body.style.top = prevStyle.top
+      body.style.width = prevStyle.width
+      window.scrollTo(0, scrollY)
     }
-  }, [onClose, onNavigate, prev, next])
+  }, [onClose, onNavigate, prev, next, ad.id, onToggleFavorite, toggleSeen])
+
+  function onTouchStart(e) {
+    touch.current = { x: e.touches[0].clientX, y: e.touches[0].clientY }
+  }
+  function onTouchEnd(e) {
+    if (!touch.current || !onNavigate) return
+    const dx = e.changedTouches[0].clientX - touch.current.x
+    const dy = e.changedTouches[0].clientY - touch.current.y
+    touch.current = null
+    if (Math.abs(dx) > 60 && Math.abs(dx) > Math.abs(dy) * 1.5) {
+      if (dx < 0 && next) onNavigate(next)
+      if (dx > 0 && prev) onNavigate(prev)
+    }
+  }
 
   const paragraphs = toParagraphs(ad.analysis)
   const seen = isSeen(ad.id)
@@ -65,11 +105,24 @@ export default function AdModal({
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
         </button>
 
-        <div className="ad-modal__media">
-          <DriveEmbed key={ad.id} url={ad.drive_url} title={ad.title} />
+        <div className="ad-modal__media" data-media={ad.media_type} onTouchStart={onTouchStart} onTouchEnd={onTouchEnd}>
+          <div className="ad-modal__phone">
+            <DriveEmbed key={ad.id} url={ad.drive_url} title={ad.title} mediaType={ad.media_type} />
+          </div>
+          {onNavigate && prev && (
+            <button type="button" className="ad-modal__arrow ad-modal__arrow--prev" onClick={() => onNavigate(prev)} aria-label="Anterior">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+            </button>
+          )}
+          {onNavigate && next && (
+            <button type="button" className="ad-modal__arrow ad-modal__arrow--next" onClick={() => onNavigate(next)} aria-label="Próximo">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+            </button>
+          )}
         </div>
 
         <div className="ad-modal__content">
+          <div className="ad-modal__handle" aria-hidden="true" />
           <div className="ad-modal__topline">
             {collectionTitle && <span className="ad-modal__eyebrow">{collectionTitle}</span>}
             {index >= 0 && list.length > 1 && (
@@ -103,7 +156,7 @@ export default function AdModal({
               onClick={() => toggleSeen(ad.id)}
             >
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-              {seen ? 'Visto' : 'Marcar como visto'}
+              {seen ? 'Concluído' : 'Marcar como concluído'}
             </button>
             <button
               type="button"
@@ -121,22 +174,33 @@ export default function AdModal({
             )}
           </div>
 
-          {onNavigate && (prev || next) && (
-            <div className="ad-modal__nav">
-              <button type="button" className="ad-modal__navbtn" disabled={!prev} onClick={() => prev && onNavigate(prev)}>
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
-                <span>
-                  <small>Anterior</small>
-                  {prev ? prev.title : '—'}
-                </span>
-              </button>
-              <button type="button" className="ad-modal__navbtn ad-modal__navbtn--next" disabled={!next} onClick={() => next && onNavigate(next)}>
-                <span>
-                  <small>Próximo</small>
-                  {next ? next.title : '—'}
-                </span>
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
-              </button>
+          {onNavigate && list.length > 1 && (
+            <div className="ad-modal__rail-wrap">
+              <span className="ad-modal__rail-title">
+                {collectionTitle ? 'Nesta coleção' : 'Nesta lista'} · {index + 1} de {list.length}
+              </span>
+              <div className="ad-modal__rail" ref={railRef}>
+                {list.map(a => {
+                  const t = driveThumb(a.drive_url, 300)
+                  return (
+                    <button
+                      key={a.id}
+                      type="button"
+                      className={`ad-modal__thumb ${a.id === ad.id ? 'ad-modal__thumb--current' : ''}`}
+                      data-current={a.id === ad.id ? 'true' : undefined}
+                      onClick={() => onNavigate(a)}
+                      title={a.title}
+                    >
+                      {t ? <img src={t} alt="" loading="lazy" /> : <span>{(a.title || '?').charAt(0)}</span>}
+                      {isSeen(a.id) && (
+                        <i className="ad-modal__thumb-seen">
+                          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                        </i>
+                      )}
+                    </button>
+                  )
+                })}
+              </div>
             </div>
           )}
         </div>

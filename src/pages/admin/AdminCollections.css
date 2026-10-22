@@ -1,0 +1,76 @@
+.admin-collections__list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.admin-collection {
+  display: grid;
+  grid-template-columns: 170px 1fr;
+  gap: 28px;
+  padding: 24px;
+}
+
+.admin-collection__preview {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+}
+
+.admin-collection__preview .phone-card,
+.admin-collection__preview .phone-card:hover {
+  cursor: default;
+  transform: none;
+}
+
+.admin-collection__preview-label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--a-ink-3, rgba(76, 54, 45, 0.5));
+  text-align: center;
+}
+
+.admin-collection__form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  min-width: 0;
+}
+
+.admin-collection__head .adm-eyebrow {
+  margin-bottom: 0;
+}
+
+.admin-collection__hint {
+  font-size: 0.85rem;
+  line-height: 1.45;
+  color: var(--a-ink-3, rgba(76, 54, 45, 0.55));
+}
+
+.admin-collection__actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 4px;
+}
+
+.admin-collection__fb {
+  font-size: 0.92rem;
+  font-weight: 600;
+}
+
+.admin-collection__fb--ok { color: var(--teal-medio); }
+.admin-collection__fb--error { color: #B4432E; }
+
+@media (max-width: 720px) {
+  .admin-collection {
+    grid-template-columns: 1fr;
+  }
+
+  .admin-collection__preview {
+    max-width: 150px;
+    margin: 0 auto;
+  }
+}

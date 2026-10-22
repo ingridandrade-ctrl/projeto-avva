@@ -58,6 +58,10 @@ input, textarea, button, select {
   font-family: var(--font-corpo);
 }
 
+a, button, [role="button"] {
+  -webkit-tap-highlight-color: transparent;
+}
+
 code, pre, .mono {
   font-family: var(--font-mono);
 }

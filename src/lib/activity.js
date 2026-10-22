@@ -40,6 +40,11 @@ export function isSeen(adId) {
   return read(SEEN_KEY).includes(adId)
 }
 
+export function markSeen(adId) {
+  const list = read(SEEN_KEY)
+  if (!list.includes(adId)) write(SEEN_KEY, [...list, adId])
+}
+
 export function toggleSeen(adId) {
   const list = read(SEEN_KEY)
   write(SEEN_KEY, list.includes(adId) ? list.filter(id => id !== adId) : [...list, adId])

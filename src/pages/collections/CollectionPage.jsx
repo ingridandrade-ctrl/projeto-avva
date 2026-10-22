@@ -4,9 +4,11 @@ import { supabase } from '../../lib/supabase'
 import { useFavorites } from '../../hooks/useFavorites'
 import { useActivity } from '../../hooks/useActivity'
 import { getCollectionStyle } from '../../lib/catalog'
+import { collectionCover } from '../../lib/drive'
 import AdCard from '../../components/ads/AdCard'
 import AdModal from '../../components/ads/AdModal'
 import FilterBar from '../../components/filters/FilterBar'
+import PhoneCard from '../../components/ui/PhoneCard'
 import './CollectionPage.css'
 
 export default function CollectionPage() {
@@ -15,6 +17,7 @@ export default function CollectionPage() {
   const { isSeen } = useActivity()
   const [collection, setCollection] = useState(undefined)
   const [allCollections, setAllCollections] = useState([])
+  const [allAds, setAllAds] = useState([])
   const [ads, setAds] = useState([])
   const [loading, setLoading] = useState(true)
   const [openAd, setOpenAd] = useState(null)
@@ -31,9 +34,13 @@ export default function CollectionPage() {
       setSearch('')
       setOpenAd(null)
 
-      const { data: cols } = await supabase.from('collections').select('*').order('order')
+      const [{ data: cols }, { data: covers }] = await Promise.all([
+        supabase.from('collections').select('*').order('order'),
+        supabase.from('ads').select('id, collection_id, drive_url').eq('active', true).order('created_at'),
+      ])
       const list = cols || []
       setAllCollections(list)
+      setAllAds(covers || [])
       const col = list.find(c => c.slug === slug) || null
       setCollection(col)
 
@@ -78,10 +85,27 @@ export default function CollectionPage() {
       ? `Coleção ${String(collection.order).padStart(2, '0')}`
       : style.kind === 'melhores' ? 'Melhores do mês' : 'Especial'
 
+  const cover = collectionCover(collection, allAds, 1200)
+  const seenCount = ads.filter(a => isSeen(a.id)).length
+  const pct = ads.length ? Math.round((seenCount / ads.length) * 100) : 0
+  const firstUnseen = ads.find(a => !isSeen(a.id)) || ads[0]
+
   return (
     <div className="collection-page">
-      <div className="collection-page__header" style={{ background: style.gradient }}>
-        <div className="collection-page__header-orb" />
+      <header className="collection-page__header" style={{ background: style.gradient }}>
+        {cover && <img className="collection-page__header-bg" src={cover} alt="" />}
+        <div className="collection-page__header-veil" />
+
+        <div className="collection-page__header-cover">
+          <PhoneCard
+            image={cover}
+            title={collection.title}
+            fallbackGradient={style.gradient}
+            fallbackLabel={collection.is_bonus ? '★' : style.kind === 'fixa' ? String(collection.order).padStart(2, '0') : ''}
+            className="collection-page__phone"
+          />
+        </div>
+
         <div className="collection-page__header-content">
           <Link to="/produto/acervo-anuncios" className="collection-page__back">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
@@ -90,8 +114,27 @@ export default function CollectionPage() {
           <span className="collection-page__number">{label}</span>
           <h1>{collection.title}</h1>
           <p>{collection.subtitle}</p>
+
+          {ads.length > 0 && (
+            <div className="collection-page__progress">
+              <div className="collection-page__progress-meta">
+                <span>{ads.length} {ads.length === 1 ? 'anúncio' : 'anúncios'}</span>
+                <span>{seenCount} vistos · {pct}%</span>
+              </div>
+              <div className="collection-page__progress-track">
+                <div className="collection-page__progress-fill" style={{ width: `${pct}%` }} />
+              </div>
+            </div>
+          )}
+
+          {firstUnseen && (
+            <button type="button" className="collection-page__start" onClick={() => setOpenAd(firstUnseen)}>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+              {seenCount === 0 ? 'Começar' : seenCount >= ads.length ? 'Rever do início' : 'Continuar'}
+            </button>
+          )}
         </div>
-      </div>
+      </header>
 
       {collection.is_bonus && (
         <div className="collection-page__notice">
@@ -113,7 +156,7 @@ export default function CollectionPage() {
 
       {loading ? (
         <div className="ad-grid" aria-hidden="true">
-          {Array.from({ length: 6 }).map((_, i) => (
+          {Array.from({ length: 8 }).map((_, i) => (
             <div key={i} className="ad-skeleton" style={{ animationDelay: `${i * 120}ms` }} />
           ))}
         </div>
@@ -121,7 +164,7 @@ export default function CollectionPage() {
         <>
           <div className="ad-grid">
             {filteredAds.map((ad, i) => (
-              <div key={ad.id} className="ad-grid__item" style={{ animationDelay: `${i * 60}ms` }}>
+              <div key={ad.id} className="ad-grid__item" style={{ animationDelay: `${i * 50}ms` }}>
                 <AdCard
                   ad={ad}
                   seen={isSeen(ad.id)}
@@ -149,6 +192,9 @@ export default function CollectionPage() {
       {next && (
         <div className="collection-page__nav">
           <Link to={`/colecao/${next.slug}`} className="collection-page__next">
+            <span className="collection-page__next-thumb" style={{ background: getCollectionStyle(next.slug).gradient }}>
+              {collectionCover(next, allAds, 300) && <img src={collectionCover(next, allAds, 300)} alt="" loading="lazy" />}
+            </span>
             <span>
               <small>Próxima coleção</small>
               {next.title}
@@ -165,7 +211,7 @@ export default function CollectionPage() {
           isFavorite={isFavorite(openAd.id)}
           onToggleFavorite={toggleFavorite}
           onClose={() => setOpenAd(null)}
-          list={filteredAds}
+          list={filteredAds.length ? filteredAds : ads}
           onNavigate={setOpenAd}
         />
       )}

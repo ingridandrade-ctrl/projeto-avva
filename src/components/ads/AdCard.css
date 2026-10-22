@@ -1,148 +1,16 @@
-/* ── Card de anúncio: capa visual + resumo ── */
+/* ── Card de anúncio nas grades: extras sobre o PhoneCard ── */
 
-.ad-card {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  background: #fff;
-  border: 1px solid rgba(212, 185, 154, 0.3);
-  border-radius: 20px;
-  overflow: hidden;
-  box-shadow: var(--shadow-sm);
-  cursor: pointer;
-  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
-              box-shadow 0.3s ease,
-              border-color 0.3s ease;
-}
-
-.ad-card:hover {
-  transform: translateY(-5px);
-  border-color: rgba(212, 185, 154, 0.6);
-  box-shadow:
-    0 14px 40px rgba(168, 92, 53, 0.14),
-    0 4px 12px rgba(12, 71, 71, 0.06);
-}
-
-.ad-card:focus-visible {
-  outline: 2px solid var(--terracotta);
-  outline-offset: 3px;
-}
-
-/* ── Capa ── */
-.ad-card__cover {
-  position: relative;
-  aspect-ratio: 4 / 5;
-  background: #2C1F1A;
-  overflow: hidden;
-}
-
-.ad-card__cover img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.ad-card:hover .ad-card__cover img {
-  transform: scale(1.05);
-}
-
-.ad-card__cover-fallback {
-  width: 100%;
-  height: 100%;
-  display: grid;
-  place-items: center;
-  background: linear-gradient(135deg, #1A6868 0%, #3F7A66 45%, #A85C35 100%);
-}
-
-.ad-card__cover-fallback span {
-  font-size: 4rem;
-  font-weight: 700;
-  color: rgba(255, 255, 255, 0.35);
-}
-
-/* Sombra pra o título ficar legível sobre a imagem */
-.ad-card__cover-shade {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(180deg, rgba(0, 0, 0, 0.15) 0%, transparent 35%, transparent 50%, rgba(20, 12, 8, 0.85) 100%);
-  pointer-events: none;
-}
-
-.ad-card__title {
-  position: absolute;
-  left: 20px;
-  right: 20px;
-  bottom: 18px;
-  z-index: 2;
-  font-family: var(--font-corpo);
-  font-size: 1.25rem;
-  font-weight: 700;
-  letter-spacing: -0.02em;
-  line-height: 1.25;
-  color: #fff;
-  margin: 0;
-  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.4);
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-
-.ad-card__format-badge {
-  position: absolute;
-  top: 14px;
-  left: 14px;
-  z-index: 2;
-  font-family: var(--font-corpo);
-  font-size: 0.74rem;
-  font-weight: 700;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: var(--umber);
-  background: rgba(247, 244, 240, 0.92);
-  padding: 6px 12px;
-  border-radius: 100px;
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
-}
-
-/* Play (vídeos) */
-.ad-card__play {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  z-index: 2;
-  width: 64px;
-  height: 64px;
-  margin: -32px 0 0 -32px;
-  display: grid;
-  place-items: center;
-  border-radius: 50%;
-  background: rgba(247, 244, 240, 0.9);
-  color: var(--terracotta);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
-  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.2s ease;
-  padding-left: 4px;
-}
-
-.ad-card:hover .ad-card__play {
-  transform: scale(1.1);
-  background: #fff;
-}
-
-/* Favorito */
+/* Favorito (canto superior direito; o selo "visto" desce quando existe) */
 .ad-card__fav {
   position: absolute;
-  top: 12px;
-  right: 12px;
+  top: 16px;
+  right: 10px;
   z-index: 3;
-  width: 40px;
-  height: 40px;
+  width: 38px;
+  height: 38px;
   display: grid;
   place-items: center;
-  background: rgba(247, 244, 240, 0.85);
+  background: rgba(247, 244, 240, 0.88);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
   border: 1px solid rgba(255, 255, 255, 0.5);
@@ -165,6 +33,15 @@
   animation: pulse-heart 0.45s cubic-bezier(0.17, 0.89, 0.32, 1.28);
 }
 
+.ad-card__fav:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(168, 92, 53, 0.28);
+}
+
+.ad-card .phone-card__seen {
+  top: 60px;
+}
+
 @keyframes pulse-heart {
   0%   { transform: scale(1); }
   25%  { transform: scale(1.35); }
@@ -173,93 +50,16 @@
   100% { transform: scale(1); }
 }
 
-/* ── Corpo ── */
-.ad-card__body {
-  padding: 18px 22px 22px;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  flex: 1;
+/* Grade de anúncios (coleção e busca): colunas estreitas, cards altos */
+.ad-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+  gap: 20px;
 }
 
-.ad-card__tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-}
-
-.ad-card__excerpt {
-  font-size: 0.98rem;
-  line-height: 1.55;
-  color: rgba(76, 54, 45, 0.72);
-  margin: 0;
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  flex: 1;
-}
-
-.ad-card__excerpt--muted {
-  color: rgba(76, 54, 45, 0.4);
-  font-style: italic;
-}
-
-.ad-card__open {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  align-self: flex-start;
-  padding: 10px 18px;
-  border-radius: 100px;
-  background: rgba(168, 92, 53, 0.1);
-  font-family: var(--font-corpo);
-  font-size: 0.92rem;
-  font-weight: 600;
-  color: var(--terracotta);
-  transition: background 0.25s ease, color 0.25s ease;
-}
-
-.ad-card__open svg {
-  transition: transform 0.25s ease;
-}
-
-.ad-card:hover .ad-card__open {
-  background: var(--terracotta);
-  color: #fff;
-}
-
-.ad-card:hover .ad-card__open svg {
-  transform: translateX(3px);
-}
-
-.ad-card__fav:focus-visible {
-  outline: none;
-  box-shadow: 0 0 0 3px rgba(168, 92, 53, 0.28);
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .ad-card,
-  .ad-card__cover img,
-  .ad-card__play {
-    transition: none;
+@media (max-width: 640px) {
+  .ad-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
   }
-}
-
-/* Selo "visto" */
-.ad-card__seen {
-  position: absolute;
-  top: 58px;
-  right: 12px;
-  z-index: 2;
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  padding: 5px 10px;
-  border-radius: 100px;
-  background: var(--teal-medio);
-  color: #fff;
-  font-size: 0.72rem;
-  font-weight: 700;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
 }

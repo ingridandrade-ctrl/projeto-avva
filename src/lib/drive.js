@@ -1,0 +1,27 @@
+// Utilidades para links do Google Drive
+
+export function driveId(url) {
+  const m = (url || '').match(/\/d\/([a-zA-Z0-9_-]+)/) || (url || '').match(/[?&]id=([a-zA-Z0-9_-]+)/)
+  return m ? m[1] : null
+}
+
+// Capa gerada pelo próprio Drive (frame do vídeo, a imagem ou a 1ª página do PDF)
+export function driveThumb(url, width = 900) {
+  const id = driveId(url)
+  return id ? `https://drive.google.com/thumbnail?id=${id}&sz=w${width}` : null
+}
+
+// Aceita link do Drive OU uma URL de imagem qualquer
+export function resolveCover(url, width = 900) {
+  if (!url) return null
+  return driveThumb(url, width) || url
+}
+
+// Capa de uma coleção: a imagem cadastrada no admin ou, na falta dela,
+// a miniatura do primeiro anúncio da coleção.
+export function collectionCover(col, ads = [], width = 900) {
+  if (!col) return null
+  if (col.cover_url) return resolveCover(col.cover_url, width)
+  const first = ads.find(a => a.collection_id === col.id && a.drive_url)
+  return first ? driveThumb(first.drive_url, width) : null
+}
