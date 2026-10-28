@@ -5,11 +5,14 @@
 //                       Kit de Execução se veio como order bump e manda o e-mail
 //                       de boas-vindas pelo Resend
 //   reembolso / chargeback -> bloqueia o acesso na hora
+//   abandono de checkout, Pix gerado, cartão recusado -> e-mail de pré-compra
+//                       (um por pessoa/pedido, e nunca pra quem já tem acesso)
 //
 // Cadastre em Cakto > Apps > Webhook (ou pela API) a URL
 //   https://metodoavva.com/api/cakto-webhook
-// com os eventos purchase_approved, refund e chargeback. O "secret" gerado
-// pela Cakto vai na variável CAKTO_WEBHOOK_SECRET da Vercel.
+// com os eventos purchase_approved, refund, chargeback, checkout_abandonment,
+// pix_gerado e purchase_refused. O "secret" gerado pela Cakto vai na variável
+// CAKTO_WEBHOOK_SECRET da Vercel.
 //
 // Variáveis de ambiente:
 //   CAKTO_WEBHOOK_SECRET   secret do webhook (obrigatório)
@@ -19,7 +22,7 @@
 //   ACERVO_FROM            remetente, ex.: "Acervo de Anúncios <suporte@metodoavva.com>"
 import crypto from 'node:crypto'
 import { createClient } from '@supabase/supabase-js'
-import { welcomeEmail } from '../lib/emails/acervo.js'
+import { welcomeEmail, abandonEmail, pixEmail, refusedEmail } from '../lib/emails/acervo.js'
 
 const TOLERANCE_SECONDS = 5 * 60
 
@@ -87,6 +90,56 @@ async function sendEmail(to, { subject, html, text }) {
 }
 
 const sendWelcomeEmail = ({ email, name, hasKit }) => sendEmail(email, welcomeEmail({ email, name, hasKit }))
+
+// Quem já tem acesso liberado não precisa de e-mail de pré-compra
+async function hasAccess(email) {
+  const { data } = await supabase
+    .from('users')
+    .select('id, access_blocked')
+    .eq('email', email)
+    .maybeSingle()
+  return Boolean(data && !data.access_blocked)
+}
+
+const normalizeEmail = (v) => String(v || '').toLowerCase().trim()
+const today = () => new Date().toISOString().slice(0, 10)
+
+// checkout_abandonment vem num formato próprio: sem id, sem pedido, com os
+// dados da pessoa achatados em customerName / customerEmail.
+async function handleAbandonment(data) {
+  const email = normalizeEmail(data?.customerEmail)
+  if (!email) return { skipped: 'missing_email' }
+  const key = `checkout_abandonment:${email}:${data?.offer?.id || ''}:${data?.createdAt || today()}`
+  if (await alreadyProcessed(key)) return { email, duplicate: true }
+  if (await hasAccess(email)) return { email, skipped: 'already_has_access' }
+  const r = await sendEmail(email, abandonEmail({ name: data.customerName, checkoutUrl: data.checkoutUrl }))
+  return { email, sent: true, ...r }
+}
+
+// pix_gerado e purchase_refused usam o formato de pedido. Só o produto
+// principal interessa (o order bump do kit vem como pedido separado).
+async function handlePreSale(event, order) {
+  const email = normalizeEmail(order?.customer?.email)
+  if (!email) return { skipped: 'missing_email' }
+  if (order.offer_type && order.offer_type !== 'main') return { email, skipped: order.offer_type }
+  if (isKitProduct(order)) return { email, skipped: 'kit' }
+
+  // Pix: um e-mail por Pix gerado. Cartão recusado: no máximo um por dia,
+  // mesmo que a pessoa tente várias vezes.
+  const key = event === 'pix_gerado'
+    ? `${event}:${order.id}`
+    : `${event}:${email}:${today()}`
+  if (await alreadyProcessed(key)) return { id: order.id, duplicate: true }
+  if (await hasAccess(email)) return { id: order.id, skipped: 'already_has_access' }
+
+  const name = order.customer?.name
+  const checkoutUrl = order.checkoutUrl
+  const mail = event === 'pix_gerado'
+    ? pixEmail({ name, checkoutUrl, pixCode: order.pix?.qrCode, expiresAt: order.pix?.expirationDate })
+    : refusedEmail({ name, checkoutUrl })
+  const r = await sendEmail(email, mail)
+  return { id: order.id, sent: true, ...r }
+}
 
 // Dedup: o mesmo evento pode chegar mais de uma vez (retentativas da Cakto)
 async function alreadyProcessed(eventKey) {
@@ -187,14 +240,23 @@ export default async function handler(req, res) {
   // Webhook V2 manda "data" como lista (principal + order bump na mesma entrega)
   const orders = Array.isArray(payload.data) ? payload.data : [payload.data].filter(Boolean)
 
-  if (event !== 'purchase_approved' && event !== 'refund' && event !== 'chargeback') {
+  const EVENTOS = ['purchase_approved', 'refund', 'chargeback', 'checkout_abandonment', 'pix_gerado', 'purchase_refused']
+  if (!EVENTOS.includes(event)) {
     return res.status(200).json({ ok: true, skipped: event })
   }
 
   try {
     const results = []
     for (const order of orders) {
+      if (event === 'checkout_abandonment') {
+        results.push(await handleAbandonment(order))
+        continue
+      }
       if (!order?.id) continue
+      if (event === 'pix_gerado' || event === 'purchase_refused') {
+        results.push(await handlePreSale(event, order))
+        continue
+      }
       if (await alreadyProcessed(`${event}:${order.id}`)) {
         results.push({ id: order.id, duplicate: true })
         continue
