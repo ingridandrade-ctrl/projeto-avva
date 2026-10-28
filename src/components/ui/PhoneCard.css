@@ -21,7 +21,7 @@
     transform: translateY(-8px);
   }
   .phone-card:hover .phone-card__media {
-    box-shadow: 0 22px 50px rgba(168, 92, 53, 0.26);
+    box-shadow: 0 22px 50px rgba(150, 94, 65, 0.26);
   }
   .phone-card:hover .phone-card__media img {
     transform: scale(1.06);
@@ -63,7 +63,7 @@
   height: 100%;
   display: grid;
   place-items: center;
-  background: linear-gradient(160deg, #1A6868 0%, #3F7A66 45%, #A85C35 100%);
+  background: linear-gradient(160deg, #1A6868 0%, #3F7A66 45%, #965E41 100%);
 }
 
 .phone-card__fallback span {

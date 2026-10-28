@@ -35,7 +35,7 @@ export const COLLECTIONS = [
     title: 'Vender agora',
     subtitle: 'Oferta direta e remarketing',
     order: 5,
-    gradient: 'linear-gradient(135deg, #A85C35 0%, #C98A5E 60%, #D4B99A 100%)',
+    gradient: 'linear-gradient(135deg, #965E41 0%, #C98A5E 60%, #D4B99A 100%)',
   },
   {
     slug: 'datas-especiais',
@@ -50,7 +50,7 @@ export const COLLECTIONS = [
     title: 'Especial Black',
     subtitle: 'Black Friday: páginas e criativos que venderam',
     order: 8,
-    gradient: 'linear-gradient(135deg, #2E211B 0%, #4C362D 45%, #A85C35 100%)',
+    gradient: 'linear-gradient(135deg, #2E211B 0%, #4C362D 45%, #965E41 100%)',
   },
 ]
 
@@ -81,7 +81,7 @@ const MELHORES_GRADIENTS = [
   'linear-gradient(135deg, #3F7A66 0%, #8A5C3F 55%, #D4B99A 100%)',
   'linear-gradient(135deg, #1A6868 0%, #7FA588 60%, #D4B99A 100%)',
   'linear-gradient(135deg, #8A5C3F 0%, #C98A5E 60%, #7FA588 100%)',
-  'linear-gradient(135deg, #2C6B5A 0%, #A85C35 60%, #D4B99A 100%)',
+  'linear-gradient(135deg, #2C6B5A 0%, #965E41 60%, #D4B99A 100%)',
   'linear-gradient(135deg, #B97A4E 0%, #D4B99A 50%, #3F7A66 100%)',
 ]
 
@@ -89,7 +89,7 @@ export function getCollectionStyle(slug = '') {
   const fixed = getCollection(slug)
   if (fixed) return { gradient: fixed.gradient, kind: 'fixa' }
   if (slug.startsWith('especial-')) {
-    return { gradient: 'linear-gradient(135deg, #2E211B 0%, #4C362D 45%, #A85C35 100%)', kind: 'especial' }
+    return { gradient: 'linear-gradient(135deg, #2E211B 0%, #4C362D 45%, #965E41 100%)', kind: 'especial' }
   }
   if (slug.startsWith('melhores-')) {
     let h = 0

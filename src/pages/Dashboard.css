@@ -207,7 +207,7 @@
   background: var(--teal-profundo);
   background-image:
     radial-gradient(400px 220px at 100% 0%, rgba(26, 104, 104, 0.9), transparent 70%),
-    radial-gradient(300px 200px at 0% 100%, rgba(168, 92, 53, 0.18), transparent 70%);
+    radial-gradient(300px 200px at 0% 100%, rgba(150, 94, 65, 0.18), transparent 70%);
   border-color: transparent;
   box-shadow: 0 1px 2px rgba(12, 71, 71, 0.1), 0 14px 36px rgba(12, 71, 71, 0.22);
 }
@@ -466,7 +466,7 @@
   letter-spacing: 0.01em;
 }
 
-.badge--flora { background: rgba(168, 92, 53, 0.12); color: var(--terracotta); }
+.badge--flora { background: rgba(150, 94, 65, 0.12); color: var(--terracotta); }
 .badge--ingrid { background: rgba(26, 104, 104, 0.12); color: var(--teal-medio); }
 
 .status-select {
@@ -490,7 +490,7 @@
 
 .status--nova { background: rgba(26, 104, 104, 0.12); color: var(--teal-profundo); }
 .status--lida { background: rgba(76, 54, 45, 0.08); color: var(--d-ink-2); }
-.status--em_analise { background: rgba(168, 92, 53, 0.14); color: #8f4a28; }
+.status--em_analise { background: rgba(150, 94, 65, 0.14); color: #8f4a28; }
 .status--aprovada { background: rgba(47, 125, 79, 0.14); color: var(--d-ok); }
 .status--recusada { background: rgba(179, 57, 43, 0.12); color: var(--d-danger); }
 

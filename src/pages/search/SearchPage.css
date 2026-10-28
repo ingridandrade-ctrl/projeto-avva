@@ -23,7 +23,7 @@
 
 .search-page__field:focus-within {
   border-color: var(--terracotta);
-  box-shadow: 0 0 0 4px rgba(168, 92, 53, 0.12);
+  box-shadow: 0 0 0 4px rgba(150, 94, 65, 0.12);
   color: var(--terracotta);
 }
 

@@ -239,7 +239,7 @@
 }
 
 .ad-modal__pill--fav {
-  border-color: rgba(168, 92, 53, 0.35);
+  border-color: rgba(150, 94, 65, 0.35);
   color: var(--terracotta);
 }
 
@@ -297,7 +297,7 @@
   border: 2px solid transparent;
   border-radius: 12px;
   overflow: hidden;
-  background: linear-gradient(160deg, #1A6868, #A85C35);
+  background: linear-gradient(160deg, #1A6868, #965E41);
   cursor: pointer;
   scroll-snap-align: center;
   opacity: 0.75;

@@ -38,7 +38,7 @@
 .filter-bar__search:focus-within {
   border-color: var(--terracotta);
   background: #fff;
-  box-shadow: 0 0 0 4px rgba(168, 92, 53, 0.1);
+  box-shadow: 0 0 0 4px rgba(150, 94, 65, 0.1);
   color: var(--terracotta);
 }
 
@@ -72,7 +72,7 @@
 
 .filter-bar__clear {
   border: none;
-  background: rgba(168, 92, 53, 0.1);
+  background: rgba(150, 94, 65, 0.1);
   color: var(--terracotta);
   border-radius: 100px;
   padding: 8px 16px;
@@ -84,7 +84,7 @@
 }
 
 .filter-bar__clear:hover {
-  background: rgba(168, 92, 53, 0.18);
+  background: rgba(150, 94, 65, 0.18);
 }
 
 /* Grupos de filtro */

@@ -27,9 +27,9 @@
 }
 
 .tag--terracotta {
-  background: rgba(168, 92, 53, 0.12);
+  background: rgba(150, 94, 65, 0.12);
   color: var(--terracotta);
-  border-color: rgba(168, 92, 53, 0.2);
+  border-color: rgba(150, 94, 65, 0.2);
 }
 
 .tag--umber {
@@ -80,7 +80,7 @@
 
 .tag--active.tag--terracotta {
   background: var(--terracotta);
-  box-shadow: 0 2px 8px rgba(168, 92, 53, 0.3);
+  box-shadow: 0 2px 8px rgba(150, 94, 65, 0.3);
 }
 
 .tag--active.tag--umber {
@@ -102,5 +102,5 @@
 /* ── Foco por teclado na cor da marca ── */
 .tag--clickable:focus-visible {
   outline: none;
-  box-shadow: 0 0 0 3px rgba(168, 92, 53, 0.28);
+  box-shadow: 0 0 0 3px rgba(150, 94, 65, 0.28);
 }
