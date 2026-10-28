@@ -37,25 +37,24 @@ export const COLLECTIONS = [
     order: 5,
     gradient: 'linear-gradient(135deg, #965E41 0%, #C98A5E 60%, #D4B99A 100%)',
   },
+  // Bônus aposentado na área de membros (segue só na página de vendas, que
+  // lê esta lista direto). Pra voltar, tira o "retired".
   {
     slug: 'datas-especiais',
     title: 'Datas especiais',
     subtitle: 'Black Friday, Dia das Mães, aniversário...',
     order: 6,
     isBonus: true,
+    retired: true,
     gradient: 'linear-gradient(135deg, #C98A5E 0%, #D4B99A 55%, #7FA588 100%)',
-  },
-  {
-    slug: 'especial-black',
-    title: 'Especial Black',
-    subtitle: 'Black Friday: páginas e criativos que venderam',
-    order: 8,
-    gradient: 'linear-gradient(135deg, #2E211B 0%, #4C362D 45%, #965E41 100%)',
   },
 ]
 
+// Coleções fixas que valem na área de membros (sem as aposentadas)
+export const FIXED_COLLECTIONS = COLLECTIONS.filter(c => !c.retired)
+
 // Coleções por objetivo = tags que um anúncio pode ter (várias por anúncio).
-export const OBJECTIVES = COLLECTIONS
+export const OBJECTIVES = FIXED_COLLECTIONS
   .filter(c => c.order <= 6)
   .map(c => ({ value: c.slug, label: c.title, hint: c.subtitle }))
 
@@ -71,7 +70,7 @@ export function belongsTo(ad, col) {
 }
 
 export function getCollection(slug) {
-  return COLLECTIONS.find(c => c.slug === slug)
+  return FIXED_COLLECTIONS.find(c => c.slug === slug)
 }
 
 // As coleções vêm do banco; o catálogo acima só dá o visual das fixas.

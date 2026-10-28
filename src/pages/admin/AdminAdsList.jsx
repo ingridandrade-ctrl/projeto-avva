@@ -1,8 +1,8 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { Link, useNavigate, useSearchParams } from 'react-router-dom'
 import { supabase } from '../../lib/supabase'
-import { NICHE_LABELS, MEDIA_LABELS, OBJECTIVE_LABELS, OBJECTIVES, NICHES, MEDIA_TYPES } from '../../lib/catalog'
-import { driveThumb } from '../../lib/drive'
+import { NICHE_LABELS, MEDIA_LABELS, OBJECTIVE_LABELS, NICHES, MEDIA_TYPES, getCollectionStyle, belongsTo } from '../../lib/catalog'
+import { driveThumb, driveId } from '../../lib/drive'
 import Tag from '../../components/ui/Tag'
 import './AdminAdsList.css'
 
@@ -20,50 +20,49 @@ function CoverCheck({ ad }) {
   )
 }
 
+const kindLabel = (col) => col.is_bonus
+  ? 'Bônus'
+  : getCollectionStyle(col.slug).kind === 'fixa'
+    ? `Coleção ${String(col.order).padStart(2, '0')}`
+    : getCollectionStyle(col.slug).kind === 'melhores' ? 'Melhores do mês' : 'Especial'
+
 export default function AdminAdsList() {
   const [params] = useSearchParams()
-  const collectionFilter = params.get('collection')
   const [ads, setAds] = useState([])
   const [collections, setCollections] = useState([])
-  const [selectedCollection, setSelectedCollection] = useState(collectionFilter || '')
+  const [selectedCollection, setSelectedCollection] = useState(params.get('collection') || '')
   const [search, setSearch] = useState('')
   const [niche, setNiche] = useState('')
   const [media, setMedia] = useState('')
+  const [onlyDups, setOnlyDups] = useState(false)
+  const [view, setView] = useState(() => {
+    try { return localStorage.getItem('avva.admin.ads.view') || 'colecoes' } catch { return 'colecoes' }
+  })
   const [loading, setLoading] = useState(true)
   const navigate = useNavigate()
 
-  useEffect(() => {
-    supabase.from('collections').select('*').order('order').then(({ data }) => {
-      setCollections(data || [])
-    })
-  }, [])
-
-  useEffect(() => {
-    loadAds()
-  }, [selectedCollection, collections]) // eslint-disable-line react-hooks/exhaustive-deps
-
-  async function loadAds() {
+  async function load() {
     setLoading(true)
-    let query = supabase
-      .from('ads')
-      .select('*, collections(title, slug)')
-      .order('created_at', { ascending: false })
-    if (selectedCollection) {
-      const col = collections.find(c => c.id === selectedCollection)
-      const isObjective = col && OBJECTIVES.some(o => o.value === col.slug)
-      query = isObjective
-        ? query.or(`collection_id.eq.${selectedCollection},objectives.cs.{${col.slug}}`)
-        : query.eq('collection_id', selectedCollection)
-    }
-    const { data } = await query
-    setAds(data || [])
+    const [{ data: cols }, { data: adsData }] = await Promise.all([
+      supabase.from('collections').select('*').order('order'),
+      supabase.from('ads').select('*, collections(title, slug)').order('created_at', { ascending: false }),
+    ])
+    setCollections(cols || [])
+    setAds(adsData || [])
     setLoading(false)
+  }
+
+  useEffect(() => { Promise.resolve().then(load) }, [])
+
+  function changeView(v) {
+    setView(v)
+    try { localStorage.setItem('avva.admin.ads.view', v) } catch { /* sem armazenamento, sem problema */ }
   }
 
   async function handleDelete(ad) {
     if (!window.confirm(`Tem certeza que deseja deletar "${ad.title}"?`)) return
     await supabase.from('ads').delete().eq('id', ad.id)
-    loadAds()
+    load()
   }
 
   // Cópia desativada, pra ajustar e ligar depois (ex.: o mesmo anúncio em
@@ -92,16 +91,134 @@ export default function AdminAdsList() {
 
   async function toggleActive(ad) {
     await supabase.from('ads').update({ active: !ad.active }).eq('id', ad.id)
-    loadAds()
+    load()
   }
+
+  // Repetido = dois cadastros do mesmo vídeo (mesmo arquivo do Drive).
+  // Estar em duas coleções não é repetição: isso ganha a etiqueta "em N coleções".
+  const dupInfo = useMemo(() => {
+    const byFile = new Map()
+    for (const a of ads) {
+      const f = driveId(a.drive_url)
+      if (f) byFile.set(f, (byFile.get(f) || 0) + 1)
+    }
+    const info = {}
+    for (const a of ads) {
+      const f = driveId(a.drive_url)
+      const n = f ? byFile.get(f) : 0
+      if (n > 1) info[a.id] = `O mesmo vídeo do Drive está cadastrado ${n} vezes`
+    }
+    return info
+  }, [ads])
+  const dupCount = Object.keys(dupInfo).length
+
+  // Em quantas coleções cada anúncio aparece (objetivos + melhores/especial)
+  const inCollections = useMemo(() => {
+    const out = {}
+    for (const a of ads) out[a.id] = collections.filter(c => belongsTo(a, c))
+    return out
+  }, [ads, collections])
 
   const term = search.trim().toLowerCase()
   const visible = ads.filter(a => {
+    if (onlyDups && !dupInfo[a.id]) return false
     if (niche && !(a.niches || []).includes(niche)) return false
     if (media && a.media_type !== media) return false
     if (term && !`${a.title} ${a.analysis || ''}`.toLowerCase().includes(term)) return false
     return true
   })
+
+  // Visão por coleção: um bloco por coleção; o anúncio com mais de um
+  // objetivo aparece em cada uma. Quem não está em nenhuma vai pro fim.
+  const groups = useMemo(() => {
+    const cols = selectedCollection ? collections.filter(c => c.id === selectedCollection) : collections
+    const out = cols.map(col => ({ col, items: visible.filter(a => belongsTo(a, col)) }))
+    if (!selectedCollection) {
+      const loose = visible.filter(a => !collections.some(c => belongsTo(a, c)))
+      if (loose.length) out.push({ col: null, items: loose })
+    }
+    return out
+  }, [collections, visible, selectedCollection])
+
+  const listRows = selectedCollection
+    ? visible.filter(a => { const col = collections.find(c => c.id === selectedCollection); return col && belongsTo(a, col) })
+    : visible
+
+  const row = (ad) => (
+    <tr key={ad.id} className={!ad.active ? 'admin-table__row--inactive' : ''}>
+      <td><CoverCheck ad={ad} /></td>
+      <td className="admin-table__title">
+        {ad.title}
+        {dupInfo[ad.id] && <span className="admin-ads__dup" title={dupInfo[ad.id]}>repetido</span>}
+        {(inCollections[ad.id] || []).length > 1 && (
+          <span className="admin-ads__multi" title={inCollections[ad.id].map(c => c.title).join(' · ')}>
+            em {inCollections[ad.id].length} coleções
+          </span>
+        )}
+      </td>
+      <td>{ad.collections?.title || '—'}</td>
+      <td>
+        <div className="admin-table__tags">
+          {(ad.objectives || []).length === 0 && <span className="admin-table__muted">—</span>}
+          {(ad.objectives || []).map(o => (
+            <Tag key={o} type="teal">{OBJECTIVE_LABELS[o] || o}</Tag>
+          ))}
+        </div>
+      </td>
+      <td>
+        <div className="admin-table__tags">
+          {(ad.niches || []).map(n => (
+            <Tag key={n}>{NICHE_LABELS[n] || n}</Tag>
+          ))}
+        </div>
+      </td>
+      <td>{MEDIA_LABELS[ad.media_type] || '—'}</td>
+      <td>
+        <button
+          className={`admin-toggle ${ad.active ? 'admin-toggle--on' : ''}`}
+          onClick={() => toggleActive(ad)}
+          aria-label={ad.active ? 'Desativar' : 'Ativar'}
+        >
+          <span className="admin-toggle__knob" />
+        </button>
+      </td>
+      <td>
+        <div className="admin-table__actions admin-ads__actions">
+          <Link to={`/admin/produtos/acervo/anuncios/${ad.id}/editar`} className="admin-ads__icon" title="Editar" aria-label="Editar">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4 12.5-12.5z"/></svg>
+          </Link>
+          <button className="admin-ads__icon" onClick={() => duplicate(ad)} title="Duplicar (cria uma cópia desativada pra você ajustar)" aria-label="Duplicar">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          </button>
+          <button className="admin-ads__icon admin-ads__icon--danger" onClick={() => handleDelete(ad)} title="Deletar" aria-label="Deletar">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>
+          </button>
+        </div>
+      </td>
+    </tr>
+  )
+
+  const table = (rows) => (
+    <div className="admin-table-wrap">
+      <table className="admin-table">
+        <thead>
+          <tr>
+            <th>Capa</th>
+            <th>Título</th>
+            <th>Coleção</th>
+            <th>Objetivos</th>
+            <th>Nichos</th>
+            <th>Mídia</th>
+            <th>Ativo</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>{rows.map(row)}</tbody>
+      </table>
+    </div>
+  )
+
+  const empty = (msg) => <div className="adm-card"><p className="adm-empty">{msg}</p></div>
 
   return (
     <div className="admin-ads">
@@ -124,16 +241,10 @@ export default function AdminAdsList() {
           value={search}
           onChange={e => setSearch(e.target.value)}
         />
-        <select
-          value={selectedCollection}
-          onChange={e => setSelectedCollection(e.target.value)}
-          className="admin-select"
-        >
+        <select value={selectedCollection} onChange={e => setSelectedCollection(e.target.value)} className="admin-select">
           <option value="">Todas as coleções</option>
           {collections.map(c => (
-            <option key={c.id} value={c.id}>
-              {c.is_bonus ? `Bônus — ${c.title}` : c.title}
-            </option>
+            <option key={c.id} value={c.id}>{c.is_bonus ? `Bônus — ${c.title}` : c.title}</option>
           ))}
         </select>
         <select value={niche} onChange={e => setNiche(e.target.value)} className="admin-select">
@@ -144,89 +255,55 @@ export default function AdminAdsList() {
           <option value="">Toda mídia</option>
           {MEDIA_TYPES.map(m => <option key={m.value} value={m.value}>{m.label}</option>)}
         </select>
+      </div>
+
+      <div className="admin-ads__bar">
+        <div className="admin-ads__view" role="group" aria-label="Como ver">
+          <button type="button" className={view === 'colecoes' ? 'is-on' : ''} onClick={() => changeView('colecoes')}>Por coleção</button>
+          <button type="button" className={view === 'lista' ? 'is-on' : ''} onClick={() => changeView('lista')}>Lista única</button>
+        </div>
+        <button
+          type="button"
+          className={`admin-ads__dupbtn ${onlyDups ? 'is-on' : ''} ${dupCount ? 'has-dups' : ''}`}
+          onClick={() => setOnlyDups(v => !v)}
+          disabled={!dupCount}
+          title={dupCount ? 'Anúncios com o mesmo vídeo do Drive cadastrado mais de uma vez' : 'Nenhum vídeo cadastrado duas vezes'}
+        >
+          {dupCount ? `${dupCount} ${dupCount === 1 ? 'repetido' : 'repetidos'}` : 'Sem repetidos'}
+        </button>
         <span className="admin-ads__count">
           {visible.length} {visible.length === 1 ? 'anúncio' : 'anúncios'}
         </span>
       </div>
 
-      {loading ? (
-        <div className="adm-card"><p className="adm-empty">Carregando…</p></div>
-      ) : visible.length === 0 ? (
-        <div className="adm-card">
-          <div className="adm-empty">
-            <p>{ads.length === 0 ? 'Nenhum anúncio cadastrado ainda.' : 'Nenhum anúncio com esses filtros.'}</p>
-            {ads.length === 0 && (
-              <Link to="/admin/produtos/acervo/anuncios/novo" className="adm-btn adm-btn--primary" style={{ marginTop: 16 }}>
-                Cadastrar o primeiro
-              </Link>
-            )}
+      {loading ? empty('Carregando…')
+        : ads.length === 0 ? (
+          <div className="adm-card">
+            <div className="adm-empty">
+              <p>Nenhum anúncio cadastrado ainda.</p>
+              <Link to="/admin/produtos/acervo/anuncios/novo" className="adm-btn adm-btn--primary" style={{ marginTop: 16 }}>Cadastrar o primeiro</Link>
+            </div>
           </div>
-        </div>
-      ) : (
-        <div className="admin-table-wrap">
-          <table className="admin-table">
-            <thead>
-              <tr>
-                <th>Capa</th>
-                <th>Título</th>
-                <th>Coleção</th>
-                <th>Objetivos</th>
-                <th>Nichos</th>
-                <th>Mídia</th>
-                <th>Ativo</th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody>
-              {visible.map(ad => (
-                <tr key={ad.id} className={!ad.active ? 'admin-table__row--inactive' : ''}>
-                  <td><CoverCheck ad={ad} /></td>
-                  <td className="admin-table__title">{ad.title}</td>
-                  <td>{ad.collections?.title || '—'}</td>
-                  <td>
-                    <div className="admin-table__tags">
-                      {(ad.objectives || []).length === 0 && <span className="admin-table__muted">—</span>}
-                      {(ad.objectives || []).map(o => (
-                        <Tag key={o} type="teal">{OBJECTIVE_LABELS[o] || o}</Tag>
-                      ))}
-                    </div>
-                  </td>
-                  <td>
-                    <div className="admin-table__tags">
-                      {(ad.niches || []).map(n => (
-                        <Tag key={n}>{NICHE_LABELS[n] || n}</Tag>
-                      ))}
-                    </div>
-                  </td>
-                  <td>{MEDIA_LABELS[ad.media_type] || '—'}</td>
-                  <td>
-                    <button
-                      className={`admin-toggle ${ad.active ? 'admin-toggle--on' : ''}`}
-                      onClick={() => toggleActive(ad)}
-                      aria-label={ad.active ? 'Desativar' : 'Ativar'}
-                    >
-                      <span className="admin-toggle__knob" />
-                    </button>
-                  </td>
-                  <td>
-                    <div className="admin-table__actions admin-ads__actions">
-                      <Link to={`/admin/produtos/acervo/anuncios/${ad.id}/editar`} className="admin-ads__icon" title="Editar" aria-label="Editar">
-                        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4 12.5-12.5z"/></svg>
-                      </Link>
-                      <button className="admin-ads__icon" onClick={() => duplicate(ad)} title="Duplicar (cria uma cópia desativada pra você ajustar)" aria-label="Duplicar">
-                        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-                      </button>
-                      <button className="admin-ads__icon admin-ads__icon--danger" onClick={() => handleDelete(ad)} title="Deletar" aria-label="Deletar">
-                        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>
-                      </button>
-                    </div>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      )}
+        )
+        : visible.length === 0 ? empty('Nenhum anúncio com esses filtros.')
+        : view === 'lista' ? (listRows.length ? table(listRows) : empty('Nenhum anúncio nessa coleção.'))
+        : (
+          <div className="admin-ads__groups">
+            {groups.map(({ col, items }) => (
+              <section key={col ? col.id : 'sem'} className={`admin-ads__group ${items.length === 0 ? 'is-empty' : ''}`}>
+                <header className="admin-ads__group-head">
+                  <span className="admin-ads__group-swatch" style={{ background: col ? getCollectionStyle(col.slug).gradient : 'rgba(76, 54, 45, 0.15)' }} />
+                  <div>
+                    <span className="adm-eyebrow">{col ? kindLabel(col) : 'Fora das coleções'}</span>
+                    <h2>{col ? col.title : 'Sem coleção'}</h2>
+                  </div>
+                  <span className="admin-ads__group-count">{items.length} {items.length === 1 ? 'anúncio' : 'anúncios'}</span>
+                </header>
+                {items.length ? table(items) : <p className="admin-ads__group-empty">Nenhum anúncio aqui{col && getCollectionStyle(col.slug).kind === 'fixa' ? '. Marque o objetivo no anúncio pra ele entrar.' : '.'}</p>}
+              </section>
+            ))}
+          </div>
+        )}
     </div>
   )
 }

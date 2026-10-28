@@ -20,6 +20,7 @@ export default function PhoneCard({
   overlay = null,
   fallbackGradient,
   fallbackLabel,
+  textBelow = false,
   className = '',
   style,
 }) {
@@ -35,7 +36,7 @@ export default function PhoneCard({
           {fallbackLabel && <span>{fallbackLabel}</span>}
         </div>
       )}
-      <div className="phone-card__shade" />
+      {!textBelow && <div className="phone-card__shade" />}
 
       {badge && <span className="phone-card__badge">{badge}</span>}
       {overlay}
@@ -59,13 +60,29 @@ export default function PhoneCard({
         </span>
       )}
 
-      <div className="phone-card__text">
-        {kicker && <span className="phone-card__kicker">{kicker}</span>}
-        <strong className="phone-card__title">{title}</strong>
-        {subtitle && <span className="phone-card__subtitle">{subtitle}</span>}
-        {meta && <span className="phone-card__meta">{meta}</span>}
-        <i className="phone-card__bar" aria-hidden="true" />
-      </div>
+      {!textBelow && (
+        <div className="phone-card__text">
+          {kicker && <span className="phone-card__kicker">{kicker}</span>}
+          <strong className="phone-card__title">{title}</strong>
+          {subtitle && <span className="phone-card__subtitle">{subtitle}</span>}
+          {meta && <span className="phone-card__meta">{meta}</span>}
+          <i className="phone-card__bar" aria-hidden="true" />
+        </div>
+      )}
+    </div>
+  )
+
+  // Texto embaixo da imagem: a capa fica inteira, sem nada por cima
+  const caption = textBelow && (
+    <div className="phone-card__caption">
+      {(kicker || meta) && (
+        <span className="phone-card__caption-row">
+          {kicker && <span className="phone-card__caption-kicker">{kicker}</span>}
+          {meta && <span className="phone-card__caption-meta">{meta}</span>}
+        </span>
+      )}
+      <strong className="phone-card__caption-title">{title}</strong>
+      {subtitle && <span className="phone-card__caption-subtitle">{subtitle}</span>}
     </div>
   )
 
@@ -73,11 +90,12 @@ export default function PhoneCard({
     'phone-card',
     seen && 'phone-card--seen',
     locked && 'phone-card--locked',
+    textBelow && 'phone-card--captioned',
     className,
   ].filter(Boolean).join(' ')
 
   if (to && !locked) {
-    return <Link to={to} className={cls} style={style}>{inner}</Link>
+    return <Link to={to} className={cls} style={style}>{inner}{caption}</Link>
   }
   if (onClick && !locked) {
     return (
@@ -89,9 +107,9 @@ export default function PhoneCard({
         onClick={onClick}
         onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onClick(e) } }}
       >
-        {inner}
+        {inner}{caption}
       </div>
     )
   }
-  return <div className={cls} style={style}>{inner}</div>
+  return <div className={cls} style={style}>{inner}{caption}</div>
 }

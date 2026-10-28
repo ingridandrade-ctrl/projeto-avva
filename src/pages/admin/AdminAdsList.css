@@ -112,3 +112,142 @@
   color: var(--a-danger);
   background: rgba(179, 57, 43, 0.06);
 }
+
+/* Barra: modo de visão + repetidos */
+.admin-ads__bar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+.admin-ads__view {
+  display: inline-flex;
+  padding: 3px;
+  border-radius: 100px;
+  background: var(--a-line-soft);
+}
+
+.admin-ads__view button {
+  padding: 7px 14px;
+  border: none;
+  border-radius: 100px;
+  background: transparent;
+  color: var(--a-ink-2);
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.18s ease, color 0.18s ease;
+}
+
+.admin-ads__view button.is-on {
+  background: var(--a-surface);
+  color: var(--a-ink);
+  box-shadow: var(--a-shadow);
+}
+
+.admin-ads__dupbtn {
+  padding: 8px 14px;
+  border-radius: 100px;
+  border: 1px solid var(--a-line);
+  background: var(--a-surface);
+  color: var(--a-ink-3);
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.18s ease, color 0.18s ease, border-color 0.18s ease;
+}
+
+.admin-ads__dupbtn:disabled { cursor: default; }
+
+.admin-ads__dupbtn.has-dups {
+  border-color: rgba(179, 57, 43, 0.35);
+  color: var(--a-danger);
+}
+
+.admin-ads__dupbtn.is-on {
+  background: var(--a-danger);
+  border-color: var(--a-danger);
+  color: #fff;
+}
+
+.admin-ads__dup {
+  display: inline-block;
+  margin-left: 8px;
+  padding: 2px 8px;
+  border-radius: 100px;
+  background: rgba(179, 57, 43, 0.1);
+  color: var(--a-danger);
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  vertical-align: middle;
+}
+
+/* Etiqueta neutra: o mesmo anúncio em mais de uma coleção (não é repetição) */
+.admin-ads__multi {
+  display: inline-block;
+  margin-left: 8px;
+  padding: 2px 8px;
+  border-radius: 100px;
+  background: var(--a-teal-soft);
+  color: var(--a-teal);
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+/* Visão por coleção */
+.admin-ads__groups {
+  display: flex;
+  flex-direction: column;
+  gap: 26px;
+}
+
+.admin-ads__group-head {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 10px;
+}
+
+.admin-ads__group-swatch {
+  width: 14px;
+  height: 44px;
+  border-radius: 7px;
+  flex-shrink: 0;
+}
+
+.admin-ads__group-head h2 {
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin: 0;
+  line-height: 1.2;
+}
+
+.admin-ads__group-head .adm-eyebrow {
+  margin-bottom: 2px;
+}
+
+.admin-ads__group-count {
+  margin-left: auto;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--a-ink-3);
+  white-space: nowrap;
+}
+
+.admin-ads__group-empty {
+  margin: 0;
+  padding: 16px 18px;
+  border: 1px dashed var(--a-line);
+  border-radius: var(--a-r-lg);
+  color: var(--a-ink-3);
+  font-size: 0.95rem;
+}
+
+.admin-ads__group.is-empty { opacity: 0.75; }

@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { supabase } from '../../lib/supabase'
-import { getCollectionStyle, belongsTo } from '../../lib/catalog'
+import { getCollectionStyle, getCollection, belongsTo } from '../../lib/catalog'
 import { collectionCover } from '../../lib/drive'
 import PhoneCard from '../../components/ui/PhoneCard'
 import './AdminCollections.css'
@@ -217,7 +217,7 @@ export default function AdminCollections() {
           <span className="adm-eyebrow">Acervo de Anúncios</span>
           <h1>Coleções e capas</h1>
           <p>
-            Cada coleção aparece para a aluna como uma capa vertical (3:4).
+            Cada coleção aparece para a aluna como uma capa vertical (3:4), inteira, com o nome e o objetivo logo abaixo.
             Sem capa cadastrada, usamos automaticamente a miniatura do primeiro anúncio.
             As coleções por objetivo são preenchidas pelas tags de objetivo de cada anúncio (em Anúncios → editar).
           </p>
@@ -255,11 +255,12 @@ export default function AdminCollections() {
                   <PhoneCard
                     image={collectionCover(preview, ads, 600)}
                     title={d.title || col.title}
-                    subtitle={d.subtitle || ''}
+                    subtitle={d.subtitle || getCollection(col.slug)?.subtitle || ''}
                     kicker={kind}
                     meta={`${n} ${n === 1 ? 'anúncio' : 'anúncios'}`}
                     fallbackGradient={style.gradient}
                     fallbackLabel={col.is_bonus ? '★' : style.kind === 'fixa' ? String(col.order).padStart(2, '0') : ''}
+                    textBelow
                   />
                   <span className="admin-collection__preview-label">
                     {d.cover_url ? 'Capa cadastrada' : n > 0 ? 'Capa automática (1º anúncio)' : 'Sem capa ainda'}
@@ -336,7 +337,7 @@ export default function AdminCollections() {
                       </button>
                     )}
                     {fb && <span className={`admin-collection__fb admin-collection__fb--${fb.type}`}>{fb.msg}</span>}
-                    {style.kind !== 'fixa' && !col.is_bonus && (
+                    {style.kind !== 'fixa' && (
                       <button
                         type="button"
                         className="adm-btn adm-btn--secondary"
@@ -346,7 +347,7 @@ export default function AdminCollections() {
                         {col.featured ? 'Tirar do destaque' : 'Destacar na home'}
                       </button>
                     )}
-                    {style.kind !== 'fixa' && !col.is_bonus && (
+                    {style.kind !== 'fixa' && (
                       <button
                         type="button"
                         className="adm-btn adm-btn--danger admin-collection__delete"
