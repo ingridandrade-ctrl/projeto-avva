@@ -18,6 +18,7 @@ function Item({ to, icon, children, end, onClick }) {
     <NavLink
       to={to}
       end={end}
+      title={children}
       className={({ isActive }) => `sidebar__link ${isActive ? 'sidebar__link--active' : ''}`}
       onClick={onClick}
     >
@@ -27,16 +28,16 @@ function Item({ to, icon, children, end, onClick }) {
   )
 }
 
-// Menu lateral: fica abaixo da faixa de cima. No celular só aparece pelo
-// botão do menu.
-export default function Sidebar({ open, onClose }) {
+// Menu lateral: fica abaixo da faixa de cima. No computador pode ficar
+// recolhido (só ícones); no celular só aparece pelo botão do menu.
+export default function Sidebar({ open, collapsed, onClose }) {
   const { profile, signOut } = useAuth()
   const hasKit = Boolean(profile?.has_order_bump)
 
   return (
     <>
       {open && <div className="sidebar-overlay" onClick={onClose} />}
-      <aside className={`sidebar ${open ? 'sidebar--open' : ''}`}>
+      <aside className={`sidebar ${open ? 'sidebar--open' : ''} ${collapsed ? 'sidebar--collapsed' : ''}`}>
         <nav className="sidebar__nav">
           <Item to="/alunas" icon="home" end onClick={onClose}>Início</Item>
           <Item to="/produto/acervo-anuncios" icon="grid" onClick={onClose}>Acervo de Anúncios</Item>
@@ -46,14 +47,14 @@ export default function Sidebar({ open, onClose }) {
         </nav>
 
         <div className="sidebar__footer">
-          <a className="sidebar__link sidebar__link--support" href={WHATS_URL} target="_blank" rel="noreferrer">
+          <a className="sidebar__link sidebar__link--support" href={WHATS_URL} target="_blank" rel="noreferrer" title="Falar com o suporte">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">{I.chat}</svg>
             <span>Falar com o suporte</span>
           </a>
 
           {profile?.is_admin && (
-            <NavLink to="/admin" className="sidebar__admin-link" onClick={onClose}>
-              Painel Admin
+            <NavLink to="/admin" className="sidebar__admin-link" onClick={onClose} title="Painel Admin">
+              <span>Painel Admin</span>
             </NavLink>
           )}
 
@@ -66,9 +67,9 @@ export default function Sidebar({ open, onClose }) {
               <span className="sidebar__user-email">{profile?.email}</span>
             </div>
           </div>
-          <button className="sidebar__signout" onClick={signOut}>
+          <button className="sidebar__signout" onClick={signOut} title="Sair">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
-            Sair
+            <span>Sair</span>
           </button>
         </div>
       </aside>

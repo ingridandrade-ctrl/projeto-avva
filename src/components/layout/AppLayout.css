@@ -2,6 +2,11 @@
   min-height: 100vh;
 }
 
+/* Menu recolhido (só ícones) */
+.app-layout--collapsed {
+  --sidebar-width: 76px;
+}
+
 .app-layout__main {
   --page-gutter: 32px;
   --page-top: 36px;
@@ -10,6 +15,7 @@
   padding: var(--page-top) var(--page-gutter);
   min-height: calc(100vh - var(--header-height));
   animation: fadeIn 0.35s ease-out;
+  transition: margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .app-layout__content {

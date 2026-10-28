@@ -17,7 +17,7 @@
 /* ── Hambúrguer / X (só no celular) ── */
 
 .header__menu-btn {
-  display: none;
+  display: flex;
   flex-direction: column;
   justify-content: center;
   gap: 5px;
@@ -136,10 +136,6 @@
 @media (max-width: 768px) {
   .header {
     padding: 0 16px;
-  }
-
-  .header__menu-btn {
-    display: flex;
   }
 }
 
