@@ -110,3 +110,7 @@
 .admin-collections__new-form .adm-input {
   width: auto;
 }
+
+.admin-collection__delete {
+  margin-left: auto;
+}
