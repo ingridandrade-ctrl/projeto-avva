@@ -9,6 +9,7 @@ export default function PhoneCard({
   onClick,
   image,
   title,
+  subtitle,
   kicker,
   meta,
   badge,
@@ -61,6 +62,7 @@ export default function PhoneCard({
       <div className="phone-card__text">
         {kicker && <span className="phone-card__kicker">{kicker}</span>}
         <strong className="phone-card__title">{title}</strong>
+        {subtitle && <span className="phone-card__subtitle">{subtitle}</span>}
         {meta && <span className="phone-card__meta">{meta}</span>}
         <i className="phone-card__bar" aria-hidden="true" />
       </div>

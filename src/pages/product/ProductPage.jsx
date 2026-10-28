@@ -4,7 +4,7 @@ import { supabase } from '../../lib/supabase'
 import { useAuth } from '../../hooks/useAuth'
 import { useFavorites } from '../../hooks/useFavorites'
 import { useActivity } from '../../hooks/useActivity'
-import { getCollectionStyle, belongsTo } from '../../lib/catalog'
+import { getCollectionStyle, getCollection, belongsTo } from '../../lib/catalog'
 import { collectionCover } from '../../lib/drive'
 import PhoneCard from '../../components/ui/PhoneCard'
 import Row from '../../components/ui/Row'
@@ -99,6 +99,7 @@ export default function ProductPage() {
         to={`/colecao/${col.slug}`}
         image={collectionCover(col, ads, 900)}
         title={col.title}
+        subtitle={col.subtitle || getCollection(col.slug)?.subtitle || ''}
         kicker={kicker}
         meta={`${n} ${n === 1 ? 'anúncio' : 'anúncios'}`}
         fallbackGradient={style.gradient}
