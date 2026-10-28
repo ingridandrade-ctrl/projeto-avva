@@ -30,7 +30,7 @@ const PRA_QUEM = [
 
 const AFIRMACOES = [
   <>Os anúncios que te fazem parar o dedo não chamam atenção por acaso: <strong>eles têm uma estrutura que funciona.</strong> E essa estrutura pode ser a sua.</>,
-  <><strong>Você não precisa criar do zero.</strong> Precisa ter acesso ao que já está validado e adaptar pro seu negócio. É assim que você para de torcer <strong>e começa a vender.</strong></>,
+  <><strong>Você não precisa criar do zero.</strong> Precisa ver o que já está validado, entender por que funciona e adaptar a lógica pro seu negócio. É assim que você para de torcer <strong>e começa a vender.</strong></>,
 ]
 
 // Coleções mostradas nos cards (as 6 por objetivo + a curadoria mensal)
@@ -154,7 +154,7 @@ const FAQ = [
   },
   {
     q: 'Posso copiar os anúncios?',
-    a: 'Você usa como referência de estrutura: gancho, sequência, prova, fechamento. O produto, a fala e o visual são seus. Copiar anúncio de outra marca palavra por palavra não funciona e não é o que a gente faz.',
+    a: 'A melhor referência não é a que você copia. É a que te faz entender por que funciona e adaptar a lógica pra sua comunicação. Gancho, sequência, prova e fechamento são a referência. O produto, a fala e o visual são seus.',
   },
   {
     q: 'Nunca rodei um anúncio. É pra mim?',
@@ -343,10 +343,10 @@ export default function AcervoPage() {
         <div className="lp-hero__inner">
           <Logo className="lp-logo--hero" />
           <h1 className="lp-hero__frase">
-            A biblioteca de anúncios das empreendedoras que <em>cansaram de adivinhar criativo</em> e querem copiar a estrutura do que já vende.
+            A biblioteca de anúncios das empreendedoras que <em>cansaram de adivinhar criativo</em> e querem entender por que um anúncio vende antes de fazer o seu.
           </h1>
           <p className="lp-hero__sub">
-            Você escolhe pelo objetivo, lê por que funciona, adapta pro seu nicho e coloca no ar. Tudo pelo celular, com acesso imediato.
+            Você escolhe pelo objetivo, lê a análise do porquê, adapta a lógica pro seu negócio e coloca no ar. Tudo pelo celular, com acesso imediato.
           </p>
           <Cta>Quero o acervo 🤎</Cta>
           <p className="lp-hero__nota">{OFERTA.preco} · pagamento único · {OFERTA.garantiaDias} dias de garantia</p>
@@ -397,7 +397,7 @@ export default function AcervoPage() {
         <div className="lp-container lp-oque__grid">
           <Reveal className="lp-oque__texto">
             <p className="lp-oque__frase">
-              O acervo é uma <span className="lp-cor-areia">estante de anúncios</span> que estão vendendo agora, organizada pelo que você precisa <span className="lp-cor-areia">hoje</span>, com a análise do porquê funciona, pra te ajudar <em>a ter anúncios mais <span className="lp-cor-terra">simples, honestos e que vendem.</span></em>
+              O acervo é uma <span className="lp-cor-areia">estante de anúncios</span> que estão vendendo agora, organizada pelo que você precisa <span className="lp-cor-areia">hoje</span>, com a análise do porquê cada um funciona, pra te ajudar <em>a ter anúncios mais <span className="lp-cor-terra">simples, honestos e que vendem.</span></em>
             </p>
             <span className="lp-oque__legenda">As coleções, por objetivo</span>
           </Reveal>
@@ -433,7 +433,7 @@ export default function AcervoPage() {
           <Reveal as="h2" className="lp-titulo lp-titulo--grande lp-titulo--centro lp-titulo--claro">
             Pra você dar uma<br /><strong>espiadinha…</strong>
           </Reveal>
-          <Reveal as="p" className="lp-espiada__sub" delay={80}>Três análises de verdade, do jeito que estão lá dentro. O resto você descobre lá dentro, né?</Reveal>
+          <Reveal as="p" className="lp-espiada__sub" delay={80}>Três análises de verdade, do jeito que estão no acervo. Entender a estratégia vale mais do que copiar o formato. Qual dessas sacadas você testaria primeiro?</Reveal>
           <div className="lp-espiada__cards">
             {ESPIADINHA.map((a, i) => (
               <Reveal as="article" key={a.marca} className={`lp-espiada__card ${i % 2 ? 'lp-espiada__card--areia' : 'lp-espiada__card--terra'}`} delay={i * 90}>
