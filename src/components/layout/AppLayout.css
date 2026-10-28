@@ -13,9 +13,14 @@
 }
 
 .app-layout__content {
-  max-width: 1480px;
+  max-width: 1200px;
   margin: 0 auto;
   animation: slideUp 0.4s ease-out;
+}
+
+/* Na home o banner vai de ponta a ponta; a vitrine se contém sozinha */
+.app-layout__content:has(> .member-dashboard) {
+  max-width: none;
 }
 
 @media (max-width: 1400px) {

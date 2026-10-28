@@ -4,11 +4,9 @@
   left: var(--sidebar-width);
   right: 0;
   height: var(--header-height);
-  background: rgba(247, 244, 240, 0.82);
-  backdrop-filter: blur(14px) saturate(1.3);
-  -webkit-backdrop-filter: blur(14px) saturate(1.3);
-  border-bottom: 1px solid rgba(76, 54, 45, 0.06);
-  box-shadow: 0 1px 8px rgba(76, 54, 45, 0.04);
+  background: linear-gradient(90deg, #2B1A12 0%, #33201A 100%);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  box-shadow: none;
   display: flex;
   align-items: center;
   gap: 16px;
@@ -36,7 +34,7 @@
   display: block;
   width: 22px;
   height: 2px;
-  background: var(--umber);
+  background: var(--off-white);
   border-radius: 2px;
   transition:
     transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
@@ -67,19 +65,19 @@
   width: 38px;
   height: 38px;
   border-radius: 50%;
-  background: linear-gradient(135deg, var(--terracotta), var(--umber));
+  background: linear-gradient(135deg, var(--terracotta), var(--amendoado));
   color: white;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 0.85rem;
   font-weight: 600;
-  box-shadow: 0 0 0 2px rgba(168, 92, 53, 0.15);
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.14);
   transition: box-shadow 0.25s ease;
 }
 
 .header__avatar:hover {
-  box-shadow: 0 0 0 3px rgba(168, 92, 53, 0.25);
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.24);
 }
 
 /* ── Mobile ── */
@@ -100,6 +98,5 @@
 
 /* ── Ganha peso ao rolar a página ── */
 .header--scrolled {
-  box-shadow: 0 4px 20px rgba(76, 54, 45, 0.08), 0 1px 0 rgba(168, 92, 53, 0.06);
-  background: rgba(247, 244, 240, 0.92);
+  box-shadow: 0 6px 24px rgba(43, 26, 18, 0.25);
 }
