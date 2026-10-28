@@ -8,11 +8,11 @@ import './AcervoPage.css'
 // do Instagram). Tudo que muda com a oferta fica aqui em cima.
 // ══════════════════════════════════════════════════════════════
 const OFERTA = {
-  // AJUSTAR: link de checkout da Hotmart do Acervo
-  checkoutUrl: 'https://pay.hotmart.com/SEU_CODIGO_AQUI',
+  // AJUSTAR: link de checkout do Acervo (Cakto)
+  checkoutUrl: 'https://SEU_LINK_DE_CHECKOUT',
   precoDe: 'R$ 147',   // valor cheio, aparece riscado acima do preço ('' esconde)
   preco: 'R$ 87',
-  parcelas: '',        // AJUSTAR: parcelamento da Hotmart, ex.: 'ou 9x de R$ 11,38' ('' esconde)
+  parcelas: '',        // AJUSTAR: parcelamento do checkout, ex.: 'ou 9x de R$ 11,38' ('' esconde)
   reforco: 'Dá menos de R$ 0,25 por dia. Um anúncio que não vende custa mais que isso.',
   garantiaDias: 7,
   acessoPor: '1 ano',           // AJUSTAR: tempo de acesso prometido
@@ -139,7 +139,7 @@ const CENARIOS = [
 const FAQ = [
   {
     q: 'O acesso é imediato?',
-    a: 'Sim. Assim que o pagamento é aprovado, a Hotmart te manda um e-mail e você entra na área de membros com o mesmo e-mail da compra. No Pix e no cartão, leva minutos. No boleto, até 2 dias úteis.',
+    a: 'Sim. Assim que o pagamento é aprovado, você recebe um e-mail e entra na área de membros com o mesmo e-mail da compra. No Pix e no cartão, leva minutos. No boleto, até 2 dias úteis.',
   },
   {
     q: 'Funciona pro meu nicho?',
@@ -147,7 +147,7 @@ const FAQ = [
   },
   {
     q: 'É só pra Instagram e Facebook ou serve pra outras plataformas?',
-    a: 'Os anúncios do acervo rodam no Instagram e no Facebook (Meta). A estrutura que a análise te mostra (gancho, prova, oferta) vale pra qualquer canal, mas as referências são de Meta.',
+    a: 'Os anúncios do acervo rodam no Instagram e no Facebook. Em breve, também no TikTok. E a estrutura que a análise te mostra (gancho, prova, oferta) vale pra qualquer canal.',
   },
   {
     q: 'Preciso saber editar vídeo ou ter designer?',
@@ -175,7 +175,7 @@ const FAQ = [
   },
   {
     q: 'Tenho reembolso?',
-    a: `Tem. São ${OFERTA.garantiaDias} dias de garantia. Entra, navega, lê as análises. Se não fizer sentido pra você, pede o reembolso direto na Hotmart e recebe 100% de volta, sem precisar explicar.`,
+    a: `Tem. São ${OFERTA.garantiaDias} dias de garantia. Entra, navega, lê as análises. Se não fizer sentido pra você, pede o reembolso e recebe 100% de volta, sem precisar explicar.`,
   },
 ]
 
@@ -497,7 +497,7 @@ export default function AcervoPage() {
             <li>Acesso imediato</li>
             <li>{OFERTA.garantiaDias} dias de garantia</li>
             <li>Pix, cartão ou boleto</li>
-            <li>Pagamento seguro pela Hotmart</li>
+            <li>Pagamento seguro</li>
           </ul>
           <div className="lp-garantia">
             <span className="lp-garantia__selo" aria-hidden="true">
@@ -506,7 +506,7 @@ export default function AcervoPage() {
             </span>
             <div className="lp-garantia__texto">
               <h3>Garantia de {OFERTA.garantiaDias} dias, sem perguntas</h3>
-              <p>Entra, navega, lê as análises. Se não fizer sentido pra você, pede o reembolso direto na Hotmart e recebe 100% de volta. Sem precisar explicar.</p>
+              <p>Entra, navega, lê as análises. Se não fizer sentido pra você, pede o reembolso e recebe 100% de volta. Sem precisar explicar.</p>
               <a className="lp-garantia__link" href={OFERTA.checkoutUrl} rel="noopener">Quero entrar sem risco <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg></a>
             </div>
           </div>
