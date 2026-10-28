@@ -9,10 +9,10 @@ import './AcervoPage.css'
 // ══════════════════════════════════════════════════════════════
 const OFERTA = {
   checkoutUrl: 'https://pay.cakto.com.br/kcpowk4',
-  precoDe: 'R$ 147',   // valor cheio, aparece riscado acima do preço ('' esconde)
-  preco: 'R$ 87',
+  precoDe: 'R$ 97',    // valor cheio, aparece riscado acima do preço ('' esconde)
+  preco: 'R$ 67',
   parcelas: '',        // AJUSTAR: parcelamento do checkout, ex.: 'ou 9x de R$ 11,38' ('' esconde)
-  reforco: 'Dá menos de R$ 0,25 por dia. Um anúncio que não vende custa mais que isso.',
+  reforco: 'Dá menos de R$ 0,20 por dia. Um anúncio que não vende custa mais que isso.',
   garantiaDias: 7,
   acessoPor: '1 ano',           // AJUSTAR: tempo de acesso prometido
   totalColecoes: 6,
