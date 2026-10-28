@@ -97,7 +97,7 @@ async function sendWelcomeEmail({ email, name, hasKit }) {
       </td>
     </tr>`
 
-  const p = (txt) => `<p style="margin:12px 0 0;font-size:15px;line-height:1.6;color:#6b5a52">${txt}</p>`
+  const p = (txt) => `<p style="margin:14px 0 0;font-size:15px;line-height:1.6;color:#6b5a52">${txt}</p>`
   const b = (txt) => `<strong style="color:#2B1A12">${txt}</strong>`
 
   const html = `
@@ -108,7 +108,9 @@ async function sendWelcomeEmail({ email, name, hasKit }) {
       </div>
       <div style="padding:28px 32px 8px">
         <div style="font-size:22px;font-weight:700;color:#2B1A12;line-height:1.25">${saudacao}</div>
-        ${p(`Seu ${b('Acervo de Anúncios já está liberado')}. A partir de agora, toda vez que você travar na hora de criar um anúncio, já tem um lugar pra encontrar as melhores referências. E o melhor: ${b('entender por que elas funcionam')}. Porque não adianta só reproduzir o que viu dar certo pra outra pessoa. Quando você entende a lógica, consegue fazer o seu, do seu jeito, pro seu público.`)}
+        ${p(`Seu ${b('Acervo de Anúncios já está liberado')}.`)}
+        ${p(`A partir de agora, toda vez que você travar na hora de criar um anúncio, já tem um lugar pra encontrar as melhores referências. E o melhor: ${b('entender por que elas funcionam')}.`)}
+        ${p(`Porque não adianta só reproduzir o que viu dar certo pra outra pessoa. Quando você entende a lógica, consegue fazer o seu, do seu jeito, pro seu público.`)}
         <div style="margin-top:24px;font-size:16px;font-weight:700;color:#2B1A12">Pra entrar é simples:</div>
         <table style="width:100%;border-collapse:collapse;margin-top:14px">
           ${passo(1, `Acesse <a href="${LOGIN_URL}" style="color:#2B1A12">metodoavva.com/login</a>`, 'Dá pra usar direto do celular.')}
@@ -124,7 +126,8 @@ async function sendWelcomeEmail({ email, name, hasKit }) {
           <div style="font-size:14px;line-height:1.55;color:#6b5a52">Ganchos prontos, estruturas narrativas e prompts de IA. Está no menu da área de membros, em "Kit".</div>
         </div>` : ''}
         ${p(`Todo mês colocamos uma curadoria nova em ${b('"Melhores do mês"')}, então vale voltar sempre que você for criar algo novo.`)}
-        ${p(`Se você não conseguir acessar com o seu e-mail de primeira, pode ser que o sistema ainda esteja processando o seu cadastro. ${b('Espere uns 2 minutinhos e tente de novo.')} Se mesmo assim você não conseguir acessar, pode responder este e-mail ou ${b('chamar a gente no WhatsApp pelo botão abaixo')}, que te ajudamos.`)}
+        ${p(`Se você não conseguir acessar com o seu e-mail de primeira, pode ser que o sistema ainda esteja processando o seu cadastro. ${b('Espere uns 2 minutinhos e tente de novo.')}`)}
+        ${p(`Se mesmo assim você não conseguir acessar, pode responder este e-mail ou ${b('chamar a gente no WhatsApp pelo botão abaixo')}, que te ajudamos.`)}
         <div style="text-align:center;margin:18px 0 8px">
           <a href="${WHATS_URL}" style="display:inline-block;padding:13px 26px;background:#25D366;color:#0b2d1a;text-decoration:none;border-radius:100px;font-weight:700;font-size:15px">Chamar no WhatsApp</a>
         </div>
