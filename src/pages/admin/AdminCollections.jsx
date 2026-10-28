@@ -157,6 +157,34 @@ export default function AdminCollections() {
     load()
   }
 
+  // Apaga a coleção. Os anúncios ligados a ela continuam no acervo, só
+  // perdem o vínculo (a chave estrangeira não deixa apagar com anúncios presos).
+  // As seis coleções por objetivo e o bônus são fixas e não têm esse botão.
+  async function remove(col) {
+    const linked = ads.filter(a => a.collection_id === col.id).length
+    const msg = linked
+      ? `Apagar "${col.title}"?\n\nOs ${linked} ${linked === 1 ? 'anúncio' : 'anúncios'} desta coleção continuam no acervo (nas coleções por objetivo), só deixam de aparecer aqui. Não dá pra desfazer.`
+      : `Apagar "${col.title}"? Não dá pra desfazer.`
+    if (!window.confirm(msg)) return
+    setSaving(col.id)
+    setFeedback(f => ({ ...f, [col.id]: null }))
+    if (linked) {
+      const { error } = await supabase.from('ads').update({ collection_id: null }).eq('collection_id', col.id)
+      if (error) {
+        setSaving(null)
+        setFeedback(f => ({ ...f, [col.id]: { type: 'error', msg: `Não consegui desvincular os anúncios: ${error.message}` } }))
+        return
+      }
+    }
+    const { error } = await supabase.from('collections').delete().eq('id', col.id)
+    setSaving(null)
+    if (error) {
+      setFeedback(f => ({ ...f, [col.id]: { type: 'error', msg: error.message } }))
+      return
+    }
+    load()
+  }
+
   function dirty(col) {
     const d = drafts[col.id]
     return d && (d.title !== col.title || d.subtitle !== (col.subtitle || '') || d.cover_url !== (col.cover_url || ''))
@@ -286,6 +314,16 @@ export default function AdminCollections() {
                       </button>
                     )}
                     {fb && <span className={`admin-collection__fb admin-collection__fb--${fb.type}`}>{fb.msg}</span>}
+                    {style.kind !== 'fixa' && !col.is_bonus && (
+                      <button
+                        type="button"
+                        className="adm-btn adm-btn--danger admin-collection__delete"
+                        disabled={saving === col.id}
+                        onClick={() => remove(col)}
+                      >
+                        Apagar coleção
+                      </button>
+                    )}
                   </div>
                 </div>
               </div>
