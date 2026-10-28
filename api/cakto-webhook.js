@@ -82,7 +82,9 @@ async function sendWelcomeEmail({ email, name, hasKit }) {
 
   const from = process.env.ACERVO_FROM || 'Acervo de Anúncios <suporte@metodoavva.com>'
   const primeiroNome = (name || '').trim().split(/\s+/)[0] || ''
-  const saudacao = primeiroNome ? `Oi, ${esc(primeiroNome)}!` : 'Oi!'
+  const saudacao = primeiroNome ? `Oiee, ${esc(primeiroNome)}! Que bom ter você aqui.` : 'Oiee! Que bom ter você aqui.'
+  const WHATS = '(19) 92000-2917'
+  const WHATS_URL = 'https://wa.me/5519920002917'
 
   const passo = (n, titulo, texto) => `
     <tr>
@@ -95,6 +97,9 @@ async function sendWelcomeEmail({ email, name, hasKit }) {
       </td>
     </tr>`
 
+  const p = (txt) => `<p style="margin:12px 0 0;font-size:15px;line-height:1.6;color:#6b5a52">${txt}</p>`
+  const b = (txt) => `<strong style="color:#2B1A12">${txt}</strong>`
+
   const html = `
   <div style="margin:0;padding:32px 16px;background:#F7F4F0;font-family:Outfit,Inter,-apple-system,Segoe UI,Helvetica,Arial,sans-serif">
     <div style="max-width:560px;margin:0 auto;background:#ffffff;border:1px solid #eee7df;border-radius:22px;overflow:hidden">
@@ -103,44 +108,51 @@ async function sendWelcomeEmail({ email, name, hasKit }) {
         <div style="font-family:Georgia,'Times New Roman',serif;font-style:italic;font-size:28px;line-height:1;color:#D4B99A;margin-top:2px">de anúncios</div>
       </div>
       <div style="padding:28px 32px 8px">
-        <div style="font-size:22px;font-weight:700;color:#2B1A12;line-height:1.25">${saudacao} Seu acervo está liberado.</div>
-        <p style="margin:12px 0 0;font-size:15px;line-height:1.6;color:#6b5a52">
-          A partir de agora você tem acesso aos anúncios que já estão vendendo, organizados por objetivo e com a análise do porquê funcionam. Entrar leva menos de um minuto:
-        </p>
-        <table style="width:100%;border-collapse:collapse;margin-top:24px">
-          ${passo(1, 'Abra a área de membros', `Toque no botão abaixo ou acesse <a href="${LOGIN_URL}" style="color:#A85C35">metodoavva.com/login</a>. Funciona no celular.`)}
-          ${passo(2, 'Digite o e-mail da compra', `Use exatamente este e-mail: <strong style="color:#2B1A12">${esc(email)}</strong>. Não tem senha.`)}
-          ${passo(3, 'Comece pela coleção do seu objetivo', 'Escolha o que você precisa hoje (ser descoberta, gerar autoridade, vender agora...), leia a análise e adapte a estrutura pro seu negócio.')}
+        <div style="font-size:22px;font-weight:700;color:#2B1A12;line-height:1.25">${saudacao}</div>
+        ${p(`Seu ${b('Acervo de Anúncios já está liberado')}. A partir de agora, toda vez que você travar na hora de criar um anúncio, já tem um lugar pra encontrar as melhores referências. E o melhor: ${b('entender por que elas funcionam')}. Porque não adianta só reproduzir o que viu dar certo pra outra pessoa. Quando você entende a lógica, consegue fazer o seu, do seu jeito, pro seu público.`)}
+        <div style="margin-top:24px;font-size:16px;font-weight:700;color:#2B1A12">Pra entrar é simples:</div>
+        <table style="width:100%;border-collapse:collapse;margin-top:14px">
+          ${passo(1, `Acesse <a href="${LOGIN_URL}" style="color:#2B1A12">metodoavva.com/login</a>`, 'Dá pra usar direto do celular.')}
+          ${passo(2, 'Coloque o e-mail da compra', `${b(esc(email))}. ${b('Não precisa de senha.')}`)}
+          ${passo(3, 'Dentro, os anúncios estão organizados por objetivo', 'Ser descoberta, gerar autoridade, provar que funciona, vender agora. É só começar pelo que faz mais sentido pra você hoje.')}
         </table>
         <div style="text-align:center;margin:8px 0 24px">
           <a href="${LOGIN_URL}" style="display:inline-block;padding:16px 32px;background:#A85C35;color:#ffffff;text-decoration:none;border-radius:100px;font-weight:700;font-size:16px">Entrar no acervo</a>
         </div>
         ${hasKit ? `
-        <div style="padding:16px 18px;background:#F7F4F0;border-left:3px solid #0C4747;border-radius:12px;margin-bottom:24px">
+        <div style="padding:16px 18px;background:#F7F4F0;border-left:3px solid #0C4747;border-radius:12px;margin-bottom:20px">
           <div style="font-size:13px;color:#0C4747;font-weight:700;margin-bottom:4px">Seu Kit de Execução também está liberado</div>
           <div style="font-size:14px;line-height:1.55;color:#6b5a52">Ganchos prontos, estruturas narrativas e prompts de IA. Está no menu da área de membros, em "Kit".</div>
         </div>` : ''}
-        <p style="margin:0 0 24px;font-size:14px;line-height:1.6;color:#6b5a52">
-          Todo mês entra uma curadoria nova em "Melhores do mês". Salve nos favoritos o que fizer sentido pra você e volte sempre que for criar um anúncio.
-        </p>
+        ${p(`Todo mês colocamos uma curadoria nova em ${b('"Melhores do mês"')}, então vale voltar sempre que você for criar algo novo.`)}
+        ${p(`Se você não conseguir acessar com o seu e-mail de primeira, pode ser que o sistema ainda esteja processando o seu cadastro. ${b('Espere uns 2 minutinhos e tente de novo.')} Se mesmo assim você não conseguir acessar, pode responder este e-mail ou chamar a gente no ${b(`<a href="${WHATS_URL}" style="color:#2B1A12">WhatsApp ${WHATS}</a>`)}, que te ajudamos.`)}
+        <p style="margin:24px 0 24px;font-size:15px;line-height:1.6;color:#6b5a52">Te vemos lá dentro,<br />${b('Equipe Acervo de Anúncios · Método AVVA')}</p>
       </div>
       <div style="padding:18px 32px;border-top:1px solid #eee7df;font-size:12px;line-height:1.6;color:#8a7a72">
-        Qualquer dúvida, é só responder este e-mail. Você tem 7 dias de garantia: se não fizer sentido, pede o reembolso e recebe 100% de volta.<br />
-        Método AVVA
+        Você tem <strong>7 dias de garantia</strong>. Se não fizer sentido pra você, peça o reembolso e receba 100% de volta.
       </div>
     </div>
   </div>`
 
   const texto = [
-    `${primeiroNome ? `Oi, ${primeiroNome}!` : 'Oi!'} Seu acervo está liberado.`,
+    primeiroNome ? `Oiee, ${primeiroNome}! Que bom ter você aqui.` : 'Oiee! Que bom ter você aqui.',
     '',
-    `1. Abra ${LOGIN_URL}`,
-    `2. Digite o e-mail da compra: ${email} (não tem senha)`,
-    '3. Comece pela coleção do seu objetivo',
+    'Seu Acervo de Anúncios já está liberado. A partir de agora, toda vez que você travar na hora de criar um anúncio, já tem um lugar pra encontrar as melhores referências. E o melhor: entender por que elas funcionam.',
+    '',
+    'Pra entrar é simples:',
+    `1. Acesse ${LOGIN_URL} (dá pra usar direto do celular)`,
+    `2. Coloque o e-mail da compra: ${email}. Não precisa de senha.`,
+    '3. Dentro, os anúncios estão organizados por objetivo. Comece pelo que faz mais sentido pra você hoje.',
     hasKit ? '\nSeu Kit de Execução também está liberado, no menu "Kit".' : '',
     '',
-    'Qualquer dúvida, responda este e-mail. 7 dias de garantia.',
-    'Método AVVA',
+    'Todo mês colocamos uma curadoria nova em "Melhores do mês".',
+    '',
+    `Se não conseguir acessar de primeira, espere uns 2 minutinhos e tente de novo. Se mesmo assim não der, responda este e-mail ou chame a gente no WhatsApp ${WHATS}.`,
+    '',
+    'Te vemos lá dentro,',
+    'Equipe Acervo de Anúncios · Método AVVA',
+    '',
+    'Você tem 7 dias de garantia. Se não fizer sentido pra você, peça o reembolso e receba 100% de volta.',
   ].join('\n')
 
   const r = await fetch('https://api.resend.com/emails', {
@@ -149,7 +161,7 @@ async function sendWelcomeEmail({ email, name, hasKit }) {
     body: JSON.stringify({
       from,
       to: [email],
-      subject: 'Seu acervo está liberado: veja como entrar',
+      subject: 'Seu acervo está liberado (e leva 1 minuto pra entrar)',
       html,
       text: texto,
     }),
