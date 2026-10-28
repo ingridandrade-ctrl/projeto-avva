@@ -235,6 +235,7 @@ export default function AdminCollections() {
                   <PhoneCard
                     image={collectionCover(preview, ads, 600)}
                     title={d.title || col.title}
+                    subtitle={d.subtitle || ''}
                     kicker={kind}
                     meta={`${n} ${n === 1 ? 'anúncio' : 'anúncios'}`}
                     fallbackGradient={style.gradient}
@@ -267,7 +268,7 @@ export default function AdminCollections() {
 
                 <div className="admin-collection__form">
                   <div className="admin-collection__head">
-                    <span className="adm-eyebrow">{kind} · /colecao/{col.slug}</span>
+                    <span className="adm-eyebrow">{kind}</span>
                   </div>
 
                   <div className="admin-form__field">
