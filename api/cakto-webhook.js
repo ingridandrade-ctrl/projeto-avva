@@ -129,7 +129,7 @@ async function sendWelcomeEmail({ email, name, hasKit }) {
         ${p(`Se você não conseguir acessar com o seu e-mail de primeira, pode ser que o sistema ainda esteja processando o seu cadastro. ${b('Espere uns 2 minutinhos e tente de novo.')}`)}
         ${p(`Se mesmo assim você não conseguir acessar, pode responder este e-mail ou ${b('chamar a gente no WhatsApp pelo botão abaixo')}, que te ajudamos.`)}
         <div style="text-align:center;margin:18px 0 8px">
-          <a href="${WHATS_URL}" style="display:inline-block;padding:13px 26px;background:#25D366;color:#0b2d1a;text-decoration:none;border-radius:100px;font-weight:700;font-size:15px">Chamar no WhatsApp</a>
+          <a href="${WHATS_URL}" style="display:inline-block;padding:13px 26px;background:#0C4747;color:#ffffff;text-decoration:none;border-radius:100px;font-weight:700;font-size:15px">Chamar no WhatsApp</a>
         </div>
         <p style="margin:24px 0 24px;font-size:15px;line-height:1.6;color:#6b5a52">Te vemos lá dentro,<br />${b('Equipe Acervo de Anúncios · Método AVVA')}</p>
       </div>
