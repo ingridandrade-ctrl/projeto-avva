@@ -138,7 +138,7 @@ const CENARIOS = [
 const FAQ = [
   {
     q: 'O acesso é imediato?',
-    a: 'Sim. Assim que o pagamento é aprovado, você recebe um e-mail e entra na área de membros com o mesmo e-mail da compra. No Pix e no cartão, leva minutos. No boleto, até 2 dias úteis.',
+    a: 'Sim. Assim que o pagamento é aprovado, você recebe um e-mail e entra na área de membros com o mesmo e-mail da compra. No Pix e no cartão, leva minutos.',
   },
   {
     q: 'Funciona pro meu nicho?',
