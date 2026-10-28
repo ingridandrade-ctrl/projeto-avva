@@ -20,8 +20,6 @@
 import crypto from 'node:crypto'
 import { createClient } from '@supabase/supabase-js'
 
-export const config = { api: { bodyParser: false } }
-
 const SITE = 'https://metodoavva.com'
 const LOGIN_URL = `${SITE}/login`
 const TOLERANCE_SECONDS = 5 * 60
@@ -31,13 +29,22 @@ const supabase = createClient(
   process.env.SUPABASE_SERVICE_ROLE_KEY
 )
 
-function readRawBody(req) {
-  return new Promise((resolve, reject) => {
+// Na Vercel o corpo já chega lido em req.body (objeto ou string). Sem ele,
+// lê o stream. O corpo cru só existe no segundo caso; é ele que valida a
+// assinatura do header. Com o corpo já lido, vale o "secret" do próprio corpo.
+async function readBody(req) {
+  if (req.body !== undefined && req.body !== null) {
+    if (Buffer.isBuffer(req.body)) return { rawBody: req.body, payload: JSON.parse(req.body.toString('utf8') || '{}') }
+    if (typeof req.body === 'string') return { rawBody: Buffer.from(req.body), payload: JSON.parse(req.body || '{}') }
+    return { rawBody: null, payload: req.body }
+  }
+  const rawBody = await new Promise((resolve, reject) => {
     const chunks = []
     req.on('data', c => chunks.push(c))
     req.on('end', () => resolve(Buffer.concat(chunks)))
     req.on('error', reject)
   })
+  return { rawBody, payload: JSON.parse(rawBody.toString('utf8') || '{}') }
 }
 
 function safeEqual(a, b) {
@@ -50,7 +57,7 @@ function safeEqual(a, b) {
 function isFromCakto(req, rawBody, payload, secret) {
   const signature = req.headers['x-cakto-signature']
   const timestamp = req.headers['x-cakto-timestamp']
-  if (signature && timestamp) {
+  if (signature && timestamp && rawBody) {
     if (Math.abs(Date.now() / 1000 - Number(timestamp)) > TOLERANCE_SECONDS) return false
     const expected = crypto.createHmac('sha256', secret).update(`${timestamp}.`).update(rawBody).digest('hex')
     // Em transição de versão o header pode trazer "v1=...,v2=..."
@@ -237,8 +244,7 @@ export default async function handler(req, res) {
   let rawBody
   let payload
   try {
-    rawBody = await readRawBody(req)
-    payload = JSON.parse(rawBody.toString('utf8') || '{}')
+    ;({ rawBody, payload } = await readBody(req))
   } catch {
     return res.status(400).json({ error: 'invalid_json' })
   }
