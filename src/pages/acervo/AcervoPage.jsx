@@ -8,11 +8,12 @@ import './AcervoPage.css'
 // do Instagram). Tudo que muda com a oferta fica aqui em cima.
 // ══════════════════════════════════════════════════════════════
 const OFERTA = {
-  // AJUSTAR: link de checkout da Hotmart do Acervo
-  checkoutUrl: 'https://pay.hotmart.com/SEU_CODIGO_AQUI',
-  // AJUSTAR: preço real da oferta
-  preco: 'R$ 47',
-  parcelas: 'ou 5x de R$ 9,40', // deixe '' para esconder
+  // AJUSTAR: link de checkout do Acervo (Cakto)
+  checkoutUrl: 'https://SEU_LINK_DE_CHECKOUT',
+  precoDe: 'R$ 147',   // valor cheio, aparece riscado acima do preço ('' esconde)
+  preco: 'R$ 87',
+  parcelas: '',        // AJUSTAR: parcelamento do checkout, ex.: 'ou 9x de R$ 11,38' ('' esconde)
+  reforco: 'Dá menos de R$ 0,25 por dia. Um anúncio que não vende custa mais que isso.',
   garantiaDias: 7,
   acessoPor: '1 ano',           // AJUSTAR: tempo de acesso prometido
   totalColecoes: 6,
@@ -83,14 +84,70 @@ const ESPIADINHA = [
   },
 ]
 
+// Objeções na fala da cliente, cada uma com resposta curta
+const OBJECOES = [
+  {
+    fala: 'Mas o meu nicho é diferente, isso não vai funcionar pra mim…',
+    resposta: <>O acervo é organizado por <strong>objetivo do anúncio</strong>, não por nicho. A estrutura que faz uma loja de roupa vender é a mesma que faz uma nutricionista fechar agenda. E você ainda filtra por negócio local, serviço, infoproduto e e‑commerce.</>,
+  },
+  {
+    fala: 'Mas eu não sei editar vídeo nem tenho designer…',
+    resposta: <>Boa parte dos anúncios que mais vendem lá dentro foi <strong>gravada no celular, sem edição</strong>. O que faz a pessoa parar não é o acabamento. É a estrutura, e é isso que a análise te entrega.</>,
+  },
+  {
+    fala: 'Mas eu já comprei curso de anúncio e não saí do lugar…',
+    resposta: <>Isso não é curso. É <strong>referência pronta</strong>: você abre, escolhe pelo objetivo, lê por que funciona, adapta e coloca no ar. Dá pra publicar o primeiro ainda hoje.</>,
+  },
+  {
+    fala: 'Mas eu nem sei se vou ter tempo de usar…',
+    resposta: <>Cada análise tem <strong>poucas linhas</strong>. Em dez minutos no celular você escolhe um anúncio e sai com a estrutura pronta pra gravar o seu.</>,
+  },
+]
+
+// Checklist do que está incluído, dentro da oferta
+const INCLUSO = [
+  <><strong>{OFERTA.totalColecoes} coleções</strong> organizadas por objetivo</>,
+  <><strong>Melhores do mês</strong>: curadoria nova todo mês</>,
+  <><strong>Análise de cada anúncio</strong>: por que funciona</>,
+  <><strong>Filtro por nicho</strong>, busca e favoritos</>,
+  <><strong>Área de membros no celular</strong></>,
+  <><strong>{OFERTA.acessoPor} de acesso</strong>, com tudo que entrar nesse período</>,
+]
+
+// Fechamento: cenário A (sem o acervo) x cenário B (com o acervo)
+const CENARIOS = [
+  {
+    letra: 'A',
+    titulo: 'Sem o acervo',
+    itens: [
+      'Você continua abrindo o gerenciador sem saber o que colocar no anúncio',
+      'Posta, impulsiona, torce. A verba vai e a venda não vem',
+      'Daqui a 30 dias: o mesmo feed, o mesmo resultado',
+    ],
+  },
+  {
+    letra: 'B',
+    titulo: 'Com o acervo',
+    itens: [
+      'Você abre o celular, escolhe pelo objetivo e lê por que aquele anúncio vende',
+      'Adapta a estrutura pro seu negócio e coloca no ar ainda essa semana',
+      'Daqui a 30 dias: anúncios com estrutura, e não com sorte',
+    ],
+  },
+]
+
 const FAQ = [
   {
     q: 'O acesso é imediato?',
-    a: 'Sim. Assim que o pagamento é aprovado, a Hotmart te manda um e-mail e você entra na área de membros com o mesmo e-mail da compra. No Pix e no cartão, leva minutos. No boleto, até 2 dias úteis.',
+    a: 'Sim. Assim que o pagamento é aprovado, você recebe um e-mail e entra na área de membros com o mesmo e-mail da compra. No Pix e no cartão, leva minutos. No boleto, até 2 dias úteis.',
   },
   {
     q: 'Funciona pro meu nicho?',
     a: 'O acervo é organizado por objetivo do anúncio (ser descoberta, gerar autoridade, provar que funciona, quebrar objeção, vender agora), e não por nicho. A estrutura que faz uma loja de roupa vender é a mesma que faz uma nutricionista fechar agenda. E dá pra filtrar por negócio local, serviço, infoproduto e e-commerce.',
+  },
+  {
+    q: 'É só pra Instagram e Facebook ou serve pra outras plataformas?',
+    a: 'Os anúncios do acervo rodam no Instagram e no Facebook. Em breve, também no TikTok. E a estrutura que a análise te mostra (gancho, prova, oferta) vale pra qualquer canal.',
   },
   {
     q: 'Preciso saber editar vídeo ou ter designer?',
@@ -105,12 +162,20 @@ const FAQ = [
     a: 'É, se você quer começar pelo caminho mais curto: ver o que já dá certo antes de criar o seu. Aqui você não aprende a configurar campanha. Aprende o que colocar dentro dela.',
   },
   {
+    q: 'Preciso de verba mínima pra usar o acervo?',
+    a: 'Não. O acervo não é sobre quanto investir, e sim sobre o que colocar dentro do anúncio. Com verba pequena ou grande, criativo com estrutura rende mais.',
+  },
+  {
+    q: 'Eu só impulsiono pelo Instagram. Serve pra mim?',
+    a: 'Serve. Impulsionar também é anúncio, e o que decide se vende é o que está no post. Você escolhe a estrutura no acervo, adapta e impulsiona.',
+  },
+  {
     q: `Depois de ${OFERTA.acessoPor} de acesso, o que acontece?`,
     a: 'Durante esse período você tem tudo: as coleções, as curadorias novas de cada mês e as análises. Perto do fim, a gente te avisa e você decide se quer renovar.',
   },
   {
     q: 'Tenho reembolso?',
-    a: `Tem. São ${OFERTA.garantiaDias} dias de garantia. Entra, navega, lê as análises. Se não fizer sentido pra você, pede o reembolso direto na Hotmart e recebe 100% de volta, sem precisar explicar.`,
+    a: `Tem. São ${OFERTA.garantiaDias} dias de garantia. Entra, navega, lê as análises. Se não fizer sentido pra você, pede o reembolso e recebe 100% de volta, sem precisar explicar.`,
   },
 ]
 
@@ -386,44 +451,66 @@ export default function AcervoPage() {
         </div>
       </section>
 
-      {/* ── 7. Investimento ── */}
+      {/* ── 7. Objeções ── */}
+      <section className="lp-section lp-objecoes">
+        <div className="lp-container lp-container--narrow">
+          <Reveal as="h2" className="lp-titulo lp-titulo--grande lp-titulo--centro">
+            Até quando você vai<br /><strong>torcer pra anúncio dar certo?</strong>
+          </Reveal>
+          <Reveal as="p" className="lp-objecoes__sub" delay={80}>Se ainda está na dúvida, talvez seja por um desses motivos:</Reveal>
+          <div className="lp-objecoes__lista">
+            {OBJECOES.map((o, i) => (
+              <Reveal as="article" key={i} className="lp-objecao" delay={i * 70}>
+                <p className="lp-objecao__fala">“{o.fala}”</p>
+                <p className="lp-objecao__resposta">{o.resposta}</p>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── 8. Investimento ── */}
       <section className="lp-section lp-invest" id="oferta">
         <span className="lp-estrela lp-estrela--4" aria-hidden="true">✦</span>
         <span className="lp-estrela lp-estrela--5" aria-hidden="true">✦</span>
         <Reveal className="lp-container lp-container--narrow lp-invest__inner">
           <span className="lp-pill">Investimento</span>
+          {OFERTA.precoDe && (
+            <p className="lp-invest__de">de <s>{OFERTA.precoDe}</s> por</p>
+          )}
           <p className="lp-invest__preco">{OFERTA.preco}</p>
           <p className="lp-invest__detalhe">
             {OFERTA.parcelas && <><strong>{OFERTA.parcelas}</strong><br /></>}
             (pagamento único, sem mensalidade)
           </p>
-          <Cta variante="teal" largo>Yay, quero agora</Cta>
+          {OFERTA.reforco && <p className="lp-invest__reforco">{OFERTA.reforco}</p>}
+          <ul className="lp-incluso" aria-label="O que está incluído">
+            {INCLUSO.map((item, i) => (
+              <li key={i}>
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>
+                <span>{item}</span>
+              </li>
+            ))}
+          </ul>
+          <Cta variante="teal" largo>Quero ver os anúncios que vendem</Cta>
           <ul className="lp-selos" aria-label="Garantias">
             <li>Acesso imediato</li>
             <li>{OFERTA.garantiaDias} dias de garantia</li>
             <li>Pix, cartão ou boleto</li>
-            <li>Pagamento seguro pela Hotmart</li>
+            <li>Pagamento seguro</li>
           </ul>
+          <div className="lp-garantia">
+            <span className="lp-garantia__selo" aria-hidden="true">
+              <strong>{OFERTA.garantiaDias}</strong>
+              <small>dias</small>
+            </span>
+            <div className="lp-garantia__texto">
+              <h3>Garantia de {OFERTA.garantiaDias} dias, sem perguntas</h3>
+              <p>Entra, navega, lê as análises. Se não fizer sentido pra você, pede o reembolso e recebe 100% de volta. Sem precisar explicar.</p>
+              <a className="lp-garantia__link" href={OFERTA.checkoutUrl} rel="noopener">Quero entrar sem risco <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg></a>
+            </div>
+          </div>
         </Reveal>
-      </section>
-
-      {/* ── 8. Quem é a Flora ── */}
-      <section className="lp-section lp-flora">
-        <div className="lp-container lp-flora__grid">
-          <Reveal className="lp-flora__texto">
-            <h2 className="lp-titulo">Quem é a Flora</h2>
-            <p>Eu sou a Flora, do Método AVVA. Sou quem garimpa, seleciona e analisa cada anúncio do acervo, mês a mês.</p>
-            <p>O critério é um só: <strong>está rodando e está vendendo.</strong> O que entra no acervo já passou por esse filtro antes de chegar em você.</p>
-            <p>Não acredito em criativo de sorte. Acredito em estrutura: gancho, prova e oferta, nessa ordem. Anúncio bom não é o mais bonito. É o que faz a pessoa certa parar, entender e comprar.</p>
-            {/* AJUSTAR: completar com a trajetória e os números da Flora (anos com tráfego, alunas, resultados) */}
-            <p>Agora é a sua vez de abrir o acervo e parar de adivinhar.</p>
-          </Reveal>
-          <Reveal className="lp-flora__foto" aria-hidden="true" delay={120}>
-            {/* AJUSTAR: trocar pela foto da Flora (ex.: /flora.jpg em public/) */}
-            <span>F</span>
-            <i className="lp-estrela lp-estrela--foto">✦</i>
-          </Reveal>
-        </div>
       </section>
 
       {/* ── 9. FAQ ── */}
@@ -451,13 +538,41 @@ export default function AcervoPage() {
               )
             })}
           </Reveal>
+        </div>
+      </section>
+
+      {/* ── 10. Fechamento: cenário A x cenário B ── */}
+      <section className="lp-section lp-cenarios">
+        <span className="lp-estrela lp-estrela--6" aria-hidden="true">✦</span>
+        <div className="lp-container lp-container--narrow">
+          <Reveal as="h2" className="lp-titulo lp-titulo--grande lp-titulo--centro">
+            Daqui a 30 dias,<br /><strong>onde você vai estar?</strong>
+          </Reveal>
+          <div className="lp-cenarios__grid">
+            {CENARIOS.map((c, i) => (
+              <Reveal as="article" key={c.letra} className={`lp-cenario lp-cenario--${c.letra.toLowerCase()}`} delay={i * 100}>
+                <span className="lp-cenario__kicker">Cenário {c.letra}</span>
+                <h3>{c.titulo}</h3>
+                <ul>
+                  {c.itens.map((item, j) => <li key={j}>{item}</li>)}
+                </ul>
+              </Reveal>
+            ))}
+          </div>
+          <Reveal delay={120}><Cta largo>Quero anúncios que vendem 🤎</Cta></Reveal>
+        </div>
+      </section>
+
+      {/* ── Rodapé ── */}
+      <footer className="lp-escuro lp-fim">
+        <div className="lp-container lp-container--narrow lp-fim__inner">
           <Logo className="lp-logo--rodape" />
           <div className="lp-rodape">
             <span>© {new Date().getFullYear()} Método AVVA</span>
             <Link to="/login">Já sou aluna</Link>
           </div>
         </div>
-      </section>
+      </footer>
 
       {/* ── Barra fixa (mobile) ── */}
       <div className={`lp-sticky ${stickyVisible ? 'is-visible' : ''}`} aria-hidden={!stickyVisible}>
