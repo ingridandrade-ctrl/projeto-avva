@@ -217,8 +217,9 @@
 .lp-praquem__intro {
   max-width: 560px;
   margin: 28px auto 0;
+  max-width: 600px;
   text-align: center;
-  font-size: 1.02rem;
+  font-size: 1.1rem;
   line-height: 1.55;
   color: var(--lp-ink-2);
   text-wrap: pretty;
@@ -245,7 +246,7 @@
   gap: 16px;
   padding: 18px 0;
   border-bottom: 1.5px solid var(--lp-ink);
-  font-size: 1.02rem;
+  font-size: 1.1rem;
   line-height: 1.45;
   letter-spacing: -0.01em;
 }
@@ -265,22 +266,41 @@
 }
 
 .lp-caixa {
-  padding: 22px 22px 26px;
-  border: 1.5px solid var(--lp-ink);
-  border-radius: 22px;
-  text-align: center;
-  background: rgba(247, 244, 240, 0.6);
-  backdrop-filter: blur(4px);
+  position: relative;
+  padding: 28px 24px 30px;
+  border-radius: 24px;
+  text-align: left;
+  color: #fff;
+  box-shadow: 0 18px 44px rgba(46, 33, 27, 0.16);
+  overflow: hidden;
 }
+
+.lp-caixa::after {
+  content: '✦';
+  position: absolute;
+  right: -10px;
+  bottom: -34px;
+  font-size: 120px;
+  line-height: 1;
+  color: rgba(255, 255, 255, 0.1);
+  pointer-events: none;
+}
+
+.lp-caixa--terra { background: linear-gradient(145deg, var(--lp-terra), #8f4b2a); }
+.lp-caixa--teal { background: linear-gradient(145deg, var(--teal-medio), var(--lp-teal)); }
+.lp-caixa .lp-seta { background: rgba(255, 255, 255, 0.16); color: #fff; }
 
 .lp-caixa p {
-  margin-top: 14px;
-  font-size: 1.08rem;
-  line-height: 1.45;
-  color: var(--lp-ink-2);
+  position: relative;
+  margin-top: 18px;
+  font-size: 1.22rem;
+  font-weight: 400;
+  line-height: 1.4;
+  letter-spacing: -0.015em;
+  color: rgba(255, 255, 255, 0.86);
 }
 
-.lp-caixa strong { color: var(--lp-ink); font-weight: 700; }
+.lp-caixa strong { color: #fff; font-weight: 700; }
 
 .lp-seta {
   display: inline-grid;
@@ -866,12 +886,14 @@
   .lp-estrela--5 { bottom: 20px; right: 0; font-size: 300px; }
 
   .lp-checks { grid-template-columns: 1fr 1fr; column-gap: 48px; margin-top: 44px; }
-  .lp-checks li { font-size: 1.06rem; padding: 20px 0; }
-  .lp-praquem__intro { font-size: 1.1rem; }
+  .lp-checks li { font-size: 1.2rem; padding: 22px 0; }
+  .lp-checks li svg { width: 30px; height: 30px; }
+  .lp-praquem__intro { font-size: 1.25rem; max-width: 680px; }
   .lp-praquem .lp-cta { margin-top: 52px; }
 
-  .lp-caixa { padding: 30px 40px 34px; }
-  .lp-caixa p { font-size: 1.2rem; }
+  .lp-afirma__caixas { grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 48px; }
+  .lp-caixa { padding: 36px 34px 40px; }
+  .lp-caixa p { font-size: 1.4rem; }
 
   .lp-oque__grid { grid-template-columns: 1.05fr 0.95fr; gap: 56px; align-items: start; }
   .lp-oque__texto { position: sticky; top: 40px; padding-top: 8px; }
