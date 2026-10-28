@@ -103,9 +103,8 @@ async function sendWelcomeEmail({ email, name, hasKit }) {
   const html = `
   <div style="margin:0;padding:32px 16px;background:#F7F4F0;font-family:Outfit,Inter,-apple-system,Segoe UI,Helvetica,Arial,sans-serif">
     <div style="max-width:560px;margin:0 auto;background:#ffffff;border:1px solid #eee7df;border-radius:22px;overflow:hidden">
-      <div style="padding:32px 32px 28px;background:#2B1A12;text-align:center">
-        <div style="font-size:40px;line-height:0.9;font-weight:800;letter-spacing:-0.05em;color:#ffffff">acervo</div>
-        <div style="font-family:Georgia,'Times New Roman',serif;font-style:italic;font-size:28px;line-height:1;color:#D4B99A;margin-top:2px">de anúncios</div>
+      <div style="background:#2B1A12;text-align:center;line-height:0">
+        <img src="${SITE}/email/cabecalho-acervo.png" width="560" height="150" alt="acervo de anúncios" style="display:block;width:100%;max-width:560px;height:auto;margin:0 auto" />
       </div>
       <div style="padding:28px 32px 8px">
         <div style="font-size:22px;font-weight:700;color:#2B1A12;line-height:1.25">${saudacao}</div>
@@ -125,7 +124,10 @@ async function sendWelcomeEmail({ email, name, hasKit }) {
           <div style="font-size:14px;line-height:1.55;color:#6b5a52">Ganchos prontos, estruturas narrativas e prompts de IA. Está no menu da área de membros, em "Kit".</div>
         </div>` : ''}
         ${p(`Todo mês colocamos uma curadoria nova em ${b('"Melhores do mês"')}, então vale voltar sempre que você for criar algo novo.`)}
-        ${p(`Se você não conseguir acessar com o seu e-mail de primeira, pode ser que o sistema ainda esteja processando o seu cadastro. ${b('Espere uns 2 minutinhos e tente de novo.')} Se mesmo assim você não conseguir acessar, pode responder este e-mail ou chamar a gente no ${b(`<a href="${WHATS_URL}" style="color:#2B1A12">WhatsApp ${WHATS}</a>`)}, que te ajudamos.`)}
+        ${p(`Se você não conseguir acessar com o seu e-mail de primeira, pode ser que o sistema ainda esteja processando o seu cadastro. ${b('Espere uns 2 minutinhos e tente de novo.')} Se mesmo assim você não conseguir acessar, pode responder este e-mail ou ${b('chamar a gente no WhatsApp pelo botão abaixo')}, que te ajudamos.`)}
+        <div style="text-align:center;margin:18px 0 8px">
+          <a href="${WHATS_URL}" style="display:inline-block;padding:13px 26px;background:#25D366;color:#0b2d1a;text-decoration:none;border-radius:100px;font-weight:700;font-size:15px">Chamar no WhatsApp</a>
+        </div>
         <p style="margin:24px 0 24px;font-size:15px;line-height:1.6;color:#6b5a52">Te vemos lá dentro,<br />${b('Equipe Acervo de Anúncios · Método AVVA')}</p>
       </div>
       <div style="padding:18px 32px;border-top:1px solid #eee7df;font-size:12px;line-height:1.6;color:#8a7a72">
