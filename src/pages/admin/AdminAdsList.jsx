@@ -20,8 +20,6 @@ function CoverCheck({ ad }) {
   )
 }
 
-const norm = (s) => String(s || '').toLowerCase().replace(/\s*\(cópia\)\s*$/, '').replace(/[^\p{L}\p{N}]+/gu, ' ').trim()
-
 const kindLabel = (col) => col.is_bonus
   ? 'Bônus'
   : getCollectionStyle(col.slug).kind === 'fixa'
@@ -96,28 +94,30 @@ export default function AdminAdsList() {
     load()
   }
 
-  // Repetidos: mesmo arquivo do Drive ou mesmo título (ignorando "(cópia)")
+  // Repetido = dois cadastros do mesmo vídeo (mesmo arquivo do Drive).
+  // Estar em duas coleções não é repetição: isso ganha a etiqueta "em N coleções".
   const dupInfo = useMemo(() => {
     const byFile = new Map()
-    const byTitle = new Map()
     for (const a of ads) {
       const f = driveId(a.drive_url)
       if (f) byFile.set(f, (byFile.get(f) || 0) + 1)
-      const t = norm(a.title)
-      if (t) byTitle.set(t, (byTitle.get(t) || 0) + 1)
     }
     const info = {}
     for (const a of ads) {
       const f = driveId(a.drive_url)
-      const t = norm(a.title)
-      const sameFile = f ? byFile.get(f) : 0
-      const sameTitle = t ? byTitle.get(t) : 0
-      if (sameFile > 1) info[a.id] = `Mesmo arquivo do Drive em ${sameFile} anúncios`
-      else if (sameTitle > 1) info[a.id] = `Mesmo título em ${sameTitle} anúncios`
+      const n = f ? byFile.get(f) : 0
+      if (n > 1) info[a.id] = `O mesmo vídeo do Drive está cadastrado ${n} vezes`
     }
     return info
   }, [ads])
   const dupCount = Object.keys(dupInfo).length
+
+  // Em quantas coleções cada anúncio aparece (objetivos + melhores/especial)
+  const inCollections = useMemo(() => {
+    const out = {}
+    for (const a of ads) out[a.id] = collections.filter(c => belongsTo(a, c))
+    return out
+  }, [ads, collections])
 
   const term = search.trim().toLowerCase()
   const visible = ads.filter(a => {
@@ -150,6 +150,11 @@ export default function AdminAdsList() {
       <td className="admin-table__title">
         {ad.title}
         {dupInfo[ad.id] && <span className="admin-ads__dup" title={dupInfo[ad.id]}>repetido</span>}
+        {(inCollections[ad.id] || []).length > 1 && (
+          <span className="admin-ads__multi" title={inCollections[ad.id].map(c => c.title).join(' · ')}>
+            em {inCollections[ad.id].length} coleções
+          </span>
+        )}
       </td>
       <td>{ad.collections?.title || '—'}</td>
       <td>
@@ -262,7 +267,7 @@ export default function AdminAdsList() {
           className={`admin-ads__dupbtn ${onlyDups ? 'is-on' : ''} ${dupCount ? 'has-dups' : ''}`}
           onClick={() => setOnlyDups(v => !v)}
           disabled={!dupCount}
-          title={dupCount ? 'Anúncios com o mesmo arquivo do Drive ou o mesmo título' : 'Nenhum repetido encontrado'}
+          title={dupCount ? 'Anúncios com o mesmo vídeo do Drive cadastrado mais de uma vez' : 'Nenhum vídeo cadastrado duas vezes'}
         >
           {dupCount ? `${dupCount} ${dupCount === 1 ? 'repetido' : 'repetidos'}` : 'Sem repetidos'}
         </button>

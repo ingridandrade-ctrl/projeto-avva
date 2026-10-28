@@ -185,6 +185,22 @@
   vertical-align: middle;
 }
 
+/* Etiqueta neutra: o mesmo anúncio em mais de uma coleção (não é repetição) */
+.admin-ads__multi {
+  display: inline-block;
+  margin-left: 8px;
+  padding: 2px 8px;
+  border-radius: 100px;
+  background: var(--a-teal-soft);
+  color: var(--a-teal);
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
 /* Visão por coleção */
 .admin-ads__groups {
   display: flex;
