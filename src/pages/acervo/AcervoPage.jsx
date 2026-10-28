@@ -29,8 +29,8 @@ const PRA_QUEM = [
 ]
 
 const AFIRMACOES = [
-  <>Existe um motivo pros mesmos anúncios aparecerem pra você há meses: <strong>eles pagam a conta.</strong> E a estrutura deles pode ser a sua.</>,
-  <><strong>Você não precisa criar do zero.</strong> Precisa adaptar o que já está validado. É assim que você para de torcer <strong>e começa a vender.</strong></>,
+  <>Os anúncios que te fazem parar o dedo não chamam atenção por acaso: <strong>eles têm uma estrutura que funciona.</strong> E essa estrutura pode ser a sua.</>,
+  <><strong>Você não precisa criar do zero.</strong> Precisa ter acesso ao que já está validado e adaptar pro seu negócio. É assim que você para de torcer <strong>e começa a vender.</strong></>,
 ]
 
 // Coleções mostradas nos cards (as 6 por objetivo + a curadoria mensal)
@@ -314,12 +314,12 @@ export default function AcervoPage() {
         <span className="lp-estrela lp-estrela--3" aria-hidden="true">✦</span>
         <div className="lp-container lp-container--narrow">
           <Reveal as="h2" className="lp-titulo lp-titulo--grande">
-            Muita gente diz que o problema é a verba.<br />
-            Quase sempre, <strong>o problema é o criativo.</strong>
+            Muita gente diz que o problema é a verba, é o público.<br />
+            Mas quase sempre <strong>o problema está no criativo.</strong>
           </Reveal>
           <div className="lp-afirma__caixas">
             {AFIRMACOES.map((a, i) => (
-              <Reveal key={i} className="lp-caixa" delay={100 + i * 100}>
+              <Reveal key={i} className={`lp-caixa ${i % 2 ? 'lp-caixa--teal' : 'lp-caixa--terra'}`} delay={100 + i * 100}>
                 <Seta />
                 <p>{a}</p>
               </Reveal>
