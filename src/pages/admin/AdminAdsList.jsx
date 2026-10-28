@@ -39,6 +39,12 @@ export default function AdminAdsList() {
     try { return localStorage.getItem('avva.admin.ads.view') || 'colecoes' } catch { return 'colecoes' }
   })
   const [loading, setLoading] = useState(true)
+  const [selected, setSelected] = useState(() => new Set())
+  const [bulkCol, setBulkCol] = useState('')
+  const [bulkObj, setBulkObj] = useState('')
+  const [bulkNiche, setBulkNiche] = useState('')
+  const [bulkBusy, setBulkBusy] = useState(false)
+  const [bulkMsg, setBulkMsg] = useState(null)
   const navigate = useNavigate()
 
   async function load() {
@@ -88,6 +94,59 @@ export default function AdminAdsList() {
     }
     navigate(`/admin/produtos/acervo/anuncios/${data.id}/editar`)
   }
+
+  // ── Seleção e ações em lote ──
+  const isSel = (id) => selected.has(id)
+  function toggleSel(id) {
+    setSelected(prev => { const n = new Set(prev); n.has(id) ? n.delete(id) : n.add(id); return n })
+  }
+  function toggleAll(rows) {
+    const ids = rows.map(a => a.id)
+    const all = ids.every(id => selected.has(id))
+    setSelected(prev => { const n = new Set(prev); ids.forEach(id => all ? n.delete(id) : n.add(id)); return n })
+  }
+  const clearSel = () => setSelected(new Set())
+  const selIds = () => [...selected]
+  const selAds = () => ads.filter(a => selected.has(a.id))
+
+  async function bulk(label, fn) {
+    setBulkBusy(true)
+    setBulkMsg(null)
+    try {
+      await fn()
+      setBulkMsg({ type: 'ok', msg: `${label}: ${selected.size} ${selected.size === 1 ? 'anúncio' : 'anúncios'}.` })
+      clearSel()
+      await load()
+    } catch (e) {
+      setBulkMsg({ type: 'error', msg: e.message || 'Deu erro.' })
+    }
+    setBulkBusy(false)
+  }
+
+  const must = ({ error }) => { if (error) throw error }
+
+  const bulkActive = (on) => bulk(on ? 'Ativados' : 'Desativados', async () => {
+    must(await supabase.from('ads').update({ active: on }).in('id', selIds()))
+  })
+
+  const bulkDelete = () => {
+    if (!window.confirm(`Apagar ${selected.size} ${selected.size === 1 ? 'anúncio' : 'anúncios'}? Não dá pra desfazer.`)) return
+    bulk('Apagados', async () => { must(await supabase.from('ads').delete().in('id', selIds())) })
+  }
+
+  const bulkCollection = () => bulk('Coleção trocada em', async () => {
+    must(await supabase.from('ads').update({ collection_id: bulkCol || null }).in('id', selIds()))
+  })
+
+  // Tags são listas por anúncio: cada um recebe a própria lista atualizada
+  const bulkTag = (field, value, add) => bulk(add ? 'Tag adicionada em' : 'Tag removida de', async () => {
+    await Promise.all(selAds().map(async a => {
+      const cur = a[field] || []
+      const next = add ? [...new Set([...cur, value])] : cur.filter(v => v !== value)
+      if (next.length === cur.length && add === cur.includes(value)) return
+      must(await supabase.from('ads').update({ [field]: next }).eq('id', a.id))
+    }))
+  })
 
   async function toggleActive(ad) {
     await supabase.from('ads').update({ active: !ad.active }).eq('id', ad.id)
@@ -145,7 +204,10 @@ export default function AdminAdsList() {
     : visible
 
   const row = (ad) => (
-    <tr key={ad.id} className={!ad.active ? 'admin-table__row--inactive' : ''}>
+    <tr key={ad.id} className={`${!ad.active ? 'admin-table__row--inactive' : ''} ${isSel(ad.id) ? 'admin-ads__row--sel' : ''}`}>
+      <td className="admin-ads__check">
+        <input type="checkbox" checked={isSel(ad.id)} onChange={() => toggleSel(ad.id)} aria-label={`Selecionar ${ad.title}`} />
+      </td>
       <td><CoverCheck ad={ad} /></td>
       <td className="admin-table__title">
         {ad.title}
@@ -203,6 +265,14 @@ export default function AdminAdsList() {
       <table className="admin-table">
         <thead>
           <tr>
+            <th className="admin-ads__check">
+              <input
+                type="checkbox"
+                checked={rows.length > 0 && rows.every(a => isSel(a.id))}
+                onChange={() => toggleAll(rows)}
+                aria-label="Selecionar todos deste bloco"
+              />
+            </th>
             <th>Capa</th>
             <th>Título</th>
             <th>Coleção</th>
@@ -275,6 +345,42 @@ export default function AdminAdsList() {
           {visible.length} {visible.length === 1 ? 'anúncio' : 'anúncios'}
         </span>
       </div>
+
+      {selected.size > 0 && (
+        <div className="admin-ads__bulk">
+          <div className="admin-ads__bulk-head">
+            <strong>{selected.size} {selected.size === 1 ? 'selecionado' : 'selecionados'}</strong>
+            <button type="button" className="admin-ads__bulk-clear" onClick={clearSel}>Limpar</button>
+          </div>
+          <div className="admin-ads__bulk-row">
+            <button type="button" className="adm-btn adm-btn--secondary adm-btn--sm" disabled={bulkBusy} onClick={() => bulkActive(true)}>Ativar</button>
+            <button type="button" className="adm-btn adm-btn--secondary adm-btn--sm" disabled={bulkBusy} onClick={() => bulkActive(false)}>Desativar</button>
+            <span className="admin-ads__bulk-sep" />
+            <select className="admin-select" value={bulkCol} onChange={e => setBulkCol(e.target.value)}>
+              <option value="">Coleção do mês / especial: nenhuma</option>
+              {collections.filter(c => getCollectionStyle(c.slug).kind !== 'fixa').map(c => <option key={c.id} value={c.id}>{c.title}</option>)}
+            </select>
+            <button type="button" className="adm-btn adm-btn--secondary adm-btn--sm" disabled={bulkBusy} onClick={bulkCollection}>Aplicar coleção</button>
+            <span className="admin-ads__bulk-sep" />
+            <select className="admin-select" value={bulkObj} onChange={e => setBulkObj(e.target.value)}>
+              <option value="">Objetivo…</option>
+              {Object.entries(OBJECTIVE_LABELS).map(([v, l]) => <option key={v} value={v}>{l}</option>)}
+            </select>
+            <button type="button" className="adm-btn adm-btn--secondary adm-btn--sm" disabled={bulkBusy || !bulkObj} onClick={() => bulkTag('objectives', bulkObj, true)}>+ Adicionar</button>
+            <button type="button" className="adm-btn adm-btn--ghost adm-btn--sm" disabled={bulkBusy || !bulkObj} onClick={() => bulkTag('objectives', bulkObj, false)}>Remover</button>
+            <span className="admin-ads__bulk-sep" />
+            <select className="admin-select" value={bulkNiche} onChange={e => setBulkNiche(e.target.value)}>
+              <option value="">Nicho…</option>
+              {NICHES.map(n => <option key={n.value} value={n.value}>{n.label}</option>)}
+            </select>
+            <button type="button" className="adm-btn adm-btn--secondary adm-btn--sm" disabled={bulkBusy || !bulkNiche} onClick={() => bulkTag('niches', bulkNiche, true)}>+ Adicionar</button>
+            <button type="button" className="adm-btn adm-btn--ghost adm-btn--sm" disabled={bulkBusy || !bulkNiche} onClick={() => bulkTag('niches', bulkNiche, false)}>Remover</button>
+            <span className="admin-ads__bulk-sep" />
+            <button type="button" className="adm-btn adm-btn--danger adm-btn--sm" disabled={bulkBusy} onClick={bulkDelete}>Apagar</button>
+          </div>
+        </div>
+      )}
+      {bulkMsg && <p className={`admin-ads__bulk-msg admin-ads__bulk-msg--${bulkMsg.type}`}>{bulkMsg.msg}</p>}
 
       {loading ? empty('Carregando…')
         : ads.length === 0 ? (

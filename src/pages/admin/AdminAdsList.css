@@ -251,3 +251,92 @@
 }
 
 .admin-ads__group.is-empty { opacity: 0.75; }
+
+/* Seleção e ações em lote */
+.admin-ads__check {
+  width: 40px;
+  padding-right: 0 !important;
+}
+
+.admin-ads__check input {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--a-accent);
+  cursor: pointer;
+}
+
+.admin-ads__row--sel td {
+  background: var(--a-accent-soft);
+}
+
+.admin-ads__bulk {
+  position: sticky;
+  top: 12px;
+  z-index: 5;
+  margin-bottom: 18px;
+  padding: 14px 18px;
+  border-radius: var(--a-r-lg);
+  background: var(--a-ink);
+  color: #fff;
+  box-shadow: 0 14px 40px rgba(46, 33, 27, 0.3);
+}
+
+.admin-ads__bulk-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 10px;
+  font-size: 0.95rem;
+}
+
+.admin-ads__bulk-clear {
+  background: none;
+  border: none;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.9rem;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.admin-ads__bulk-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.admin-ads__bulk .admin-select {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.18);
+  color: #fff;
+  max-width: 260px;
+}
+
+.admin-ads__bulk .admin-select option { color: var(--a-ink); }
+
+.admin-ads__bulk .adm-btn--secondary {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.2);
+  color: #fff;
+}
+
+.admin-ads__bulk .adm-btn--ghost { color: rgba(255, 255, 255, 0.7); }
+.admin-ads__bulk .adm-btn--ghost:hover { background: rgba(255, 255, 255, 0.08); color: #fff; }
+.admin-ads__bulk .adm-btn--danger { color: #ffb4a8; }
+.admin-ads__bulk .adm-btn--danger:hover { background: rgba(255, 120, 100, 0.15); }
+
+.admin-ads__bulk-sep {
+  width: 1px;
+  height: 24px;
+  background: rgba(255, 255, 255, 0.15);
+  margin: 0 4px;
+}
+
+.admin-ads__bulk-msg {
+  margin: -8px 0 16px;
+  font-size: 0.92rem;
+  font-weight: 600;
+}
+
+.admin-ads__bulk-msg--ok { color: var(--a-ok); }
+.admin-ads__bulk-msg--error { color: var(--a-danger); }
