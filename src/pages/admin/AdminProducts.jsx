@@ -27,9 +27,8 @@ export default function AdminProducts() {
       description: 'Anúncios organizados nas 6 Coleções por objetivo, com tags de nicho e tipo de mídia.',
       count: adsCount,
       countLabel: 'anúncios',
-      link: '/admin/ads',
-      action: 'Gerenciar anúncios',
-      secondary: { link: '/admin/colecoes', label: 'Coleções e capas' },
+      link: '/admin/produtos/acervo',
+      action: 'Abrir produto',
       gradient: 'linear-gradient(135deg, #1A6868 0%, #3F7A66 40%, #C98A5E 100%)',
     },
     {
@@ -39,8 +38,8 @@ export default function AdminProducts() {
       description: 'Ganchos prontos, estruturas narrativas e ângulos com prompts de IA.',
       count: kitCount,
       countLabel: 'itens',
-      link: '/admin/kit',
-      action: 'Gerenciar kit',
+      link: '/admin/produtos/kit',
+      action: 'Abrir produto',
       gradient: 'linear-gradient(135deg, #965E41 0%, #C98A5E 55%, #D4B99A 100%)',
     },
   ]
@@ -51,7 +50,7 @@ export default function AdminProducts() {
         <div>
           <span className="adm-eyebrow">Produtos</span>
           <h1>Todos os produtos</h1>
-          <p>Cada produto da área de membros e o conteúdo que as alunas veem.</p>
+          <p>Entre num produto pra ver as alunas dele, o conteúdo e as capas.</p>
         </div>
       </div>
 

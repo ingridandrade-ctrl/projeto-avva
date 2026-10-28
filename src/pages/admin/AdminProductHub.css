@@ -1,0 +1,66 @@
+.adm-hub__back {
+  display: inline-block;
+  margin-bottom: 18px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--a-ink-3);
+  text-decoration: none;
+}
+
+.adm-hub__back:hover { color: var(--a-ink); }
+
+.adm-hub__head {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  margin-bottom: 22px;
+}
+
+.adm-hub__visual {
+  width: 96px;
+  height: 96px;
+  flex-shrink: 0;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: var(--a-shadow);
+}
+
+.adm-hub__visual img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.adm-hub__text h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+  margin: 2px 0 6px;
+}
+
+.adm-hub__text p {
+  margin: 0;
+  color: var(--a-ink-2);
+  font-size: 1.02rem;
+}
+
+.adm-hub__head {
+  padding-bottom: 22px;
+  border-bottom: 1px solid var(--a-line);
+  margin-bottom: 26px;
+}
+
+/* Dentro do produto, as telas ganham um cabeçalho mais discreto */
+.adm-hub .adm-page-header { margin-bottom: 18px; }
+.adm-hub .adm-page-header .adm-eyebrow { display: none; }
+.adm-hub .adm-page-header h1 { font-size: 1.35rem; }
+.adm-hub .adm-page-header p { font-size: 0.98rem; }
+.adm-hub .admin-ad-form__back { display: none; }
+
+@media (max-width: 640px) {
+  .adm-hub__head { align-items: flex-start; }
+  .adm-hub__visual { width: 64px; height: 64px; border-radius: 14px; }
+  .adm-hub__text h1 { font-size: 1.5rem; }
+}

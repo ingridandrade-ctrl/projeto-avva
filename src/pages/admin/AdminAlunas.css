@@ -1,0 +1,269 @@
+.admin-alunas__erro {
+  padding: 16px 20px;
+  color: var(--a-danger);
+  margin-bottom: 20px;
+}
+
+/* Números */
+.admin-alunas__stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 14px;
+  margin-bottom: 22px;
+}
+
+.admin-alunas__stat {
+  background: var(--a-surface);
+  border: 1px solid var(--a-line-soft);
+  border-radius: var(--a-r-lg);
+  padding: 18px 20px;
+  box-shadow: var(--a-shadow);
+}
+
+.admin-alunas__stat strong {
+  display: block;
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1;
+  color: var(--a-ink);
+}
+
+.admin-alunas__stat span {
+  display: block;
+  margin-top: 6px;
+  font-size: 0.9rem;
+  color: var(--a-ink-3);
+}
+
+.admin-alunas__stat--teal strong { color: var(--a-teal); }
+.admin-alunas__stat--danger strong { color: var(--a-danger); }
+
+/* Liberar na mão */
+.admin-alunas__novo {
+  padding: 22px 24px;
+  margin-bottom: 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.admin-alunas__novo h2 {
+  font-size: 1.15rem;
+  font-weight: 700;
+  margin: 0 0 4px;
+}
+
+.admin-alunas__novo p {
+  margin: 0;
+  color: var(--a-ink-2);
+  font-size: 0.95rem;
+}
+
+.admin-alunas__novo-form {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+}
+
+.admin-alunas__novo-form .adm-input {
+  flex: 1 1 220px;
+}
+
+.admin-alunas__check {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.95rem;
+  color: var(--a-ink-2);
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.admin-alunas__check input {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--a-accent);
+}
+
+/* Filtros */
+.admin-alunas__filtros {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.admin-alunas__busca {
+  flex: 1 1 280px;
+  max-width: 380px;
+}
+
+.admin-alunas__chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.admin-alunas__chip {
+  padding: 8px 14px;
+  border-radius: 100px;
+  border: 1px solid var(--a-line);
+  background: var(--a-surface);
+  color: var(--a-ink-2);
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.18s ease, color 0.18s ease, border-color 0.18s ease;
+}
+
+.admin-alunas__chip:hover { border-color: rgba(76, 54, 45, 0.3); }
+
+.admin-alunas__chip.is-on {
+  background: var(--a-ink);
+  border-color: var(--a-ink);
+  color: #fff;
+}
+
+.admin-alunas__count {
+  margin-left: auto;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--a-ink-3);
+  white-space: nowrap;
+}
+
+/* Tabela */
+.admin-alunas__who {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.admin-alunas__who strong {
+  font-weight: 600;
+  color: var(--a-ink);
+}
+
+.admin-alunas__who span {
+  font-size: 0.9rem;
+  color: var(--a-ink-3);
+}
+
+.admin-alunas__nowrap { white-space: nowrap; }
+
+.admin-alunas__origem {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 100px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  background: var(--a-line-soft);
+  color: var(--a-ink-2);
+  white-space: nowrap;
+}
+
+.admin-alunas__origem--cakto { background: var(--a-teal-soft); color: var(--a-teal); }
+.admin-alunas__origem--manual { background: var(--a-accent-soft); color: var(--a-accent); }
+.admin-alunas__origem--admin { background: var(--a-ink); color: #fff; }
+
+.admin-alunas__status {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.admin-alunas__status::before {
+  content: '';
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.admin-alunas__status--on { color: var(--a-ok); }
+.admin-alunas__status--off { color: var(--a-danger); }
+.admin-alunas__status--admin { color: var(--a-teal); }
+
+.admin-alunas__acoes {
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.admin-alunas__fb {
+  display: block;
+  margin-top: 6px;
+  font-size: 0.88rem;
+  font-weight: 600;
+}
+
+.admin-alunas__fb--ok { color: var(--a-ok); }
+.admin-alunas__fb--error { color: var(--a-danger); }
+
+/* Eventos */
+.admin-alunas__eventos {
+  margin-top: 26px;
+  padding: 22px 24px;
+}
+
+.admin-alunas__eventos h2 {
+  font-size: 1.15rem;
+  font-weight: 700;
+  margin: 0 0 4px;
+}
+
+.admin-alunas__eventos p {
+  margin: 0 0 14px;
+  color: var(--a-ink-2);
+  font-size: 0.95rem;
+}
+
+.admin-alunas__eventos ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.admin-alunas__eventos li {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 9px 0;
+  border-top: 1px solid var(--a-line-soft);
+  font-size: 0.92rem;
+}
+
+.admin-alunas__ev-hora {
+  color: var(--a-ink-3);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.admin-alunas__ev {
+  font-weight: 600;
+  color: var(--a-ink);
+}
+
+.admin-alunas__ev--purchase_approved { color: var(--a-ok); }
+.admin-alunas__ev--refund, .admin-alunas__ev--chargeback, .admin-alunas__ev--purchase_refused { color: var(--a-danger); }
+.admin-alunas__ev--pix_gerado, .admin-alunas__ev--checkout_abandonment { color: var(--a-accent); }
+
+.admin-alunas__ev-ref {
+  color: var(--a-ink-3);
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@media (max-width: 640px) {
+  .admin-alunas__busca { max-width: none; }
+}

@@ -1,4 +1,6 @@
+import { useState } from 'react'
 import { NavLink, Outlet, useLocation } from 'react-router-dom'
+import { PRODUCTS } from '../../lib/adminProducts'
 import { useAuth } from '../../hooks/useAuth'
 import './AdminLayout.css'
 
@@ -13,33 +15,10 @@ const ICONS = {
   sair: <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>,
 }
 
-const NAV = [
-  {
-    section: 'Geral',
-    items: [
-      { to: '/admin', label: 'Painel', icon: 'painel', match: p => p === '/admin' },
-    ],
-  },
-  {
-    section: 'Produtos',
-    items: [
-      { to: '/admin/produtos', label: 'Todos os produtos', icon: 'produtos', match: p => p === '/admin/produtos' },
-      { to: '/admin/ads', label: 'Acervo de Anúncios', icon: 'anuncios', match: p => p.startsWith('/admin/ads') },
-      { to: '/admin/colecoes', label: 'Coleções e capas', icon: 'colecoes', match: p => p.startsWith('/admin/colecoes') },
-      { to: '/admin/kit', label: 'Kit de Execução', icon: 'kit', match: p => p.startsWith('/admin/kit') },
-    ],
-  },
-  {
-    section: 'Mentoria',
-    items: [
-      { to: '/admin/mentoria', label: 'Aplicações', icon: 'mentoria', match: p => p.startsWith('/admin/mentoria') },
-    ],
-  },
-]
-
 export default function AdminLayout() {
   const { profile, signOut } = useAuth()
   const { pathname } = useLocation()
+  const [open, setOpen] = useState({}) // produtos abertos no menu (além do atual)
 
   return (
     <div className="adm">
@@ -53,21 +32,62 @@ export default function AdminLayout() {
         </div>
 
         <nav className="adm-side__nav">
-          {NAV.map(group => (
-            <div key={group.section} className="adm-side__group">
-              <span className="adm-side__group-label">{group.section}</span>
-              {group.items.map(item => (
-                <NavLink
-                  key={item.to}
-                  to={item.to}
-                  className={`adm-side__link ${item.match(pathname) ? 'is-active' : ''}`}
-                >
-                  {ICONS[item.icon]}
-                  <span>{item.label}</span>
-                </NavLink>
-              ))}
-            </div>
-          ))}
+          <div className="adm-side__group">
+            <span className="adm-side__group-label">Geral</span>
+            <NavLink to="/admin" end className={({ isActive }) => `adm-side__link ${isActive ? 'is-active' : ''}`}>
+              {ICONS.painel}
+              <span>Painel</span>
+            </NavLink>
+          </div>
+
+          {/* Produtos: cada um abre as próprias seções embaixo, como subcategorias */}
+          <div className="adm-side__group">
+            <span className="adm-side__group-label">Produtos</span>
+            <NavLink to="/admin/produtos" end className={({ isActive }) => `adm-side__link ${isActive ? 'is-active' : ''}`}>
+              {ICONS.produtos}
+              <span>Todos os produtos</span>
+            </NavLink>
+            {Object.values(PRODUCTS).map(product => {
+              const base = `/admin/produtos/${product.slug}`
+              const inside = pathname.startsWith(base) || (product.slug === 'acervo' && pathname.startsWith('/admin/ads'))
+              const isOpen = open[product.slug] ?? inside
+              return (
+                <div key={product.slug} className={`adm-side__product ${isOpen ? 'is-open' : ''}`}>
+                  <button
+                    type="button"
+                    className={`adm-side__link adm-side__product-btn ${inside ? 'is-inside' : ''}`}
+                    onClick={() => setOpen(o => ({ ...o, [product.slug]: !isOpen }))}
+                    aria-expanded={isOpen}
+                  >
+                    <span className="adm-side__dot" style={{ background: product.gradient }} />
+                    <span>{product.title}</span>
+                    <i className="adm-side__chevron">{ICONS.chevron}</i>
+                  </button>
+                  {isOpen && (
+                    <div className="adm-side__sub">
+                      {product.tabs.map(t => (
+                        <NavLink
+                          key={t.to}
+                          to={`${base}/${t.to}`}
+                          className={({ isActive }) => `adm-side__sublink ${isActive ? 'is-active' : ''}`}
+                        >
+                          {t.label}
+                        </NavLink>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              )
+            })}
+          </div>
+
+          <div className="adm-side__group">
+            <span className="adm-side__group-label">Mentoria</span>
+            <NavLink to="/admin/mentoria" className={({ isActive }) => `adm-side__link ${isActive ? 'is-active' : ''}`}>
+              {ICONS.mentoria}
+              <span>Aplicações</span>
+            </NavLink>
+          </div>
         </nav>
 
         <div className="adm-side__footer">

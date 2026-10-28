@@ -31,6 +31,47 @@
   font-weight: 600;
 }
 
+/* ── Números rápidos ── */
+
+.admin-dash__numbers {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  gap: 14px;
+  margin-bottom: 24px;
+}
+
+.admin-dash__num {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 18px 20px;
+  background: var(--a-surface);
+  border: 1px solid var(--a-line-soft);
+  border-radius: var(--a-r-lg);
+  box-shadow: var(--a-shadow);
+  color: inherit;
+  text-decoration: none;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.admin-dash__num:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 28px rgba(76, 54, 45, 0.1);
+}
+
+.admin-dash__num strong {
+  font-size: 2.1rem;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1;
+  color: var(--a-ink);
+}
+
+.admin-dash__num span {
+  font-size: 0.92rem;
+  color: var(--a-ink-3);
+}
+
 /* ── Cards de área ── */
 
 .admin-dash__areas {
@@ -60,6 +101,10 @@
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.25),
     0 28px 60px -20px rgba(76, 54, 45, 0.5);
+}
+
+.area-card--alunas {
+  background: linear-gradient(145deg, #0C4747 0%, #1A6868 55%, #3F7A66 100%);
 }
 
 .area-card--produtos {
@@ -157,6 +202,56 @@
   font-size: 1rem;
   font-weight: 700;
 }
+
+/* ── Eventos ── */
+
+.admin-dash__events {
+  margin-top: 24px;
+  padding: 22px 24px;
+}
+
+.admin-dash__events-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.admin-dash__events h2 {
+  font-size: 1.15rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.admin-dash__events-head a {
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: var(--a-accent);
+  text-decoration: none;
+}
+
+.admin-dash__events ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.admin-dash__events li {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 9px 0;
+  border-top: 1px solid var(--a-line-soft);
+  font-size: 0.92rem;
+}
+
+.admin-dash__ev-hora { color: var(--a-ink-3); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.admin-dash__ev { font-weight: 600; }
+.admin-dash__ev--purchase_approved { color: var(--a-ok); }
+.admin-dash__ev--refund, .admin-dash__ev--chargeback, .admin-dash__ev--purchase_refused { color: var(--a-danger); }
+.admin-dash__ev--pix_gerado, .admin-dash__ev--checkout_abandonment { color: var(--a-accent); }
+.admin-dash__ev-ref { color: var(--a-ink-3); font-family: var(--font-mono); font-size: 0.82rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 
 @media (max-width: 640px) {
   .admin-dash__hello h1 {

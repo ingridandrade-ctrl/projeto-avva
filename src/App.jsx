@@ -12,6 +12,9 @@ import FormFlora from './pages/FormFlora'
 const AdminLayout = lazy(() => import('./components/layout/AdminLayout'))
 const AdminDashboard = lazy(() => import('./pages/admin/AdminDashboard'))
 const AdminProducts = lazy(() => import('./pages/admin/AdminProducts'))
+const AdminAlunas = lazy(() => import('./pages/admin/AdminAlunas'))
+const AdminProductHub = lazy(() => import('./pages/admin/AdminProductHub'))
+const AdminProductIndex = lazy(() => import('./pages/admin/AdminProductHub').then(m => ({ default: m.AdminProductIndex })))
 const AdminAdsList = lazy(() => import('./pages/admin/AdminAdsList'))
 const AdminAdForm = lazy(() => import('./pages/admin/AdminAdForm'))
 const AdminKit = lazy(() => import('./pages/admin/AdminKit'))
@@ -102,11 +105,24 @@ export default function App() {
             >
               <Route path="/admin" element={<AdminDashboard />} />
               <Route path="/admin/produtos" element={<AdminProducts />} />
-              <Route path="/admin/colecoes" element={<AdminCollections />} />
-              <Route path="/admin/ads" element={<AdminAdsList />} />
-              <Route path="/admin/ads/new" element={<AdminAdForm />} />
-              <Route path="/admin/ads/:id/edit" element={<AdminAdForm />} />
-              <Route path="/admin/kit" element={<AdminKit />} />
+
+              {/* Cada produto tem a própria casa: alunas, conteúdo e capas */}
+              <Route path="/admin/produtos/:slug" element={<AdminProductHub />}>
+                <Route index element={<AdminProductIndex />} />
+                <Route path="alunas" element={<AdminAlunas />} />
+                <Route path="anuncios" element={<AdminAdsList />} />
+                <Route path="anuncios/novo" element={<AdminAdForm />} />
+                <Route path="anuncios/:id/editar" element={<AdminAdForm />} />
+                <Route path="colecoes" element={<AdminCollections />} />
+                <Route path="itens" element={<AdminKit />} />
+              </Route>
+
+              {/* Endereços antigos */}
+              <Route path="/admin/alunas" element={<Navigate to="/admin/produtos/acervo/alunas" replace />} />
+              <Route path="/admin/ads" element={<Navigate to="/admin/produtos/acervo/anuncios" replace />} />
+              <Route path="/admin/ads/new" element={<Navigate to="/admin/produtos/acervo/anuncios/novo" replace />} />
+              <Route path="/admin/colecoes" element={<Navigate to="/admin/produtos/acervo/colecoes" replace />} />
+              <Route path="/admin/kit" element={<Navigate to="/admin/produtos/kit/itens" replace />} />
               <Route path="/admin/mentoria" element={<Dashboard embedded />} />
             </Route>
 

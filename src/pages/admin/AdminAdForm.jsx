@@ -109,7 +109,7 @@ export default function AdminAdForm() {
       window.scrollTo({ top: 0, behavior: 'smooth' })
     } else {
       setFeedback({ type: 'success', msg: 'Anúncio criado!' })
-      setTimeout(() => navigate('/admin/ads'), 1000)
+      setTimeout(() => navigate('/admin/produtos/acervo/anuncios'), 1000)
     }
   }
 
@@ -120,7 +120,7 @@ export default function AdminAdForm() {
 
   return (
     <div className="admin-ad-form">
-      <Link to="/admin/ads" className="admin-ad-form__back">← Anúncios</Link>
+      <Link to="/admin/produtos/acervo/anuncios" className="admin-ad-form__back">← Anúncios</Link>
       <div className="adm-page-header">
         <div>
           <span className="adm-eyebrow">Acervo de Anúncios</span>
@@ -273,7 +273,7 @@ export default function AdminAdForm() {
               Salvar e criar próximo
             </button>
           )}
-          <button type="button" className="adm-btn adm-btn--ghost" onClick={() => navigate('/admin/ads')}>
+          <button type="button" className="adm-btn adm-btn--ghost" onClick={() => navigate('/admin/produtos/acervo/anuncios')}>
             Cancelar
           </button>
         </div>

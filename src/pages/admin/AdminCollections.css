@@ -114,3 +114,19 @@
 .admin-collection__delete {
   margin-left: auto;
 }
+
+.admin-collection__head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.admin-collection__featured {
+  padding: 4px 10px;
+  border-radius: 100px;
+  background: var(--a-accent-soft);
+  color: var(--a-accent);
+  font-size: 0.8rem;
+  font-weight: 700;
+}
