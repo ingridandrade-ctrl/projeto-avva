@@ -246,6 +246,51 @@
 .phone-card--sm .phone-card__media { border-radius: 16px; }
 .phone-card--sm .phone-card__badge, .phone-card--sm .phone-card__seen { top: 10px; }
 
+/* ── Texto embaixo (a capa é o destaque) ── */
+
+.phone-card--captioned {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.phone-card__caption {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 0 4px;
+  color: var(--umber);
+}
+
+.phone-card__caption-kicker {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--terracotta);
+  margin-bottom: 2px;
+}
+
+.phone-card__caption-title {
+  font-size: 1.15rem;
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.015em;
+}
+
+.phone-card__caption-subtitle {
+  font-size: 0.95rem;
+  line-height: 1.35;
+  color: rgba(76, 54, 45, 0.7);
+}
+
+.phone-card__caption-meta {
+  margin-top: 4px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: rgba(76, 54, 45, 0.5);
+}
+
 @media (max-width: 640px) {
   .phone-card__media { border-radius: 18px; }
   .phone-card__text { left: 14px; right: 14px; bottom: 14px; }

@@ -104,6 +104,7 @@ export default function ProductPage() {
         meta={`${n} ${n === 1 ? 'anúncio' : 'anúncios'}`}
         fallbackGradient={style.gradient}
         fallbackLabel={col.is_bonus ? '★' : style.kind === 'fixa' ? String(col.order).padStart(2, '0') : ''}
+        textBelow
         className="module-card"
         style={{ animationDelay: `${index * 0.06}s` }}
       />
