@@ -8,8 +8,7 @@ import './AcervoPage.css'
 // do Instagram). Tudo que muda com a oferta fica aqui em cima.
 // ══════════════════════════════════════════════════════════════
 const OFERTA = {
-  // AJUSTAR: link de checkout do Acervo (Cakto)
-  checkoutUrl: 'https://SEU_LINK_DE_CHECKOUT',
+  checkoutUrl: 'https://pay.cakto.com.br/kcpowk4',
   precoDe: 'R$ 147',   // valor cheio, aparece riscado acima do preço ('' esconde)
   preco: 'R$ 87',
   parcelas: '',        // AJUSTAR: parcelamento do checkout, ex.: 'ou 9x de R$ 11,38' ('' esconde)

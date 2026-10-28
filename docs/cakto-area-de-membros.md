@@ -13,7 +13,7 @@ A aluna compra na Cakto e cai em três lugares que apontam pro mesmo destino: o 
 - Título: `Seu acervo está liberado`
 - Subtítulo: `Assista ao vídeo de 1 minuto e entre com o e-mail da compra`
 - Botão do banner: texto `Entrar no acervo`, URL `https://metodoavva.com/login`
-- Configurações, Geral: nome `Acervo de Anúncios`, slug `acervo-de-anuncios`, e-mail de suporte `acervo@metodoavva.com`
+- Configurações, Geral: nome `Acervo de Anúncios`, slug `acervo-de-anuncios`, e-mail de suporte `suporte@metodoavva.com`
 - Recursos: comentários desligados, vitrine desligada, total de alunos desligado
 
 **Estrutura do conteúdo (um módulo, duas aulas, as duas publicadas):**
@@ -53,7 +53,7 @@ Módulo `Como acessar o kit`, uma aula `Onde fica o kit` (texto):
 ## Os dois e-mails
 
 1. **E-mail da Cakto (automático, pagamento confirmado).** Traz o link de acesso configurado no produto (`metodoavva.com/login`), os dados do pedido e o acesso à Cakto Members. Não dá pra mudar o texto.
-2. **E-mail de boas-vindas do AVVA (nosso, via Resend).** Sai do webhook assim que a compra é aprovada: saudação pelo nome, três passos pra entrar, botão "Entrar no acervo" e aviso do Kit quando ela levou. Remetente `acervo@metodoavva.com`.
+2. **E-mail de boas-vindas do AVVA (nosso, via Resend).** Sai do webhook assim que a compra é aprovada: saudação pelo nome, três passos pra entrar, botão "Entrar no acervo" e aviso do Kit quando ela levou. Remetente `suporte@metodoavva.com`.
 
 ## Redes de segurança, em ordem
 

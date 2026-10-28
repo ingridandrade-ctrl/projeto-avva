@@ -16,7 +16,7 @@
 //   CAKTO_KIT_PRODUCT_ID   id do produto "Kit de Execução" na Cakto (opcional:
 //                          sem ele, o kit é reconhecido pelo nome do produto)
 //   RESEND_API_KEY         chave do Resend (sem ela, o e-mail de boas-vindas é pulado)
-//   ACERVO_FROM            remetente, ex.: "Acervo de Anúncios <acervo@metodoavva.com>"
+//   ACERVO_FROM            remetente, ex.: "Acervo de Anúncios <suporte@metodoavva.com>"
 import crypto from 'node:crypto'
 import { createClient } from '@supabase/supabase-js'
 
@@ -73,7 +73,7 @@ async function sendWelcomeEmail({ email, name, hasKit }) {
   const apiKey = process.env.RESEND_API_KEY
   if (!apiKey) return { skipped: true }
 
-  const from = process.env.ACERVO_FROM || 'Acervo de Anúncios <acervo@metodoavva.com>'
+  const from = process.env.ACERVO_FROM || 'Acervo de Anúncios <suporte@metodoavva.com>'
   const primeiroNome = (name || '').trim().split(/\s+/)[0] || ''
   const saudacao = primeiroNome ? `Oi, ${esc(primeiroNome)}!` : 'Oi!'
 
