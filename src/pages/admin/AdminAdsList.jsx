@@ -1,9 +1,24 @@
 import { useEffect, useState } from 'react'
-import { Link, useSearchParams } from 'react-router-dom'
+import { Link, useNavigate, useSearchParams } from 'react-router-dom'
 import { supabase } from '../../lib/supabase'
-import { NICHE_LABELS, MEDIA_LABELS, OBJECTIVE_LABELS, OBJECTIVES } from '../../lib/catalog'
+import { NICHE_LABELS, MEDIA_LABELS, OBJECTIVE_LABELS, OBJECTIVES, NICHES, MEDIA_TYPES } from '../../lib/catalog'
+import { driveThumb } from '../../lib/drive'
 import Tag from '../../components/ui/Tag'
 import './AdminAdsList.css'
+
+// Miniatura da capa. Se o Drive não entregar a imagem (arquivo privado ou
+// link errado), avisa aqui, antes que a aluna veja um card vazio.
+function CoverCheck({ ad }) {
+  const [state, setState] = useState('loading')
+  const src = driveThumb(ad.drive_url, 200)
+  if (!src) return <span className="admin-cover admin-cover--none" title="Sem link do Drive">sem link</span>
+  return (
+    <span className={`admin-cover admin-cover--${state}`} title={state === 'error' ? 'A capa não carrega: confira se o arquivo do Drive está com acesso "Qualquer pessoa com o link"' : ''}>
+      <img src={src} alt="" loading="lazy" onLoad={() => setState('ok')} onError={() => setState('error')} />
+      {state === 'error' && <b>!</b>}
+    </span>
+  )
+}
 
 export default function AdminAdsList() {
   const [params] = useSearchParams()
@@ -12,7 +27,10 @@ export default function AdminAdsList() {
   const [collections, setCollections] = useState([])
   const [selectedCollection, setSelectedCollection] = useState(collectionFilter || '')
   const [search, setSearch] = useState('')
+  const [niche, setNiche] = useState('')
+  const [media, setMedia] = useState('')
   const [loading, setLoading] = useState(true)
+  const navigate = useNavigate()
 
   useEffect(() => {
     supabase.from('collections').select('*').order('order').then(({ data }) => {
@@ -48,15 +66,42 @@ export default function AdminAdsList() {
     loadAds()
   }
 
+  // Cópia desativada, pra ajustar e ligar depois (ex.: o mesmo anúncio em
+  // "Melhores do mês" e numa coleção por objetivo)
+  async function duplicate(ad) {
+    const { data, error } = await supabase
+      .from('ads')
+      .insert({
+        title: `${ad.title} (cópia)`,
+        collection_id: ad.collection_id,
+        niches: ad.niches || [],
+        objectives: ad.objectives || [],
+        media_type: ad.media_type,
+        drive_url: ad.drive_url,
+        analysis: ad.analysis,
+        active: false,
+      })
+      .select('id')
+      .single()
+    if (error || !data) {
+      window.alert(`Não consegui duplicar: ${error?.message || 'erro'}`)
+      return
+    }
+    navigate(`/admin/ads/${data.id}/edit`)
+  }
+
   async function toggleActive(ad) {
     await supabase.from('ads').update({ active: !ad.active }).eq('id', ad.id)
     loadAds()
   }
 
   const term = search.trim().toLowerCase()
-  const visible = term
-    ? ads.filter(a => `${a.title} ${a.analysis || ''}`.toLowerCase().includes(term))
-    : ads
+  const visible = ads.filter(a => {
+    if (niche && !(a.niches || []).includes(niche)) return false
+    if (media && a.media_type !== media) return false
+    if (term && !`${a.title} ${a.analysis || ''}`.toLowerCase().includes(term)) return false
+    return true
+  })
 
   return (
     <div className="admin-ads">
@@ -91,6 +136,14 @@ export default function AdminAdsList() {
             </option>
           ))}
         </select>
+        <select value={niche} onChange={e => setNiche(e.target.value)} className="admin-select">
+          <option value="">Todos os nichos</option>
+          {NICHES.map(n => <option key={n.value} value={n.value}>{n.label}</option>)}
+        </select>
+        <select value={media} onChange={e => setMedia(e.target.value)} className="admin-select">
+          <option value="">Toda mídia</option>
+          {MEDIA_TYPES.map(m => <option key={m.value} value={m.value}>{m.label}</option>)}
+        </select>
         <span className="admin-ads__count">
           {visible.length} {visible.length === 1 ? 'anúncio' : 'anúncios'}
         </span>
@@ -114,6 +167,7 @@ export default function AdminAdsList() {
           <table className="admin-table">
             <thead>
               <tr>
+                <th>Capa</th>
                 <th>Título</th>
                 <th>Coleção</th>
                 <th>Objetivos</th>
@@ -126,6 +180,7 @@ export default function AdminAdsList() {
             <tbody>
               {visible.map(ad => (
                 <tr key={ad.id} className={!ad.active ? 'admin-table__row--inactive' : ''}>
+                  <td><CoverCheck ad={ad} /></td>
                   <td className="admin-table__title">{ad.title}</td>
                   <td>{ad.collections?.title || '—'}</td>
                   <td>
@@ -154,15 +209,15 @@ export default function AdminAdsList() {
                     </button>
                   </td>
                   <td>
-                    <div className="admin-table__actions">
-                      <Link to={`/admin/ads/${ad.id}/edit`} className="admin-btn-sm">
-                        Editar
+                    <div className="admin-table__actions admin-ads__actions">
+                      <Link to={`/admin/ads/${ad.id}/edit`} className="admin-ads__icon" title="Editar" aria-label="Editar">
+                        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4 12.5-12.5z"/></svg>
                       </Link>
-                      <button
-                        className="admin-btn-sm admin-btn-sm--danger"
-                        onClick={() => handleDelete(ad)}
-                      >
-                        Deletar
+                      <button className="admin-ads__icon" onClick={() => duplicate(ad)} title="Duplicar (cria uma cópia desativada pra você ajustar)" aria-label="Duplicar">
+                        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                      </button>
+                      <button className="admin-ads__icon admin-ads__icon--danger" onClick={() => handleDelete(ad)} title="Deletar" aria-label="Deletar">
+                        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>
                       </button>
                     </div>
                   </td>

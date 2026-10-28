@@ -56,7 +56,8 @@
   align-items: center;
   gap: 12px;
   padding: 22px 20px;
-  border-bottom: 1px solid var(--a-line-soft);
+  background: linear-gradient(135deg, #0C4747 0%, #0e3d3d 100%);
+  color: #fff;
 }
 
 .adm-side__logo {
@@ -65,7 +66,8 @@
   display: grid;
   place-items: center;
   border-radius: 12px;
-  background: linear-gradient(135deg, var(--a-teal), var(--a-accent));
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.16);
   color: #fff;
   font-size: 1.15rem;
   font-weight: 700;
@@ -79,10 +81,12 @@
   letter-spacing: -0.01em;
 }
 
-.adm-side__brand span {
+.adm-side__brand div > span {
   display: block;
-  font-size: 0.85rem;
-  color: var(--a-ink-3);
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.5);
 }
 
 .adm-side__nav {

@@ -12,6 +12,7 @@ import FormFlora from './pages/FormFlora'
 const AdminLayout = lazy(() => import('./components/layout/AdminLayout'))
 const AdminDashboard = lazy(() => import('./pages/admin/AdminDashboard'))
 const AdminProducts = lazy(() => import('./pages/admin/AdminProducts'))
+const AdminAlunas = lazy(() => import('./pages/admin/AdminAlunas'))
 const AdminAdsList = lazy(() => import('./pages/admin/AdminAdsList'))
 const AdminAdForm = lazy(() => import('./pages/admin/AdminAdForm'))
 const AdminKit = lazy(() => import('./pages/admin/AdminKit'))
@@ -101,6 +102,7 @@ export default function App() {
               }
             >
               <Route path="/admin" element={<AdminDashboard />} />
+              <Route path="/admin/alunas" element={<AdminAlunas />} />
               <Route path="/admin/produtos" element={<AdminProducts />} />
               <Route path="/admin/colecoes" element={<AdminCollections />} />
               <Route path="/admin/ads" element={<AdminAdsList />} />

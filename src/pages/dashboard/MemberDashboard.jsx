@@ -44,8 +44,11 @@ export default function MemberDashboard() {
     load()
   }, [])
 
-  // Destaque = a coleção "Melhores de <mês>" mais recente (automático)
+  // Destaque = a coleção marcada no admin ou, sem nenhuma, a "Melhores de
+  // <mês>" mais recente (automático)
   const featured = useMemo(() => {
+    const chosen = collections.find(c => c.featured)
+    if (chosen) return chosen
     const months = collections.filter(c => getCollectionStyle(c.slug).kind === 'melhores')
     const extras = collections.filter(c => getCollectionStyle(c.slug).kind !== 'fixa')
     return months[months.length - 1] || extras[extras.length - 1] || null

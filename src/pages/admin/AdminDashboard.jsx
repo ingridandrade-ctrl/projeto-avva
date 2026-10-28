@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { supabase } from '../../lib/supabase'
 import { useAuth } from '../../hooks/useAuth'
+import { adminApi, EVENT_LABELS } from '../../lib/adminApi'
 import './AdminDashboard.css'
 
 const TZ = 'America/Sao_Paulo'
@@ -28,6 +29,7 @@ export default function AdminDashboard() {
   const [kitCount, setKitCount] = useState(null)
   const [novas, setNovas] = useState(null)
   const [totalAplicacoes, setTotalAplicacoes] = useState(null)
+  const [alunas, setAlunas] = useState(null)
 
   useEffect(() => {
     async function load() {
@@ -45,6 +47,12 @@ export default function AdminDashboard() {
     load()
   }, [])
 
+  // Números das alunas vêm do servidor (o navegador não enxerga outras contas)
+  useEffect(() => {
+    if (!session) return
+    Promise.resolve().then(() => adminApi(session, 'list')).then(out => { if (!out.error) setAlunas(out) })
+  }, [session])
+
   const nome = profile?.name?.split(' ')[0] || 'Admin'
   const email = profile?.email || session?.user?.email || ''
   const n = v => (v === null ? '…' : v)
@@ -59,7 +67,42 @@ export default function AdminDashboard() {
         </p>
       </header>
 
+      <section className="admin-dash__numbers">
+        <Link to="/admin/alunas" className="admin-dash__num">
+          <strong>{n(alunas?.stats.hoje)}</strong>
+          <span>alunas hoje</span>
+        </Link>
+        <Link to="/admin/alunas" className="admin-dash__num">
+          <strong>{n(alunas?.stats.semana)}</strong>
+          <span>nos últimos 7 dias</span>
+        </Link>
+        <Link to="/admin/alunas" className="admin-dash__num">
+          <strong>{n(alunas?.stats.mes)}</strong>
+          <span>nos últimos 30 dias</span>
+        </Link>
+        <Link to="/admin/alunas" className="admin-dash__num">
+          <strong>{n(alunas?.stats.total)}</strong>
+          <span>alunas no total</span>
+        </Link>
+      </section>
+
       <div className="admin-dash__areas">
+        <Link to="/admin/alunas" className="area-card area-card--alunas">
+          <div className="area-card__top">
+            <span className="area-card__icon">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            </span>
+            {alunas?.stats.bloqueadas > 0 && <span className="area-card__badge area-card__badge--alert">{alunas.stats.bloqueadas} {alunas.stats.bloqueadas === 1 ? 'bloqueada' : 'bloqueadas'}</span>}
+          </div>
+          <h2>Alunas</h2>
+          <p>Quem comprou, quem tem o Kit, bloqueios, reenvio do e-mail de acesso e liberação na mão.</p>
+          <div className="area-card__stats">
+            <span><strong>{n(alunas?.stats.total)}</strong> com acesso</span>
+            <span><strong>{n(alunas?.stats.comKit)}</strong> com o Kit</span>
+          </div>
+          <span className="area-card__cta">Ver alunas →</span>
+        </Link>
+
         <Link to="/admin/produtos" className="area-card area-card--produtos">
           <div className="area-card__top">
             <span className="area-card__icon">
@@ -92,6 +135,24 @@ export default function AdminDashboard() {
           <span className="area-card__cta">Ver aplicações →</span>
         </Link>
       </div>
+
+      {alunas?.events?.length > 0 && (
+        <section className="adm-card admin-dash__events">
+          <div className="admin-dash__events-head">
+            <h2>Últimos eventos da Cakto</h2>
+            <Link to="/admin/alunas">Ver alunas →</Link>
+          </div>
+          <ul>
+            {alunas.events.slice(0, 8).map(e => (
+              <li key={`${e.event}:${e.ref}:${e.at}`}>
+                <span className="admin-dash__ev-hora">{new Intl.DateTimeFormat('pt-BR', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit', timeZone: TZ }).format(new Date(e.at))}</span>
+                <span className={`admin-dash__ev admin-dash__ev--${e.event}`}>{EVENT_LABELS[e.event] || e.event}</span>
+                <span className="admin-dash__ev-ref">{e.ref}</span>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
     </div>
   )
 }

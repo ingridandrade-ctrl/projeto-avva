@@ -157,6 +157,26 @@ export default function AdminCollections() {
     load()
   }
 
+  // Escolhe qual coleção a home das alunas destaca no banner. Sem nenhuma
+  // marcada, vale a regra de sempre: o "Melhores do mês" mais recente.
+  async function feature(col, on) {
+    setSaving(col.id)
+    setFeedback(f => ({ ...f, [col.id]: null }))
+    let error = null
+    if (on) ({ error } = await supabase.from('collections').update({ featured: false }).neq('id', col.id))
+    if (!error) ({ error } = await supabase.from('collections').update({ featured: on }).eq('id', col.id))
+    setSaving(null)
+    if (error) {
+      const msg = /featured|column/i.test(error.message)
+        ? 'Falta rodar o arquivo supabase-migration-destaque.sql no Supabase.'
+        : error.message
+      setFeedback(f => ({ ...f, [col.id]: { type: 'error', msg } }))
+      return
+    }
+    setFeedback(f => ({ ...f, [col.id]: { type: 'ok', msg: on ? 'Esta coleção agora é o destaque da home.' : 'Voltou pro automático (mês mais recente).' } }))
+    load()
+  }
+
   // Apaga a coleção. Os anúncios ligados a ela continuam no acervo, só
   // perdem o vínculo (a chave estrangeira não deixa apagar com anúncios presos).
   // As seis coleções por objetivo e o bônus são fixas e não têm esse botão.
@@ -269,6 +289,7 @@ export default function AdminCollections() {
                 <div className="admin-collection__form">
                   <div className="admin-collection__head">
                     <span className="adm-eyebrow">{kind}</span>
+                    {col.featured && <span className="admin-collection__featured">★ Destaque da home</span>}
                   </div>
 
                   <div className="admin-form__field">
@@ -315,6 +336,16 @@ export default function AdminCollections() {
                       </button>
                     )}
                     {fb && <span className={`admin-collection__fb admin-collection__fb--${fb.type}`}>{fb.msg}</span>}
+                    {style.kind !== 'fixa' && !col.is_bonus && (
+                      <button
+                        type="button"
+                        className="adm-btn adm-btn--secondary"
+                        disabled={saving === col.id}
+                        onClick={() => feature(col, !col.featured)}
+                      >
+                        {col.featured ? 'Tirar do destaque' : 'Destacar na home'}
+                      </button>
+                    )}
                     {style.kind !== 'fixa' && !col.is_bonus && (
                       <button
                         type="button"
