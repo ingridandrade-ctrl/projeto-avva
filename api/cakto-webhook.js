@@ -131,10 +131,7 @@ async function sendWelcomeEmail({ email, name, hasKit }) {
         <div style="text-align:center;margin:18px 0 8px">
           <a href="${WHATS_URL}" style="display:inline-block;padding:13px 26px;background:#0C4747;color:#ffffff;text-decoration:none;border-radius:100px;font-weight:700;font-size:15px">Chamar no WhatsApp</a>
         </div>
-        <p style="margin:24px 0 24px;font-size:15px;line-height:1.6;color:#6b5a52">Te vemos lá dentro,<br />${b('Equipe Acervo de Anúncios · Método AVVA')}</p>
-      </div>
-      <div style="padding:18px 32px;border-top:1px solid #eee7df;font-size:12px;line-height:1.6;color:#8a7a72">
-        Você tem <strong>7 dias de garantia</strong>. Se não fizer sentido pra você, peça o reembolso e receba 100% de volta.
+        <p style="margin:24px 0 28px;font-size:15px;line-height:1.6;color:#6b5a52">Te vemos lá dentro,<br />${b('Equipe Acervo de Anúncios · Método AVVA')}</p>
       </div>
     </div>
   </div>`
@@ -156,8 +153,6 @@ async function sendWelcomeEmail({ email, name, hasKit }) {
     '',
     'Te vemos lá dentro,',
     'Equipe Acervo de Anúncios · Método AVVA',
-    '',
-    'Você tem 7 dias de garantia. Se não fizer sentido pra você, peça o reembolso e receba 100% de volta.',
   ].join('\n')
 
   const r = await fetch('https://api.resend.com/emails', {
