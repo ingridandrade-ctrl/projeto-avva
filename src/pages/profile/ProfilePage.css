@@ -10,7 +10,7 @@
   width: 72px;
   height: 72px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #0C4747, #1A6868, #A85C35);
+  background: linear-gradient(135deg, #0C4747, #1A6868, #965E41);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -76,7 +76,7 @@
 .profile-form__field input:focus {
   outline: none;
   border-color: var(--terracotta);
-  box-shadow: 0 0 0 4px rgba(168, 92, 53, 0.1);
+  box-shadow: 0 0 0 4px rgba(150, 94, 65, 0.1);
   transform: translateY(-1px);
 }
 

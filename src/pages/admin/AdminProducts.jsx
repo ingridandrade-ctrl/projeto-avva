@@ -41,7 +41,7 @@ export default function AdminProducts() {
       countLabel: 'itens',
       link: '/admin/kit',
       action: 'Gerenciar kit',
-      gradient: 'linear-gradient(135deg, #A85C35 0%, #C98A5E 55%, #D4B99A 100%)',
+      gradient: 'linear-gradient(135deg, #965E41 0%, #C98A5E 55%, #D4B99A 100%)',
     },
   ]
 

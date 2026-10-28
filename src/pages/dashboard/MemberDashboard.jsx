@@ -91,8 +91,9 @@ export default function MemberDashboard() {
       title: 'Kit de Execução',
       description: 'Ganchos prontos, estruturas narrativas e prompts de IA pra você sair do anúncio direto pra execução, sem travar na folha em branco.',
       meta: kitCount === null ? null : `${kitCount} itens prontos`,
-      gradient: 'linear-gradient(135deg, #A85C35 0%, #C98A5E 55%, #D4B99A 100%)',
+      gradient: 'linear-gradient(135deg, #965E41 0%, #C98A5E 55%, #D4B99A 100%)',
       owned: hasKit,
+      comingSoon: !hasKit,
     },
   ]
 
@@ -174,7 +175,14 @@ export default function MemberDashboard() {
                 <div className={`product-card__visual ${p.product ? 'product-card__visual--product' : ''}`} style={{ background: p.gradient }}>
                   {p.cover && <img src={p.cover} alt="" loading="lazy" />}
                   {!p.product && <div className="product-card__shade" />}
-                  {!p.owned && (
+                  {p.comingSoon ? (
+                    <span className="product-card__soon">
+                      <span className="product-card__lock product-card__lock--static">
+                        <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                      </span>
+                      <span className="product-card__soon-pill">Em breve</span>
+                    </span>
+                  ) : !p.owned && (
                     <span className="product-card__lock">
                       <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
                     </span>
@@ -195,7 +203,7 @@ export default function MemberDashboard() {
                         Quero desbloquear
                       </a>
                     ) : (
-                      <span className="product-card__locked-label">Disponível para quem tem o Kit</span>
+                      <span className="product-card__locked-label">{p.comingSoon ? 'Em breve pra você' : 'Disponível para quem tem o Kit'}</span>
                     )}
                   </div>
                 </div>

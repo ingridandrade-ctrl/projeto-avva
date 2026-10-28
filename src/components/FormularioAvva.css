@@ -249,7 +249,7 @@
   background: #0b4040;
   background-image:
     radial-gradient(800px 560px at 100% 0%, rgba(26, 104, 104, 0.55), transparent 60%),
-    radial-gradient(600px 460px at -10% 100%, rgba(168, 92, 53, 0.16), transparent 60%),
+    radial-gradient(600px 460px at -10% 100%, rgba(150, 94, 65, 0.16), transparent 60%),
     linear-gradient(180deg, #0C4747 0%, #083232 100%);
   display: flex;
   align-items: center;
@@ -425,7 +425,7 @@
   border: none;
   border-radius: 100px;
   cursor: pointer;
-  box-shadow: 0 1px 2px rgba(76, 54, 45, 0.08), 0 8px 24px rgba(168, 92, 53, 0.22);
+  box-shadow: 0 1px 2px rgba(76, 54, 45, 0.08), 0 8px 24px rgba(150, 94, 65, 0.22);
   transition: background 0.3s var(--fp-ease), transform 0.3s var(--fp-ease), box-shadow 0.3s var(--fp-ease);
   align-self: flex-start;
 }
@@ -433,12 +433,12 @@
 .fp-btn:hover {
   background: #97512e;
   transform: translateY(-1px);
-  box-shadow: 0 1px 2px rgba(76, 54, 45, 0.08), 0 14px 32px rgba(168, 92, 53, 0.30);
+  box-shadow: 0 1px 2px rgba(76, 54, 45, 0.08), 0 14px 32px rgba(150, 94, 65, 0.30);
 }
 
 .fp-btn:active {
   transform: translateY(0) scale(0.98);
-  box-shadow: 0 1px 2px rgba(76, 54, 45, 0.08), 0 6px 16px rgba(168, 92, 53, 0.22);
+  box-shadow: 0 1px 2px rgba(76, 54, 45, 0.08), 0 6px 16px rgba(150, 94, 65, 0.22);
 }
 
 .fp-btn svg {

@@ -63,11 +63,11 @@
 }
 
 .area-card--produtos {
-  background: linear-gradient(145deg, #1A6868 0%, #3F7A66 50%, #A85C35 100%);
+  background: linear-gradient(145deg, #1A6868 0%, #3F7A66 50%, #965E41 100%);
 }
 
 .area-card--mentoria {
-  background: linear-gradient(145deg, #A85C35 0%, #C98A5E 55%, #D4B99A 100%);
+  background: linear-gradient(145deg, #965E41 0%, #C98A5E 55%, #D4B99A 100%);
 }
 
 .area-card::after {

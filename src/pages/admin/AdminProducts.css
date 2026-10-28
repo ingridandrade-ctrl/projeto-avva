@@ -39,7 +39,7 @@
 .admin-product:hover {
   transform: translateY(-4px);
   border-color: rgba(212, 185, 154, 0.6);
-  box-shadow: 0 14px 40px rgba(168, 92, 53, 0.12);
+  box-shadow: 0 14px 40px rgba(150, 94, 65, 0.12);
 }
 
 .admin-product__visual {

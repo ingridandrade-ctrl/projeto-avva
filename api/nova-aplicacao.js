@@ -56,11 +56,11 @@ export default async function handler(req, res) {
           ${linha('E-mail', a.email)}
           ${linha('Instagram', a.instagram)}
         </table>
-        <div style="margin-top:22px;padding:16px 18px;background:#F7F4F0;border-left:3px solid #A85C35;border-radius:10px">
-          <div style="font-size:12px;color:#A85C35;font-weight:600;margin-bottom:6px">O que está travando o crescimento</div>
+        <div style="margin-top:22px;padding:16px 18px;background:#F7F4F0;border-left:3px solid #965E41;border-radius:10px">
+          <div style="font-size:12px;color:#965E41;font-weight:600;margin-bottom:6px">O que está travando o crescimento</div>
           <div style="font-size:14px;line-height:1.6;color:#4C362D;white-space:pre-wrap">${esc(resumo(a.o_que_trava))}</div>
         </div>
-        <a href="${DASHBOARD_URL}" style="display:inline-block;margin-top:24px;padding:14px 24px;background:#A85C35;color:#F7F4F0;text-decoration:none;border-radius:100px;font-weight:600;font-size:15px">Abrir no dashboard →</a>
+        <a href="${DASHBOARD_URL}" style="display:inline-block;margin-top:24px;padding:14px 24px;background:#965E41;color:#F7F4F0;text-decoration:none;border-radius:100px;font-weight:600;font-size:15px">Abrir no dashboard →</a>
       </div>
       <div style="padding:16px 32px;border-top:1px solid #eee7df;font-size:12px;color:#8a7a72">
         Responder este e-mail responde direto para a candidata.

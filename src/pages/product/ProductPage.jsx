@@ -4,7 +4,7 @@ import { supabase } from '../../lib/supabase'
 import { useAuth } from '../../hooks/useAuth'
 import { useFavorites } from '../../hooks/useFavorites'
 import { useActivity } from '../../hooks/useActivity'
-import { getCollectionStyle, belongsTo } from '../../lib/catalog'
+import { getCollectionStyle, getCollection, belongsTo } from '../../lib/catalog'
 import { collectionCover } from '../../lib/drive'
 import PhoneCard from '../../components/ui/PhoneCard'
 import Row from '../../components/ui/Row'
@@ -16,12 +16,12 @@ const PRODUCTS = {
   'acervo-anuncios': {
     title: 'Acervo de Anúncios',
     description: 'Sua biblioteca de anúncios que funcionam, organizados por objetivo — do primeiro contato até a venda.',
-    gradient: 'linear-gradient(135deg, #1A6868 0%, #3F7A66 45%, #A85C35 100%)',
+    gradient: 'linear-gradient(135deg, #1A6868 0%, #3F7A66 45%, #965E41 100%)',
   },
   'kit-execucao': {
     title: 'Kit de Execução',
     description: 'Ganchos, estruturas narrativas e prompts de IA prontos para você usar.',
-    gradient: 'linear-gradient(135deg, #4C362D 0%, #A85C35 50%, #D4B99A 100%)',
+    gradient: 'linear-gradient(135deg, #4C362D 0%, #965E41 50%, #D4B99A 100%)',
     requiresOrderBump: true,
   },
 }
@@ -99,6 +99,7 @@ export default function ProductPage() {
         to={`/colecao/${col.slug}`}
         image={collectionCover(col, ads, 900)}
         title={col.title}
+        subtitle={col.subtitle || getCollection(col.slug)?.subtitle || ''}
         kicker={kicker}
         meta={`${n} ${n === 1 ? 'anúncio' : 'anúncios'}`}
         fallbackGradient={style.gradient}

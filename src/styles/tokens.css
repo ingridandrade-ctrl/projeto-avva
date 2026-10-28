@@ -4,7 +4,7 @@
   --teal-profundo: #0C4747;
   --teal-medio: #1A6868;
   --umber: #4C362D;
-  --terracotta: #A85C35;
+  --terracotta: #965E41;
   --amendoado: #D4B99A;
   --off-white: #F7F4F0;
 
@@ -72,7 +72,7 @@ a {
 }
 
 ::selection {
-  background: rgba(168, 92, 53, 0.15);
+  background: rgba(150, 94, 65, 0.15);
   color: var(--umber);
 }
 

@@ -182,7 +182,7 @@
   border: none;
   border-radius: 20px;
   box-shadow:
-    0 8px 24px rgba(168, 92, 53, 0.45),
+    0 8px 24px rgba(150, 94, 65, 0.45),
     inset 0 1px 0 rgba(255, 255, 255, 0.3);
   animation:
     child-rise 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.3s both,
@@ -309,7 +309,7 @@
   background: rgba(255, 255, 255, 0.12);
   box-shadow:
     0 0 0 4px rgba(212, 185, 154, 0.16),
-    0 4px 18px rgba(168, 92, 53, 0.18);
+    0 4px 18px rgba(150, 94, 65, 0.18);
 }
 
 .login-form__hint {
@@ -384,7 +384,7 @@
     transform 0.25s cubic-bezier(0.16, 1, 0.3, 1),
     box-shadow 0.25s ease,
     background-position 0.5s ease;
-  box-shadow: 0 8px 28px rgba(168, 92, 53, 0.35);
+  box-shadow: 0 8px 28px rgba(150, 94, 65, 0.35);
 }
 
 /* Sheen que varre o botão no hover */
@@ -400,7 +400,7 @@
 
 .login-form__submit:hover:not(:disabled) {
   transform: translateY(-2px);
-  box-shadow: 0 12px 40px rgba(168, 92, 53, 0.5);
+  box-shadow: 0 12px 40px rgba(150, 94, 65, 0.5);
   background-position: 100% 50%;
 }
 

@@ -35,7 +35,7 @@
 
 .ad-card__fav:focus-visible {
   outline: none;
-  box-shadow: 0 0 0 3px rgba(168, 92, 53, 0.28);
+  box-shadow: 0 0 0 3px rgba(150, 94, 65, 0.28);
 }
 
 .ad-card .phone-card__seen {
