@@ -24,7 +24,9 @@ export default function LoginPage() {
       setError(
         error.code === 'email_not_found'
           ? 'Não encontramos esse email. Use o mesmo email da sua compra.'
-          : 'Não foi possível entrar agora. Tente novamente em instantes.'
+          : error.code === 'access_blocked'
+            ? 'Esse acesso foi encerrado após o reembolso. Se foi um engano, responda o e-mail de compra.'
+            : 'Não foi possível entrar agora. Tente novamente em instantes.'
       )
     }
     setSubmitting(false)

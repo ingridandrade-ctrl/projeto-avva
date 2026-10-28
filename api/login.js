@@ -19,12 +19,17 @@ export default async function handler(req, res) {
 
   const { data: user } = await supabase
     .from('users')
-    .select('id')
+    .select('id, access_blocked')
     .eq('email', email)
     .single()
 
   if (!user) {
     return res.status(404).json({ error: 'email_not_found' })
+  }
+
+  // Reembolso ou chargeback: o webhook da Cakto bloqueia o acesso na hora
+  if (user.access_blocked) {
+    return res.status(403).json({ error: 'access_blocked' })
   }
 
   const { data, error } = await supabase.auth.admin.generateLink({
