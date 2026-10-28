@@ -75,10 +75,14 @@ export default function PhoneCard({
   // Texto embaixo da imagem: a capa fica inteira, sem nada por cima
   const caption = textBelow && (
     <div className="phone-card__caption">
-      {kicker && <span className="phone-card__caption-kicker">{kicker}</span>}
+      {(kicker || meta) && (
+        <span className="phone-card__caption-row">
+          {kicker && <span className="phone-card__caption-kicker">{kicker}</span>}
+          {meta && <span className="phone-card__caption-meta">{meta}</span>}
+        </span>
+      )}
       <strong className="phone-card__caption-title">{title}</strong>
       {subtitle && <span className="phone-card__caption-subtitle">{subtitle}</span>}
-      {meta && <span className="phone-card__caption-meta">{meta}</span>}
     </div>
   )
 
