@@ -246,24 +246,34 @@
 .phone-card--sm .phone-card__media { border-radius: 16px; }
 .phone-card--sm .phone-card__badge, .phone-card--sm .phone-card__seen { top: 10px; }
 
-/* ── Texto embaixo (a capa é o destaque) ── */
+/* ── Texto embaixo (a capa é o destaque) ──
+   Vira um card fechado: capa em cima, base branca com o texto. */
 
 .phone-card--captioned {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  background: #fff;
+  border: 1px solid rgba(212, 185, 154, 0.35);
+  border-radius: 22px;
+  overflow: hidden;
+  box-shadow: 0 6px 20px rgba(76, 54, 45, 0.06);
+}
+
+.phone-card--captioned .phone-card__media {
+  border-radius: 0;
+  box-shadow: none;
 }
 
 .phone-card__caption {
   display: flex;
   flex-direction: column;
-  gap: 2px;
-  padding: 0 4px;
+  gap: 3px;
+  padding: 14px 16px 16px;
   color: var(--umber);
 }
 
 .phone-card__caption-kicker {
-  font-size: 0.72rem;
+  font-size: 0.7rem;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.14em;
@@ -272,23 +282,32 @@
 }
 
 .phone-card__caption-title {
-  font-size: 1.15rem;
+  font-size: 1.12rem;
   font-weight: 700;
   line-height: 1.2;
   letter-spacing: -0.015em;
 }
 
 .phone-card__caption-subtitle {
-  font-size: 0.95rem;
+  font-size: 0.93rem;
   line-height: 1.35;
   color: rgba(76, 54, 45, 0.7);
 }
 
 .phone-card__caption-meta {
-  margin-top: 4px;
-  font-size: 0.85rem;
+  margin-top: 6px;
+  font-size: 0.82rem;
   font-weight: 600;
   color: rgba(76, 54, 45, 0.5);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .phone-card--captioned:hover {
+    box-shadow: 0 18px 44px rgba(150, 94, 65, 0.16);
+  }
+  .phone-card--captioned:hover .phone-card__media {
+    box-shadow: none;
+  }
 }
 
 @media (max-width: 640px) {
