@@ -495,7 +495,7 @@ export default function AcervoPage() {
           <ul className="lp-selos" aria-label="Garantias">
             <li>Acesso imediato</li>
             <li>{OFERTA.garantiaDias} dias de garantia</li>
-            <li>Pix, cartão ou boleto</li>
+            <li>Pix ou cartão</li>
             <li>Pagamento seguro</li>
           </ul>
           <div className="lp-garantia">
