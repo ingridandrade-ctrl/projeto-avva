@@ -2,6 +2,11 @@
   min-height: 100vh;
 }
 
+/* Menu recolhido (só ícones) */
+.app-layout--collapsed {
+  --sidebar-width: 76px;
+}
+
 .app-layout__main {
   --page-gutter: 32px;
   --page-top: 36px;
@@ -10,12 +15,18 @@
   padding: var(--page-top) var(--page-gutter);
   min-height: calc(100vh - var(--header-height));
   animation: fadeIn 0.35s ease-out;
+  transition: margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .app-layout__content {
   max-width: 1200px;
   margin: 0 auto;
   animation: slideUp 0.4s ease-out;
+}
+
+/* Na home o banner vai de ponta a ponta; a vitrine se contém sozinha */
+.app-layout__content:has(> .member-dashboard) {
+  max-width: none;
 }
 
 @media (max-width: 1400px) {
@@ -31,6 +42,6 @@
     --page-gutter: 16px;
     --page-top: 20px;
     margin-left: 0;
-    padding: var(--page-top) var(--page-gutter) calc(84px + env(safe-area-inset-bottom));
+    padding: var(--page-top) var(--page-gutter) calc(32px + env(safe-area-inset-bottom));
   }
 }

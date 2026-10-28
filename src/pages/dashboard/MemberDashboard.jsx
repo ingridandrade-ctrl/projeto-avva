@@ -4,7 +4,6 @@ import { supabase } from '../../lib/supabase'
 import { useAuth } from '../../hooks/useAuth'
 import { useFavorites } from '../../hooks/useFavorites'
 import { useActivity } from '../../hooks/useActivity'
-import { collectionCover } from '../../lib/drive'
 import { getCollectionStyle, belongsTo } from '../../lib/catalog'
 import CoverCard from '../../components/ads/CoverCard'
 import AdModal from '../../components/ads/AdModal'
@@ -52,9 +51,15 @@ export default function MemberDashboard() {
     return months[months.length - 1] || extras[extras.length - 1] || null
   }, [collections])
   const featuredAds = useMemo(() => (featured ? ads.filter(a => belongsTo(a, featured)) : []), [ads, featured])
-  const cover = featured ? collectionCover(featured, ads, 1400) : null
 
   const slides = featured && featuredAds.length > 0 ? 2 : 1
+
+  // Colagem do slide de boas-vindas: capas de anúncios espalhadas, como
+  // recortes colados num mural. Prefere os do destaque, completa com os demais.
+  const collage = useMemo(() => {
+    const pool = [...featuredAds, ...ads.filter(a => !featuredAds.includes(a))].filter(a => a.drive_url)
+    return pool.slice(0, 4)
+  }, [ads, featuredAds])
 
   // Passa sozinho a cada 8s; para quando o modal está aberto
   useEffect(() => {
@@ -73,17 +78,18 @@ export default function MemberDashboard() {
       key: 'acervo',
       to: '/produto/acervo-anuncios',
       title: 'Acervo de Anúncios',
-      description: 'Anúncios que funcionam, organizados por objetivo: do primeiro contato até a venda. Com a análise da Flora em cada um.',
+      description: 'Os anúncios que estão vendendo agora, organizados por objetivo e com a análise do porquê cada um funciona. Pra você parar de copiar formato e fazer o seu, do seu jeito.',
       meta: loaded ? `${collections.length} coleções · ${ads.length} anúncios` : null,
-      gradient: 'linear-gradient(135deg, #1A6868 0%, #3F7A66 45%, #A85C35 100%)',
-      cover,
+      gradient: 'linear-gradient(135deg, #F7F4F0 0%, #EEE6DA 100%)',
+      cover: '/produtos/acervo-de-anuncios.png',
+      product: true,
       owned: true,
     },
     {
       key: 'kit',
       to: '/kit',
       title: 'Kit de Execução',
-      description: 'Ganchos prontos, estruturas narrativas e ângulos com prompts de IA para você sair do anúncio direto para a execução.',
+      description: 'Ganchos prontos, estruturas narrativas e prompts de IA pra você sair do anúncio direto pra execução, sem travar na folha em branco.',
       meta: kitCount === null ? null : `${kitCount} itens prontos`,
       gradient: 'linear-gradient(135deg, #A85C35 0%, #C98A5E 55%, #D4B99A 100%)',
       owned: hasKit,
@@ -97,12 +103,23 @@ export default function MemberDashboard() {
         <div className="home-hero__orb home-hero__orb--2" />
 
         <div className="home-hero__track" style={{ transform: `translateX(-${slide * 100}%)` }}>
-          <div className="home-hero__slide" aria-hidden={slide !== 0}>
+          <div className="home-hero__slide home-hero__slide--welcome" aria-hidden={slide !== 0}>
             <div className="home-hero__content">
-              <p className="home-hero__greeting">Olá, {firstName} ✦</p>
+              <p className="home-hero__greeting">Oiee, {firstName}!</p>
               <h1 className="home-hero__title">Bem-vinda à sua área de membros</h1>
-              <p className="home-hero__subtitle">Seus produtos do Método AVVA estão aqui. Escolha um para começar.</p>
+              <p className="home-hero__subtitle">Aqui ficam os seus produtos do Método AVVA. É só escolher por onde começar.</p>
             </div>
+            {collage.length > 0 && (
+              <div className="home-hero__collage" aria-hidden="true">
+                {collage.map((ad, i) => (
+                  <div key={ad.id} className={`home-hero__cut home-hero__cut--${i}`}>
+                    <CoverCard ad={ad} seen={isSeen(ad.id)} onClick={() => setOpenAd(ad)} size="sm" />
+                  </div>
+                ))}
+                <span className="home-hero__sticker home-hero__sticker--1">entenda o porquê</span>
+                <span className="home-hero__sticker home-hero__sticker--2">novidades todo mês</span>
+              </div>
+            )}
           </div>
 
           {slides > 1 && (
@@ -154,9 +171,9 @@ export default function MemberDashboard() {
           {products.map(p => {
             const inner = (
               <>
-                <div className="product-card__visual" style={{ background: p.gradient }}>
+                <div className={`product-card__visual ${p.product ? 'product-card__visual--product' : ''}`} style={{ background: p.gradient }}>
                   {p.cover && <img src={p.cover} alt="" loading="lazy" />}
-                  <div className="product-card__shade" />
+                  {!p.product && <div className="product-card__shade" />}
                   {!p.owned && (
                     <span className="product-card__lock">
                       <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
