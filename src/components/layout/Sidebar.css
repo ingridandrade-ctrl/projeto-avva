@@ -1,10 +1,10 @@
 .sidebar {
   position: fixed;
-  top: 0;
+  top: var(--header-height);
   left: 0;
   width: var(--sidebar-width);
-  height: 100vh;
-  height: 100dvh;
+  height: calc(100vh - var(--header-height));
+  height: calc(100dvh - var(--header-height));
   background: linear-gradient(175deg, #2B1A12 0%, #33201A 40%, #4C362D 100%);
   color: var(--off-white);
   display: flex;
@@ -28,56 +28,11 @@
   z-index: 1;
 }
 
-/* ── Brand ── */
-
-.sidebar__brand {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  padding: 24px 20px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-}
-
-.sidebar__logo {
-  width: 40px;
-  height: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: 12px;
-  font-family: var(--font-corpo);
-  font-size: 1.2rem;
-  font-weight: 700;
-  color: #fff;
-  flex-shrink: 0;
-}
-
-.sidebar__brand h2 {
-  font-family: var(--font-corpo);
-  font-size: 1.05rem;
-  font-weight: 700;
-  color: #fff;
-  line-height: 1.2;
-  letter-spacing: -0.02em;
-}
-
-.sidebar__subtitle {
-  font-family: var(--font-corpo);
-  font-size: 0.65rem;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.4);
-  display: block;
-  margin-top: 2px;
-}
-
 /* ── Navigation ── */
 
 .sidebar__nav {
   flex: 1;
-  padding: 20px 12px;
+  padding: 22px 14px;
   display: flex;
   flex-direction: column;
   gap: 4px;
@@ -136,6 +91,16 @@
 
 .sidebar__link--active svg {
   opacity: 1;
+  color: var(--amendoado);
+}
+
+.sidebar__link--support {
+  border-color: rgba(212, 185, 154, 0.22);
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.sidebar__link--support svg {
+  opacity: 0.9;
   color: var(--amendoado);
 }
 
@@ -252,8 +217,6 @@
     transform: translateX(-100%);
     box-shadow: none;
     width: min(82vw, 300px);
-    /* O header fixo (z-index maior) cobre o topo — empurra o conteúdo pra baixo */
-    padding-top: var(--header-height);
   }
 
   /* Alvos de toque confortáveis */
@@ -274,7 +237,7 @@
   .sidebar-overlay {
     display: block;
     position: fixed;
-    inset: 0;
+    inset: var(--header-height) 0 0 0;
     background: rgba(43, 26, 18, 0.55);
     z-index: 99;
     animation: fadeIn 0.25s ease-out;

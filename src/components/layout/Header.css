@@ -1,21 +1,20 @@
 .header {
   position: fixed;
   top: 0;
-  left: var(--sidebar-width);
+  left: 0;
   right: 0;
   height: var(--header-height);
-  background: linear-gradient(90deg, #2B1A12 0%, #33201A 100%);
+  background: linear-gradient(90deg, #0C4747 0%, #0e3d3d 100%);
   border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-  box-shadow: none;
   display: flex;
   align-items: center;
-  gap: 16px;
-  padding: 0 28px;
-  z-index: 50;
+  gap: 14px;
+  padding: 0 24px;
+  z-index: 120;
   transition: box-shadow 0.3s ease;
 }
 
-/* ── Hamburger / X toggle ── */
+/* ── Hambúrguer / X (só no celular) ── */
 
 .header__menu-btn {
   display: none;
@@ -28,6 +27,7 @@
   padding: 12px;
   width: 44px;
   height: 44px;
+  margin-left: -12px;
 }
 
 .header__menu-btn span {
@@ -55,10 +55,61 @@
   transform: translateY(-7px) rotate(-45deg);
 }
 
-/* ── User Avatar ── */
+/* ── Marca ── */
+
+.header__brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: #fff;
+  text-decoration: none;
+  min-width: 0;
+}
+
+.header__logo {
+  width: 38px;
+  height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 11px;
+  font-family: var(--font-corpo);
+  font-size: 1.15rem;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.header__brand-text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.15;
+  min-width: 0;
+}
+
+.header__brand-text strong {
+  font-family: var(--font-corpo);
+  font-size: 1.05rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  white-space: nowrap;
+}
+
+.header__brand-text small {
+  font-family: var(--font-corpo);
+  font-size: 0.62rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.45);
+  margin-top: 2px;
+}
+
+/* ── Avatar ── */
 
 .header__user {
   margin-left: auto;
+  text-decoration: none;
 }
 
 .header__avatar {
@@ -77,26 +128,22 @@
 }
 
 .header__avatar:hover {
-  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.24);
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.26);
 }
 
-/* ── Mobile ── */
+/* ── Celular ── */
 
 @media (max-width: 768px) {
   .header {
-    left: 0;
     padding: 0 16px;
-    /* Acima do overlay (99) e da sidebar (100) para o X ficar clicável */
-    z-index: 120;
   }
 
   .header__menu-btn {
     display: flex;
   }
-
 }
 
 /* ── Ganha peso ao rolar a página ── */
 .header--scrolled {
-  box-shadow: 0 6px 24px rgba(43, 26, 18, 0.25);
+  box-shadow: 0 6px 24px rgba(12, 71, 71, 0.28);
 }
