@@ -19,9 +19,8 @@
 //   ACERVO_FROM            remetente, ex.: "Acervo de Anúncios <suporte@metodoavva.com>"
 import crypto from 'node:crypto'
 import { createClient } from '@supabase/supabase-js'
+import { welcomeEmail } from '../lib/emails/acervo.js'
 
-const SITE = 'https://metodoavva.com'
-const LOGIN_URL = `${SITE}/login`
 const TOLERANCE_SECONDS = 5 * 60
 
 const supabase = createClient(
@@ -73,90 +72,21 @@ function isKitProduct(order) {
   return /kit de execu/i.test(product.name || '')
 }
 
-const esc = (v) => String(v ?? '')
-  .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;')
-
-async function sendWelcomeEmail({ email, name, hasKit }) {
+// Envia um e-mail pelo Resend. Sem RESEND_API_KEY, pula em silêncio.
+async function sendEmail(to, { subject, html, text }) {
   const apiKey = process.env.RESEND_API_KEY
   if (!apiKey) return { skipped: true }
-
   const from = process.env.ACERVO_FROM || 'Acervo de Anúncios <suporte@metodoavva.com>'
-  const primeiroNome = (name || '').trim().split(/\s+/)[0] || ''
-  const saudacao = primeiroNome ? `Oi, ${esc(primeiroNome)}!` : 'Oi!'
-
-  const passo = (n, titulo, texto) => `
-    <tr>
-      <td style="padding:0 14px 18px 0;vertical-align:top">
-        <div style="width:34px;height:34px;border-radius:50%;background:#A85C35;color:#fff;font-weight:700;font-size:15px;line-height:34px;text-align:center">${n}</div>
-      </td>
-      <td style="padding:0 0 18px;vertical-align:top">
-        <div style="font-size:16px;font-weight:700;color:#2B1A12;line-height:1.3">${titulo}</div>
-        <div style="font-size:14px;line-height:1.55;color:#6b5a52;margin-top:4px">${texto}</div>
-      </td>
-    </tr>`
-
-  const html = `
-  <div style="margin:0;padding:32px 16px;background:#F7F4F0;font-family:Outfit,Inter,-apple-system,Segoe UI,Helvetica,Arial,sans-serif">
-    <div style="max-width:560px;margin:0 auto;background:#ffffff;border:1px solid #eee7df;border-radius:22px;overflow:hidden">
-      <div style="padding:32px 32px 28px;background:#2B1A12;text-align:center">
-        <div style="font-size:40px;line-height:0.9;font-weight:800;letter-spacing:-0.05em;color:#ffffff">acervo</div>
-        <div style="font-family:Georgia,'Times New Roman',serif;font-style:italic;font-size:28px;line-height:1;color:#D4B99A;margin-top:2px">de anúncios</div>
-      </div>
-      <div style="padding:28px 32px 8px">
-        <div style="font-size:22px;font-weight:700;color:#2B1A12;line-height:1.25">${saudacao} Seu acervo está liberado.</div>
-        <p style="margin:12px 0 0;font-size:15px;line-height:1.6;color:#6b5a52">
-          A partir de agora você tem acesso aos anúncios que já estão vendendo, organizados por objetivo e com a análise do porquê funcionam. Entrar leva menos de um minuto:
-        </p>
-        <table style="width:100%;border-collapse:collapse;margin-top:24px">
-          ${passo(1, 'Abra a área de membros', `Toque no botão abaixo ou acesse <a href="${LOGIN_URL}" style="color:#A85C35">metodoavva.com/login</a>. Funciona no celular.`)}
-          ${passo(2, 'Digite o e-mail da compra', `Use exatamente este e-mail: <strong style="color:#2B1A12">${esc(email)}</strong>. Não tem senha.`)}
-          ${passo(3, 'Comece pela coleção do seu objetivo', 'Escolha o que você precisa hoje (ser descoberta, gerar autoridade, vender agora...), leia a análise e adapte a estrutura pro seu negócio.')}
-        </table>
-        <div style="text-align:center;margin:8px 0 24px">
-          <a href="${LOGIN_URL}" style="display:inline-block;padding:16px 32px;background:#A85C35;color:#ffffff;text-decoration:none;border-radius:100px;font-weight:700;font-size:16px">Entrar no acervo</a>
-        </div>
-        ${hasKit ? `
-        <div style="padding:16px 18px;background:#F7F4F0;border-left:3px solid #0C4747;border-radius:12px;margin-bottom:24px">
-          <div style="font-size:13px;color:#0C4747;font-weight:700;margin-bottom:4px">Seu Kit de Execução também está liberado</div>
-          <div style="font-size:14px;line-height:1.55;color:#6b5a52">Ganchos prontos, estruturas narrativas e prompts de IA. Está no menu da área de membros, em "Kit".</div>
-        </div>` : ''}
-        <p style="margin:0 0 24px;font-size:14px;line-height:1.6;color:#6b5a52">
-          Todo mês entra uma curadoria nova em "Melhores do mês". Salve nos favoritos o que fizer sentido pra você e volte sempre que for criar um anúncio.
-        </p>
-      </div>
-      <div style="padding:18px 32px;border-top:1px solid #eee7df;font-size:12px;line-height:1.6;color:#8a7a72">
-        Qualquer dúvida, é só responder este e-mail. Você tem 7 dias de garantia: se não fizer sentido, pede o reembolso e recebe 100% de volta.<br />
-        Método AVVA
-      </div>
-    </div>
-  </div>`
-
-  const texto = [
-    `${primeiroNome ? `Oi, ${primeiroNome}!` : 'Oi!'} Seu acervo está liberado.`,
-    '',
-    `1. Abra ${LOGIN_URL}`,
-    `2. Digite o e-mail da compra: ${email} (não tem senha)`,
-    '3. Comece pela coleção do seu objetivo',
-    hasKit ? '\nSeu Kit de Execução também está liberado, no menu "Kit".' : '',
-    '',
-    'Qualquer dúvida, responda este e-mail. 7 dias de garantia.',
-    'Método AVVA',
-  ].join('\n')
-
   const r = await fetch('https://api.resend.com/emails', {
     method: 'POST',
     headers: { Authorization: `Bearer ${apiKey}`, 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      from,
-      to: [email],
-      subject: 'Seu acervo está liberado: veja como entrar',
-      html,
-      text: texto,
-    }),
+    body: JSON.stringify({ from, to: [to], subject, html, text }),
   })
   if (!r.ok) console.error('resend error', r.status, await r.text().catch(() => ''))
   return { status: r.status }
 }
+
+const sendWelcomeEmail = ({ email, name, hasKit }) => sendEmail(email, welcomeEmail({ email, name, hasKit }))
 
 // Dedup: o mesmo evento pode chegar mais de uma vez (retentativas da Cakto)
 async function alreadyProcessed(eventKey) {
