@@ -1,4 +1,4 @@
-import { Link, NavLink, Navigate, Outlet, useParams } from 'react-router-dom'
+import { Link, Navigate, Outlet, useParams } from 'react-router-dom'
 import { PRODUCTS } from '../../lib/adminProducts'
 import './AdminProductHub.css'
 
@@ -21,14 +21,6 @@ export default function AdminProductHub() {
           <p>{product.description}</p>
         </div>
       </header>
-
-      <nav className="adm-hub__tabs" aria-label="Seções do produto">
-        {product.tabs.map(t => (
-          <NavLink key={t.to} to={t.to} className={({ isActive }) => `adm-hub__tab ${isActive ? 'is-active' : ''}`}>
-            {t.label}
-          </NavLink>
-        ))}
-      </nav>
 
       <div className="adm-hub__body">
         <Outlet />

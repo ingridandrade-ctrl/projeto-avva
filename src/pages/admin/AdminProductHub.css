@@ -46,32 +46,10 @@
   font-size: 1.02rem;
 }
 
-/* Abas */
-.adm-hub__tabs {
-  display: flex;
-  gap: 4px;
+.adm-hub__head {
+  padding-bottom: 22px;
   border-bottom: 1px solid var(--a-line);
   margin-bottom: 26px;
-  overflow-x: auto;
-}
-
-.adm-hub__tab {
-  padding: 12px 16px;
-  margin-bottom: -1px;
-  border-bottom: 2px solid transparent;
-  font-size: 1rem;
-  font-weight: 600;
-  color: var(--a-ink-3);
-  text-decoration: none;
-  white-space: nowrap;
-  transition: color 0.18s ease, border-color 0.18s ease;
-}
-
-.adm-hub__tab:hover { color: var(--a-ink); }
-
-.adm-hub__tab.is-active {
-  color: var(--a-accent);
-  border-bottom-color: var(--a-accent);
 }
 
 /* Dentro do produto, as telas ganham um cabeçalho mais discreto */
