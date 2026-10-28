@@ -87,7 +87,7 @@ export default function AdminAdsList() {
       window.alert(`Não consegui duplicar: ${error?.message || 'erro'}`)
       return
     }
-    navigate(`/admin/ads/${data.id}/edit`)
+    navigate(`/admin/produtos/acervo/anuncios/${data.id}/editar`)
   }
 
   async function toggleActive(ad) {
@@ -112,7 +112,7 @@ export default function AdminAdsList() {
           <p>Tudo que as alunas veem nas Coleções. Desative para esconder sem apagar.</p>
         </div>
         <div className="adm-page-header__actions">
-          <Link to="/admin/ads/new" className="adm-btn adm-btn--primary">+ Novo anúncio</Link>
+          <Link to="/admin/produtos/acervo/anuncios/novo" className="adm-btn adm-btn--primary">+ Novo anúncio</Link>
         </div>
       </div>
 
@@ -156,7 +156,7 @@ export default function AdminAdsList() {
           <div className="adm-empty">
             <p>{ads.length === 0 ? 'Nenhum anúncio cadastrado ainda.' : 'Nenhum anúncio com esses filtros.'}</p>
             {ads.length === 0 && (
-              <Link to="/admin/ads/new" className="adm-btn adm-btn--primary" style={{ marginTop: 16 }}>
+              <Link to="/admin/produtos/acervo/anuncios/novo" className="adm-btn adm-btn--primary" style={{ marginTop: 16 }}>
                 Cadastrar o primeiro
               </Link>
             )}
@@ -210,7 +210,7 @@ export default function AdminAdsList() {
                   </td>
                   <td>
                     <div className="admin-table__actions admin-ads__actions">
-                      <Link to={`/admin/ads/${ad.id}/edit`} className="admin-ads__icon" title="Editar" aria-label="Editar">
+                      <Link to={`/admin/produtos/acervo/anuncios/${ad.id}/editar`} className="admin-ads__icon" title="Editar" aria-label="Editar">
                         <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4 12.5-12.5z"/></svg>
                       </Link>
                       <button className="admin-ads__icon" onClick={() => duplicate(ad)} title="Duplicar (cria uma cópia desativada pra você ajustar)" aria-label="Duplicar">

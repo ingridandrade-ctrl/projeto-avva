@@ -68,26 +68,26 @@ export default function AdminDashboard() {
       </header>
 
       <section className="admin-dash__numbers">
-        <Link to="/admin/alunas" className="admin-dash__num">
+        <Link to="/admin/produtos/acervo/alunas" className="admin-dash__num">
           <strong>{n(alunas?.stats.hoje)}</strong>
           <span>alunas hoje</span>
         </Link>
-        <Link to="/admin/alunas" className="admin-dash__num">
+        <Link to="/admin/produtos/acervo/alunas" className="admin-dash__num">
           <strong>{n(alunas?.stats.semana)}</strong>
           <span>nos últimos 7 dias</span>
         </Link>
-        <Link to="/admin/alunas" className="admin-dash__num">
+        <Link to="/admin/produtos/acervo/alunas" className="admin-dash__num">
           <strong>{n(alunas?.stats.mes)}</strong>
           <span>nos últimos 30 dias</span>
         </Link>
-        <Link to="/admin/alunas" className="admin-dash__num">
+        <Link to="/admin/produtos/acervo/alunas" className="admin-dash__num">
           <strong>{n(alunas?.stats.total)}</strong>
           <span>alunas no total</span>
         </Link>
       </section>
 
       <div className="admin-dash__areas">
-        <Link to="/admin/alunas" className="area-card area-card--alunas">
+        <Link to="/admin/produtos/acervo/alunas" className="area-card area-card--alunas">
           <div className="area-card__top">
             <span className="area-card__icon">
               <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
@@ -140,7 +140,7 @@ export default function AdminDashboard() {
         <section className="adm-card admin-dash__events">
           <div className="admin-dash__events-head">
             <h2>Últimos eventos da Cakto</h2>
-            <Link to="/admin/alunas">Ver alunas →</Link>
+            <Link to="/admin/produtos/acervo/alunas">Ver alunas →</Link>
           </div>
           <ul>
             {alunas.events.slice(0, 8).map(e => (

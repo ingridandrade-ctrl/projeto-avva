@@ -76,7 +76,7 @@ export default function AdminCollections() {
       setCreateFb({ type: 'error', msg: /policy|permission|row-level/i.test(error.message) ? 'Sem permissão: rode o arquivo supabase-migration-capas.sql no Supabase.' : error.message })
       return
     }
-    setCreateFb({ type: 'ok', msg: 'Coleção criada! Agora cadastre os anúncios nela em Acervo de Anúncios → Novo anúncio.' })
+    setCreateFb({ type: 'ok', msg: 'Coleção criada! Agora cadastre os anúncios nela em Anúncios → Novo anúncio.' })
     load()
   }
 
@@ -219,7 +219,7 @@ export default function AdminCollections() {
           <p>
             Cada coleção aparece para a aluna como uma capa vertical (3:4).
             Sem capa cadastrada, usamos automaticamente a miniatura do primeiro anúncio.
-            As coleções por objetivo são preenchidas pelas tags de objetivo de cada anúncio (em Acervo de Anúncios → editar).
+            As coleções por objetivo são preenchidas pelas tags de objetivo de cada anúncio (em Anúncios → editar).
           </p>
         </div>
       </div>

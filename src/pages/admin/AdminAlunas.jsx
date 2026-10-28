@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
+import { useParams } from 'react-router-dom'
 import { useAuth } from '../../hooks/useAuth'
 import { adminApi, EVENT_LABELS } from '../../lib/adminApi'
 import './AdminAlunas.css'
@@ -23,6 +24,8 @@ const FILTROS = [
 ]
 
 export default function AdminAlunas() {
+  const { slug } = useParams()
+  const isKit = slug === 'kit'
   const { session } = useAuth()
   const [data, setData] = useState(null)
   const [erro, setErro] = useState(null)
@@ -33,11 +36,15 @@ export default function AdminAlunas() {
   const [novo, setNovo] = useState({ email: '', name: '', hasKit: false, sendEmail: true })
   const [criando, setCriando] = useState(false)
   const [novoFb, setNovoFb] = useState(null)
+  const [agora, setAgora] = useState(0) // instante da última carga, pros números de hoje/7d/30d
 
   async function load() {
     const out = await adminApi(session, 'list')
     if (out.error) setErro(out.error)
-    else setData(out)
+    else {
+      setData(out)
+      setAgora(Date.now())
+    }
   }
 
   // (via Promise pra não disparar setState direto dentro do efeito)
@@ -77,10 +84,27 @@ export default function AdminAlunas() {
     load()
   }
 
+  // No Kit só entram as alunas que têm o Kit
+  const base = useMemo(() => (data ? data.users.filter(u => !isKit || u.has_order_bump) : []), [data, isKit])
+
+  // Números do produto (calculados aqui, a partir da lista)
+  const s = useMemo(() => {
+    if (!data) return null
+    const since = n => agora - n * 24 * 60 * 60 * 1000
+    const t = iso => new Date(iso).getTime()
+    return {
+      hoje: base.filter(u => t(u.created_at) >= since(1)).length,
+      semana: base.filter(u => t(u.created_at) >= since(7)).length,
+      mes: base.filter(u => t(u.created_at) >= since(30)).length,
+      total: base.length,
+      comKit: base.filter(u => u.has_order_bump).length,
+      bloqueadas: base.filter(u => u.access_blocked).length,
+    }
+  }, [data, base, agora])
+
   const lista = useMemo(() => {
-    if (!data) return []
     const t = busca.trim().toLowerCase()
-    return data.users.filter(u => {
+    return base.filter(u => {
       if (filtro === 'ativas' && (u.access_blocked || u.is_admin)) return false
       if (filtro === 'bloqueadas' && !u.access_blocked) return false
       if (filtro === 'kit' && !u.has_order_bump) return false
@@ -88,17 +112,15 @@ export default function AdminAlunas() {
       if (!t) return true
       return `${u.email} ${u.name || ''} ${u.cakto_order_id || ''}`.toLowerCase().includes(t)
     })
-  }, [data, busca, filtro])
-
-  const s = data?.stats
+  }, [base, busca, filtro])
 
   return (
     <div className="admin-alunas">
       <div className="adm-page-header">
         <div>
           <span className="adm-eyebrow">Área de membros</span>
-          <h1>Alunas</h1>
-          <p>Quem tem acesso, de onde veio e o que você pode fazer por cada uma.</p>
+          <h1>{isKit ? 'Alunas com o Kit' : 'Alunas'}</h1>
+          <p>{isKit ? 'Quem tem o Kit de Execução liberado. Pra dar ou tirar o Kit de alguém, use a chave na coluna "Kit".' : 'Quem tem acesso, de onde veio e o que você pode fazer por cada uma.'}</p>
         </div>
       </div>
 
@@ -109,10 +131,11 @@ export default function AdminAlunas() {
         <Stat label="Últimos 7 dias" value={s?.semana} />
         <Stat label="Últimos 30 dias" value={s?.mes} />
         <Stat label="Total" value={s?.total} />
-        <Stat label="Com o Kit" value={s?.comKit} tone="teal" />
+        {!isKit && <Stat label="Com o Kit" value={s?.comKit} tone="teal" />}
         <Stat label="Bloqueadas" value={s?.bloqueadas} tone={s?.bloqueadas ? 'danger' : undefined} />
       </div>
 
+      {!isKit && (
       <form className="adm-card admin-alunas__novo" onSubmit={criar}>
         <div className="admin-alunas__novo-text">
           <h2>Liberar acesso na mão</h2>
@@ -135,6 +158,7 @@ export default function AdminAlunas() {
         </div>
         {novoFb && <span className={`admin-alunas__fb admin-alunas__fb--${novoFb.type}`}>{novoFb.msg}</span>}
       </form>
+      )}
 
       <div className="admin-alunas__filtros">
         <input
@@ -145,7 +169,7 @@ export default function AdminAlunas() {
           onChange={e => setBusca(e.target.value)}
         />
         <div className="admin-alunas__chips">
-          {FILTROS.map(f => (
+          {FILTROS.filter(f => !isKit || f.value !== 'kit').map(f => (
             <button key={f.value} type="button" className={`admin-alunas__chip ${filtro === f.value ? 'is-on' : ''}`} onClick={() => setFiltro(f.value)}>
               {f.label}
             </button>
@@ -157,7 +181,7 @@ export default function AdminAlunas() {
       {!data && !erro ? (
         <div className="adm-card"><p className="adm-empty">Carregando…</p></div>
       ) : lista.length === 0 ? (
-        <div className="adm-card"><p className="adm-empty">{data?.users.length ? 'Ninguém com esses filtros.' : 'Nenhuma aluna ainda. A primeira compra aparece aqui sozinha.'}</p></div>
+        <div className="adm-card"><p className="adm-empty">{base.length ? 'Ninguém com esses filtros.' : isKit ? 'Ninguém com o Kit ainda.' : 'Nenhuma aluna ainda. A primeira compra aparece aqui sozinha.'}</p></div>
       ) : (
         <div className="admin-table-wrap">
           <table className="admin-table admin-alunas__table">
@@ -221,7 +245,7 @@ export default function AdminAlunas() {
         </div>
       )}
 
-      {data?.events?.length > 0 && (
+      {!isKit && data?.events?.length > 0 && (
         <section className="adm-card admin-alunas__eventos">
           <h2>Últimos eventos da Cakto</h2>
           <p>O que chegou no webhook, do mais recente pro mais antigo. Serve pra conferir se uma compra foi recebida.</p>

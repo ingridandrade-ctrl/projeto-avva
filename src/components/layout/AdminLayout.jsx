@@ -21,12 +21,9 @@ const NAV = [
     ],
   },
   {
-    section: 'Produtos',
+    section: 'Área de membros',
     items: [
-      { to: '/admin/produtos', label: 'Todos os produtos', icon: 'produtos', match: p => p === '/admin/produtos' },
-      { to: '/admin/ads', label: 'Acervo de Anúncios', icon: 'anuncios', match: p => p.startsWith('/admin/ads') },
-      { to: '/admin/colecoes', label: 'Coleções e capas', icon: 'colecoes', match: p => p.startsWith('/admin/colecoes') },
-      { to: '/admin/kit', label: 'Kit de Execução', icon: 'kit', match: p => p.startsWith('/admin/kit') },
+      { to: '/admin/produtos', label: 'Produtos', icon: 'produtos', match: p => p.startsWith('/admin/produtos') || p.startsWith('/admin/ads') },
     ],
   },
   {
