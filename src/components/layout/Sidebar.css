@@ -4,7 +4,7 @@
   left: 0;
   width: var(--sidebar-width);
   height: calc(100vh - var(--header-height));
-  height: calc(100dvh - var(--header-height));
+  height: calc(var(--vh100) - var(--header-height));
   background: linear-gradient(175deg, #2B1A12 0%, #33201A 40%, #4C362D 100%);
   color: var(--off-white);
   display: flex;

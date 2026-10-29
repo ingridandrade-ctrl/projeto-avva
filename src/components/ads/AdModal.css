@@ -30,7 +30,7 @@
   grid-template-columns: auto 1fr;
   width: min(1240px, 100%);
   height: min(880px, 100vh - 48px);
-  height: min(880px, 100dvh - 48px);
+  height: min(880px, var(--vh100) - 48px);
   background: #fff;
   border-radius: 26px;
   overflow: hidden;
@@ -60,6 +60,7 @@
 .ad-modal__media {
   position: relative;
   width: clamp(320px, 40vw, 520px);
+  width: clamp(320px, calc(var(--vw100) * 0.4), 520px);
   padding: 28px 28px;
   display: grid;
   place-items: center;
@@ -76,6 +77,7 @@
 .ad-modal__phone .drive-embed {
   width: 100%;
   max-height: calc(min(880px, 100dvh - 48px) - 56px);
+  max-height: calc(min(880px, var(--vh100) - 48px) - 56px);
   border-radius: 22px;
   box-shadow: 0 22px 50px rgba(76, 54, 45, 0.28);
   margin: 0 auto;

@@ -1,6 +1,11 @@
 /* Fontes carregadas via <link> no index.html (evita @import render-blocking) */
 
 :root {
+  /* Altura/largura da tela "de verdade". No computador a área de membros e o
+     admin usam zoom 0.7 (o tamanho em que o layout foi aprovado), e dentro do
+     zoom o 100vh encolhe junto; estas variáveis devolvem a medida cheia. */
+  --vh100: 100dvh;
+  --vw100: 100dvw;
   --teal-profundo: #0C4747;
   --teal-medio: #1A6868;
   --umber: #4C362D;
