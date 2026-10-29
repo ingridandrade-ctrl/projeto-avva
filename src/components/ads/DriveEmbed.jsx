@@ -55,8 +55,9 @@ export default function DriveEmbed({ url, title, mediaType = 'video' }) {
 
   const id = driveId(url)
   const embedUrl = id ? `https://drive.google.com/file/d/${id}/preview` : url
-  // Arquivo direto (público) para o player nativo do celular: toca sem pedir login e com tela cheia de verdade
-  const streamUrl = id ? `https://drive.google.com/uc?export=download&id=${id}` : null
+  // Vídeo entregue pelo nosso domínio (api/video) para o player nativo do celular:
+  // toca sem o iframe do Drive (que pede login/cookies no iPhone) e com tela cheia de verdade
+  const streamUrl = id ? `/api/video?id=${id}` : null
   const useNative = mediaType === 'video' && streamUrl && !nativeFailed
   const isImage = (mediaType === 'image' || mediaType === 'carousel') && poster && !imgFailed
   const fallbackRatio = mediaType === 'pdf' ? '3 / 4' : mediaType === 'video' ? '9 / 16' : '4 / 5'
