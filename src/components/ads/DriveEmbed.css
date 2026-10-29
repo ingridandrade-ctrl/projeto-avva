@@ -63,3 +63,88 @@
 @media (prefers-reduced-motion: reduce) {
   .drive-embed { animation: none; }
 }
+
+/* ── Imagem em tela cheia ── */
+
+.drive-embed__img--zoomable {
+  cursor: zoom-in;
+}
+
+.drive-embed__zoom {
+  position: absolute;
+  right: 12px;
+  bottom: 12px;
+  z-index: 2;
+  width: 40px;
+  height: 40px;
+  display: grid;
+  place-items: center;
+  border: none;
+  border-radius: 50%;
+  background: rgba(46, 33, 27, 0.78);
+  color: #fff;
+  cursor: pointer;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.drive-embed__zoom:hover {
+  background: var(--terracotta);
+  transform: scale(1.06);
+}
+
+.drive-lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background: rgba(20, 12, 8, 0.94);
+  cursor: zoom-out;
+  animation: fadeIn 0.2s ease-out;
+}
+
+.drive-lightbox img {
+  max-width: min(100%, 1400px);
+  max-height: calc(100vh - 48px);
+  max-height: calc(100dvh - 48px);
+  object-fit: contain;
+  border-radius: 12px;
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5);
+  cursor: default;
+}
+
+.drive-lightbox__close {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  width: 46px;
+  height: 46px;
+  display: grid;
+  place-items: center;
+  border: none;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.14);
+  color: #fff;
+  cursor: pointer;
+}
+
+.drive-lightbox__close:hover { background: var(--terracotta); }
+
+.drive-lightbox__open {
+  position: absolute;
+  bottom: 22px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 10px 18px;
+  border-radius: 100px;
+  background: rgba(255, 255, 255, 0.12);
+  color: #fff;
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.drive-lightbox__open:hover { background: rgba(255, 255, 255, 0.22); }

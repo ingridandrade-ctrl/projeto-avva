@@ -119,9 +119,7 @@
 
 @media (max-width: 640px) {
   .filter-bar {
-    position: sticky;
-    top: var(--header-height);
-    z-index: 40;
+    position: static;
     gap: 12px;
     padding: 12px 0 10px;
     margin: 0 0 20px;
