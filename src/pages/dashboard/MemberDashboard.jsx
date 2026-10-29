@@ -76,6 +76,20 @@ export default function MemberDashboard() {
     setSlide(((n % slides) + slides) % slides)
   }
 
+  // Arrastar o dedo troca de slide (celular)
+  const touch = useRef(null)
+  function onTouchStart(e) {
+    touch.current = { x: e.touches[0].clientX, y: e.touches[0].clientY }
+  }
+  function onTouchEnd(e) {
+    if (!touch.current || slides < 2) return
+    const dx = e.changedTouches[0].clientX - touch.current.x
+    const dy = e.changedTouches[0].clientY - touch.current.y
+    touch.current = null
+    if (Math.abs(dx) < 40 || Math.abs(dx) < Math.abs(dy)) return
+    go(slide + (dx < 0 ? 1 : -1))
+  }
+
   const products = [
     {
       key: 'acervo',
@@ -102,7 +116,7 @@ export default function MemberDashboard() {
 
   return (
     <div className="member-dashboard">
-      <section className="home-hero" aria-roledescription="carrossel">
+      <section className="home-hero" aria-roledescription="carrossel" onTouchStart={onTouchStart} onTouchEnd={onTouchEnd}>
         <div className="home-hero__orb home-hero__orb--1" />
         <div className="home-hero__orb home-hero__orb--2" />
 

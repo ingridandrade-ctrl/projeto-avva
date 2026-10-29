@@ -11,14 +11,24 @@ export default function DriveEmbed({ url, title, mediaType = 'video' }) {
   const [imgFailed, setImgFailed] = useState(false)
   const [ratio, setRatio] = useState(null)
   const [zoom, setZoom] = useState(false) // imagem em tela cheia
+  const [full, setFull] = useState(false) // vídeo/pdf em tela cheia (celular)
+  const [nativeFailed, setNativeFailed] = useState(false) // player nativo não conseguiu tocar: cai no player do Drive
+  const [isMobile, setIsMobile] = useState(() => typeof window !== 'undefined' && window.matchMedia('(max-width: 768px)').matches)
+
+  useEffect(() => {
+    const mq = window.matchMedia('(max-width: 768px)')
+    const onChange = (e) => setIsMobile(e.matches)
+    mq.addEventListener('change', onChange)
+    return () => mq.removeEventListener('change', onChange)
+  }, [])
 
   // Esc fecha a tela cheia
   useEffect(() => {
-    if (!zoom) return
-    const onKey = (e) => { if (e.key === 'Escape') setZoom(false) }
+    if (!zoom && !full) return
+    const onKey = (e) => { if (e.key === 'Escape') { setZoom(false); setFull(false) } }
     window.addEventListener('keydown', onKey)
     return () => window.removeEventListener('keydown', onKey)
-  }, [zoom])
+  }, [zoom, full])
 
   const poster = driveThumb(url, 1000)
 
@@ -27,6 +37,7 @@ export default function DriveEmbed({ url, title, mediaType = 'video' }) {
     setRatio(null)
     setLoaded(false)
     setImgFailed(false)
+    setNativeFailed(false)
     if (!poster) return
     let alive = true
     const img = new Image()
@@ -43,12 +54,15 @@ export default function DriveEmbed({ url, title, mediaType = 'video' }) {
 
   const id = driveId(url)
   const embedUrl = id ? `https://drive.google.com/file/d/${id}/preview` : url
+  // Arquivo direto (público) para o player nativo do celular: toca sem pedir login e com tela cheia de verdade
+  const streamUrl = id ? `https://drive.google.com/uc?export=download&id=${id}` : null
+  const useNative = mediaType === 'video' && streamUrl && !nativeFailed
   const isImage = (mediaType === 'image' || mediaType === 'carousel') && poster && !imgFailed
   const fallbackRatio = mediaType === 'pdf' ? '3 / 4' : mediaType === 'video' ? '9 / 16' : '4 / 5'
 
   return (
     <div
-      className={`drive-embed drive-embed--${mediaType}${loaded || isImage ? ' drive-embed--loaded' : ''}`}
+      className={`drive-embed drive-embed--${mediaType}${loaded || isImage || (isMobile && poster) ? ' drive-embed--loaded' : ''}`}
       style={{ '--embed-ratio': ratio || fallbackRatio }}
     >
       {isImage ? (
@@ -73,13 +87,43 @@ export default function DriveEmbed({ url, title, mediaType = 'video' }) {
             </div>
           )}
         </>
+      ) : isMobile ? (
+        // Celular: o player do Drive dentro do modal fica apertado e sem tela
+        // cheia. Mostra o pôster com play e abre o player ocupando a tela toda.
+        <>
+          {poster && <img className="drive-embed__poster drive-embed__poster--still" src={poster} alt="" />}
+          <button type="button" className="drive-embed__play" onClick={() => setFull(true)} aria-label="Assistir em tela cheia">
+            <svg width="30" height="30" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+          </button>
+          {full && (
+            <div className="drive-fullscreen" role="dialog" aria-label="Criativo em tela cheia">
+              {useNative ? (
+                <video
+                  src={streamUrl}
+                  poster={poster || undefined}
+                  controls
+                  autoPlay
+                  playsInline
+                  preload="metadata"
+                  onError={() => setNativeFailed(true)}
+                />
+              ) : (
+                <iframe src={embedUrl} title={title || 'Criativo'} allow="autoplay; encrypted-media; fullscreen" allowFullScreen />
+              )}
+              <button type="button" className="drive-lightbox__close" onClick={() => setFull(false)} aria-label="Fechar">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+              </button>
+              <a className="drive-fullscreen__open" href={url} target="_blank" rel="noreferrer">Abrir no Drive</a>
+            </div>
+          )}
+        </>
       ) : (
         <>
           {poster && !loaded && <img className="drive-embed__poster" src={poster} alt="" />}
           <iframe
             src={embedUrl}
             title={title || 'Criativo'}
-            allow="autoplay; encrypted-media"
+            allow="autoplay; encrypted-media; fullscreen"
             allowFullScreen
             onLoad={() => setLoaded(true)}
           />

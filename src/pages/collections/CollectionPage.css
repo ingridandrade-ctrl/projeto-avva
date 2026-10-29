@@ -344,12 +344,48 @@
 
 @media (max-width: 640px) {
   .collection-page__header {
-    margin: calc(-1 * var(--page-top, 20px)) calc(-1 * var(--page-gutter, 16px)) 24px;
-    border-radius: 0 0 24px 24px;
+    margin: calc(-1 * var(--page-top, 20px)) calc(-1 * var(--page-gutter, 16px)) 20px;
+    padding: 18px var(--page-gutter, 16px) 22px;
+    border-radius: 0 0 22px 22px;
+  }
+
+  /* A capa grande sai: ela já aparece como fundo */
+  .collection-page__header-cover {
+    display: none;
+  }
+
+  .collection-page__header-inner {
+    gap: 0;
+  }
+
+  .collection-page__back {
+    min-height: 36px;
+    padding: 6px 12px;
+    font-size: 0.85rem;
   }
 
   .collection-page__header h1 {
-    font-size: 1.9rem;
+    font-size: 1.5rem;
+    margin: 6px 0 4px;
+  }
+
+  .collection-page__header-content p {
+    font-size: 0.92rem;
+  }
+
+  .collection-page__progress {
+    margin-top: 12px;
+  }
+
+  .collection-page__progress-meta {
+    font-size: 0.8rem;
+  }
+
+  .collection-page__start {
+    min-height: 42px;
+    padding: 10px 18px;
+    font-size: 0.95rem;
+    margin-top: 12px;
   }
 
   .collection-page__nav {

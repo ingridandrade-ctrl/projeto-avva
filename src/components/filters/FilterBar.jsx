@@ -48,6 +48,24 @@ export default function FilterBar({
         </div>
       </div>
 
+      {/* Celular: seletores nativos, mais fáceis de usar com o dedo */}
+      <div className="filter-bar__selects">
+        <label>
+          <span>Nicho</span>
+          <select value={selectedNiche || ''} onChange={e => onNicheChange(e.target.value || null)}>
+            <option value="">Todos</option>
+            {NICHES.map(n => <option key={n.value} value={n.value}>{n.label}</option>)}
+          </select>
+        </label>
+        <label>
+          <span>Mídia</span>
+          <select value={selectedMedia || ''} onChange={e => onMediaChange(e.target.value || null)}>
+            <option value="">Todas</option>
+            {MEDIA_TYPES.map(m => <option key={m.value} value={m.value}>{m.label}</option>)}
+          </select>
+        </label>
+      </div>
+
       <div className="filter-bar__groups">
         <div className="filter-bar__group">
           <span className="filter-bar__label">Para qual nicho?</span>
