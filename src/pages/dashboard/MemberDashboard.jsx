@@ -59,11 +59,6 @@ export default function MemberDashboard() {
 
   // Colagem do slide de boas-vindas: capas de anúncios espalhadas, como
   // recortes colados num mural. Prefere os do destaque, completa com os demais.
-  const collage = useMemo(() => {
-    const pool = [...featuredAds, ...ads.filter(a => !featuredAds.includes(a))].filter(a => a.drive_url)
-    return pool.slice(0, 4)
-  }, [ads, featuredAds])
-
   // Passa sozinho a cada 8s; para quando o modal está aberto
   useEffect(() => {
     clearInterval(timer.current)
@@ -124,20 +119,9 @@ export default function MemberDashboard() {
           <div className="home-hero__slide home-hero__slide--welcome" aria-hidden={slide !== 0}>
             <div className="home-hero__content">
               <p className="home-hero__greeting">Oiee, {firstName}!</p>
-              <h1 className="home-hero__title">Bem-vinda à sua área de membros</h1>
+              <h1 className="home-hero__title">Bem-vinda à sua<br />área de membros</h1>
               <p className="home-hero__subtitle">Aqui ficam os seus produtos do Método AVVA. É só escolher por onde começar.</p>
             </div>
-            {collage.length > 0 && (
-              <div className="home-hero__collage" aria-hidden="true">
-                {collage.map((ad, i) => (
-                  <div key={ad.id} className={`home-hero__cut home-hero__cut--${i}`}>
-                    <CoverCard ad={ad} seen={isSeen(ad.id)} onClick={() => setOpenAd(ad)} size="sm" />
-                  </div>
-                ))}
-                <span className="home-hero__sticker home-hero__sticker--1">entenda o porquê</span>
-                <span className="home-hero__sticker home-hero__sticker--2">novidades todo mês</span>
-              </div>
-            )}
           </div>
 
           {slides > 1 && (
