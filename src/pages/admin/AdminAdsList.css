@@ -276,9 +276,9 @@
   margin-bottom: 18px;
   padding: 14px 18px;
   border-radius: var(--a-r-lg);
-  background: var(--a-ink);
-  color: #fff;
-  box-shadow: 0 14px 40px rgba(46, 33, 27, 0.3);
+  background: var(--a-surface);
+  border: 1px solid rgba(150, 94, 65, 0.35);
+  box-shadow: 0 12px 36px rgba(76, 54, 45, 0.14);
 }
 
 .admin-ads__bulk-head {
@@ -287,12 +287,13 @@
   gap: 12px;
   margin-bottom: 10px;
   font-size: 0.95rem;
+  color: var(--a-accent);
 }
 
 .admin-ads__bulk-clear {
   background: none;
   border: none;
-  color: rgba(255, 255, 255, 0.6);
+  color: var(--a-ink-3);
   font-size: 0.9rem;
   cursor: pointer;
   text-decoration: underline;
@@ -306,29 +307,13 @@
 }
 
 .admin-ads__bulk .admin-select {
-  background: rgba(255, 255, 255, 0.08);
-  border-color: rgba(255, 255, 255, 0.18);
-  color: #fff;
   max-width: 260px;
 }
-
-.admin-ads__bulk .admin-select option { color: var(--a-ink); }
-
-.admin-ads__bulk .adm-btn--secondary {
-  background: rgba(255, 255, 255, 0.1);
-  border-color: rgba(255, 255, 255, 0.2);
-  color: #fff;
-}
-
-.admin-ads__bulk .adm-btn--ghost { color: rgba(255, 255, 255, 0.7); }
-.admin-ads__bulk .adm-btn--ghost:hover { background: rgba(255, 255, 255, 0.08); color: #fff; }
-.admin-ads__bulk .adm-btn--danger { color: #ffb4a8; }
-.admin-ads__bulk .adm-btn--danger:hover { background: rgba(255, 120, 100, 0.15); }
 
 .admin-ads__bulk-sep {
   width: 1px;
   height: 24px;
-  background: rgba(255, 255, 255, 0.15);
+  background: var(--a-line);
   margin: 0 4px;
 }
 
