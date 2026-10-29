@@ -285,8 +285,7 @@
 /* ── Vitrine ── */
 
 .home-products {
-  max-width: 1100px;
-  margin: 0 auto 48px;
+  margin-bottom: 48px;
 }
 
 .home-products__head {
