@@ -148,3 +148,79 @@
 }
 
 .drive-lightbox__open:hover { background: rgba(255, 255, 255, 0.22); }
+
+/* ── Celular: pôster com play e player em tela cheia ── */
+
+.drive-embed__poster--still {
+  filter: none;
+  opacity: 1;
+  object-fit: cover;
+}
+
+.drive-embed__play {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 72px;
+  height: 72px;
+  margin: -36px 0 0 -36px;
+  display: grid;
+  place-items: center;
+  border: none;
+  border-radius: 50%;
+  background: rgba(247, 244, 240, 0.94);
+  color: var(--terracotta);
+  cursor: pointer;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+}
+
+.drive-embed__play svg { margin-left: 4px; }
+
+.drive-fullscreen {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  background: #000;
+  animation: fadeIn 0.2s ease-out;
+}
+
+.drive-fullscreen video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  height: 100dvh;
+  object-fit: contain;
+  background: #000;
+}
+
+.drive-fullscreen__open {
+  position: absolute;
+  left: 50%;
+  bottom: calc(14px + env(safe-area-inset-bottom));
+  transform: translateX(-50%);
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.16);
+  color: #fff;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-decoration: none;
+  z-index: 1;
+}
+
+.drive-fullscreen iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  height: 100dvh;
+  border: none;
+  opacity: 1;
+}
+
+.drive-fullscreen .drive-lightbox__close {
+  top: calc(12px + env(safe-area-inset-top));
+  right: 12px;
+  background: rgba(255, 255, 255, 0.2);
+}

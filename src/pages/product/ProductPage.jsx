@@ -4,7 +4,7 @@ import { supabase } from '../../lib/supabase'
 import { useAuth } from '../../hooks/useAuth'
 import { useFavorites } from '../../hooks/useFavorites'
 import { useActivity } from '../../hooks/useActivity'
-import { getCollectionStyle, getCollection, belongsTo } from '../../lib/catalog'
+import { getCollectionStyle, getCollection } from '../../lib/catalog'
 import { collectionCover } from '../../lib/drive'
 import PhoneCard from '../../components/ui/PhoneCard'
 import Row from '../../components/ui/Row'
@@ -73,7 +73,6 @@ export default function ProductPage() {
 
   const fixas = (collections || []).filter(c => getCollectionStyle(c.slug).kind === 'fixa')
   const extras = (collections || []).filter(c => getCollectionStyle(c.slug).kind !== 'fixa')
-  const countOf = col => ads.filter(a => belongsTo(a, col)).length
   const colTitle = ad => colById[ad.collection_id]?.title
 
   const favoriteAds = favorites.map(f => f.ads || byId[f.ad_id]).filter(a => a && a.active !== false)
@@ -86,7 +85,6 @@ export default function ProductPage() {
 
   function renderCard(col, index) {
     const style = getCollectionStyle(col.slug)
-    const n = countOf(col)
     const kicker = col.is_bonus
       ? 'Bônus'
       : style.kind === 'fixa'
@@ -100,7 +98,6 @@ export default function ProductPage() {
         title={col.title}
         subtitle={col.subtitle || getCollection(col.slug)?.subtitle || ''}
         kicker={kicker}
-        meta={`${n} ${n === 1 ? 'anúncio' : 'anúncios'}`}
         fallbackGradient={style.gradient}
         fallbackLabel={col.is_bonus ? '★' : style.kind === 'fixa' ? String(col.order).padStart(2, '0') : ''}
         textBelow

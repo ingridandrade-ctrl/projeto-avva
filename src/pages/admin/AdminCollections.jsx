@@ -257,7 +257,6 @@ export default function AdminCollections() {
                     title={d.title || col.title}
                     subtitle={d.subtitle || getCollection(col.slug)?.subtitle || ''}
                     kicker={kind}
-                    meta={`${n} ${n === 1 ? 'anúncio' : 'anúncios'}`}
                     fallbackGradient={style.gradient}
                     fallbackLabel={col.is_bonus ? '★' : style.kind === 'fixa' ? String(col.order).padStart(2, '0') : ''}
                     textBelow

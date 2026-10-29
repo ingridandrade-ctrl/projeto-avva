@@ -36,6 +36,13 @@ html {
   font-size: 17px;
 }
 
+/* Celular: base menor, pra tudo caber sem parecer gigante */
+@media (max-width: 640px) {
+  html {
+    font-size: 15px;
+  }
+}
+
 body {
   font-family: var(--font-corpo);
   color: var(--umber);
