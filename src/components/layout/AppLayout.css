@@ -1,5 +1,16 @@
 .app-layout {
   min-height: 100vh;
+  min-height: var(--vh100);
+}
+
+/* Computador: a área foi desenhada e aprovada vista a 70%. Reproduz essa
+   proporção com zoom, e corrige as medidas em vh/vw que encolheriam junto. */
+@media (min-width: 901px) {
+  .app-layout {
+    zoom: 0.7;
+    --vh100: calc(100dvh / 0.7);
+    --vw100: calc(100dvw / 0.7);
+  }
 }
 
 /* Menu recolhido (só ícones) */
@@ -14,6 +25,7 @@
   margin-top: var(--header-height);
   padding: var(--page-top) var(--page-gutter);
   min-height: calc(100vh - var(--header-height));
+  min-height: calc(var(--vh100) - var(--header-height));
   animation: fadeIn 0.35s ease-out;
   transition: margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
