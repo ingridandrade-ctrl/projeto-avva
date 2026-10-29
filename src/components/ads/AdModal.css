@@ -381,7 +381,13 @@
   }
 
   .ad-modal__phone { justify-items: center; width: 100%; }
-  .ad-modal__phone .drive-embed { max-height: 66dvh; width: auto; max-width: 100%; border-radius: 18px; }
+  /* Largura calculada a partir da altura que cabe na tela, senão o player
+     some (width: auto num grid centralizado vira zero) */
+  .ad-modal__phone .drive-embed {
+    width: min(100%, calc(62dvh * var(--embed-ratio, 0.5625)));
+    max-height: none;
+    border-radius: 18px;
+  }
 
   .ad-modal__arrow--prev { left: 4px; }
   .ad-modal__arrow--next { right: 4px; }

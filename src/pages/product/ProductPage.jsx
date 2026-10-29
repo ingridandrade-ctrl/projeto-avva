@@ -16,12 +16,12 @@ const PRODUCTS = {
   'acervo-anuncios': {
     title: 'Acervo de Anúncios',
     description: 'Sua biblioteca de anúncios que funcionam, organizados por objetivo — do primeiro contato até a venda.',
-    gradient: 'linear-gradient(135deg, #1A6868 0%, #3F7A66 45%, #965E41 100%)',
+    gradient: 'linear-gradient(150deg, #0C4747 0%, #11403E 35%, #2B1A12 72%, #4C362D 100%)',
   },
   'kit-execucao': {
     title: 'Kit de Execução',
     description: 'Ganchos, estruturas narrativas e prompts de IA prontos para você usar.',
-    gradient: 'linear-gradient(135deg, #4C362D 0%, #965E41 50%, #D4B99A 100%)',
+    gradient: 'linear-gradient(150deg, #2B1A12 0%, #4C362D 55%, #965E41 100%)',
     requiresOrderBump: true,
   },
 }

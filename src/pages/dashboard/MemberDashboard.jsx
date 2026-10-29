@@ -94,7 +94,7 @@ export default function MemberDashboard() {
       title: 'Kit de Execução',
       description: 'Ganchos prontos, estruturas narrativas e prompts de IA pra você sair do anúncio direto pra execução, sem travar na folha em branco.',
       meta: kitCount === null ? null : `${kitCount} itens prontos`,
-      gradient: 'linear-gradient(135deg, #965E41 0%, #C98A5E 55%, #D4B99A 100%)',
+      gradient: 'linear-gradient(150deg, #2B1A12 0%, #4C362D 55%, #965E41 100%)',
       owned: hasKit,
       comingSoon: !hasKit,
     },

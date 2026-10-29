@@ -5,8 +5,8 @@ import './AdCard.css'
 
 export { driveThumb }
 
-// Card de anúncio nas grades (coleção, busca): formato celular 9:16,
-// capa do Drive, favorito, selo "visto" e nichos como meta.
+// Card de anúncio nas grades (coleção, busca): capa 3:4 inteira em cima,
+// título e nichos na base branca, favorito e selo "visto" sobre a capa.
 export default function AdCard({ ad, isFavorite, onToggleFavorite, onOpen, seen = false }) {
   const initial = (ad.title || '?').trim().charAt(0).toUpperCase()
   const niches = (ad.niches || []).map(n => NICHE_LABELS[n] || n).join(' · ')
@@ -29,12 +29,13 @@ export default function AdCard({ ad, isFavorite, onToggleFavorite, onOpen, seen 
       onClick={onOpen}
       image={driveThumb(ad.drive_url, 1000)}
       title={ad.title}
-      meta={niches || undefined}
+      subtitle={niches || undefined}
       badge={ad.media_type ? (MEDIA_LABELS[ad.media_type] || ad.media_type) : null}
       play={ad.media_type === 'video'}
       seen={seen}
       overlay={fav}
       fallbackLabel={initial}
+      textBelow
       className={`ad-card ${seen ? 'ad-card--seen' : ''}`}
     />
   )
