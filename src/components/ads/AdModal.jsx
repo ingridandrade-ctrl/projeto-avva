@@ -2,6 +2,7 @@ import { useEffect, useRef } from 'react'
 import DriveEmbed from './DriveEmbed'
 import Tag from '../ui/Tag'
 import CopyButton from '../ui/CopyButton'
+import AdaptPanel from './AdaptPanel'
 import { NICHE_LABELS, MEDIA_LABELS } from '../../lib/catalog'
 import { useActivity } from '../../hooks/useActivity'
 import './AdModal.css'
@@ -140,6 +141,8 @@ export default function AdModal({
           ) : (
             <p className="ad-modal__no-analysis">A análise deste anúncio chega em breve.</p>
           )}
+
+          {paragraphs.length > 0 && <AdaptPanel ad={ad} collectionTitle={collectionTitle} />}
 
           <div className="ad-modal__actions">
             <button
