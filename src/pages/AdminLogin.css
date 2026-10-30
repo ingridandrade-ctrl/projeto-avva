@@ -146,3 +146,26 @@
     border-radius: 20px;
   }
 }
+
+.al__aviso {
+  font-size: 0.86rem;
+  font-weight: 500;
+  color: var(--teal-profundo);
+  background: rgba(12, 71, 71, 0.08);
+  border-radius: 10px;
+  padding: 10px 14px;
+  margin-bottom: 16px;
+  line-height: 1.45;
+}
+
+.al__link--rodape {
+  display: block;
+  margin: 18px auto 0;
+  font-size: 0.86rem;
+  font-weight: 500;
+  color: var(--umber);
+  opacity: 0.8;
+}
+
+.al__link--rodape:hover { opacity: 1; }
+.al__link--rodape:disabled { opacity: 0.4; cursor: not-allowed; }

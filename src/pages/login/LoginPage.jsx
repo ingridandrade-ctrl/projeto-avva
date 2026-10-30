@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Navigate, useLocation } from 'react-router-dom'
+import { Link, Navigate, useLocation } from 'react-router-dom'
 import { useAuth } from '../../hooks/useAuth'
 import './LoginPage.css'
 
@@ -26,7 +26,9 @@ export default function LoginPage() {
           ? 'Não encontramos esse email. Use o mesmo email da sua compra.'
           : error.code === 'access_blocked'
             ? 'Esse acesso foi encerrado após o reembolso. Se foi um engano, responda o e-mail de compra.'
-            : 'Não foi possível entrar agora. Tente novamente em instantes.'
+            : error.code === 'admin_password'
+              ? <>Essa conta é de administradora e entra com senha. <Link to="/admin/login">Ir para o login do painel</Link></>
+              : 'Não foi possível entrar agora. Tente novamente em instantes.'
       )
     }
     setSubmitting(false)
