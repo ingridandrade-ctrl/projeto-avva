@@ -9,11 +9,12 @@
 .adm-import__entrada { display: flex; flex-direction: column; gap: 10px; }
 
 .adm-import__textarea {
-  min-height: 320px;
+  min-height: 240px;
+  overflow: hidden;
   font-family: var(--font-mono);
   font-size: 0.84rem;
   line-height: 1.5;
-  resize: vertical;
+  resize: none;
 }
 
 .adm-import__acoes {

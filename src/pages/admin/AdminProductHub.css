@@ -57,7 +57,17 @@
 .adm-hub .adm-page-header .adm-eyebrow { display: none; }
 .adm-hub .adm-page-header h1 { font-size: 1.35rem; }
 .adm-hub .adm-page-header p { font-size: 0.98rem; }
-.adm-hub .admin-ad-form__back { display: none; }
+.adm-hub .admin-ad-form__back {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 14px;
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: var(--a-ink-3);
+  text-decoration: none;
+}
+.adm-hub .admin-ad-form__back:hover { color: var(--a-accent); }
 
 @media (max-width: 640px) {
   .adm-hub__head { align-items: flex-start; }

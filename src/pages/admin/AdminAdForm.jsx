@@ -120,7 +120,7 @@ export default function AdminAdForm() {
 
   return (
     <div className="admin-ad-form">
-      <Link to="/admin/produtos/acervo/anuncios" className="admin-ad-form__back">← Anúncios</Link>
+      <Link to="/admin/produtos/acervo/anuncios" className="admin-ad-form__back">← Voltar para anúncios</Link>
       <div className="adm-page-header">
         <div>
           <span className="adm-eyebrow">Acervo de Anúncios</span>
