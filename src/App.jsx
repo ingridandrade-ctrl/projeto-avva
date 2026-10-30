@@ -17,6 +17,7 @@ const AdminProductHub = lazy(() => import('./pages/admin/AdminProductHub'))
 const AdminProductIndex = lazy(() => import('./pages/admin/AdminProductHub').then(m => ({ default: m.AdminProductIndex })))
 const AdminAdsList = lazy(() => import('./pages/admin/AdminAdsList'))
 const AdminAdForm = lazy(() => import('./pages/admin/AdminAdForm'))
+const AdminAdImport = lazy(() => import('./pages/admin/AdminAdImport'))
 const AdminKit = lazy(() => import('./pages/admin/AdminKit'))
 const AdminLogin = lazy(() => import('./pages/AdminLogin'))
 const AdminSenha = lazy(() => import('./pages/AdminSenha'))
@@ -113,6 +114,7 @@ export default function App() {
                 <Route path="alunas" element={<AdminAlunas />} />
                 <Route path="anuncios" element={<AdminAdsList />} />
                 <Route path="anuncios/novo" element={<AdminAdForm />} />
+                <Route path="anuncios/importar" element={<AdminAdImport />} />
                 <Route path="anuncios/:id/editar" element={<AdminAdForm />} />
                 <Route path="colecoes" element={<AdminCollections />} />
                 <Route path="itens" element={<AdminKit />} />

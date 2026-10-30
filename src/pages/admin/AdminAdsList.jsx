@@ -299,6 +299,7 @@ export default function AdminAdsList() {
           <p>Tudo que as alunas veem nas Coleções. Desative para esconder sem apagar.</p>
         </div>
         <div className="adm-page-header__actions">
+          <Link to="/admin/produtos/acervo/anuncios/importar" className="adm-btn adm-btn--secondary">Importar em lote</Link>
           <Link to="/admin/produtos/acervo/anuncios/novo" className="adm-btn adm-btn--primary">+ Novo anúncio</Link>
         </div>
       </div>
