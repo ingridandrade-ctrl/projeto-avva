@@ -1,5 +1,5 @@
 import PhoneCard from '../ui/PhoneCard'
-import { driveThumb } from '../../lib/drive'
+import { driveThumb, driveThumbAlt } from '../../lib/drive'
 import { NICHE_LABELS, MEDIA_LABELS } from '../../lib/catalog'
 import './AdCard.css'
 
@@ -36,6 +36,7 @@ export default function AdCard({ ad, isFavorite, onToggleFavorite, onOpen, seen 
     <PhoneCard
       onClick={onOpen}
       image={driveThumb(ad.drive_url, 1000)}
+      imageAlt={driveThumbAlt(ad.drive_url, 1000)}
       title={ad.title}
       kicker={niches || '\u00a0'}
       meta={side}

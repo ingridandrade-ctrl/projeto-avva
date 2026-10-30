@@ -8,6 +8,7 @@ export default function PhoneCard({
   to,
   onClick,
   image,
+  imageAlt,
   title,
   subtitle,
   kicker,
@@ -24,13 +25,20 @@ export default function PhoneCard({
   className = '',
   style,
 }) {
-  const [broken, setBroken] = useState(false)
-  const showImage = Boolean(image) && !broken
+  // Capa: tenta a principal; se falhar e houver reserva, tenta a reserva; senão cai na letra.
+  // O estado guarda para qual imagem vale, assim um card reaproveitado com outra capa recomeça.
+  const [tentativa, setTentativa] = useState({ para: image, n: 0 })
+  const n = tentativa.para === image ? tentativa.n : 0
+  const src = n === 0 ? image : n === 1 ? imageAlt : null
+  const showImage = Boolean(src)
+  function onImgError() {
+    setTentativa({ para: image, n: n === 0 && imageAlt ? 1 : 2 })
+  }
 
   const inner = (
     <div className="phone-card__media">
       {showImage ? (
-        <img src={image} alt="" loading="lazy" onError={() => setBroken(true)} />
+        <img src={src} alt="" loading="lazy" onError={onImgError} />
       ) : (
         <div className="phone-card__fallback" style={{ background: fallbackGradient }}>
           {fallbackLabel && <span>{fallbackLabel}</span>}
