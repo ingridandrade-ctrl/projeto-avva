@@ -18,7 +18,7 @@ export const PRODUCTS = {
     slug: 'kit',
     title: 'Kit de Execução',
     type: 'Order bump',
-    description: 'Ganchos prontos, estruturas narrativas e prompts de IA.',
+    description: 'A estrutura e o super prompt de cada tipo de anúncio, mais ganchos, narrativas e ângulos prontos.',
     image: null,
     gradient: 'linear-gradient(135deg, #965E41 0%, #C98A5E 55%, #D4B99A 100%)',
     tabs: [

@@ -101,7 +101,7 @@ export default function MemberDashboard() {
       key: 'kit',
       to: '/kit',
       title: 'Kit de Execução',
-      description: 'Ganchos prontos, estruturas narrativas e prompts de IA pra você sair do anúncio direto pra execução, sem travar na folha em branco.',
+      description: 'A estrutura e o super prompt de cada tipo de anúncio do Acervo, mais ganchos, narrativas e ângulos prontos. Pra sair do anúncio direto pra execução.',
       meta: kitCount === null ? null : `${kitCount} itens prontos`,
       gradient: 'linear-gradient(150deg, #2B1A12 0%, #4C362D 55%, #965E41 100%)',
       owned: hasKit,
