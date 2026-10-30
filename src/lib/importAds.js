@@ -77,7 +77,8 @@ function findCollection(value, collections) {
     || null
 }
 
-export function parseImport(text, collections = [], existingDriveIds = new Set()) {
+// existingByDrive: Map(id do Drive -> { id, title }) dos anúncios já cadastrados
+export function parseImport(text, collections = [], existingByDrive = new Map()) {
   const blocks = (text || '')
     .replace(/\r/g, '')
     .split(/\n\s*(?:-{3,}|={3,}|\*{3,})\s*\n/)
@@ -125,7 +126,7 @@ export function parseImport(text, collections = [], existingDriveIds = new Set()
     if (!objectives.length) warnings.push('sem objetivo: só aparece na coleção do mês')
     if (raw.objectives && objectives.length < splitList(raw.objectives).length) warnings.push('algum objetivo não foi reconhecido')
     if (raw.niches && niches.length < splitList(raw.niches).length) warnings.push('algum nicho não foi reconhecido')
-    if (id && existingDriveIds.has(id)) warnings.push('já existe um anúncio com esse arquivo do Drive')
+    const existing = id ? existingByDrive.get(id) || null : null
     if (raw.title.trim().length > 70) warnings.push('título longo (acima de 70 caracteres)')
 
     return {
@@ -138,6 +139,7 @@ export function parseImport(text, collections = [], existingDriveIds = new Set()
       media_type,
       drive_url,
       analysis,
+      existing,
       errors,
       warnings,
     }
