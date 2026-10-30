@@ -30,11 +30,15 @@ export default function AdminAdsList() {
   const [params] = useSearchParams()
   const [ads, setAds] = useState([])
   const [collections, setCollections] = useState([])
-  const [selectedCollection, setSelectedCollection] = useState(params.get('collection') || '')
-  const [search, setSearch] = useState('')
-  const [niche, setNiche] = useState('')
-  const [media, setMedia] = useState('')
-  const [onlyDups, setOnlyDups] = useState(false)
+  // Filtros lembrados entre idas e vindas (editar um anúncio e voltar)
+  const lembrados = (() => {
+    try { return JSON.parse(sessionStorage.getItem('avva.admin.ads.filtros') || '{}') } catch { return {} }
+  })()
+  const [selectedCollection, setSelectedCollection] = useState(params.get('collection') || lembrados.collection || '')
+  const [search, setSearch] = useState(lembrados.search || '')
+  const [niche, setNiche] = useState(lembrados.niche || '')
+  const [media, setMedia] = useState(lembrados.media || '')
+  const [onlyDups, setOnlyDups] = useState(Boolean(lembrados.onlyDups))
   const [view, setView] = useState(() => {
     try { return localStorage.getItem('avva.admin.ads.view') || 'colecoes' } catch { return 'colecoes' }
   })
@@ -59,6 +63,12 @@ export default function AdminAdsList() {
   }
 
   useEffect(() => { Promise.resolve().then(load) }, [])
+
+  useEffect(() => {
+    try {
+      sessionStorage.setItem('avva.admin.ads.filtros', JSON.stringify({ collection: selectedCollection, search, niche, media, onlyDups }))
+    } catch { /* sem armazenamento, sem problema */ }
+  }, [selectedCollection, search, niche, media, onlyDups])
 
   function changeView(v) {
     setView(v)
