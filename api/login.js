@@ -106,7 +106,7 @@ export default async function handler(req, res) {
 
   let { data: user } = await supabase
     .from('users')
-    .select('id, access_blocked')
+    .select('id, access_blocked, is_admin')
     .eq('email', email)
     .maybeSingle()
 
@@ -122,6 +122,12 @@ export default async function handler(req, res) {
   // Reembolso ou chargeback: o webhook da Cakto bloqueia o acesso na hora
   if (user.access_blocked) {
     return res.status(403).json({ error: 'access_blocked' })
+  }
+
+  // Conta de administradora só entra com senha (/admin/login). Senão bastaria
+  // saber o e-mail para abrir o painel.
+  if (user.is_admin) {
+    return res.status(403).json({ error: 'admin_password' })
   }
 
   const { data, error } = await supabase.auth.admin.generateLink({

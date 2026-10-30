@@ -15,7 +15,13 @@ export function AuthProvider({ children }) {
       else setLoading(false)
     })
 
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+      // Link "criar/redefinir senha" do admin: o Supabase abre o site já com a
+      // sessão de recuperação; leva para a tela de definir a senha.
+      if (event === 'PASSWORD_RECOVERY' && window.location.pathname !== '/admin/senha') {
+        window.location.replace('/admin/senha')
+        return
+      }
       setSession(session)
       if (session) fetchProfile(session.user.id)
       else {

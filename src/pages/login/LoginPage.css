@@ -358,6 +358,13 @@
   margin-top: 1px;
 }
 
+.login-form__error a {
+  color: #fff;
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
 /* ── Submit ── */
 .login-form__submit {
   display: flex;
