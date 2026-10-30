@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { supabase } from '../../lib/supabase'
 import { OBJECTIVE_LABELS, NICHE_LABELS, MEDIA_LABELS } from '../../lib/catalog'
@@ -18,6 +18,7 @@ export default function AdminAdImport() {
   const [rows, setRows] = useState(null)
   const [saving, setSaving] = useState(false)
   const [done, setDone] = useState(null)
+  const areaRef = useRef(null)
 
   useEffect(() => {
     Promise.resolve().then(async () => {
@@ -29,6 +30,14 @@ export default function AdminAdImport() {
       setExisting(new Map((ads || []).map(a => [driveId(a.drive_url), { id: a.id, title: a.title }]).filter(([k]) => k)))
     })
   }, [])
+
+  // A caixa acompanha o tamanho do texto: nada de rolar dentro dela
+  useEffect(() => {
+    const el = areaRef.current
+    if (!el) return
+    el.style.height = 'auto'
+    el.style.height = `${Math.max(240, el.scrollHeight + 4)}px`
+  }, [text])
 
   const ok = useMemo(() => (rows || []).filter(r => !r.errors.length), [rows])
   const bad = useMemo(() => (rows || []).filter(r => r.errors.length), [rows])
@@ -91,6 +100,7 @@ export default function AdminAdImport() {
         <label htmlFor="imp-text" className="adm-import__label">Texto para importar</label>
         <textarea
           id="imp-text"
+          ref={areaRef}
           className="adm-input adm-import__textarea"
           value={text}
           onChange={e => { setText(e.target.value); setRows(null) }}

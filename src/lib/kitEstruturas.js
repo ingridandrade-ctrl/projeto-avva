@@ -25,7 +25,7 @@ export const ESTRUTURAS = [
   {
     slug: "ser-descoberta",
     title: "Ser descoberta",
-    subtitle: "Atrair seguidores",
+    subtitle: "Atrair seguidores e chamar a atenção de quem não te conhece",
     funcao: "Fazer alguém que nunca te viu parar o dedo e querer conhecer. Aqui o anúncio ganha pela atenção, não pelo argumento.",
     faz: "Segue, salva, comenta, compartilha, clica no perfil. Não compra, e tudo bem.",
     quando: "Quando você precisa de gente nova. Quando os anúncios de venda estão caros porque todo mundo que te conhece já comprou ou já decidiu que não.",
@@ -43,7 +43,7 @@ export const ESTRUTURAS = [
   {
     slug: "mostrar-que-voce-entende",
     title: "Mostrar que você entende",
-    subtitle: "Gerar autoridade",
+    subtitle: "Gerar autoridade e construir confiança",
     funcao: "Convencer que a pessoa por trás da marca sabe do que está falando. Constrói confiança antes de pedir qualquer coisa.",
     faz: "Pensa \"ela entende do meu problema\" e passa a prestar atenção em você. Salva, compartilha com uma amiga, começa a acompanhar.",
     quando: "Quando a pessoa já te viu mas ainda não confia. Quando você vende algo que exige critério. Quando quer sair da guerra de preço.",
@@ -61,7 +61,7 @@ export const ESTRUTURAS = [
   {
     slug: "provar-que-funciona",
     title: "Provar que funciona",
-    subtitle: "Prova social",
+    subtitle: "Prova social e resultados reais",
     funcao: "Tirar a dúvida \"será que funciona mesmo?\" com evidência. É a coleção da prova.",
     faz: "Acredita no resultado e se imagina tendo o mesmo. Muitas vezes manda mensagem perguntando \"comigo também dá?\".",
     quando: "Quando a pessoa já confia em você mas duvida do resultado. Quando o produto tem um antes e depois visível. Quando você recebe muito \"vou pensar\".",
@@ -79,7 +79,7 @@ export const ESTRUTURAS = [
   {
     slug: "quebrar-o-mas",
     title: "Quebrar o \"mas...\"",
-    subtitle: "Quebra de objeção",
+    subtitle: "Quebra de objeção e dos motivos pra adiar",
     funcao: "Responder ao motivo pelo qual a pessoa ainda não comprou. É o anúncio que conversa com quem já quer, mas trava.",
     faz: "Solta a desculpa. \"É caro\", \"não tenho tempo\", \"não vai dar certo pra mim\", \"já tentei\", \"depois eu vejo\".",
     quando: "Quando você ouve a mesma objeção toda semana. Quando tem gente que pergunta e some. Quando o retorno do anúncio de venda é \"vou pensar\".",
