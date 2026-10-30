@@ -325,3 +325,25 @@
 
 .admin-ads__bulk-msg--ok { color: var(--a-ok); }
 .admin-ads__bulk-msg--error { color: var(--a-danger); }
+
+/* ── A tabela cabe no card: larguras fixas por coluna, o texto quebra em vez de alargar ── */
+.admin-ads .admin-table { font-size: 0.9rem; table-layout: fixed; width: 100%; }
+.admin-ads .admin-table td,
+.admin-ads .admin-table th { padding: 10px 8px; vertical-align: middle; overflow-wrap: anywhere; }
+.admin-ads .admin-table th { font-size: 0.68rem; letter-spacing: 0.06em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.admin-ads .admin-table th:nth-child(1), .admin-ads .admin-table td:nth-child(1) { width: 34px; }
+.admin-ads .admin-table th:nth-child(2), .admin-ads .admin-table td:nth-child(2) { width: 58px; }
+.admin-ads .admin-table th:nth-child(3), .admin-ads .admin-table td:nth-child(3) { width: 24%; }
+.admin-ads .admin-table th:nth-child(4), .admin-ads .admin-table td:nth-child(4) { width: 12%; font-size: 0.84rem; line-height: 1.3; }
+.admin-ads .admin-table th:nth-child(5), .admin-ads .admin-table td:nth-child(5) { width: 20%; }
+.admin-ads .admin-table th:nth-child(6), .admin-ads .admin-table td:nth-child(6) { width: 15%; }
+.admin-ads .admin-table th:nth-child(7), .admin-ads .admin-table td:nth-child(7) { width: 9%; font-size: 0.84rem; }
+.admin-ads .admin-table th:nth-child(8), .admin-ads .admin-table td:nth-child(8) { width: 60px; }
+.admin-ads .admin-table th:nth-child(9), .admin-ads .admin-table td:nth-child(9) { width: 112px; }
+.admin-ads .admin-table__title { max-width: none; font-size: 0.94rem; line-height: 1.3; }
+.admin-ads .admin-table__tags { gap: 4px; }
+.admin-ads .admin-table__tags .tag { padding: 4px 8px; font-size: 0.62rem; letter-spacing: 0.03em; white-space: normal; line-height: 1.2; text-align: left; }
+.admin-ads__actions { flex-wrap: nowrap; gap: 4px; }
+.admin-ads__icon { width: 32px; height: 32px; }
+.admin-ads__icon svg { width: 15px; height: 15px; }
+.admin-ads__dup, .admin-ads__multi { font-size: 0.6rem; }
