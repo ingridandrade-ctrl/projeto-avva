@@ -212,6 +212,7 @@ export default function CollectionPage() {
         <AdModal
           ad={openAd}
           collectionTitle={collection.title}
+          collectionSlug={collection.slug}
           isFavorite={isFavorite(openAd.id)}
           onToggleFavorite={toggleFavorite}
           onClose={() => setOpenAd(null)}
