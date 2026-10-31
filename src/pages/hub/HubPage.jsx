@@ -28,10 +28,7 @@ export default function HubPage() {
         <header className="hub__header">
           <span className="hub__kicker">Bem-vinda ao</span>
           <h1>AVVA Hub</h1>
-          <p>
-            Tudo da AVVA em um só lugar: os seus conteúdos, a mentoria e quem te
-            acompanha de perto. Escolha por onde seguir.
-          </p>
+          <p>Que bom ter você aqui. Escolha para onde quer ir.</p>
         </header>
 
         <nav className="hub__cards" aria-label="Para onde você quer ir">
