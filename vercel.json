@@ -16,19 +16,19 @@
     },
     {
       "source": "/aplicacao",
-      "destination": "/index.html"
+      "destination": "/mentoria.html"
     },
     {
       "source": "/aplicacao/(.*)",
-      "destination": "/index.html"
+      "destination": "/mentoria.html"
     },
     {
       "source": "/mentoria",
-      "destination": "/index.html"
+      "destination": "/mentoria.html"
     },
     {
       "source": "/mentoria/(.*)",
-      "destination": "/index.html"
+      "destination": "/mentoria.html"
     },
     {
       "source": "/acervo-de-anuncios",
