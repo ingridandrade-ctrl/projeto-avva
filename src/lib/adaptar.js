@@ -35,35 +35,58 @@ export const DESTINO_SUGESTAO = {
 // Lentes: como destrinchar a análise conforme a coleção do anúncio
 const LENTES = {
   'ser-descoberta': [
-    'O que, nos primeiros segundos ou na primeira frase, faz quem nunca viu essa marca parar? É cena, curiosidade, humor, afirmação, formato?',
+    'O que, nos primeiros segundos ou na primeira frase, faz quem nunca viu essa marca parar? É cena, curiosidade, humor, afirmação, formato, contraste?',
+    'Com quem a peça está falando: que situação, momento ou sentimento da pessoa ela reconhece logo de cara?',
+    'O que a peça entrega antes de pedir qualquer coisa: uma piada, uma informação, uma história, uma identificação?',
     'Em que momento e de que jeito o produto ou a marca aparece? Cedo, tarde, de leve, de frente?',
-    'O que a peça faz a pessoa querer no fim: conhecer, seguir, salvar, clicar, comprar? (pode ser mais de um)',
+    'Que formato ou linguagem ela pega emprestado (meme, notícia, conversa, tendência, bastidor) e por que isso baixa a defesa de quem vê?',
+    'O que a peça faz a pessoa querer no fim: conhecer, seguir, salvar, comentar, clicar, comprar? (pode ser mais de um)',
+    'O que dessa peça depende do anunciante ser famoso ou ter um contexto específico, e o que funciona pra qualquer marca?',
   ],
   'mostrar-que-voce-entende': [
     'Que conhecimento, critério ou visão a peça mostra, e como ela mostra em vez de só afirmar?',
     'Tem algum detalhe que só quem vive esse problema conhece? Qual?',
-    'Como a autoridade vira confiança sem a peça virar aula? Onde entra a posição de quem anuncia?',
+    'Que erro, dúvida ou crença do público a peça nomeia, e nas palavras de quem?',
+    'O que a pessoa leva de útil mesmo que não compre nada?',
+    'Como a autoridade vira confiança sem a peça virar aula? Onde entra a posição de quem anuncia ("eu faço assim", "eu não faço isso")?',
+    'O produto aparece como consequência do critério ou como foco? Que diferença isso faz?',
+    'Que sinal de experiência a peça dá sem dizer "sou especialista" (bastidor, caso, número, processo)?',
   ],
   'provar-que-funciona': [
-    'Qual é a prova e qual é o contexto dela: quem, qual era o problema, o que mudou?',
+    'Qual é a prova: depoimento, print, antes e depois, número, caso, reação? Em que formato ela aparece?',
+    'Qual é o contexto dela: quem era a cliente, qual era o problema, o que foi feito, o que mudou?',
     'Em que ponto a prova entra em relação ao argumento, e por que essa ordem?',
-    'O que essa prova responde na cabeça de quem está vendo? Que dúvida ela derruba?',
+    'O que faz essa prova parecer verdadeira (detalhe, imperfeição, nome, situação específica)?',
+    'Que dúvida essa prova derruba na cabeça de quem vê? E qual ela deixa aberta?',
+    'A prova fala sozinha ou alguém interpreta a prova? Quem conduz?',
+    'Tirando a prova, a peça fica de pé? O que isso diz sobre o papel dela?',
   ],
   'quebrar-o-mas': [
     'Qual objeção a peça responde e como ela nomeia essa objeção (nas palavras da cliente, por cena, por comparação)?',
-    'A peça valida a objeção antes de rebater? Como?',
-    'Qual é o argumento concreto que vira a objeção: custo de não resolver, facilidade, diferença, caso parecido, condição?',
+    'Em que momento da peça a objeção aparece: no gancho, no meio, no fim?',
+    'A peça valida a objeção antes de rebater? Como, e em que tom (conversa, provocação, humor)?',
+    'Qual é o argumento concreto que vira a objeção: custo de não resolver, facilidade, diferença, caso parecido, condição, garantia?',
+    'Que prova ou exemplo sustenta a virada, se houver?',
+    'Como a peça termina depois de responder: pede algo, deixa a pessoa decidir, abre conversa?',
+    'A objeção respondida é a mesma que a minha cliente tem, ou é parecida em outra forma?',
   ],
   'vender-agora': [
-    'Qual é a oferta e como ela aparece: o que é, pra quem, o que ganha?',
-    'Qual é o motivo pra agir agora, e ele é real na peça (prazo, condição, custo de adiar)?',
+    'Qual é a oferta e como ela aparece: o que é, pra quem, o que ganha, o que vem junto?',
+    'Em que momento a oferta aparece e o que vem antes dela?',
+    'Qual é o motivo pra agir agora, e ele é real na peça (prazo, condição, vagas, custo de adiar)?',
+    'Como a peça trata o preço ou a condição: mostra, compara, justifica, esconde?',
     'Como é a chamada: que verbo, pra que destino, o que acontece depois do clique?',
+    'A peça fala com quem já conhece a marca (remarketing) ou com quem nunca viu? Como dá pra perceber?',
+    'Que prova ou argumento aparece como apoio da oferta, mesmo que rápido?',
   ],
 }
 
 const LENTE_GERAL = [
   'Qual é a escolha de comunicação que sustenta a peça, e o que ela muda na decisão de quem vê?',
+  'Que tensão a peça resolve: uma dúvida, um adiamento, um medo, uma resistência, um conflito entre o que a pessoa quer e o que a peça pede?',
+  'Como o formato (vídeo, imagem, carrossel, página) ajuda a ideia? Em outro formato, ela funcionaria?',
   'O que é ideia (dá pra reaproveitar) e o que é só execução daquele anunciante (não dá)?',
+  'Que erro seria fácil cometer ao copiar essa peça sem entender o porquê?',
 ]
 
 const ENTREGA_POR_MIDIA = {
