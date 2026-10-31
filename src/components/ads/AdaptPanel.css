@@ -121,3 +121,38 @@
   .adapt__toggle { font-size: 0.95rem; }
   .adapt__cta { width: 100%; justify-content: center; }
 }
+
+.adapt__sugestao {
+  margin: 4px 0 0;
+  font-size: 0.82rem;
+  line-height: 1.4;
+  color: rgba(76, 54, 45, 0.7);
+}
+
+.adapt__ver {
+  padding: 8px 14px;
+  border-radius: 999px;
+  border: 1px dashed rgba(12, 71, 71, 0.35);
+  background: #fff;
+  color: var(--teal-profundo);
+  font: inherit;
+  font-size: 0.84rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.adapt__prompt {
+  margin: 0;
+  padding: 12px 14px;
+  background: var(--off-white);
+  border: 1px solid rgba(76, 54, 45, 0.12);
+  border-radius: 12px;
+  font-family: var(--font-mono);
+  font-size: 0.76rem;
+  line-height: 1.5;
+  white-space: pre-wrap;
+  word-break: break-word;
+  max-height: 360px;
+  overflow: auto;
+  color: var(--tinta);
+}

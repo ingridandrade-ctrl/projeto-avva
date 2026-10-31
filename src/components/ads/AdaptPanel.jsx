@@ -1,16 +1,18 @@
 import { useMemo, useState } from 'react'
 import CopyButton from '../ui/CopyButton'
-import { DESTINOS, loadFicha, saveFicha, buildPrompt, linkChatGPT } from '../../lib/adaptar'
+import { CAMPOS, DESTINOS, DESTINO_SUGESTAO, loadFicha, saveFicha, buildPrompt, linkChatGPT } from '../../lib/adaptar'
 import './AdaptPanel.css'
 
-// "Fazer a minha versão": um toque abre a IA com a análise deste anúncio e o
-// pedido pronto. O negócio da aluna é opcional (fica salvo no aparelho); sem
-// ele, a IA pergunta antes de escrever.
+// "Fazer a minha versão": abre a IA com a análise deste anúncio, as perguntas
+// certas para a coleção dele e o negócio da aluna. Campos opcionais, salvos no
+// aparelho; o que faltar, a IA pergunta antes de escrever.
 export default function AdaptPanel({ ad, collectionTitle }) {
   const [open, setOpen] = useState(false)
   const [ficha, setFicha] = useState(() => loadFicha())
+  const [verPrompt, setVerPrompt] = useState(false)
 
   const prompt = useMemo(() => buildPrompt({ ad, collectionTitle, ficha }), [ad, collectionTitle, ficha])
+  const sugestao = (ad.objectives || []).map(o => DESTINO_SUGESTAO[o]).filter(Boolean)[0]
 
   function edit(key, value) {
     const next = { ...ficha, [key]: value }
@@ -29,21 +31,23 @@ export default function AdaptPanel({ ad, collectionTitle }) {
       {open && (
         <div className="adapt__body">
           <p className="adapt__intro">
-            A IA recebe a análise desse anúncio e escreve a sua versão: gancho, roteiro e legenda. Você só revisa.
+            A IA destrincha a análise desse anúncio pela lente da coleção e escreve a sua versão. O que você preencher aqui fica salvo no seu aparelho; o que faltar, ela pergunta.
           </p>
 
-          <label className="adapt__field">
-            <span>Seu negócio em uma frase <em>(opcional, fica salvo)</em></span>
-            <input
-              type="text"
-              value={ficha.negocio || ''}
-              onChange={e => edit('negocio', e.target.value)}
-              placeholder="Ex.: consultoria de imagem pra mulheres acima de 40"
-            />
-          </label>
+          {CAMPOS.map(c => (
+            <label key={c.key} className="adapt__field">
+              <span>{c.label}</span>
+              <input
+                type="text"
+                value={ficha[c.key] || ''}
+                onChange={e => edit(c.key, e.target.value)}
+                placeholder={c.placeholder}
+              />
+            </label>
+          ))}
 
           <div className="adapt__destinos">
-            <span>O anúncio leva pra</span>
+            <span>Pra onde o anúncio leva</span>
             <div className="adapt__chips">
               {DESTINOS.map(d => (
                 <button
@@ -54,6 +58,7 @@ export default function AdaptPanel({ ad, collectionTitle }) {
                 >{d}</button>
               ))}
             </div>
+            {sugestao && <p className="adapt__sugestao">{sugestao}</p>}
           </div>
 
           <div className="adapt__acoes">
@@ -61,10 +66,13 @@ export default function AdaptPanel({ ad, collectionTitle }) {
               Abrir no ChatGPT
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
             </a>
-            <CopyButton text={prompt} label="Copiar prompt pra outra IA" />
+            <CopyButton text={prompt} label="Copiar prompt" />
+            <button type="button" className="adapt__ver" onClick={() => setVerPrompt(v => !v)}>{verPrompt ? 'Esconder' : 'Ver o prompt'}</button>
           </div>
 
-          <p className="adapt__nota">Se você não escreveu o seu negócio, a IA pergunta primeiro. Se ela inventar uma prova que você não tem, apaga.</p>
+          {verPrompt && <pre className="adapt__prompt">{prompt}</pre>}
+
+          <p className="adapt__nota">A IA escreve, você decide. Se sair uma prova que você não tem, apaga.</p>
         </div>
       )}
     </div>
