@@ -7,7 +7,7 @@
 
 import { Readable, Transform } from 'node:stream'
 
-export const config = { maxDuration: 60 }
+export const config = { maxDuration: 60, supportsResponseStreaming: true }
 
 const ID_RE = /^[\w-]{10,}$/
 
@@ -75,6 +75,26 @@ export default async function handler(req, res) {
     upstream = await fetchDrive(id, range)
   } catch (err) {
     return res.status(502).end(`drive indisponível: ${err?.message || err}`)
+  }
+
+  // Diagnóstico: /api/video?id=...&debug=1 mostra o que o Drive respondeu, sem o vídeo
+  if (req.query?.debug) {
+    const ct = upstream.headers.get('content-type') || ''
+    const amostra = ct.includes('text/html') ? (await upstream.text()).slice(0, 400) : null
+    return res.status(200).json({
+      id,
+      range: range || null,
+      drive: {
+        status: upstream.status,
+        url: upstream.url,
+        contentType: ct,
+        contentLength: upstream.headers.get('content-length'),
+        contentRange: upstream.headers.get('content-range'),
+        acceptRanges: upstream.headers.get('accept-ranges'),
+        contentDisposition: upstream.headers.get('content-disposition'),
+      },
+      amostraHtml: amostra,
+    })
   }
 
   if (!upstream.ok && upstream.status !== 206) {

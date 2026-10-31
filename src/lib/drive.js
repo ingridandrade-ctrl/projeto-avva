@@ -7,6 +7,12 @@ export function driveId(url) {
 }
 
 // Capa gerada pelo próprio Drive (frame do vídeo, a imagem ou a 1ª página do PDF)
+// Segunda fonte de capa quando o thumbnail do Drive falha (alguns arquivos não geram)
+export function driveThumbAlt(url, width = 900) {
+  const id = driveId(url)
+  return id ? `https://lh3.googleusercontent.com/d/${id}=w${width}` : null
+}
+
 export function driveThumb(url, width = 900) {
   const id = driveId(url)
   return id ? `https://drive.google.com/thumbnail?id=${id}&sz=w${width}` : null
