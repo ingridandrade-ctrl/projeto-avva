@@ -48,6 +48,12 @@ html {
   }
 }
 
+html {
+  /* iPhone em pé/deitado não aumenta o texto sozinho */
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
 body {
   font-family: var(--font-corpo);
   color: var(--umber);
@@ -183,4 +189,21 @@ select:focus-visible {
   outline: none;
   box-shadow: 0 0 0 2px rgba(26, 104, 104, 0.3);
   border-color: var(--teal-medio);
+}
+
+/* No celular, campo com letra menor que 16px faz o iPhone dar zoom ao tocar,
+   e a página fica "aumentando e diminuindo". 16px em todo campo evita isso. */
+@media (max-width: 768px), (pointer: coarse) {
+  input, textarea, select {
+    font-size: 16px !important;
+  }
+}
+
+/* Foto da aluna dentro das bolinhas de avatar (cabeçalho, menu, perfil) */
+.avatar-img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
 }
