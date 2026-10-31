@@ -1,0 +1,242 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<title>Guia de acesso · Acervo de Anúncios · AVVA Hub</title>
+<!--
+  Guia de acesso das alunas (PDF da área de membros).
+  Para gerar o PDF: abrir no Chrome → Imprimir → Salvar como PDF
+  (margens: nenhuma; gráficos de fundo: ligado). Cada página tem 1080×1920.
+  Os prints ficam em img/ (tirados do site no tamanho de celular, 390×780 @3x).
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet" />
+<style>
+  @page { size: 1080px 1920px; margin: 0; }
+  :root {
+    --fundo: #F6F2EC;
+    --tinta: #2E211B;
+    --umber: #4C362D;
+    --terracota: #965E41;
+    --teal: #0C4747;
+    --areia: #EADFD0;
+    --cinza: #8C7B70;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; background: #ddd; }
+  body { font-family: 'Outfit', sans-serif; color: var(--tinta); -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+
+  .pagina {
+    position: relative;
+    width: 1080px;
+    height: 1920px;
+    overflow: hidden;
+    background: var(--fundo);
+    margin: 0 auto 40px;
+    page-break-after: always;
+    break-after: page;
+  }
+  @media print { html, body { background: none; } .pagina { margin: 0; } }
+
+  /* ── Elementos comuns ── */
+  .kicker { position: absolute; left: 96px; top: 118px; font-size: 28px; font-weight: 600; letter-spacing: 0.2em; color: var(--terracota); text-transform: uppercase; }
+  .num { position: absolute; left: 88px; top: 148px; font-size: 252px; line-height: 1; font-weight: 800; letter-spacing: -0.05em; color: var(--terracota); }
+  .titulo { position: absolute; left: 96px; top: 392px; width: 900px; margin: 0; font-size: 74px; font-weight: 700; letter-spacing: -0.035em; line-height: 1.1; }
+  .titulo em, .serif { font-family: 'Instrument Serif', serif; font-style: italic; font-weight: 400; color: var(--terracota); letter-spacing: -0.01em; }
+  .titulo em { font-size: 84px; }
+  .texto { position: absolute; left: 96px; font-size: 33px; line-height: 1.5; color: var(--umber); margin: 0; }
+  .texto b { color: var(--terracota); font-weight: 600; }
+
+  .rodape { position: absolute; left: 96px; right: 96px; bottom: 68px; display: flex; justify-content: space-between; font-size: 24px; font-weight: 500; letter-spacing: 0.12em; color: var(--cinza); text-transform: uppercase; }
+
+  .celular {
+    position: absolute;
+    left: 464px;
+    top: 730px;
+    width: 520px;
+    height: 1042px;
+    padding: 18px;
+    border-radius: 76px;
+    background: var(--tinta);
+    box-shadow: 0 50px 90px -40px rgba(46, 33, 27, 0.55);
+  }
+  .celular img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: top; border-radius: 60px; }
+
+  .cards { position: absolute; left: 96px; width: 362px; display: flex; flex-direction: column; gap: 20px; }
+  .card { background: #fff; border-radius: 30px; padding: 28px 30px; box-shadow: 0 12px 30px -24px rgba(46, 33, 27, 0.4); }
+  .card b { display: block; font-size: 31px; font-weight: 700; color: var(--teal); margin-bottom: 6px; letter-spacing: -0.01em; }
+  .card span { display: block; font-size: 27px; line-height: 1.38; color: var(--tinta); }
+
+  /* ── Capa ── */
+  .capa .bola1 { position: absolute; right: -170px; top: -330px; width: 640px; height: 640px; border-radius: 50%; background: var(--areia); }
+  .capa .bola2 { position: absolute; left: -230px; bottom: -230px; width: 470px; height: 470px; border-radius: 50%; background: var(--areia); }
+  .capa .logo { position: absolute; left: 50%; top: 395px; width: 680px; transform: translateX(-50%); }
+  .capa .ola { position: absolute; left: 0; right: 0; top: 1110px; text-align: center; margin: 0; font-family: 'Instrument Serif', serif; font-style: italic; font-weight: 400; font-size: 108px; letter-spacing: -0.01em; color: var(--tinta); }
+  .capa .sub { position: absolute; left: 140px; right: 140px; top: 1280px; text-align: center; margin: 0; font-size: 34px; line-height: 1.55; color: var(--umber); }
+  .capa .pilula { position: absolute; left: 50%; top: 1500px; transform: translateX(-50%); padding: 18px 34px; border-radius: 999px; background: var(--teal); color: #fff; font-size: 26px; font-weight: 600; white-space: nowrap; }
+
+  /* ── Passo 03: legenda do menu ── */
+  .nota-menu { position: absolute; left: 96px; top: 1020px; width: 340px; background: #fff; border-radius: 26px; padding: 26px 28px; font-size: 25px; line-height: 1.4; color: var(--tinta); box-shadow: 0 12px 30px -24px rgba(46, 33, 27, 0.4); }
+  .nota-menu b { display: block; color: var(--teal); font-size: 28px; margin-bottom: 6px; }
+
+  /* ── Passo 04: coleções ── */
+  .colecoes { position: absolute; left: 96px; right: 96px; top: 820px; display: grid; grid-template-columns: 1fr 1fr; gap: 26px; }
+  .colecao { min-height: 210px; display: flex; flex-direction: column; justify-content: space-between; gap: 18px; background: #fff; border-radius: 28px; padding: 30px 32px; box-shadow: 0 12px 30px -24px rgba(46, 33, 27, 0.4); }
+  .colecao b { font-size: 34px; font-weight: 700; letter-spacing: -0.015em; line-height: 1.15; }
+  .colecao span { font-size: 23px; line-height: 1.4; color: rgba(76, 54, 45, 0.75); }
+  .colecao--destaque { background: var(--teal); color: #fff; }
+  .colecao--destaque span { color: rgba(255, 255, 255, 0.8); }
+
+  /* ── Listas numeradas (E agora / Não entrou) ── */
+  .lista { position: absolute; left: 96px; right: 96px; display: flex; flex-direction: column; gap: 22px; }
+  .item { display: flex; gap: 44px; align-items: flex-start; background: #fff; border-radius: 26px; padding: 34px 40px; font-size: 29px; line-height: 1.45; box-shadow: 0 12px 30px -24px rgba(46, 33, 27, 0.4); }
+  .item i { font-style: normal; font-weight: 700; font-size: 34px; color: var(--terracota); line-height: 1.2; }
+  .item b { font-weight: 700; }
+  .faixa { position: absolute; left: 96px; right: 96px; background: var(--teal); color: #fff; border-radius: 26px; padding: 34px 40px; font-size: 27px; line-height: 1.5; }
+
+  .escura { background: #2E211B; color: #fff; }
+  .escura .kicker { color: var(--areia); }
+  .escura .titulo { color: #fff; }
+  .escura .titulo em { color: var(--areia); }
+  .escura .item { background: rgba(255, 255, 255, 0.08); box-shadow: none; color: #fff; }
+  .escura .item i { color: var(--areia); }
+  .escura .rodape { color: rgba(255, 255, 255, 0.6); }
+  .zap { position: absolute; left: 96px; right: 96px; top: 1060px; display: flex; align-items: center; gap: 28px; padding: 34px 44px; border-radius: 999px; background: #25D366; color: #0B3B22; }
+  .zap b { display: block; font-size: 36px; font-weight: 700; color: #08351E; }
+  .zap span { font-size: 25px; }
+  .email { position: absolute; left: 96px; top: 1230px; font-size: 26px; color: rgba(255, 255, 255, 0.7); }
+  .email b { color: var(--areia); }
+  .assina { position: absolute; left: 96px; top: 1600px; }
+  .assina .serif { display: block; font-size: 76px; color: #fff; }
+  .assina span { display: block; margin-top: 8px; font-size: 27px; color: rgba(255, 255, 255, 0.75); }
+</style>
+</head>
+<body>
+
+<!-- 1. Capa -->
+<section class="pagina capa">
+  <div class="bola1"></div>
+  <div class="bola2"></div>
+  <img class="logo" src="img/capa-acervo.png" alt="Acervo de Anúncios" />
+  <p class="ola">Seja bem-vinda!</p>
+  <p class="sub">Seu acervo já está liberado. Em seis passos você entra, escolhe um anúncio e sai com a sua versão pronta.</p>
+  <span class="pilula">Leva 1 minuto</span>
+  <div class="rodape"><span>AVVA Hub</span><span>Guia de acesso</span></div>
+</section>
+
+<!-- 2. Passo 01 -->
+<section class="pagina">
+  <div class="kicker">Passo</div>
+  <div class="num">01</div>
+  <h1 class="titulo">Abra <em>metodoavva.com/login</em></h1>
+  <p class="texto" style="top:520px;width:430px">Pelo celular ou pelo computador. Salva nos favoritos do navegador pra achar rápido da próxima vez.</p>
+  <div class="celular"><img src="img/login.jpg" alt="" /></div>
+  <div class="rodape"><span>AVVA Hub</span><span>1 de 6</span></div>
+</section>
+
+<!-- 3. Passo 02 -->
+<section class="pagina">
+  <div class="kicker">Passo</div>
+  <div class="num">02</div>
+  <h1 class="titulo">Digite o <em>e-mail da compra</em></h1>
+  <p class="texto" style="top:520px;width:430px">Não tem senha. É o mesmo e-mail que você usou no pagamento. Depois é só tocar em Entrar.</p>
+  <div class="celular"><img src="img/login-email.jpg" alt="" /></div>
+  <div class="rodape"><span>AVVA Hub</span><span>2 de 6</span></div>
+</section>
+
+<!-- 4. Passo 03 -->
+<section class="pagina">
+  <div class="kicker">Passo</div>
+  <div class="num">03</div>
+  <h1 class="titulo">Pronto, <em>você está dentro</em></h1>
+  <p class="texto" style="top:520px;width:430px">Essa é a sua área de membros. Em "Seus produtos", toque em Acessar no Acervo de Anúncios.</p>
+  <div class="nota-menu"><b>Menu ☰</b>No canto de cima, à esquerda. Nele ficam Início, Acervo, Favoritos, Meu Perfil e o suporte.</div>
+  <div class="celular"><img src="img/home.jpg" alt="" /></div>
+  <div class="rodape"><span>AVVA Hub</span><span>3 de 6</span></div>
+</section>
+
+<!-- 5. Passo 04 -->
+<section class="pagina">
+  <div class="kicker">Passo</div>
+  <div class="num">04</div>
+  <h1 class="titulo">Escolha pelo <em>objetivo</em></h1>
+  <p class="texto" style="top:520px;width:888px">As coleções são organizadas pelo que você precisa hoje, não pelo nicho. Comece pela que resolve o seu problema de agora.</p>
+  <div class="colecoes">
+    <div class="colecao"><b>Ser descoberta</b><span>Atrair seguidores e chamar a atenção de quem não te conhece</span></div>
+    <div class="colecao"><b>Mostrar que você entende</b><span>Gerar autoridade e construir confiança</span></div>
+    <div class="colecao"><b>Provar que funciona</b><span>Prova social e resultados reais</span></div>
+    <div class="colecao"><b>Quebrar o "mas…"</b><span>Quebra de objeção e dos motivos pra adiar</span></div>
+    <div class="colecao"><b>Vender agora</b><span>Oferta direta e remarketing</span></div>
+    <div class="colecao colecao--destaque"><b>Melhores do mês</b><span>Curadoria nova todo mês, garimpada pela Flora</span></div>
+  </div>
+  <p class="texto" style="top:1610px;width:888px;font-size:27px;color:rgba(76,54,45,.75)">Dentro de cada coleção dá pra filtrar por nicho (infoproduto, e-commerce, negócio local, serviço) e por tipo: vídeo, imagem, carrossel ou página.</p>
+  <div class="rodape"><span>AVVA Hub</span><span>4 de 6</span></div>
+</section>
+
+<!-- 6. Passo 05 -->
+<section class="pagina">
+  <div class="kicker">Passo</div>
+  <div class="num">05</div>
+  <h1 class="titulo">Leia a análise, <em>entenda o porquê</em></h1>
+  <p class="texto" style="top:610px;width:340px">Toque no anúncio. Embaixo dele vem o "Por que funciona": o que o anúncio faz, como isso aparece na peça e o que muda na decisão de quem vê.</p>
+  <div class="cards" style="top:1010px">
+    <div class="card"><b>Copiar análise</b><span>Leva o texto pra onde você quiser.</span></div>
+    <div class="card"><b>Favoritar</b><span>Guarda o anúncio em Favoritos, no menu.</span></div>
+    <div class="card"><b>Marcar como concluído</b><span>Pra você saber o que já viu.</span></div>
+  </div>
+  <div class="celular"><img src="img/anuncio.jpg" alt="" /></div>
+  <div class="rodape"><span>AVVA Hub</span><span>5 de 6</span></div>
+</section>
+
+<!-- 7. Passo 06 (novo) -->
+<section class="pagina">
+  <div class="kicker">Passo</div>
+  <div class="num">06</div>
+  <h1 class="titulo">Faça a sua versão <em>com IA</em></h1>
+  <p class="texto" style="top:520px;width:340px">Embaixo da análise, toque em <b>Fazer a minha versão</b>. Conte do seu negócio e abra na IA.</p>
+  <div class="cards" style="top:900px">
+    <div class="card"><b>Seu negócio</b><span>O que você vende, pra quem e o que muda pra ela. Nada é obrigatório.</span></div>
+    <div class="card"><b>Seu jeito e o destino</b><span>O tom da sua fala e pra onde o anúncio leva.</span></div>
+    <div class="card"><b>ChatGPT ou Claude</b><span>A IA destrincha a análise e escreve gancho, roteiro e legenda. Você decide.</span></div>
+  </div>
+  <div class="celular"><img src="img/versao.jpg" alt="" /></div>
+  <div class="rodape"><span>AVVA Hub</span><span>6 de 6</span></div>
+</section>
+
+<!-- 8. E agora -->
+<section class="pagina">
+  <div class="kicker">E agora</div>
+  <h1 class="titulo" style="top:175px">Do anúncio <em>pro seu anúncio</em></h1>
+  <p class="texto" style="top:300px;width:888px">O Acervo não é pra copiar. É pra entender o mecanismo e fazer o seu, do seu jeito.</p>
+  <div class="lista" style="top:470px">
+    <div class="item"><i>1</i><div><b>Leia o porquê.</b> Gancho, prova, oferta: veja o que segura a pessoa e o que faz ela comprar.</div></div>
+    <div class="item"><i>2</i><div><b>Adapte a lógica.</b> O produto, a fala e o visual são seus. A estrutura é a referência.</div></div>
+    <div class="item"><i>3</i><div><b>Use a IA a seu favor.</b> O "Fazer a minha versão" já leva a análise e o seu negócio. Revise antes de publicar.</div></div>
+    <div class="item"><i>4</i><div><b>Use os filtros.</b> Nicho e tipo de mídia estreitam a busca quando você precisa de algo específico.</div></div>
+    <div class="item"><i>5</i><div><b>Publique ainda essa semana.</b> Anúncio com estrutura rende mais que anúncio na sorte.</div></div>
+  </div>
+  <div class="faixa" style="top:1330px"><b>Todo mês entra uma coleção nova.</b> Ela aparece na sua home, em destaque. Vale voltar.</div>
+  <div class="rodape"><span>AVVA Hub</span><span>Dicas</span></div>
+</section>
+
+<!-- 9. Não entrou -->
+<section class="pagina escura">
+  <div class="kicker">Não entrou?</div>
+  <h1 class="titulo" style="top:175px">Dois minutos resolvem<br /><em>quase tudo.</em></h1>
+  <div class="lista" style="top:450px">
+    <div class="item"><i>1</i><div><b>E-mail não encontrado?</b> O Pix leva um instante pra confirmar. Espera 2 minutos e tenta de novo.</div></div>
+    <div class="item"><i>2</i><div><b>Comprou com outro e-mail?</b> Confere o e-mail que recebeu a confirmação da compra e usa esse.</div></div>
+    <div class="item"><i>3</i><div><b>Ainda não entrou?</b> Chama no suporte com o e-mail da compra. A gente libera na hora.</div></div>
+  </div>
+  <div class="zap">
+    <svg width="60" height="60" viewBox="0 0 24 24" fill="#08351E" aria-hidden="true"><path d="M17.5 14.4c-.3-.1-1.8-.9-2-1s-.5-.1-.7.1-.8 1-.9 1.2-.3.2-.6.1a8 8 0 0 1-2.4-1.5 9 9 0 0 1-1.6-2c-.2-.3 0-.5.1-.6l.5-.5.3-.5v-.5l-.9-2.2c-.2-.6-.5-.5-.7-.5h-.6a1.1 1.1 0 0 0-.8.4 3.4 3.4 0 0 0-1 2.5 6 6 0 0 0 1.2 3.1 13.4 13.4 0 0 0 5.2 4.6c.7.3 1.3.5 1.7.6a4.2 4.2 0 0 0 1.9.1 3.1 3.1 0 0 0 2-1.4 2.5 2.5 0 0 0 .2-1.4c-.1-.2-.3-.3-.6-.4zM12 21.8a9.8 9.8 0 0 1-5-1.4l-.4-.2-3.7 1 1-3.6-.2-.4A9.8 9.8 0 1 1 12 21.8zm0-21.6A11.8 11.8 0 0 0 1.8 17.9L.1 24l6.3-1.7A11.8 11.8 0 1 0 12 .2z" /></svg>
+    <div><b>Chamar no WhatsApp</b><span>(19) 92000-2917</span></div>
+  </div>
+  <p class="email">ou por e-mail: <b>suporte@metodoavva.com</b></p>
+  <div class="assina"><span class="serif">Te vejo lá dentro.</span><span>Flora · AVVA Hub</span></div>
+  <div class="rodape"><span>AVVA Hub</span><span>metodoavva.com/login</span></div>
+</section>
+
+</body>
+</html>
