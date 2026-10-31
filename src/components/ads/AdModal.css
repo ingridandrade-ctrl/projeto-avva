@@ -437,8 +437,31 @@
     margin-top: 16px;
   }
 
+  /* Ações secundárias: menores e mais leves que o "Fazer a minha versão" */
   .ad-modal__pill {
     flex: 1;
+    min-height: 40px;
+    padding: 8px 12px;
+    font-size: 0.86rem;
+    border-width: 1px;
+  }
+
+  .ad-modal__pill svg {
+    width: 15px;
+    height: 15px;
+  }
+
+  /* Marcado fica em tom suave, sem competir com o botão principal */
+  .ad-modal__pill--on {
+    background: rgba(26, 104, 104, 0.1);
+    border-color: rgba(26, 104, 104, 0.35);
+    color: var(--teal-medio);
+  }
+
+  .ad-modal__pill--fav.ad-modal__pill--on {
+    background: rgba(150, 94, 65, 0.1);
+    border-color: rgba(150, 94, 65, 0.35);
+    color: var(--terracotta);
   }
 
   .ad-modal__link {

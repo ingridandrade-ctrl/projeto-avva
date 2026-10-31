@@ -387,7 +387,7 @@
   box-shadow: 0 10px 28px rgba(0, 0, 0, 0.25);
 }
 
-/* Produto que a aluna ainda não comprou: cadeado + etiqueta "Bloqueado" */
+/* Produto que a aluna ainda não comprou: cadeado + etiqueta "Em breve" */
 .product-card__soon {
   position: absolute;
   inset: 0;
