@@ -15,7 +15,7 @@ export default function AdminSenha() {
   const [salvando, setSalvando] = useState(false)
   const [esperou, setEsperou] = useState(false)
 
-  useEffect(() => { document.title = 'Método AVVA — Definir senha' }, [])
+  useEffect(() => { document.title = 'AVVA Hub — Definir senha' }, [])
 
   // O Supabase lê o link e cria a sessão em instantes; dá um tempo antes de dizer que expirou
   useEffect(() => {
@@ -30,7 +30,7 @@ export default function AdminSenha() {
     return (
       <div className="al">
         <div className="al__card">
-          <span className="al__badge">Método AVVA</span>
+          <span className="al__badge">AVVA Hub</span>
           <h1 className="al__title">Link inválido ou expirado</h1>
           <p className="al__sub">Peça um link novo na tela de login do painel.</p>
           <button className="al__btn" type="button" onClick={() => navigate('/admin/login', { replace: true })}>Ir para o login</button>
@@ -66,7 +66,7 @@ export default function AdminSenha() {
   return (
     <div className="al">
       <form className="al__card" onSubmit={handleSubmit}>
-        <span className="al__badge">Método AVVA</span>
+        <span className="al__badge">AVVA Hub</span>
         <h1 className="al__title">Definir senha</h1>
         <p className="al__sub">Conta: {session.user.email}. Escolha a senha do painel administrativo.</p>
 

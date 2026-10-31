@@ -120,7 +120,7 @@ export default function MemberDashboard() {
             <div className="home-hero__content">
               <p className="home-hero__greeting">Oiee, {firstName}!</p>
               <h1 className="home-hero__title">Bem-vinda à sua<br />área de membros</h1>
-              <p className="home-hero__subtitle">Aqui ficam os seus produtos do Método AVVA. É só escolher por onde começar.</p>
+              <p className="home-hero__subtitle">Aqui ficam os seus produtos do AVVA Hub. É só escolher por onde começar.</p>
             </div>
           </div>
 
