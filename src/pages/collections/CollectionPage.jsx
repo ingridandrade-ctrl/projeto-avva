@@ -85,7 +85,9 @@ export default function CollectionPage() {
       ? `Coleção ${String(collection.order).padStart(2, '0')}`
       : style.kind === 'melhores' ? 'Melhores do mês' : 'Especial'
 
-  const cover = collectionCover(collection, allAds, 1200)
+  const cover = collectionCover(collection, allAds, 720)
+  // O fundo do topo fica desfocado: uma versão pequena basta
+  const coverBg = collectionCover(collection, allAds, 320)
   const seenCount = ads.filter(a => isSeen(a.id)).length
   const pct = ads.length ? Math.round((seenCount / ads.length) * 100) : 0
   const firstUnseen = ads.find(a => !isSeen(a.id)) || ads[0]
@@ -93,7 +95,7 @@ export default function CollectionPage() {
   return (
     <div className="collection-page">
       <header className="collection-page__header" style={{ background: style.gradient }}>
-        {cover && <img className="collection-page__header-bg" src={cover} alt="" />}
+        {coverBg && <img className="collection-page__header-bg" src={coverBg} alt="" />}
         <div className="collection-page__header-veil" />
 
         <div className="collection-page__header-inner">
@@ -173,6 +175,7 @@ export default function CollectionPage() {
                   isFavorite={isFavorite(ad.id)}
                   onToggleFavorite={toggleFavorite}
                   onOpen={() => setOpenAd(ad)}
+                  eager={i < 6}
                 />
               </div>
             ))}

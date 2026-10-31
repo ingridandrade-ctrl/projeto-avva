@@ -3,6 +3,7 @@ import { supabase } from '../../lib/supabase'
 import { getCollectionStyle, getCollection, belongsTo } from '../../lib/catalog'
 import { collectionCover } from '../../lib/drive'
 import PhoneCard from '../../components/ui/PhoneCard'
+import { comprimirImagem, extensao } from '../../lib/imagem'
 import './AdminCollections.css'
 
 // Coleções: título, subtítulo e capa (link do Drive ou imagem) com
@@ -21,6 +22,7 @@ export default function AdminCollections() {
   })
   const [createFb, setCreateFb] = useState(null)
   const fileInputs = useRef({})
+  const [otimizando, setOtimizando] = useState(null) // null | { feitas, total } | { fim: msg }
 
   async function load() {
     const [{ data: cols }, { data: adsData }] = await Promise.all([
@@ -112,15 +114,20 @@ export default function AdminCollections() {
       setFeedback(f => ({ ...f, [col.id]: { type: 'error', msg: 'Escolha um arquivo de imagem (JPG, PNG ou WebP).' } }))
       return
     }
-    if (file.size > 8 * 1024 * 1024) {
-      setFeedback(f => ({ ...f, [col.id]: { type: 'error', msg: 'Imagem muito grande (máx. 8 MB).' } }))
+    if (file.size > 30 * 1024 * 1024) {
+      setFeedback(f => ({ ...f, [col.id]: { type: 'error', msg: 'Imagem muito grande (máx. 30 MB).' } }))
       return
     }
     setUploading(col.id)
     setFeedback(f => ({ ...f, [col.id]: null }))
-    const ext = (file.name.split('.').pop() || 'jpg').toLowerCase().replace(/[^a-z0-9]/g, '') || 'jpg'
+    // Antes de subir, deixa a imagem leve (a aluna baixa essa capa toda vez que abre o Acervo)
+    let leve = file
+    try { leve = await comprimirImagem(file) } catch { /* sobe a original */ }
+    const ext = leve === file
+      ? ((file.name.split('.').pop() || 'jpg').toLowerCase().replace(/[^a-z0-9]/g, '') || 'jpg')
+      : extensao(leve)
     const path = `${col.slug}-${Date.now()}.${ext}`
-    const { error: upErr } = await supabase.storage.from('covers').upload(path, file, { upsert: true, contentType: file.type })
+    const { error: upErr } = await supabase.storage.from('covers').upload(path, leve, { upsert: true, contentType: leve.type || file.type, cacheControl: '31536000' })
     if (upErr) {
       setUploading(null)
       const msg = /bucket|not found/i.test(upErr.message)
@@ -141,6 +148,45 @@ export default function AdminCollections() {
     }
     setDrafts(d => ({ ...d, [col.id]: { ...d[col.id], cover_url: url } }))
     setFeedback(f => ({ ...f, [col.id]: { type: 'ok', msg: 'Capa enviada e salva!' } }))
+    load()
+  }
+
+  // Capas enviadas antes da compressão: baixa cada uma, deixa leve e troca
+  async function otimizarCapas() {
+    const alvo = (collections || []).filter(c => (c.cover_url || '').includes('/storage/v1/object/public/covers/'))
+    if (!alvo.length) { setOtimizando({ fim: 'Nenhuma capa enviada pelo painel para otimizar.' }); return }
+    let antes = 0, depois = 0, trocadas = 0, falhas = 0
+    setOtimizando({ feitas: 0, total: alvo.length })
+    for (const [i, col] of alvo.entries()) {
+      try {
+        const res = await fetch(col.cover_url)
+        if (!res.ok) throw new Error(res.status)
+        const original = await res.blob()
+        const leve = await comprimirImagem(original)
+        antes += original.size
+        if (leve !== original && leve.size < original.size * 0.85) {
+          const path = `${col.slug}-${Date.now()}.${extensao(leve)}`
+          const { error: upErr } = await supabase.storage.from('covers').upload(path, leve, { contentType: leve.type, cacheControl: '31536000' })
+          if (upErr) throw upErr
+          const url = supabase.storage.from('covers').getPublicUrl(path).data?.publicUrl
+          const { error } = await supabase.from('collections').update({ cover_url: url }).eq('id', col.id)
+          if (error) throw error
+          depois += leve.size
+          trocadas++
+        } else {
+          depois += original.size
+        }
+      } catch {
+        falhas++
+      }
+      setOtimizando({ feitas: i + 1, total: alvo.length })
+    }
+    const mb = n => (n / 1024 / 1024).toFixed(1).replace('.', ',')
+    setOtimizando({
+      fim: trocadas
+        ? `Pronto! ${trocadas} capa(s) ficaram mais leves: de ${mb(antes)} MB para ${mb(depois)} MB no total.${falhas ? ` ${falhas} não deu pra otimizar.` : ''}`
+        : `As capas já estavam leves.${falhas ? ` ${falhas} não deu pra ler.` : ''}`,
+    })
     load()
   }
 
@@ -236,6 +282,19 @@ export default function AdminCollections() {
           </button>
         </div>
         {createFb && <span className={`admin-collection__fb admin-collection__fb--${createFb.type}`}>{createFb.msg}</span>}
+      </div>
+
+      <div className="adm-card admin-collections__new">
+        <div>
+          <h2>Capas mais leves</h2>
+          <p>Capas novas já sobem comprimidas. Este botão passa nas capas enviadas antes e deixa cada uma mais leve, sem mudar a aparência.</p>
+        </div>
+        <div className="admin-collections__new-form">
+          <button type="button" className="adm-btn adm-btn--primary" disabled={!collections || (otimizando && !otimizando.fim)} onClick={otimizarCapas}>
+            {otimizando && !otimizando.fim ? `Otimizando ${otimizando.feitas}/${otimizando.total}…` : 'Otimizar capas atuais'}
+          </button>
+        </div>
+        {otimizando?.fim && <span className="admin-collection__fb admin-collection__fb--ok">{otimizando.fim}</span>}
       </div>
 
       {collections === null ? (
