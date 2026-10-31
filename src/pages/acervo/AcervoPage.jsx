@@ -327,7 +327,7 @@ export default function AcervoPage() {
   const [aberta, setAberta] = useState(-1)
 
   useEffect(() => {
-    document.title = 'Acervo de Anúncios — Método AVVA'
+    document.title = 'Acervo de Anúncios — AVVA Hub'
     const onScroll = () => setStickyVisible(window.scrollY > 640)
     onScroll()
     window.addEventListener('scroll', onScroll, { passive: true })
@@ -567,7 +567,7 @@ export default function AcervoPage() {
         <div className="lp-container lp-container--narrow lp-fim__inner">
           <Logo className="lp-logo--rodape" />
           <div className="lp-rodape">
-            <span>© {new Date().getFullYear()} Método AVVA</span>
+            <span>© {new Date().getFullYear()} AVVA Hub</span>
             <Link to="/login">Já sou aluna</Link>
           </div>
         </div>

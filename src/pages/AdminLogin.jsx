@@ -13,7 +13,7 @@ export default function AdminLogin() {
   const [enviando, setEnviando] = useState(false)
   const [aviso, setAviso] = useState('')
 
-  useEffect(() => { document.title = 'Método AVVA — Painel' }, [])
+  useEffect(() => { document.title = 'AVVA Hub — Painel' }, [])
 
   if (loading) return null
   if (session && profile?.is_admin) {
@@ -61,7 +61,7 @@ export default function AdminLogin() {
   return (
     <div className="al">
       <form className="al__card" onSubmit={handleSubmit}>
-        <span className="al__badge">Método AVVA</span>
+        <span className="al__badge">AVVA Hub</span>
         <h1 className="al__title">Painel administrativo</h1>
         <p className="al__sub">Entre com seu e-mail e senha de administradora.</p>
 
