@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet" />
+<style>
+  * { box-sizing: border-box; }
+  html, body { margin: 0; width: 1080px; height: 1920px; overflow: hidden; }
+  body {
+    font-family: 'Outfit', sans-serif;
+    color: #fff;
+    background: linear-gradient(160deg, #0C4747 0%, #14504B 32%, #3A2419 66%, #6B4A38 90%, #8A6650 100%);
+    position: relative;
+  }
+  body::after {
+    content: ''; position: absolute; inset: 0; pointer-events: none;
+    background: radial-gradient(ellipse 900px 700px at 50% 55%, rgba(228, 211, 188, 0.16), transparent 70%);
+  }
+
+  /* Legenda do passo */
+  .legenda { position: absolute; left: 70px; right: 70px; top: 96px; height: 300px; text-align: center; z-index: 5; }
+  .legenda .passo {
+    display: inline-block; padding: 10px 22px; border-radius: 999px;
+    background: rgba(255, 255, 255, 0.14); border: 1px solid rgba(255, 255, 255, 0.25);
+    font-size: 26px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: #F2E6D6;
+  }
+  .legenda h2 { margin: 22px 0 0; font-size: 60px; line-height: 1.12; font-weight: 700; letter-spacing: -0.025em; }
+  .legenda h2 em { font-family: 'Instrument Serif', serif; font-style: italic; font-weight: 400; font-size: 70px; color: #E8C9A6; letter-spacing: -0.01em; }
+  .legenda p { margin: 14px 0 0; font-size: 32px; color: rgba(255, 255, 255, 0.78); }
+  .legenda > * { transition: opacity 0.45s ease, transform 0.45s ease; }
+  .legenda.saindo > * { opacity: 0; transform: translateY(-14px); }
+  .legenda.entrando > * { opacity: 0; transform: translateY(18px); }
+
+  /* Celular */
+  .celular {
+    position: absolute; left: 190px; top: 420px; width: 700px; height: 1420px;
+    border-radius: 96px; background: #1d1511; padding: 20px;
+    box-shadow: 0 60px 120px -40px rgba(0, 0, 0, 0.7), inset 0 0 0 3px #3a2c25;
+    z-index: 2;
+  }
+  .tela { position: relative; width: 100%; height: 100%; border-radius: 78px; overflow: hidden; background: #F7F4F0; }
+  .ilha { position: absolute; left: 50%; top: 18px; width: 190px; height: 52px; margin-left: -95px; border-radius: 30px; background: #000; z-index: 9; }
+  .status { height: 86px; display: flex; align-items: flex-end; justify-content: space-between; padding: 0 60px 12px; font-size: 27px; font-weight: 600; color: #1d1511; background: #fff; }
+  .status span:last-child { letter-spacing: 3px; }
+  .barra { height: 92px; padding: 10px 26px 16px; background: #fff; border-bottom: 1px solid #eee; }
+  .url {
+    height: 66px; border-radius: 22px; background: #EFEDEA; display: flex; align-items: center; justify-content: center; gap: 10px;
+    font-size: 28px; color: #2E211B; font-family: -apple-system, 'Outfit', sans-serif;
+  }
+  .url svg { flex: 0 0 auto; }
+  .url .cursor { display: inline-block; width: 2px; height: 32px; background: #0a7aff; margin-left: 1px; animation: pisca 1s steps(1) infinite; }
+  .url .vazio { color: #9a918a; }
+  @keyframes pisca { 50% { opacity: 0; } }
+  .carregando { position: absolute; left: 0; top: 177px; height: 4px; width: 0; background: #0a7aff; z-index: 8; transition: width 0.9s ease, opacity 0.3s ease; }
+  .area { position: absolute; left: 0; right: 0; top: 178px; bottom: 0; overflow: hidden; background: #fff; }
+  #app { position: absolute; left: 0; top: 0; width: 390px; border: 0; transform-origin: top left; background: #fff; }
+  .branco { position: absolute; inset: 0; background: #fff; opacity: 0; transition: opacity 0.35s ease; pointer-events: none; z-index: 3; }
+  .branco.on { opacity: 1; }
+
+  /* Toque */
+  .toque {
+    position: absolute; width: 90px; height: 90px; margin: -45px 0 0 -45px; border-radius: 50%;
+    background: rgba(255, 255, 255, 0.55); border: 4px solid rgba(255, 255, 255, 0.95);
+    box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.5), 0 8px 24px rgba(0, 0, 0, 0.35);
+    z-index: 20; opacity: 0; transform: scale(0.6); pointer-events: none;
+    transition: opacity 0.18s ease, transform 0.18s ease;
+  }
+  .toque.on { opacity: 1; transform: scale(1); }
+  .toque.aperta { transform: scale(0.78); }
+
+  .marca { position: absolute; left: 0; right: 0; bottom: 30px; text-align: center; font-size: 24px; letter-spacing: 0.2em; color: rgba(255, 255, 255, 0.55); font-weight: 500; z-index: 1; }
+
+  /* Abertura e encerramento */
+  .cartao {
+    position: absolute; inset: 0; z-index: 30; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;
+    background: #F6F2EC; color: #2E211B; opacity: 0; pointer-events: none; transition: opacity 0.7s ease;
+  }
+  .cartao.on { opacity: 1; }
+  .cartao .bola1 { position: absolute; right: -170px; top: -330px; width: 640px; height: 640px; border-radius: 50%; background: #EADFD0; }
+  .cartao .bola2 { position: absolute; left: -230px; bottom: -230px; width: 470px; height: 470px; border-radius: 50%; background: #EADFD0; }
+  .cartao img { width: 640px; position: relative; }
+  .cartao h1 { position: relative; margin: 40px 80px 0; font-size: 70px; line-height: 1.1; letter-spacing: -0.03em; font-weight: 700; }
+  .cartao h1 em { font-family: 'Instrument Serif', serif; font-style: italic; font-weight: 400; color: #965E41; font-size: 82px; }
+  .cartao p { position: relative; margin: 26px 120px 0; font-size: 36px; line-height: 1.5; color: #4C362D; }
+  .cartao .pilula { position: relative; margin-top: 44px; padding: 20px 40px; border-radius: 999px; background: #0C4747; color: #fff; font-size: 34px; font-weight: 600; }
+  .cartao .zap { position: relative; margin-top: 26px; padding: 22px 40px; border-radius: 999px; background: #25D366; color: #08351E; font-size: 32px; font-weight: 700; }
+  .cartao .ass { position: relative; margin-top: 60px; font-family: 'Instrument Serif', serif; font-style: italic; font-size: 84px; color: #2E211B; }
+  .cartao .rod { position: absolute; left: 96px; right: 96px; bottom: 70px; display: flex; justify-content: space-between; font-size: 26px; letter-spacing: 0.14em; color: #8C7B70; font-weight: 500; }
+</style>
+</head>
+<body>
+  <div class="legenda" id="legenda"></div>
+
+  <div class="celular">
+    <div class="tela">
+      <div class="ilha"></div>
+      <div class="status"><span>9:41</span><span>▂▄▆ ◔</span></div>
+      <div class="barra"><div class="url" id="url"><span class="vazio">Pesquisar ou digitar site</span></div></div>
+      <div class="carregando" id="carregando"></div>
+      <div class="area" id="area">
+        <iframe id="app" src="about:blank" title="app"></iframe>
+        <div class="branco" id="branco"></div>
+      </div>
+    </div>
+  </div>
+  <div class="toque" id="toque"></div>
+  <div class="marca">AVVA HUB</div>
+
+  <div class="cartao" id="abertura">
+    <div class="bola1"></div><div class="bola2"></div>
+    <img src="capa-acervo.png" alt="" />
+    <h1>Como acessar o <em>Acervo de Anúncios</em></h1>
+    <p>O passo a passo, do login até a sua versão com IA.</p>
+    <span class="pilula">Leva 1 minuto</span>
+    <div class="rod"><span>AVVA HUB</span><span>GUIA DE ACESSO</span></div>
+  </div>
+
+  <div class="cartao" id="encerramento">
+    <div class="bola1"></div><div class="bola2"></div>
+    <div class="ass">Te vejo lá dentro!</div>
+    <p>Acesse pelo celular ou pelo computador:</p>
+    <span class="pilula">metodoavva.com/login</span>
+    <p style="margin-top:56px">Ficou com dúvida? Chama o suporte:</p>
+    <span class="zap">WhatsApp (19) 92000-2917</span>
+    <div class="rod"><span>AVVA HUB</span><span>FLORA · AVVA HUB</span></div>
+  </div>
+
+<script>
+  const ESCALA = 660 / 390;
+  const app = document.getElementById('app');
+  const area = document.getElementById('area');
+  function ajusta() {
+    app.style.transform = `scale(${ESCALA})`;
+    app.style.height = (area.clientHeight / ESCALA) + 'px';
+  }
+  ajusta();
+
+  const esperar = ms => new Promise(r => setTimeout(r, ms));
+  const leg = document.getElementById('legenda');
+
+  window.palco = {
+    async legenda(passo, titulo, sub) {
+      if (leg.innerHTML) { leg.classList.add('saindo'); await esperar(450); }
+      leg.classList.remove('saindo');
+      leg.classList.add('entrando');
+      leg.innerHTML = `${passo ? `<span class="passo">${passo}</span>` : ''}<h2>${titulo}</h2>${sub ? `<p>${sub}</p>` : ''}`;
+      await esperar(30);
+      leg.classList.remove('entrando');
+      await esperar(450);
+    },
+    async digitarUrl(texto) {
+      const u = document.getElementById('url');
+      const lock = '<svg width="22" height="22" viewBox="0 0 24 24" fill="#6b625c"><path d="M17 10V7a5 5 0 0 0-10 0v3H5v12h14V10h-2zm-8 0V7a3 3 0 0 1 6 0v3H9z"/></svg>';
+      u.innerHTML = '<span class="cursor"></span>';
+      for (let i = 1; i <= texto.length; i++) {
+        u.innerHTML = `<span>${texto.slice(0, i)}</span><span class="cursor"></span>`;
+        await esperar(85 + Math.random() * 60);
+      }
+      await esperar(500);
+      u.innerHTML = lock + `<span>${texto}</span>`;
+    },
+    url(texto) {
+      const lock = '<svg width="22" height="22" viewBox="0 0 24 24" fill="#6b625c"><path d="M17 10V7a5 5 0 0 0-10 0v3H5v12h14V10h-2zm-8 0V7a3 3 0 0 1 6 0v3H9z"/></svg>';
+      document.getElementById('url').innerHTML = lock + `<span>${texto}</span>`;
+    },
+    async carregar(src) {
+      const c = document.getElementById('carregando');
+      c.style.opacity = 1; c.style.width = '0';
+      await esperar(20); c.style.width = '75%';
+      app.src = src;
+      await new Promise(r => { app.onload = r; });
+      c.style.width = '100%'; await esperar(400); c.style.opacity = 0;
+    },
+    async branco(on) { document.getElementById('branco').classList.toggle('on', on); await esperar(380); },
+    async tocar(x, y) {
+      const t = document.getElementById('toque');
+      t.style.left = x + 'px'; t.style.top = y + 'px';
+      t.classList.add('on'); await esperar(260);
+      t.classList.add('aperta'); await esperar(160);
+      t.classList.remove('aperta'); await esperar(120);
+    },
+    async soltar() { document.getElementById('toque').classList.remove('on'); await esperar(200); },
+    async cartao(id, on) { document.getElementById(id).classList.toggle('on', on); await esperar(750); },
+  };
+</script>
+</body>
+</html>
