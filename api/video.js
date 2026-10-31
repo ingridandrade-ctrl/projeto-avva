@@ -45,15 +45,17 @@ async function fetchDrive(id, range) {
 // Recorta um trecho (bytes start..end) de um fluxo que veio inteiro
 function slice(start, end) {
   let pos = 0
+  let done = false
   return new Transform({
     transform(chunk, _enc, cb) {
+      if (done) return cb()
       const from = pos
       const to = pos + chunk.length // exclusivo
       pos = to
       const s = Math.max(start, from)
       const e = end == null ? to : Math.min(end + 1, to)
       if (s < e) this.push(chunk.subarray(s - from, e - from))
-      if (end != null && to > end) this.push(null)
+      if (end != null && to > end) { done = true; this.push(null) }
       cb()
     },
   })
@@ -69,7 +71,7 @@ export default async function handler(req, res) {
   if (!ID_RE.test(id)) return res.status(400).end('id inválido')
   if (!(await isRegistered(id))) return res.status(404).end('não encontrado')
 
-  const range = req.headers.range
+  const range = req.headers.range || (req.query?.debug && req.query?.range) || undefined
   let upstream
   try {
     upstream = await fetchDrive(id, range)
@@ -84,6 +86,7 @@ export default async function handler(req, res) {
     return res.status(200).json({
       id,
       range: range || null,
+      caminho: upstream.status === 206 && upstream.headers.get('content-range') ? 'repassa o trecho do Drive' : (range ? 'Drive mandou inteiro; recorta aqui' : 'inteiro'),
       drive: {
         status: upstream.status,
         url: upstream.url,
@@ -106,8 +109,7 @@ export default async function handler(req, res) {
   res.setHeader('Content-Type', type)
   res.setHeader('Accept-Ranges', 'bytes')
   res.setHeader('Cache-Control', 'public, max-age=3600, s-maxage=86400')
-  const disp = upstream.headers.get('content-disposition')
-  if (disp) res.setHeader('Content-Disposition', disp.replace(/^attachment/i, 'inline'))
+  res.setHeader('Content-Disposition', 'inline')
 
   const length = upstream.headers.get('content-length')
   const contentRange = upstream.headers.get('content-range')
@@ -118,7 +120,7 @@ export default async function handler(req, res) {
     res.setHeader('Content-Range', contentRange)
     if (length) res.setHeader('Content-Length', length)
     if (req.method === 'HEAD') return res.end()
-    return Readable.fromWeb(upstream.body).pipe(res)
+    return pipeOut(Readable.fromWeb(upstream.body), res, id)
   }
 
   // Veio inteiro: se pediram um trecho, recorta aqui
@@ -142,11 +144,17 @@ export default async function handler(req, res) {
     res.setHeader('Content-Range', `bytes ${start}-${end ?? ''}/${total ?? '*'}`)
     if (end != null) res.setHeader('Content-Length', String(end - start + 1))
     if (req.method === 'HEAD') return res.end()
-    return Readable.fromWeb(upstream.body).pipe(slice(start, end)).pipe(res)
+    return pipeOut(Readable.fromWeb(upstream.body).pipe(slice(start, end)), res, id)
   }
 
   res.status(200)
   if (length) res.setHeader('Content-Length', length)
   if (req.method === 'HEAD') return res.end()
-  return Readable.fromWeb(upstream.body).pipe(res)
+  return pipeOut(Readable.fromWeb(upstream.body), res, id)
+}
+
+function pipeOut(stream, res, id) {
+  stream.on('error', err => { console.error('video stream', id, err?.message || err); if (!res.headersSent) res.status(502); res.end() })
+  res.on('close', () => { if (!stream.destroyed) stream.destroy() })
+  return stream.pipe(res)
 }
