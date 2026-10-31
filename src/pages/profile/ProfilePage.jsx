@@ -1,11 +1,33 @@
 import { useState, useEffect, useRef } from 'react'
 import { useAuth } from '../../hooks/useAuth'
 import { supabase } from '../../lib/supabase'
-import { comprimirImagem, extensao } from '../../lib/imagem'
+import { comprimirImagem } from '../../lib/imagem'
 import Avatar from '../../components/ui/Avatar'
 import './ProfilePage.css'
 
 const LIMITE_FOTO = 1024 * 1024 // 1 MB
+
+// Salva pelo servidor (/api/perfil): não depende das permissões do Supabase no navegador
+async function salvarPerfil(dados) {
+  const { data: { session } } = await supabase.auth.getSession()
+  const r = await fetch('/api/perfil', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${session?.access_token || ''}` },
+    body: JSON.stringify(dados),
+  })
+  const corpo = await r.json().catch(() => ({}))
+  if (!r.ok) throw new Error(corpo.error || 'Não consegui salvar agora. Tenta de novo?')
+  return corpo.profile
+}
+
+function paraBase64(blob) {
+  return new Promise((resolve, reject) => {
+    const leitor = new FileReader()
+    leitor.onload = () => resolve(String(leitor.result).split(',')[1] || '')
+    leitor.onerror = reject
+    leitor.readAsDataURL(blob)
+  })
+}
 
 export default function ProfilePage() {
   const { profile, session, refreshProfile } = useAuth()
@@ -26,13 +48,14 @@ export default function ProfilePage() {
     setSaved(false)
     setErro('')
 
-    const { error } = await supabase
-      .from('users')
-      .update({ name: name.trim() })
-      .eq('id', session.user.id)
-
+    try {
+      await salvarPerfil({ name })
+    } catch (err) {
+      setSaving(false)
+      setErro(err.message)
+      return
+    }
     setSaving(false)
-    if (error) { setErro('Não consegui salvar agora. Tenta de novo?'); return }
     await refreshProfile?.() // nome novo já aparece no cabeçalho e no menu
     setSaved(true)
     setTimeout(() => setSaved(false), 3000)
@@ -52,26 +75,13 @@ export default function ProfilePage() {
       setFoto({ estado: 'erro', msg: 'Essa foto ficou maior que 1 MB. Tenta outra, ou um print dela.' })
       return
     }
-    const uid = session.user.id
-    const ext = leve === file ? ((file.name.split('.').pop() || 'jpg').toLowerCase().replace(/[^a-z0-9]/g, '') || 'jpg') : extensao(leve)
-    const path = `${uid}/${Date.now()}.${ext}`
-
-    const { error: upErr } = await supabase.storage.from('avatars').upload(path, leve, { contentType: leve.type || file.type, cacheControl: '31536000' })
-    if (upErr) {
-      console.error('foto: upload', upErr)
-      setFoto({ estado: 'erro', msg: 'Não consegui enviar a foto agora. Tenta de novo daqui a pouco.' })
+    const tipo = leve.type || file.type
+    try {
+      await salvarPerfil({ foto: await paraBase64(leve), tipo })
+    } catch (err) {
+      setFoto({ estado: 'erro', msg: err.message })
       return
     }
-    const url = supabase.storage.from('avatars').getPublicUrl(path).data?.publicUrl
-    const { error } = await supabase.from('users').update({ avatar_url: url }).eq('id', uid)
-    if (error) {
-      console.error('foto: perfil', error)
-      setFoto({ estado: 'erro', msg: 'A foto subiu, mas não consegui salvar no perfil. Tenta de novo?' })
-      return
-    }
-    // apaga a foto anterior, se era daqui
-    const antiga = profile?.avatar_url?.split('/avatars/')[1]
-    if (antiga) supabase.storage.from('avatars').remove([decodeURIComponent(antiga)])
     await refreshProfile?.()
     setFoto({ estado: 'ok', msg: 'Foto atualizada!' })
     setTimeout(() => setFoto({ estado: 'idle', msg: '' }), 3000)
@@ -79,10 +89,12 @@ export default function ProfilePage() {
 
   async function removerFoto() {
     setFoto({ estado: 'enviando', msg: '' })
-    const { error } = await supabase.from('users').update({ avatar_url: null }).eq('id', session.user.id)
-    if (error) { setFoto({ estado: 'erro', msg: 'Não consegui remover agora. Tenta de novo?' }); return }
-    const antiga = profile?.avatar_url?.split('/avatars/')[1]
-    if (antiga) supabase.storage.from('avatars').remove([decodeURIComponent(antiga)])
+    try {
+      await salvarPerfil({ removerFoto: true })
+    } catch (err) {
+      setFoto({ estado: 'erro', msg: err.message })
+      return
+    }
     await refreshProfile?.()
     setFoto({ estado: 'idle', msg: '' })
   }
