@@ -19,7 +19,8 @@
 //   CAKTO_KIT_PRODUCT_ID   id do produto "Kit de Execução" na Cakto (opcional:
 //                          sem ele, o kit é reconhecido pelo nome do produto)
 //   RESEND_API_KEY         chave do Resend (sem ela, o e-mail de boas-vindas é pulado)
-//   ACERVO_FROM            remetente, ex.: "Acervo de Anúncios <suporte@metodoavva.com>"
+//   ACERVO_FROM            remetente, ex.: "Acervo de Anúncios <acervo@metodoavva.com>"
+//   ACERVO_REPLY_TO        pra onde vai a resposta da aluna (padrão suporte@metodoavva.com)
 import crypto from 'node:crypto'
 import { createClient } from '@supabase/supabase-js'
 import { welcomeEmail, abandonEmail, pixEmail, refusedEmail } from '../lib/emails/acervo.js'
@@ -80,10 +81,11 @@ async function sendEmail(to, { subject, html, text }) {
   const apiKey = process.env.RESEND_API_KEY
   if (!apiKey) return { skipped: true }
   const from = process.env.ACERVO_FROM || 'Acervo de Anúncios <suporte@metodoavva.com>'
+  const replyTo = process.env.ACERVO_REPLY_TO || 'suporte@metodoavva.com'
   const r = await fetch('https://api.resend.com/emails', {
     method: 'POST',
     headers: { Authorization: `Bearer ${apiKey}`, 'Content-Type': 'application/json' },
-    body: JSON.stringify({ from, to: [to], subject, html, text }),
+    body: JSON.stringify({ from, to: [to], reply_to: replyTo, subject, html, text }),
   })
   if (!r.ok) console.error('resend error', r.status, await r.text().catch(() => ''))
   return { status: r.status }

@@ -38,10 +38,11 @@ async function sendEmail(to, { subject, html, text }) {
   const apiKey = process.env.RESEND_API_KEY
   if (!apiKey) return { skipped: true }
   const from = process.env.ACERVO_FROM || 'Acervo de Anúncios <suporte@metodoavva.com>'
+  const replyTo = process.env.ACERVO_REPLY_TO || 'suporte@metodoavva.com'
   const r = await fetch('https://api.resend.com/emails', {
     method: 'POST',
     headers: { Authorization: `Bearer ${apiKey}`, 'Content-Type': 'application/json' },
-    body: JSON.stringify({ from, to: [to], subject, html, text }),
+    body: JSON.stringify({ from, to: [to], reply_to: replyTo, subject, html, text }),
   })
   if (!r.ok) {
     const body = await r.text().catch(() => '')

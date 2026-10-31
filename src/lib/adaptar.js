@@ -8,10 +8,35 @@ import { OBJECTIVE_LABELS, MEDIA_LABELS, NICHE_LABELS } from './catalog'
 export const DESTINOS = ['WhatsApp', 'Site', 'Página de vendas', 'Perfil', 'Direct']
 
 export const CAMPOS = [
-  { key: 'negocio', label: 'Seu negócio', placeholder: 'O que você vende e pra quem. Ex.: consultoria de imagem pra mulheres acima de 40', salvo: true },
-  { key: 'prova', label: 'Uma prova real (opcional)', placeholder: 'Ex.: 120 clientes atendidas, depoimento da Carla, antes e depois…', salvo: true },
-  { key: 'objecao', label: 'O "mas" que você mais ouve (opcional)', placeholder: 'Ex.: "é caro", "não tenho tempo", "já tentei e não deu certo"', salvo: true },
+  { key: 'vendo', label: 'O que você vende', ajuda: 'Produto ou serviço, em poucas palavras.', placeholder: 'Ex.: consultoria de imagem' },
+  { key: 'cliente', label: 'Pra quem', ajuda: 'Quem é a cliente que você quer atrair.', placeholder: 'Ex.: mulheres acima de 40 que voltaram a trabalhar' },
+  { key: 'muda', label: 'O que muda pra ela', ajuda: 'O resultado que ela leva, não o produto.', placeholder: 'Ex.: se veste em 5 minutos, sem dúvida' },
+  { key: 'preco', label: 'Preço ou condição', ajuda: 'Valor, parcelamento, prazo. Só se for real.', placeholder: 'Ex.: R$ 497 em 12x · só até domingo' },
+  { key: 'prova', label: 'Uma prova real', ajuda: 'Número, depoimento, antes e depois. Vazio, a IA não inventa.', placeholder: 'Ex.: 120 clientes atendidas · depoimento da Carla' },
+  { key: 'objecao', label: 'O "mas" que você mais ouve', ajuda: 'A desculpa de quando a cliente quer mas não fecha.', placeholder: 'Ex.: "é caro" · "não tenho tempo"' },
 ]
+
+export const TONS = ['Direta', 'Leve e divertida', 'Acolhedora', 'Elegante', 'Provocadora', 'Técnica e precisa']
+
+// Quais campos extras aparecem conforme a coleção do anúncio (os básicos aparecem sempre).
+// Anúncio sem objetivo mostra todos.
+export const CAMPOS_POR_OBJETIVO = {
+  preco: ['vender-agora', 'quebrar-o-mas'],
+  prova: ['provar-que-funciona', 'vender-agora', 'mostrar-que-voce-entende'],
+  objecao: ['quebrar-o-mas', 'vender-agora'],
+}
+
+export function camposPara(ad) {
+  const objs = ad.objectives || []
+  return CAMPOS.filter(c => {
+    const regra = CAMPOS_POR_OBJETIVO[c.key]
+    return !regra || objs.length === 0 || regra.some(o => objs.includes(o))
+  })
+}
+
+export const TIPOS = ['Infoproduto', 'E-commerce', 'Negócio local', 'Serviço']
+
+export const DESTINO_AJUDA = 'Pra onde a pessoa vai quando toca no anúncio.'
 
 const CHAVE = 'avva.ficha'
 
@@ -104,21 +129,24 @@ export function buildPrompt({ ad, collectionTitle, ficha }) {
   const entrega = ENTREGA_POR_MIDIA[ad.media_type] || ENTREGA_POR_MIDIA.video
 
   const lentes = [...new Set([...objetivos.flatMap(o => LENTES[o]), ...LENTE_GERAL])]
-  const negocio = (ficha.negocio || '').trim()
-  const destino = (ficha.destino || '').trim()
-  const prova = (ficha.prova || '').trim()
-  const objecao = (ficha.objecao || '').trim()
-
-  const meu = [
-    negocio ? `O que eu vendo e pra quem: ${negocio}` : null,
-    destino ? `Pra onde o anúncio leva: ${destino}` : null,
-    prova ? `Prova real que eu posso usar: ${prova}` : 'Prova real que eu posso usar: nenhuma informada (não invente)',
-    objecao ? `O "mas" que eu mais ouço das clientes: ${objecao}` : null,
-  ].filter(Boolean).join('\n')
+  const v = k => (ficha[k] || '').trim()
+  const linhas = [
+    v('vendo') ? `O que eu vendo: ${v('vendo')}` : null,
+    v('tipo') ? `Tipo de negócio: ${v('tipo')}` : null,
+    v('cliente') ? `Pra quem: ${v('cliente')}` : null,
+    v('muda') ? `O que muda pra ela: ${v('muda')}` : null,
+    v('preco') ? `Preço ou condição real: ${v('preco')}` : null,
+    v('destino') ? `Pra onde o anúncio leva: ${v('destino')}` : null,
+    v('prova') ? `Prova real que eu posso usar: ${v('prova')}` : 'Prova real que eu posso usar: nenhuma informada (não invente)',
+    v('objecao') ? `O "mas" que eu mais ouço das clientes: ${v('objecao')}` : null,
+    (v('tons') || v('tomOutro')) ? `Como eu falo: ${[v('tons'), v('tomOutro')].filter(Boolean).join(', ')}` : null,
+  ].filter(Boolean)
+  const meu = linhas.join('\n')
 
   const faltando = [
-    !negocio ? 'o que eu vendo e pra quem' : null,
-    !destino ? 'pra onde o anúncio leva (WhatsApp, site, página, perfil, direct)' : null,
+    !v('vendo') ? 'o que eu vendo' : null,
+    !v('cliente') ? 'pra quem' : null,
+    !v('destino') ? 'pra onde o anúncio leva (WhatsApp, site, página, perfil, direct)' : null,
   ].filter(Boolean)
 
   const sugestaoDestino = objetivos.map(o => DESTINO_SUGESTAO[o]).filter(Boolean)[0]
@@ -154,4 +182,8 @@ Me entregue:
 
 export function linkChatGPT(prompt) {
   return `https://chatgpt.com/?q=${encodeURIComponent(prompt)}`
+}
+
+export function linkClaude(prompt) {
+  return `https://claude.ai/new?q=${encodeURIComponent(prompt)}`
 }
