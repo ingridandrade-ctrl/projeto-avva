@@ -1,9 +1,6 @@
 import { useEffect, useMemo, useState } from 'react'
 import { supabase } from '../../lib/supabase'
-import { TIPOS_SUGESTAO as TIPOS } from '../../lib/sugestoes'
 import './AdminSugestoes.css'
-
-const LABEL = Object.fromEntries(TIPOS.map(t => [t.value, t.label]))
 
 const quando = (iso) => new Date(iso).toLocaleDateString('pt-BR', { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' })
 
@@ -13,7 +10,6 @@ export default function AdminSugestoes() {
   const [loading, setLoading] = useState(true)
   const [erro, setErro] = useState(null)
   const [filtro, setFiltro] = useState('novas') // novas | todas
-  const [tipo, setTipo] = useState('')
 
   async function load() {
     const { data, error } = await supabase.from('sugestoes').select('*').order('created_at', { ascending: false })
@@ -35,9 +31,7 @@ export default function AdminSugestoes() {
     if (!error) setItens(xs => xs.filter(x => x.id !== s.id))
   }
 
-  const lista = useMemo(() => itens
-    .filter(s => filtro === 'todas' || !s.lida)
-    .filter(s => !tipo || s.tipo === tipo), [itens, filtro, tipo])
+  const lista = useMemo(() => itens.filter(s => filtro === 'todas' || !s.lida), [itens, filtro])
 
   const novas = itens.filter(s => !s.lida).length
 
@@ -47,7 +41,7 @@ export default function AdminSugestoes() {
         <div>
           <span className="adm-eyebrow">Acervo de Anúncios</span>
           <h1>Sugestões</h1>
-          <p>O que as alunas pedem pela caixinha da área de membros. {novas ? `${novas} nova${novas === 1 ? '' : 's'}.` : 'Nada novo por enquanto.'}</p>
+          <p>O que as alunas pedem pela caixinha do Acervo. {novas ? `${novas} nova${novas === 1 ? '' : 's'}.` : 'Nada novo por enquanto.'}</p>
         </div>
       </div>
 
@@ -62,10 +56,6 @@ export default function AdminSugestoes() {
           <button type="button" className={filtro === 'novas' ? 'is-on' : ''} onClick={() => setFiltro('novas')}>Novas</button>
           <button type="button" className={filtro === 'todas' ? 'is-on' : ''} onClick={() => setFiltro('todas')}>Todas</button>
         </div>
-        <select className="adm-input adm-sug__tipo" value={tipo} onChange={e => setTipo(e.target.value)}>
-          <option value="">Todos os tipos</option>
-          {TIPOS.map(t => <option key={t.value} value={t.value}>{t.label}</option>)}
-        </select>
       </div>
 
       {loading ? (
@@ -77,7 +67,7 @@ export default function AdminSugestoes() {
           {lista.map(s => (
             <article key={s.id} className={`adm-sug__item ${s.lida ? 'adm-sug__item--lida' : ''}`}>
               <div className="adm-sug__meta">
-                <span className={`adm-sug__tag adm-sug__tag--${s.tipo}`}>{LABEL[s.tipo] || s.tipo}</span>
+                {!s.lida && <span className="adm-sug__tag">Nova</span>}
                 <span className="adm-sug__quem">{s.name || s.email}{s.name && s.email ? ` · ${s.email}` : ''}</span>
                 <span className="adm-sug__quando">{quando(s.created_at)}{s.pagina ? ` · em ${s.pagina}` : ''}</span>
               </div>

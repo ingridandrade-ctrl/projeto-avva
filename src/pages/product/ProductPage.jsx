@@ -128,6 +128,8 @@ export default function ProductPage() {
         </div>
       </div>
 
+      {collections !== null && <SuggestionBox />}
+
       <section className="product-page__modules">
         <h2>Coleções por objetivo</h2>
         <div className="module-grid">
@@ -163,8 +165,6 @@ export default function ProductPage() {
           )}
         </div>
       )}
-
-      {collections !== null && <SuggestionBox />}
 
       {openAd && (
         <AdModal

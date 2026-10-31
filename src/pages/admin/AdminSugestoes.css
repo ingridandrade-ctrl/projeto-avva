@@ -9,7 +9,6 @@
   font: inherit; font-size: 0.86rem; font-weight: 600; color: var(--a-ink-3); cursor: pointer;
 }
 .adm-sug__seg button.is-on { background: #fff; color: var(--a-ink); box-shadow: var(--a-shadow); }
-.adm-sug__tipo { max-width: 240px; }
 
 .adm-sug__lista { display: flex; flex-direction: column; gap: 10px; }
 
