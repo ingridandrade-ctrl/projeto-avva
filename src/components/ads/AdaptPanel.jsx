@@ -38,36 +38,49 @@ export default function AdaptPanel({ ad, collectionTitle, collectionSlug }) {
       {open && (
         <div className="adapt__body">
           <p className="adapt__intro">
-            A IA destrincha a análise desse anúncio pela lente da coleção e escreve a sua versão. Nenhum campo é obrigatório: o que você preencher fica salvo no seu aparelho, e o que faltar ela pergunta antes de escrever.
+            <strong>A IA destrincha a análise desse anúncio pela lente da coleção e escreve a sua versão.</strong>{' '}
+            Nenhum campo é obrigatório: o que você preencher fica salvo no seu aparelho, e o que faltar ela pergunta antes de escrever.
           </p>
 
-          <div className="adapt__destinos">
-            <span>Tipo de negócio</span>
-            <div className="adapt__chips">
-              {TIPOS.map(t => (
-                <button type="button" key={t} className={`adapt__chip ${ficha.tipo === t ? 'adapt__chip--on' : ''}`} onClick={() => edit('tipo', ficha.tipo === t ? '' : t)}>{t}</button>
+          <section className="adapt__passo">
+            <header className="adapt__passo-head">
+              <span className="adapt__num">1</span>
+              <h4>Seu negócio</h4>
+            </header>
+
+            <div className="adapt__grupo">
+              <span className="adapt__rotulo">Tipo de negócio</span>
+              <div className="adapt__chips">
+                {TIPOS.map(t => (
+                  <button type="button" key={t} className={`adapt__chip ${ficha.tipo === t ? 'adapt__chip--on' : ''}`} onClick={() => edit('tipo', ficha.tipo === t ? '' : t)}>{t}</button>
+                ))}
+              </div>
+            </div>
+
+            <div className="adapt__grid">
+              {campos.map(c => (
+                <label key={c.key} className="adapt__field">
+                  <span className="adapt__rotulo">{c.label}</span>
+                  <small>{c.ajuda}</small>
+                  <input
+                    type="text"
+                    value={ficha[c.key] || ''}
+                    onChange={e => edit(c.key, e.target.value)}
+                    placeholder={c.placeholder}
+                  />
+                </label>
               ))}
             </div>
-          </div>
+          </section>
 
-          <div className="adapt__grid">
-          {campos.map(c => (
-            <label key={c.key} className="adapt__field">
-              <span>{c.label}</span>
-              <small>{c.ajuda}</small>
-              <input
-                type="text"
-                value={ficha[c.key] || ''}
-                onChange={e => edit(c.key, e.target.value)}
-                placeholder={c.placeholder}
-              />
-            </label>
-          ))}
-          </div>
-
-          <div className="adapt__destinos">
-            <span>Como você fala</span>
-            <small>Escolha até duas. Ou escreva do seu jeito.</small>
+          <section className="adapt__passo">
+            <header className="adapt__passo-head">
+              <span className="adapt__num">2</span>
+              <div>
+                <h4>Como você fala</h4>
+                <small>Escolha até duas. Ou escreva do seu jeito.</small>
+              </div>
+            </header>
             <div className="adapt__chips">
               {TONS.map(t => (
                 <button type="button" key={t} className={`adapt__chip ${tons.includes(t) ? 'adapt__chip--on' : ''}`} onClick={() => toggleTom(t)}>{t}</button>
@@ -80,11 +93,16 @@ export default function AdaptPanel({ ad, collectionTitle, collectionSlug }) {
               onChange={e => edit('tomOutro', e.target.value)}
               placeholder="Outro jeito: ex. sem frescura, de amiga pra amiga"
             />
-          </div>
+          </section>
 
-          <div className="adapt__destinos">
-            <span>Pra onde o anúncio leva</span>
-            <small>{DESTINO_AJUDA}</small>
+          <section className="adapt__passo">
+            <header className="adapt__passo-head">
+              <span className="adapt__num">3</span>
+              <div>
+                <h4>Pra onde o anúncio leva</h4>
+                <small>{DESTINO_AJUDA}</small>
+              </div>
+            </header>
             <div className="adapt__chips">
               {DESTINOS.map(d => (
                 <button
@@ -96,21 +114,36 @@ export default function AdaptPanel({ ad, collectionTitle, collectionSlug }) {
               ))}
             </div>
             {sugestao && <p className="adapt__sugestao">{sugestao}</p>}
-          </div>
+          </section>
 
-          <div className="adapt__acoes">
-            <a className="adapt__cta" href={linkChatGPT(prompt)} target="_blank" rel="noreferrer">
-              Abrir no ChatGPT
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-            </a>
-            <a className="adapt__link" href={linkClaude(prompt)} target="_blank" rel="noreferrer">Abrir no Claude</a>
-            <CopyButton text={prompt} label="Copiar prompt" />
-            <button type="button" className="adapt__ver" onClick={() => setVerPrompt(v => !v)}>{verPrompt ? 'Esconder' : 'Ver o prompt'}</button>
-          </div>
+          <section className="adapt__passo adapt__passo--final">
+            <header className="adapt__passo-head">
+              <span className="adapt__num">4</span>
+              <div>
+                <h4>Agora é só abrir na IA</h4>
+                <small>A IA escreve, você decide. Se sair uma prova que você não tem, apaga.</small>
+              </div>
+            </header>
 
-          {verPrompt && <pre className="adapt__prompt">{prompt}</pre>}
+            <div className="adapt__ias">
+              <a className="adapt__cta" href={linkChatGPT(prompt)} target="_blank" rel="noreferrer">
+                Abrir no ChatGPT
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+              </a>
+              <a className="adapt__cta adapt__cta--claude" href={linkClaude(prompt)} target="_blank" rel="noreferrer">
+                Abrir no Claude
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+              </a>
+            </div>
 
-          <p className="adapt__nota">A IA escreve, você decide. Se sair uma prova que você não tem, apaga.</p>
+            <div className="adapt__extras">
+              <span>Prefere outra IA?</span>
+              <CopyButton text={prompt} label="Copiar prompt" />
+              <button type="button" className="adapt__ver" onClick={() => setVerPrompt(v => !v)}>{verPrompt ? 'Esconder o prompt' : 'Ver o prompt'}</button>
+            </div>
+
+            {verPrompt && <pre className="adapt__prompt">{prompt}</pre>}
+          </section>
         </div>
       )}
     </div>
