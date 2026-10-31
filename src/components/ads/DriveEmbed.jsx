@@ -73,7 +73,7 @@ export default function DriveEmbed({ url, title, mediaType = 'video' }) {
         <>
           <img
             className="drive-embed__img drive-embed__img--zoomable"
-            src={driveThumb(url, 1600)}
+            src={driveThumb(url, 2400)}
             alt={title || 'Criativo'}
             onError={() => setImgFailed(true)}
             onClick={() => setZoom(true)}

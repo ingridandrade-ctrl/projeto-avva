@@ -38,7 +38,7 @@ export default function HubPage() {
             </span>
             <span className="hub-card__kicker">Já sou aluna</span>
             <strong>Acessar a área de alunas</strong>
-            <span className="hub-card__texto">Entre com o e-mail da compra e continue de onde parou: Acervo de Anúncios, Kit e tudo que você já tem.</span>
+            <span className="hub-card__texto">Entre com o e-mail da compra e acesse os seus produtos.</span>
             <span className="hub-card__cta">Entrar <Seta /></span>
           </Link>
 

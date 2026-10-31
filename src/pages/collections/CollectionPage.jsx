@@ -175,7 +175,6 @@ export default function CollectionPage() {
                   isFavorite={isFavorite(ad.id)}
                   onToggleFavorite={toggleFavorite}
                   onOpen={() => setOpenAd(ad)}
-                  eager={i < 6}
                 />
               </div>
             ))}

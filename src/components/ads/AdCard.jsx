@@ -7,7 +7,7 @@ export { driveThumb }
 
 // Card de anúncio nas grades (coleção, busca): capa 3:4 inteira em cima;
 // na base branca, nicho à esquerda, tipo de mídia + favorito à direita, e o título.
-export default function AdCard({ ad, isFavorite, onToggleFavorite, onOpen, seen = false, eager = false }) {
+export default function AdCard({ ad, isFavorite, onToggleFavorite, onOpen, seen = false }) {
   const initial = (ad.title || '?').trim().charAt(0).toUpperCase()
   const nicheList = (ad.niches || []).map(n => NICHE_LABELS[n] || n)
   // No celular só cabe o primeiro nicho; os outros ficam escondidos por CSS
@@ -35,9 +35,8 @@ export default function AdCard({ ad, isFavorite, onToggleFavorite, onOpen, seen 
   return (
     <PhoneCard
       onClick={onOpen}
-      image={driveThumbAlt(ad.drive_url, 640)}
-      imageAlt={driveThumb(ad.drive_url, 640)}
-      eager={eager}
+      image={driveThumb(ad.drive_url, 1000)}
+      imageAlt={driveThumbAlt(ad.drive_url, 1000)}
       title={ad.title}
       kicker={niches || '\u00a0'}
       meta={side}

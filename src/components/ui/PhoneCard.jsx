@@ -22,7 +22,6 @@ export default function PhoneCard({
   fallbackGradient,
   fallbackLabel,
   textBelow = false,
-  eager = false,
   className = '',
   style,
 }) {
@@ -39,7 +38,7 @@ export default function PhoneCard({
   const inner = (
     <div className="phone-card__media">
       {showImage ? (
-        <img src={src} alt="" loading={eager ? 'eager' : 'lazy'} fetchPriority={eager ? 'high' : undefined} decoding="async" onError={onImgError} />
+        <img src={src} alt="" loading="lazy" onError={onImgError} />
       ) : (
         <div className="phone-card__fallback" style={{ background: fallbackGradient }}>
           {fallbackLabel && <span>{fallbackLabel}</span>}
