@@ -177,3 +177,13 @@
   font-weight: 600;
   text-decoration: none;
 }
+
+.adapt__grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px 14px; }
+.adapt__grid .adapt__field:nth-child(5),
+.adapt__grid .adapt__field:nth-child(6) { grid-column: span 2; }
+.adapt__field small { font-size: 0.78rem; margin-bottom: 2px; }
+@media (max-width: 640px) {
+  .adapt__grid { grid-template-columns: 1fr; }
+  .adapt__grid .adapt__field:nth-child(5),
+  .adapt__grid .adapt__field:nth-child(6) { grid-column: auto; }
+}

@@ -8,27 +8,18 @@ import { OBJECTIVE_LABELS, MEDIA_LABELS, NICHE_LABELS } from './catalog'
 export const DESTINOS = ['WhatsApp', 'Site', 'Página de vendas', 'Perfil', 'Direct']
 
 export const CAMPOS = [
-  {
-    key: 'negocio',
-    label: 'Seu negócio',
-    ajuda: 'O que você vende e pra quem. É o que a IA usa pra trocar o produto do anúncio pelo seu e falar com a sua cliente, não com a do anunciante.',
-    placeholder: 'Ex.: consultoria de imagem pra mulheres acima de 40 que voltaram a trabalhar',
-  },
-  {
-    key: 'prova',
-    label: 'Uma prova real',
-    ajuda: 'Algo que existe e você pode mostrar: quantas clientes atendeu, um depoimento, um antes e depois, um número. Se deixar vazio, a IA escreve sem prova, em vez de inventar uma.',
-    placeholder: 'Ex.: 120 clientes atendidas · depoimento da Carla · fila de espera em novembro',
-  },
-  {
-    key: 'objecao',
-    label: 'O "mas" que você mais ouve',
-    ajuda: 'A desculpa que aparece quando a cliente quer mas não fecha. A IA usa pra responder isso dentro do anúncio, do jeito que a análise mostra.',
-    placeholder: 'Ex.: "é caro" · "não tenho tempo" · "já tentei e não deu certo"',
-  },
+  { key: 'vendo', label: 'O que você vende', ajuda: 'Produto ou serviço, em poucas palavras.', placeholder: 'Ex.: consultoria de imagem' },
+  { key: 'cliente', label: 'Pra quem', ajuda: 'Quem é a cliente que você quer atrair.', placeholder: 'Ex.: mulheres acima de 40 que voltaram a trabalhar' },
+  { key: 'muda', label: 'O que muda pra ela', ajuda: 'O resultado que ela leva, não o produto.', placeholder: 'Ex.: se veste em 5 minutos, sem dúvida' },
+  { key: 'preco', label: 'Preço ou condição', ajuda: 'Valor, parcelamento, prazo. Só se for real.', placeholder: 'Ex.: R$ 497 em 12x · só até domingo' },
+  { key: 'prova', label: 'Uma prova real', ajuda: 'Número, depoimento, antes e depois. Vazio, a IA não inventa.', placeholder: 'Ex.: 120 clientes atendidas · depoimento da Carla' },
+  { key: 'objecao', label: 'O "mas" que você mais ouve', ajuda: 'A desculpa de quando a cliente quer mas não fecha.', placeholder: 'Ex.: "é caro" · "não tenho tempo"' },
+  { key: 'tom', label: 'Como você fala', ajuda: 'Duas ou três palavras sobre o seu jeito.', placeholder: 'Ex.: direta, leve, sem frescura' },
 ]
 
-export const DESTINO_AJUDA = 'Pra onde a pessoa vai quando toca no anúncio. Muda a chamada do fim e o tom do texto.'
+export const TIPOS = ['Infoproduto', 'E-commerce', 'Negócio local', 'Serviço']
+
+export const DESTINO_AJUDA = 'Pra onde a pessoa vai quando toca no anúncio.'
 
 const CHAVE = 'avva.ficha'
 
@@ -121,21 +112,24 @@ export function buildPrompt({ ad, collectionTitle, ficha }) {
   const entrega = ENTREGA_POR_MIDIA[ad.media_type] || ENTREGA_POR_MIDIA.video
 
   const lentes = [...new Set([...objetivos.flatMap(o => LENTES[o]), ...LENTE_GERAL])]
-  const negocio = (ficha.negocio || '').trim()
-  const destino = (ficha.destino || '').trim()
-  const prova = (ficha.prova || '').trim()
-  const objecao = (ficha.objecao || '').trim()
-
-  const meu = [
-    negocio ? `O que eu vendo e pra quem: ${negocio}` : null,
-    destino ? `Pra onde o anúncio leva: ${destino}` : null,
-    prova ? `Prova real que eu posso usar: ${prova}` : 'Prova real que eu posso usar: nenhuma informada (não invente)',
-    objecao ? `O "mas" que eu mais ouço das clientes: ${objecao}` : null,
-  ].filter(Boolean).join('\n')
+  const v = k => (ficha[k] || '').trim()
+  const linhas = [
+    v('vendo') ? `O que eu vendo: ${v('vendo')}` : null,
+    v('tipo') ? `Tipo de negócio: ${v('tipo')}` : null,
+    v('cliente') ? `Pra quem: ${v('cliente')}` : null,
+    v('muda') ? `O que muda pra ela: ${v('muda')}` : null,
+    v('preco') ? `Preço ou condição real: ${v('preco')}` : null,
+    v('destino') ? `Pra onde o anúncio leva: ${v('destino')}` : null,
+    v('prova') ? `Prova real que eu posso usar: ${v('prova')}` : 'Prova real que eu posso usar: nenhuma informada (não invente)',
+    v('objecao') ? `O "mas" que eu mais ouço das clientes: ${v('objecao')}` : null,
+    v('tom') ? `Como eu falo: ${v('tom')}` : null,
+  ].filter(Boolean)
+  const meu = linhas.join('\n')
 
   const faltando = [
-    !negocio ? 'o que eu vendo e pra quem' : null,
-    !destino ? 'pra onde o anúncio leva (WhatsApp, site, página, perfil, direct)' : null,
+    !v('vendo') ? 'o que eu vendo' : null,
+    !v('cliente') ? 'pra quem' : null,
+    !v('destino') ? 'pra onde o anúncio leva (WhatsApp, site, página, perfil, direct)' : null,
   ].filter(Boolean)
 
   const sugestaoDestino = objetivos.map(o => DESTINO_SUGESTAO[o]).filter(Boolean)[0]

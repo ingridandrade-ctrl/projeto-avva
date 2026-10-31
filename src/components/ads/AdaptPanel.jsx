@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react'
 import CopyButton from '../ui/CopyButton'
-import { CAMPOS, DESTINOS, DESTINO_SUGESTAO, DESTINO_AJUDA, loadFicha, saveFicha, buildPrompt, linkChatGPT, linkClaude } from '../../lib/adaptar'
+import { CAMPOS, TIPOS, DESTINOS, DESTINO_SUGESTAO, DESTINO_AJUDA, loadFicha, saveFicha, buildPrompt, linkChatGPT, linkClaude } from '../../lib/adaptar'
 import './AdaptPanel.css'
 
 // "Fazer a minha versão": abre a IA com a análise deste anúncio, as perguntas
@@ -34,6 +34,16 @@ export default function AdaptPanel({ ad, collectionTitle }) {
             A IA destrincha a análise desse anúncio pela lente da coleção e escreve a sua versão. Nenhum campo é obrigatório: o que você preencher fica salvo no seu aparelho, e o que faltar ela pergunta antes de escrever.
           </p>
 
+          <div className="adapt__destinos">
+            <span>Tipo de negócio</span>
+            <div className="adapt__chips">
+              {TIPOS.map(t => (
+                <button type="button" key={t} className={`adapt__chip ${ficha.tipo === t ? 'adapt__chip--on' : ''}`} onClick={() => edit('tipo', ficha.tipo === t ? '' : t)}>{t}</button>
+              ))}
+            </div>
+          </div>
+
+          <div className="adapt__grid">
           {CAMPOS.map(c => (
             <label key={c.key} className="adapt__field">
               <span>{c.label}</span>
@@ -46,6 +56,7 @@ export default function AdaptPanel({ ad, collectionTitle }) {
               />
             </label>
           ))}
+          </div>
 
           <div className="adapt__destinos">
             <span>Pra onde o anúncio leva</span>
