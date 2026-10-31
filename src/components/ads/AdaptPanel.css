@@ -156,3 +156,24 @@
   overflow: auto;
   color: var(--tinta);
 }
+
+.adapt__field small,
+.adapt__destinos small {
+  display: block;
+  margin: -2px 0 4px;
+  font-size: 0.82rem;
+  line-height: 1.4;
+  color: rgba(76, 54, 45, 0.7);
+}
+
+.adapt__link {
+  padding: 8px 14px;
+  border-radius: 999px;
+  border: 1px solid rgba(12, 71, 71, 0.3);
+  background: #fff;
+  color: var(--teal-profundo);
+  font: inherit;
+  font-size: 0.84rem;
+  font-weight: 600;
+  text-decoration: none;
+}

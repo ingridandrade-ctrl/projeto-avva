@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react'
 import CopyButton from '../ui/CopyButton'
-import { CAMPOS, DESTINOS, DESTINO_SUGESTAO, loadFicha, saveFicha, buildPrompt, linkChatGPT } from '../../lib/adaptar'
+import { CAMPOS, DESTINOS, DESTINO_SUGESTAO, DESTINO_AJUDA, loadFicha, saveFicha, buildPrompt, linkChatGPT, linkClaude } from '../../lib/adaptar'
 import './AdaptPanel.css'
 
 // "Fazer a minha versão": abre a IA com a análise deste anúncio, as perguntas
@@ -31,12 +31,13 @@ export default function AdaptPanel({ ad, collectionTitle }) {
       {open && (
         <div className="adapt__body">
           <p className="adapt__intro">
-            A IA destrincha a análise desse anúncio pela lente da coleção e escreve a sua versão. O que você preencher aqui fica salvo no seu aparelho; o que faltar, ela pergunta.
+            A IA destrincha a análise desse anúncio pela lente da coleção e escreve a sua versão. Nenhum campo é obrigatório: o que você preencher fica salvo no seu aparelho, e o que faltar ela pergunta antes de escrever.
           </p>
 
           {CAMPOS.map(c => (
             <label key={c.key} className="adapt__field">
               <span>{c.label}</span>
+              <small>{c.ajuda}</small>
               <input
                 type="text"
                 value={ficha[c.key] || ''}
@@ -48,6 +49,7 @@ export default function AdaptPanel({ ad, collectionTitle }) {
 
           <div className="adapt__destinos">
             <span>Pra onde o anúncio leva</span>
+            <small>{DESTINO_AJUDA}</small>
             <div className="adapt__chips">
               {DESTINOS.map(d => (
                 <button
@@ -66,6 +68,7 @@ export default function AdaptPanel({ ad, collectionTitle }) {
               Abrir no ChatGPT
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
             </a>
+            <a className="adapt__link" href={linkClaude(prompt)} target="_blank" rel="noreferrer">Abrir no Claude</a>
             <CopyButton text={prompt} label="Copiar prompt" />
             <button type="button" className="adapt__ver" onClick={() => setVerPrompt(v => !v)}>{verPrompt ? 'Esconder' : 'Ver o prompt'}</button>
           </div>

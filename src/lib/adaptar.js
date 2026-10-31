@@ -8,10 +8,27 @@ import { OBJECTIVE_LABELS, MEDIA_LABELS, NICHE_LABELS } from './catalog'
 export const DESTINOS = ['WhatsApp', 'Site', 'Página de vendas', 'Perfil', 'Direct']
 
 export const CAMPOS = [
-  { key: 'negocio', label: 'Seu negócio', placeholder: 'O que você vende e pra quem. Ex.: consultoria de imagem pra mulheres acima de 40', salvo: true },
-  { key: 'prova', label: 'Uma prova real (opcional)', placeholder: 'Ex.: 120 clientes atendidas, depoimento da Carla, antes e depois…', salvo: true },
-  { key: 'objecao', label: 'O "mas" que você mais ouve (opcional)', placeholder: 'Ex.: "é caro", "não tenho tempo", "já tentei e não deu certo"', salvo: true },
+  {
+    key: 'negocio',
+    label: 'Seu negócio',
+    ajuda: 'O que você vende e pra quem. É o que a IA usa pra trocar o produto do anúncio pelo seu e falar com a sua cliente, não com a do anunciante.',
+    placeholder: 'Ex.: consultoria de imagem pra mulheres acima de 40 que voltaram a trabalhar',
+  },
+  {
+    key: 'prova',
+    label: 'Uma prova real',
+    ajuda: 'Algo que existe e você pode mostrar: quantas clientes atendeu, um depoimento, um antes e depois, um número. Se deixar vazio, a IA escreve sem prova, em vez de inventar uma.',
+    placeholder: 'Ex.: 120 clientes atendidas · depoimento da Carla · fila de espera em novembro',
+  },
+  {
+    key: 'objecao',
+    label: 'O "mas" que você mais ouve',
+    ajuda: 'A desculpa que aparece quando a cliente quer mas não fecha. A IA usa pra responder isso dentro do anúncio, do jeito que a análise mostra.',
+    placeholder: 'Ex.: "é caro" · "não tenho tempo" · "já tentei e não deu certo"',
+  },
 ]
+
+export const DESTINO_AJUDA = 'Pra onde a pessoa vai quando toca no anúncio. Muda a chamada do fim e o tom do texto.'
 
 const CHAVE = 'avva.ficha'
 
@@ -154,4 +171,8 @@ Me entregue:
 
 export function linkChatGPT(prompt) {
   return `https://chatgpt.com/?q=${encodeURIComponent(prompt)}`
+}
+
+export function linkClaude(prompt) {
+  return `https://claude.ai/new?q=${encodeURIComponent(prompt)}`
 }
