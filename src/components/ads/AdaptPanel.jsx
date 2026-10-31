@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react'
 import CopyButton from '../ui/CopyButton'
-import { CAMPOS, TIPOS, DESTINOS, DESTINO_SUGESTAO, DESTINO_AJUDA, loadFicha, saveFicha, buildPrompt, linkChatGPT, linkClaude } from '../../lib/adaptar'
+import { camposPara, TIPOS, TONS, DESTINOS, DESTINO_SUGESTAO, DESTINO_AJUDA, loadFicha, saveFicha, buildPrompt, linkChatGPT, linkClaude } from '../../lib/adaptar'
 import './AdaptPanel.css'
 
 // "Fazer a minha versão": abre a IA com a análise deste anúncio, as perguntas
@@ -13,6 +13,13 @@ export default function AdaptPanel({ ad, collectionTitle }) {
 
   const prompt = useMemo(() => buildPrompt({ ad, collectionTitle, ficha }), [ad, collectionTitle, ficha])
   const sugestao = (ad.objectives || []).map(o => DESTINO_SUGESTAO[o]).filter(Boolean)[0]
+  const campos = camposPara(ad)
+  const tons = (ficha.tons || '').split(', ').filter(Boolean)
+
+  function toggleTom(t) {
+    const next = tons.includes(t) ? tons.filter(x => x !== t) : [...tons, t].slice(-2)
+    edit('tons', next.join(', '))
+  }
 
   function edit(key, value) {
     const next = { ...ficha, [key]: value }
@@ -44,7 +51,7 @@ export default function AdaptPanel({ ad, collectionTitle }) {
           </div>
 
           <div className="adapt__grid">
-          {CAMPOS.map(c => (
+          {campos.map(c => (
             <label key={c.key} className="adapt__field">
               <span>{c.label}</span>
               <small>{c.ajuda}</small>
@@ -56,6 +63,23 @@ export default function AdaptPanel({ ad, collectionTitle }) {
               />
             </label>
           ))}
+          </div>
+
+          <div className="adapt__destinos">
+            <span>Como você fala</span>
+            <small>Escolha até duas. Ou escreva do seu jeito.</small>
+            <div className="adapt__chips">
+              {TONS.map(t => (
+                <button type="button" key={t} className={`adapt__chip ${tons.includes(t) ? 'adapt__chip--on' : ''}`} onClick={() => toggleTom(t)}>{t}</button>
+              ))}
+            </div>
+            <input
+              type="text"
+              className="adapt__outro"
+              value={ficha.tomOutro || ''}
+              onChange={e => edit('tomOutro', e.target.value)}
+              placeholder="Outro jeito: ex. sem frescura, de amiga pra amiga"
+            />
           </div>
 
           <div className="adapt__destinos">

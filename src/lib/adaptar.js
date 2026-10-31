@@ -14,8 +14,25 @@ export const CAMPOS = [
   { key: 'preco', label: 'Preço ou condição', ajuda: 'Valor, parcelamento, prazo. Só se for real.', placeholder: 'Ex.: R$ 497 em 12x · só até domingo' },
   { key: 'prova', label: 'Uma prova real', ajuda: 'Número, depoimento, antes e depois. Vazio, a IA não inventa.', placeholder: 'Ex.: 120 clientes atendidas · depoimento da Carla' },
   { key: 'objecao', label: 'O "mas" que você mais ouve', ajuda: 'A desculpa de quando a cliente quer mas não fecha.', placeholder: 'Ex.: "é caro" · "não tenho tempo"' },
-  { key: 'tom', label: 'Como você fala', ajuda: 'Duas ou três palavras sobre o seu jeito.', placeholder: 'Ex.: direta, leve, sem frescura' },
 ]
+
+export const TONS = ['Direta', 'Leve e divertida', 'Acolhedora', 'Elegante', 'Provocadora', 'Técnica e precisa']
+
+// Quais campos extras aparecem conforme a coleção do anúncio (os básicos aparecem sempre).
+// Anúncio sem objetivo mostra todos.
+export const CAMPOS_POR_OBJETIVO = {
+  preco: ['vender-agora', 'quebrar-o-mas'],
+  prova: ['provar-que-funciona', 'vender-agora', 'mostrar-que-voce-entende'],
+  objecao: ['quebrar-o-mas', 'vender-agora'],
+}
+
+export function camposPara(ad) {
+  const objs = ad.objectives || []
+  return CAMPOS.filter(c => {
+    const regra = CAMPOS_POR_OBJETIVO[c.key]
+    return !regra || objs.length === 0 || regra.some(o => objs.includes(o))
+  })
+}
 
 export const TIPOS = ['Infoproduto', 'E-commerce', 'Negócio local', 'Serviço']
 
@@ -122,7 +139,7 @@ export function buildPrompt({ ad, collectionTitle, ficha }) {
     v('destino') ? `Pra onde o anúncio leva: ${v('destino')}` : null,
     v('prova') ? `Prova real que eu posso usar: ${v('prova')}` : 'Prova real que eu posso usar: nenhuma informada (não invente)',
     v('objecao') ? `O "mas" que eu mais ouço das clientes: ${v('objecao')}` : null,
-    v('tom') ? `Como eu falo: ${v('tom')}` : null,
+    (v('tons') || v('tomOutro')) ? `Como eu falo: ${[v('tons'), v('tomOutro')].filter(Boolean).join(', ')}` : null,
   ].filter(Boolean)
   const meu = linhas.join('\n')
 
