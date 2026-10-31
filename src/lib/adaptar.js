@@ -129,13 +129,15 @@ const ENTREGA_POR_MIDIA = {
 }
 
 export function buildPrompt({ ad, collectionTitle, collectionSlug, ficha }) {
-  const objetivos = (ad.objectives || []).filter(o => LENTES[o])
+  // Só a lente da coleção em que a aluna abriu o anúncio (fora de coleção, as tags dele)
+  const objetivos = objetivosDoContexto(ad, collectionSlug).filter(o => LENTES[o])
   const nomes = objetivos.map(o => OBJECTIVE_LABELS[o]).join(' e ')
   const nichos = (ad.niches || []).map(n => NICHE_LABELS[n] || n).join(', ')
   const midia = (MEDIA_LABELS[ad.media_type] || ad.media_type || 'vídeo').toLowerCase()
   const entrega = ENTREGA_POR_MIDIA[ad.media_type] || ENTREGA_POR_MIDIA.video
 
-  const lentes = [...new Set([...objetivos.flatMap(o => LENTES[o]), ...LENTE_GERAL])]
+  // As perguntas guiam o raciocínio da IA; ela não responde uma por uma
+  const lentes = [...new Set([...objetivos.flatMap(o => LENTES[o]), ...LENTE_GERAL.slice(3)])]
   // Campo que não aparece nesse anúncio não entra no prompt, mesmo que a aluna
   // tenha preenchido em outro anúncio (a ficha fica salva no aparelho)
   const visiveis = new Set(camposPara(ad, collectionSlug).map(c => c.key))
@@ -151,43 +153,45 @@ export function buildPrompt({ ad, collectionTitle, collectionSlug, ficha }) {
     v('objecao') ? `O "mas" que eu mais ouço das clientes: ${v('objecao')}` : null,
     (v('tons') || v('tomOutro')) ? `Como eu falo: ${[v('tons'), v('tomOutro')].filter(Boolean).join(', ')}` : null,
   ].filter(Boolean)
-  const meu = linhas.join('\n')
+  const meu = linhas.length ? linhas.join('\n') : '(ainda não informei nada)'
 
   const faltando = [
     !v('vendo') ? 'o que eu vendo' : null,
     !v('cliente') ? 'pra quem' : null,
-    !v('destino') ? 'pra onde o anúncio leva (WhatsApp, site, página, perfil, direct)' : null,
   ].filter(Boolean)
 
   const sugestaoDestino = objetivos.map(o => DESTINO_SUGESTAO[o]).filter(Boolean)[0]
+  const destino = v('destino')
 
-  return `Quero fazer a minha versão de um anúncio que está no Acervo de Anúncios do Método AVVA. Trabalhe em duas partes: primeiro destrinche a análise, depois adapte pra mim.
+  return `Quero fazer a minha versão de um anúncio do Acervo de Anúncios do AVVA Hub.
 
 ANÚNCIO DE REFERÊNCIA
 Título: ${ad.title}
-Tipo: ${midia}${nichos ? `\nNicho de quem anunciou: ${nichos}` : ''}${collectionTitle ? `\nColeção: ${collectionTitle}` : ''}${nomes ? `\nObjetivo do anúncio (coleção): ${nomes}` : ''}
+Tipo: ${midia}${nichos ? `\nNicho de quem anunciou: ${nichos}` : ''}${collectionTitle ? `\nColeção: ${collectionTitle}` : ''}${nomes ? `\nObjetivo: ${nomes}` : ''}
 
 Por que funciona, segundo o Acervo:
 """
 ${(ad.analysis || '').trim()}
 """
 
-PARTE 1. DESTRINCHE A ANÁLISE
-Responda em frases curtas, a partir da análise e do que ela descreve da peça (não invente o que não está lá):
-${lentes.map((l, i) => `${i + 1}. ${l}`).join('\n')}
-Feche a parte 1 com uma frase: a ideia dessa peça que vale reaproveitar, em palavras simples.
-
 MEU NEGÓCIO
-${meu}${faltando.length ? `\nAntes de escrever a parte 2, me pergunte, numa mensagem só: ${faltando.join('; ')}. Espere a resposta.` : ''}
-${sugestaoDestino ? `\nSobre o destino: ${sugestaoDestino} Decida comigo o que faz mais sentido para a minha versão e diga por quê em uma linha.` : ''}
+${meu}
 
-PARTE 2. ADAPTE PRA MIM
-Use a ideia que você destrinchou, com o meu produto, a minha cliente e as minhas palavras. Não copie frases do anúncio de referência. Não invente prova, número, desconto, prazo ou história: use só o que eu informei. Escreva como gente fala, sem jargão de marketing e sem travessão.
-Me entregue:
-1. Três opções de gancho, de até 12 palavras, de tipos diferentes.
-2. Com o melhor gancho, ${entrega}.
-3. A legenda, curta, terminando com a chamada para o destino.
-4. Checagem: o que, na minha versão, faz o mesmo papel do que a análise destacou? Se algo da ideia ficou de fora, diga o quê e corrija.`
+COMO RESPONDER
+Seja curta e clara, com os três títulos abaixo e frases curtas. Trabalhe só com o que está na análise e com o que eu informei. Não comente o que a análise não diz e não invente prova, número, desconto, prazo ou história. Não copie frases do anúncio de referência. Escreva como gente fala, sem jargão de marketing e sem travessão.${faltando.length ? `\nAntes de tudo, me pergunte numa mensagem só: ${faltando.join('; ')}. Espere a resposta e só depois siga.` : ''}
+
+1. POR QUE ESSE ANÚNCIO FUNCIONA
+No máximo 4 frases. Para pensar, sem responder uma por uma:
+${lentes.map(l => `- ${l}`).join('\n')}
+Feche com uma linha: "A ideia pra reaproveitar: ..."
+
+2. A MINHA VERSÃO
+- Gancho: o melhor, de até 12 palavras, e mais duas opções de outro tipo, uma por linha.
+- Com o melhor gancho, ${entrega}.
+- Legenda curta, terminando com a chamada ${destino ? `pro ${destino}` : 'pro destino'}.${!destino ? `\n- Destino: escolha um (WhatsApp, site, página de vendas, perfil ou direct) e diga por quê em uma linha.${sugestaoDestino ? ` Referência: ${sugestaoDestino}` : ''}` : ''}
+
+3. ANTES DE PUBLICAR
+Até 3 linhas: o que na minha versão faz o papel do que a análise destacou e, se faltar algo real (uma prova, uma condição), o que eu posso acrescentar.`
 }
 
 export function linkChatGPT(prompt) {
