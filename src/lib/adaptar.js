@@ -121,21 +121,24 @@ const LENTE_GERAL = [
   'Que erro seria fácil cometer ao copiar essa peça sem entender o porquê?',
 ]
 
+// O que a IA entrega como peça, conforme o tipo do anúncio de referência
 const ENTREGA_POR_MIDIA = {
-  video: 'o roteiro de 15 a 30 segundos, em tabela: tempo, o que aparece na tela, o que é dito',
-  image: 'o texto da imagem (até 12 palavras) e a descrição da cena ou da foto',
-  carousel: 'o texto de cada tela de um carrossel de 4 a 6 telas, uma ideia por tela',
-  pdf: 'a estrutura da página em blocos (título, promessa, prova, oferta, chamada), com o texto de cada bloco',
+  video: { titulo: 'Roteiro do vídeo', texto: 'cena por cena, de 15 a 30 segundos. Em cada cena: o que aparece na tela, o que eu falo (ou o texto na tela) e quando entra o corte' },
+  image: { titulo: 'A imagem', texto: 'o texto que vai na imagem (até 12 palavras) e como é a foto ou a cena' },
+  carousel: { titulo: 'O carrossel', texto: 'de 4 a 6 telas, uma ideia por tela: o texto de cada tela e o que aparece nela' },
+  pdf: { titulo: 'A página', texto: 'os blocos na ordem (título, promessa, prova, oferta, chamada), com o texto de cada um' },
 }
 
 export function buildPrompt({ ad, collectionTitle, collectionSlug, ficha }) {
-  const objetivos = (ad.objectives || []).filter(o => LENTES[o])
+  // Só a lente da coleção em que a aluna abriu o anúncio (fora de coleção, as tags dele)
+  const objetivos = objetivosDoContexto(ad, collectionSlug).filter(o => LENTES[o])
   const nomes = objetivos.map(o => OBJECTIVE_LABELS[o]).join(' e ')
   const nichos = (ad.niches || []).map(n => NICHE_LABELS[n] || n).join(', ')
   const midia = (MEDIA_LABELS[ad.media_type] || ad.media_type || 'vídeo').toLowerCase()
-  const entrega = ENTREGA_POR_MIDIA[ad.media_type] || ENTREGA_POR_MIDIA.video
+  const peca = ENTREGA_POR_MIDIA[ad.media_type] || ENTREGA_POR_MIDIA.video
 
-  const lentes = [...new Set([...objetivos.flatMap(o => LENTES[o]), ...LENTE_GERAL])]
+  // As lentes ficam só no raciocínio da IA; a aluna recebe a versão pronta
+  const lentes = [...new Set([...objetivos.flatMap(o => LENTES[o]), ...LENTE_GERAL.slice(3)])]
   // Campo que não aparece nesse anúncio não entra no prompt, mesmo que a aluna
   // tenha preenchido em outro anúncio (a ficha fica salva no aparelho)
   const visiveis = new Set(camposPara(ad, collectionSlug).map(c => c.key))
@@ -151,43 +154,50 @@ export function buildPrompt({ ad, collectionTitle, collectionSlug, ficha }) {
     v('objecao') ? `O "mas" que eu mais ouço das clientes: ${v('objecao')}` : null,
     (v('tons') || v('tomOutro')) ? `Como eu falo: ${[v('tons'), v('tomOutro')].filter(Boolean).join(', ')}` : null,
   ].filter(Boolean)
-  const meu = linhas.join('\n')
+  const meu = linhas.length ? linhas.join('\n') : '(ainda não informei nada)'
 
   const faltando = [
     !v('vendo') ? 'o que eu vendo' : null,
     !v('cliente') ? 'pra quem' : null,
-    !v('destino') ? 'pra onde o anúncio leva (WhatsApp, site, página, perfil, direct)' : null,
   ].filter(Boolean)
 
   const sugestaoDestino = objetivos.map(o => DESTINO_SUGESTAO[o]).filter(Boolean)[0]
+  const destino = v('destino')
 
-  return `Quero fazer a minha versão de um anúncio que está no Acervo de Anúncios do Método AVVA. Trabalhe em duas partes: primeiro destrinche a análise, depois adapte pra mim.
+  return `Quero fazer a minha versão de um anúncio do Acervo de Anúncios do AVVA Hub. Me entregue a versão pronta pra eu gravar ou montar. Não me explique a análise.
 
 ANÚNCIO DE REFERÊNCIA
 Título: ${ad.title}
-Tipo: ${midia}${nichos ? `\nNicho de quem anunciou: ${nichos}` : ''}${collectionTitle ? `\nColeção: ${collectionTitle}` : ''}${nomes ? `\nObjetivo do anúncio (coleção): ${nomes}` : ''}
+Tipo: ${midia}${nichos ? `\nNicho de quem anunciou: ${nichos}` : ''}${collectionTitle ? `\nColeção: ${collectionTitle}` : ''}${nomes ? `\nObjetivo: ${nomes}` : ''}
 
 Por que funciona, segundo o Acervo:
 """
 ${(ad.analysis || '').trim()}
 """
 
-PARTE 1. DESTRINCHE A ANÁLISE
-Responda em frases curtas, a partir da análise e do que ela descreve da peça (não invente o que não está lá):
-${lentes.map((l, i) => `${i + 1}. ${l}`).join('\n')}
-Feche a parte 1 com uma frase: a ideia dessa peça que vale reaproveitar, em palavras simples.
-
 MEU NEGÓCIO
-${meu}${faltando.length ? `\nAntes de escrever a parte 2, me pergunte, numa mensagem só: ${faltando.join('; ')}. Espere a resposta.` : ''}
-${sugestaoDestino ? `\nSobre o destino: ${sugestaoDestino} Decida comigo o que faz mais sentido para a minha versão e diga por quê em uma linha.` : ''}
+${meu}
 
-PARTE 2. ADAPTE PRA MIM
-Use a ideia que você destrinchou, com o meu produto, a minha cliente e as minhas palavras. Não copie frases do anúncio de referência. Não invente prova, número, desconto, prazo ou história: use só o que eu informei. Escreva como gente fala, sem jargão de marketing e sem travessão.
-Me entregue:
-1. Três opções de gancho, de até 12 palavras, de tipos diferentes.
-2. Com o melhor gancho, ${entrega}.
-3. A legenda, curta, terminando com a chamada para o destino.
-4. Checagem: o que, na minha versão, faz o mesmo papel do que a análise destacou? Se algo da ideia ficou de fora, diga o quê e corrija.`
+COMO TRABALHAR (isso é pra você, não precisa me mostrar)
+- A minha versão tem que repetir o que faz esse anúncio funcionar, segundo a análise: a mesma lógica, na mesma ordem, com o meu produto, a minha cliente e o meu jeito de falar. Volte na análise a cada parte da entrega.
+- Pra entender o que faz ele funcionar, pense em:
+${lentes.map(l => `  · ${l}`).join('\n')}
+- Não copie frases do anúncio de referência. Não invente prova, número, desconto, prazo ou história: use só o que está aqui.
+- Escreva como gente fala, sem jargão de marketing e sem travessão.
+- Se tiver uma dúvida que muda a versão, pode me perguntar, mas de forma direta e curta.${faltando.length ? `\n- Se faltar ${faltando.join(' ou ')}, me pergunte isso primeiro, numa mensagem só, e espere a resposta.` : ''}
+
+O QUE ME ENTREGAR
+Direto, nessa ordem, sem introdução e sem resumo no fim:
+
+Por que funciona: até 2 frases. Por que o anúncio de referência funciona e o que eu vou repetir dele na minha versão.
+
+3 ganchos: de até 12 palavras, cada um de um jeito. Marque o melhor.
+
+${peca.titulo}: ${peca.texto}. Use o melhor gancho.
+
+Legenda: curta, terminando com a chamada ${destino ? `pro ${destino}` : 'pro destino'}.${!destino ? `\n\nDestino: escolha um (WhatsApp, site, página de vendas, perfil ou direct) e diga por quê em uma linha.${sugestaoDestino ? ` Referência: ${sugestaoDestino}` : ''}` : ''}
+
+Pra confirmar: só se faltar algo que mude a versão (uma prova real, uma condição), me faça até 2 perguntas curtas. Se não faltar nada, pule essa parte.`
 }
 
 export function linkChatGPT(prompt) {

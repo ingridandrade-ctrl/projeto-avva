@@ -249,27 +249,30 @@
   .adapt__ias .adapt__cta { flex: 1 1 0; padding: 9px 10px; font-size: 0.85rem; white-space: nowrap; }
   .adapt__ias .adapt__cta svg { display: none; }
 
-  /* No celular, fechado, vira o botão principal do anúncio */
-  .adapt:not(.adapt--open) {
-    border: none;
-    background: var(--terracotta, #965E41);
-    box-shadow: 0 10px 24px -10px rgba(150, 94, 65, 0.6);
-  }
-  .adapt:not(.adapt--open) .adapt__toggle {
-    justify-content: center;
-    min-height: 54px;
-    font-size: 1.02rem;
-    color: #fff;
-  }
-  .adapt:not(.adapt--open) .adapt__hint {
-    margin-left: 4px;
-    padding: 3px 8px;
-    border-radius: 999px;
-    background: rgba(255, 255, 255, 0.18);
-    color: #fff;
-    font-size: 0.66rem;
-  }
 }
+
+/* Fechado, é o botão principal do anúncio (computador e celular) */
+.adapt:not(.adapt--open) {
+  border: none;
+  background: var(--terracotta, #965E41);
+  box-shadow: 0 10px 24px -10px rgba(150, 94, 65, 0.6);
+}
+.adapt:not(.adapt--open) .adapt__toggle {
+  transition: background 0.15s ease;
+  justify-content: center;
+  min-height: 54px;
+  font-size: 1.02rem;
+  color: #fff;
+}
+.adapt:not(.adapt--open) .adapt__hint {
+  margin-left: 4px;
+  padding: 3px 8px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.18);
+  color: #fff;
+  font-size: 0.66rem;
+}
+.adapt:not(.adapt--open) .adapt__toggle:hover { background: rgba(0, 0, 0, 0.08); }
 
 /* "Copiar prompt" no mesmo estilo do "Ver o prompt" */
 .adapt__extras .copy-btn {
