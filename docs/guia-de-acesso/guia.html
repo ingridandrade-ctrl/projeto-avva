@@ -59,12 +59,11 @@
     padding: 18px;
     border-radius: 76px;
     background: var(--tinta);
-    box-shadow: 0 50px 90px -40px rgba(46, 33, 27, 0.55);
   }
   .celular img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: top; border-radius: 60px; }
 
   .cards { position: absolute; left: 96px; width: 362px; display: flex; flex-direction: column; gap: 20px; }
-  .card { background: #fff; border-radius: 30px; padding: 28px 30px; box-shadow: 0 12px 30px -24px rgba(46, 33, 27, 0.4); }
+  .card { background: #fff; border-radius: 30px; padding: 28px 30px; border: 2px solid #E8DED2; }
   .card b { display: block; font-size: 31px; font-weight: 700; color: var(--teal); margin-bottom: 6px; letter-spacing: -0.01em; }
   .card span { display: block; font-size: 27px; line-height: 1.38; color: var(--tinta); }
 
@@ -77,20 +76,20 @@
   .capa .pilula { position: absolute; left: 50%; top: 1500px; transform: translateX(-50%); padding: 18px 34px; border-radius: 999px; background: var(--teal); color: #fff; font-size: 26px; font-weight: 600; white-space: nowrap; }
 
   /* ── Passo 03: legenda do menu ── */
-  .nota-menu { position: absolute; left: 96px; top: 1020px; width: 340px; background: #fff; border-radius: 26px; padding: 26px 28px; font-size: 25px; line-height: 1.4; color: var(--tinta); box-shadow: 0 12px 30px -24px rgba(46, 33, 27, 0.4); }
+  .nota-menu { position: absolute; left: 96px; top: 1020px; width: 340px; background: #fff; border-radius: 26px; padding: 26px 28px; font-size: 25px; line-height: 1.4; color: var(--tinta); border: 2px solid #E8DED2; }
   .nota-menu b { display: block; color: var(--teal); font-size: 28px; margin-bottom: 6px; }
 
   /* ── Passo 04: coleções ── */
   .colecoes { position: absolute; left: 96px; right: 96px; top: 820px; display: grid; grid-template-columns: 1fr 1fr; gap: 26px; }
-  .colecao { min-height: 210px; display: flex; flex-direction: column; justify-content: space-between; gap: 18px; background: #fff; border-radius: 28px; padding: 30px 32px; box-shadow: 0 12px 30px -24px rgba(46, 33, 27, 0.4); }
+  .colecao { min-height: 210px; display: flex; flex-direction: column; justify-content: space-between; gap: 18px; background: #fff; border-radius: 28px; padding: 30px 32px; border: 2px solid #E8DED2; }
   .colecao b { font-size: 34px; font-weight: 700; letter-spacing: -0.015em; line-height: 1.15; }
-  .colecao span { font-size: 23px; line-height: 1.4; color: rgba(76, 54, 45, 0.75); }
+  .colecao span { font-size: 23px; line-height: 1.4; color: #7A6A61; }
   .colecao--destaque { background: var(--teal); color: #fff; }
-  .colecao--destaque span { color: rgba(255, 255, 255, 0.8); }
+  .colecao--destaque span { color: #CFE0DE; }
 
   /* ── Listas numeradas (E agora / Não entrou) ── */
   .lista { position: absolute; left: 96px; right: 96px; display: flex; flex-direction: column; gap: 22px; }
-  .item { display: flex; gap: 44px; align-items: flex-start; background: #fff; border-radius: 26px; padding: 34px 40px; font-size: 29px; line-height: 1.45; box-shadow: 0 12px 30px -24px rgba(46, 33, 27, 0.4); }
+  .item { display: flex; gap: 44px; align-items: flex-start; background: #fff; border-radius: 26px; padding: 34px 40px; font-size: 29px; line-height: 1.45; border: 2px solid #E8DED2; }
   .item i { font-style: normal; font-weight: 700; font-size: 34px; color: var(--terracota); line-height: 1.2; }
   .item b { font-weight: 700; }
   .faixa { position: absolute; left: 96px; right: 96px; background: var(--teal); color: #fff; border-radius: 26px; padding: 34px 40px; font-size: 27px; line-height: 1.5; }
@@ -99,18 +98,18 @@
   .escura .kicker { color: var(--areia); }
   .escura .titulo { color: #fff; }
   .escura .titulo em { color: var(--areia); }
-  .escura .item { background: rgba(255, 255, 255, 0.08); box-shadow: none; color: #fff; }
+  .escura .item { background: #3D312B; border: none; color: #fff; }
   .escura .item i { color: var(--areia); }
-  .escura .rodape { color: rgba(255, 255, 255, 0.6); }
+  .escura .rodape { color: #A89E98; }
   a { color: inherit; text-decoration: none; }
   .zap { position: absolute; left: 96px; right: 96px; top: 1060px; display: flex; align-items: center; gap: 28px; padding: 34px 44px; border-radius: 999px; background: #25D366; color: #0B3B22; }
   .zap b { display: block; font-size: 36px; font-weight: 700; color: #08351E; }
   .zap span { font-size: 25px; }
-  .email { position: absolute; left: 96px; top: 1230px; font-size: 26px; color: rgba(255, 255, 255, 0.7); }
+  .email { position: absolute; left: 96px; top: 1230px; font-size: 26px; color: #C0B8B3; }
   .email b { color: var(--areia); }
   .assina { position: absolute; left: 96px; top: 1600px; }
   .assina .serif { display: block; font-size: 76px; color: #fff; }
-  .assina span { display: block; margin-top: 8px; font-size: 27px; color: rgba(255, 255, 255, 0.75); }
+  .assina span { display: block; margin-top: 8px; font-size: 27px; color: #CAC3BE; }
 </style>
 </head>
 <body>
@@ -121,7 +120,7 @@
   <div class="bola2"></div>
   <img class="logo" src="img/capa-acervo.png" alt="Acervo de Anúncios" />
   <p class="ola">Seja bem-vinda!</p>
-  <p class="sub">Seu acervo já está liberado. Em seis passos você entra, escolhe um anúncio e sai com a sua versão pronta.</p>
+  <p class="sub">Que bom ter você aqui, para acessar o Acervo é só seguir o passo a passo abaixo, te espero lá!</p>
   <span class="pilula">Leva 1 minuto</span>
   <div class="rodape"><span>AVVA Hub</span><span>Guia de acesso</span></div>
 </section>
@@ -171,7 +170,7 @@
     <div class="colecao"><b>Vender agora</b><span>Oferta direta e remarketing</span></div>
     <div class="colecao colecao--destaque"><b>Melhores do mês</b><span>Curadoria nova todo mês, garimpada pela Flora</span></div>
   </div>
-  <p class="texto" style="top:1610px;width:888px;font-size:27px;color:rgba(76,54,45,.75)">Dentro de cada coleção dá pra filtrar por nicho (infoproduto, e-commerce, negócio local, serviço) e por tipo: vídeo, imagem, carrossel ou página.</p>
+  <p class="texto" style="top:1610px;width:888px;font-size:27px;color:#7A6A61">Dentro de cada coleção dá pra filtrar por nicho (infoproduto, e-commerce, negócio local, serviço) e por tipo: vídeo, imagem, carrossel ou página.</p>
   <div class="rodape"><span>AVVA Hub</span><span>4 de 6</span></div>
 </section>
 
