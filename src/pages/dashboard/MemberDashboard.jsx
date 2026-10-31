@@ -181,7 +181,7 @@ export default function MemberDashboard() {
                       <span className="product-card__lock product-card__lock--static">
                         <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
                       </span>
-                      <span className="product-card__soon-pill">Em breve</span>
+                      <span className="product-card__soon-pill">Bloqueado</span>
                     </span>
                   ) : !p.owned && (
                     <span className="product-card__lock">
@@ -204,7 +204,7 @@ export default function MemberDashboard() {
                         Quero desbloquear
                       </a>
                     ) : (
-                      <span className="product-card__locked-label">{p.comingSoon ? 'Em breve pra você' : 'Disponível para quem tem o Kit'}</span>
+                      <span className="product-card__locked-label">Disponível para compra</span>
                     )}
                   </div>
                 </div>
