@@ -148,15 +148,15 @@
       leg.classList.remove('entrando');
       await esperar(450);
     },
-    async digitarUrl(texto) {
+    async digitarUrl(texto, ritmo = 85) {
       const u = document.getElementById('url');
       const lock = '<svg width="22" height="22" viewBox="0 0 24 24" fill="#6b625c"><path d="M17 10V7a5 5 0 0 0-10 0v3H5v12h14V10h-2zm-8 0V7a3 3 0 0 1 6 0v3H9z"/></svg>';
       u.innerHTML = '<span class="cursor"></span>';
       for (let i = 1; i <= texto.length; i++) {
         u.innerHTML = `<span>${texto.slice(0, i)}</span><span class="cursor"></span>`;
-        await esperar(85 + Math.random() * 60);
+        await esperar(ritmo + Math.random() * ritmo * 0.6);
       }
-      await esperar(500);
+      await esperar(300);
       u.innerHTML = lock + `<span>${texto}</span>`;
     },
     url(texto) {

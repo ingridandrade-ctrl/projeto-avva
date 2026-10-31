@@ -101,7 +101,7 @@ async function rotas(page) {
     const el = fr.locator(sel).nth(idx);
     await el.waitFor({ state: 'visible', timeout: 15000 });
     await rolarAte(el, 'nearest');
-    await esperar(700);
+    await esperar(450);
     const r = await el.evaluate(e => { const b = e.getBoundingClientRect(); return { x: b.left + b.width / 2, y: b.top + b.height / 2 }; });
     const ifr = await p.locator('#app').boundingBox();
     const esc = 660 / 390;
@@ -111,16 +111,16 @@ async function rotas(page) {
   }
   async function rolar(sel, block = 'start', idx = 0) {
     await rolarAte(f().locator(sel).nth(idx), block);
-    await esperar(1100);
+    await esperar(800);
   }
   async function rolarPor(px) {
     await f().evaluate(px => window.scrollBy({ top: px, behavior: 'smooth' }), px);
     await esperar(1100);
   }
-  async function digitar(sel, texto) {
+  async function digitar(sel, texto, delay = 75) {
     const el = f().locator(sel);
     await el.focus();
-    await el.pressSequentially(texto, { delay: 75 });
+    await el.pressSequentially(texto, { delay });
   }
   async function trocaDeTela(url, espera) {
     await palco('branco', true);
@@ -134,90 +134,73 @@ async function rotas(page) {
   await esperar(300);
   const t0 = Date.now() - inicio;
   await palco('cartao', 'abertura', true);
-  await esperar(3000);
+  await esperar(1900);
   await palco('legenda', 'Passo 1 de 6', 'Abra <em>metodoavva.com/login</em>', 'No navegador do celular ou do computador');
   await palco('cartao', 'abertura', false);
-  await esperar(500);
 
   // Passo 1
   const urlBox = await p.locator('#url').boundingBox();
   await palco('tocar', urlBox.x + urlBox.width / 2, urlBox.y + urlBox.height / 2); await palco('soltar');
-  await palco('digitarUrl', 'metodoavva.com/login');
+  await palco('digitarUrl', 'metodoavva.com/login', 45);
   await palco('carregar', BASE + '/login');
   await f().locator('#email').waitFor();
-  await esperar(1600);
+  await esperar(700);
 
   // Passo 2
   await palco('legenda', 'Passo 2 de 6', 'Digite o <em>e-mail da compra</em>', 'Não tem senha: é o mesmo e-mail do pagamento');
   await tocar('#email');
-  await digitar('#email', 'ana@exemplo.com');
-  await esperar(700);
+  await digitar('#email', 'ana@exemplo.com', 40);
+  await esperar(300);
   await tocar('button[type=submit]');
   await trocaDeTela('metodoavva.com/alunas', '.home-hero');
-  await esperar(500);
 
   // Passo 3
   await palco('legenda', 'Passo 3 de 6', 'Pronto, <em>você está dentro</em>', 'Em "Seus produtos", toque em Acessar');
-  await esperar(1800);
+  await esperar(900);
   await rolar('.home-products', 'start');
-  await esperar(1200);
   await tocar('a.product-card');
   await trocaDeTela('metodoavva.com/produto/acervo-anuncios', '.module-card');
-  await esperar(1300);
+  await esperar(500);
 
   // Passo 4
   await palco('legenda', 'Passo 4 de 6', 'Escolha pelo <em>objetivo</em>', 'Cada coleção resolve uma necessidade');
   await rolar('.product-page__modules h2', 'start');
-  await esperar(1400);
-  await rolarPor(260);
   await esperar(900);
-  await rolarPor(-260);
   await tocar('.module-card');
   await trocaDeTela('metodoavva.com/colecao/ser-descoberta', '.ad-card');
-  await esperar(1300);
 
-  // Passo 5
+  // Passo 5: a tela do celular é coberta pela gravação real (encaixada na edição).
+  // Enquanto isso, por baixo, o site chega no painel aberto pra emendar no passo 6.
   await palco('legenda', 'Passo 5 de 6', 'Toque no anúncio e <em>leia o porquê</em>', 'A análise mostra por que ele funciona');
-  await rolar('.ad-grid', 'start');
-  await esperar(1200);
-  await tocar('.ad-card');
-  await f().locator('.ad-modal__analysis').waitFor();
-  await esperar(1800);
-  await rolarAte(f().locator('.ad-modal__analysis'), 'start');
-  await esperar(3200);
+  const j0 = Date.now() - inicio;
+  await f().locator('.ad-card').first().evaluate(e => e.click());
+  await f().locator('.adapt__toggle').waitFor();
+  await f().locator('.adapt__toggle').evaluate(e => e.click());
+  await esperar(400);
+  await rolarAte(f().locator('.adapt__passo').first(), 'start');
+  const JANELA = Number(process.env.JANELA || 9600);
+  await esperar(Math.max(0, JANELA - (Date.now() - inicio - j0)));
+  const j1 = Date.now() - inicio;
 
   // Passo 6
   await palco('legenda', 'Passo 6 de 6', 'Faça a sua versão <em>com IA</em>', 'Conte do seu negócio e do seu jeito de falar');
-  await tocar('.adapt__toggle');
-  await esperar(500);
-  await rolarAte(f().locator('.adapt__passo').first(), 'start');
-  await esperar(1000);
   await tocar('.adapt__chip', { idx: 3 });
-  await esperar(300);
   await tocar('.adapt__field input', { idx: 0 });
-  await digitar('.adapt__field input >> nth=0', 'Consultoria de imagem');
-  await esperar(300);
+  await digitar('.adapt__field input >> nth=0', 'Consultoria de imagem', 40);
   await tocar('.adapt__field input', { idx: 1 });
-  await digitar('.adapt__field input >> nth=1', 'Mulheres que voltaram a trabalhar');
-  await esperar(500);
-  await rolarAte(f().locator('.adapt__passo').nth(1), 'start');
-  await esperar(900);
-  await tocar('.adapt__passo >> nth=1 >> .adapt__chip', { idx: 2 });
-  await rolarAte(f().locator('.adapt__passo').nth(2), 'start');
-  await esperar(900);
-  await tocar('.adapt__passo >> nth=2 >> .adapt__chip', { idx: 0 });
-  await esperar(400);
+  await digitar('.adapt__field input >> nth=1', 'Mulheres que voltaram a trabalhar', 35);
+  await esperar(300);
   await palco('legenda', 'Passo 6 de 6', 'Abra no <em>ChatGPT</em> ou no <em>Claude</em>', 'A IA entrega gancho, roteiro e legenda');
   await rolarAte(f().locator('.adapt__passo--final'), 'center');
-  await esperar(1500);
+  await esperar(1000);
   await tocar('.adapt__cta', { clicar: false });
-  await esperar(1500);
+  await esperar(900);
 
   // Encerramento
   await palco('cartao', 'encerramento', true);
-  await esperar(4200);
+  await esperar(3000);
   const t1 = Date.now() - inicio;
-  fs.writeFileSync(path.join(OUT, 'tempos.json'), JSON.stringify({ t0, t1 }));
+  fs.writeFileSync(path.join(OUT, 'tempos.json'), JSON.stringify({ t0, t1, j0, j1 }));
   await ctx.close();
   await b.close();
 })().catch(e => { console.error(e); process.exit(1); });
