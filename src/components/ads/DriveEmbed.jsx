@@ -14,6 +14,7 @@ export default function DriveEmbed({ url, title, mediaType = 'video' }) {
   const [zoom, setZoom] = useState(false) // imagem em tela cheia
   const [full, setFull] = useState(false) // vídeo/pdf em tela cheia (celular)
   const [nativeFailed, setNativeFailed] = useState(false) // player nativo não conseguiu tocar: cai no player do Drive
+  const [nativeErr, setNativeErr] = useState(null) // código do erro, pra diagnóstico
   const [isMobile, setIsMobile] = useState(() => typeof window !== 'undefined' && window.matchMedia('(max-width: 768px)').matches)
 
   useEffect(() => {
@@ -39,6 +40,7 @@ export default function DriveEmbed({ url, title, mediaType = 'video' }) {
     setLoaded(false)
     setImgFailed(false)
     setNativeFailed(false)
+    setNativeErr(null)
     if (!poster) return
     let alive = true
     const img = new Image()
@@ -110,7 +112,7 @@ export default function DriveEmbed({ url, title, mediaType = 'video' }) {
                   autoPlay
                   playsInline
                   preload="metadata"
-                  onError={() => setNativeFailed(true)}
+                  onError={e => { setNativeErr(e.currentTarget?.error?.code ?? '?'); setNativeFailed(true) }}
                 />
               ) : (
                 <iframe src={embedUrl} title={title || 'Criativo'} allow="autoplay; encrypted-media; fullscreen" allowFullScreen />
@@ -118,7 +120,7 @@ export default function DriveEmbed({ url, title, mediaType = 'video' }) {
               <button type="button" className="drive-lightbox__close" onClick={() => setFull(false)} aria-label="Fechar">
                 <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
               </button>
-              <a className="drive-fullscreen__open" href={url} target="_blank" rel="noreferrer">Abrir no Drive</a>
+              <a className="drive-fullscreen__open" href={url} target="_blank" rel="noreferrer">Abrir no Drive{nativeErr != null ? ` (erro ${nativeErr})` : ''}</a>
             </div>,
             document.body
           )}
