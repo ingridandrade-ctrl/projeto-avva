@@ -10,6 +10,7 @@ import PhoneCard from '../../components/ui/PhoneCard'
 import Row from '../../components/ui/Row'
 import CoverCard from '../../components/ads/CoverCard'
 import AdModal from '../../components/ads/AdModal'
+import SuggestionBox from '../../components/feedback/SuggestionBox'
 import './ProductPage.css'
 
 const PRODUCTS = {
@@ -162,6 +163,8 @@ export default function ProductPage() {
           )}
         </div>
       )}
+
+      {collections !== null && <SuggestionBox />}
 
       {openAd && (
         <AdModal

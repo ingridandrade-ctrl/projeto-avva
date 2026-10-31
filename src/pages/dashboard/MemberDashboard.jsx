@@ -7,6 +7,7 @@ import { useActivity } from '../../hooks/useActivity'
 import { getCollectionStyle, belongsTo } from '../../lib/catalog'
 import CoverCard from '../../components/ads/CoverCard'
 import AdModal from '../../components/ads/AdModal'
+import SuggestionBox from '../../components/feedback/SuggestionBox'
 import './MemberDashboard.css'
 
 // Link da página de venda do Kit (order bump). Vazio = botão escondido.
@@ -219,6 +220,7 @@ export default function MemberDashboard() {
         </div>
       </section>
 
+      <SuggestionBox />
 
       {openAd && (
         <AdModal
