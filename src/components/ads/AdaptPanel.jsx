@@ -6,14 +6,14 @@ import './AdaptPanel.css'
 // "Fazer a minha versão": abre a IA com a análise deste anúncio, as perguntas
 // certas para a coleção dele e o negócio da aluna. Campos opcionais, salvos no
 // aparelho; o que faltar, a IA pergunta antes de escrever.
-export default function AdaptPanel({ ad, collectionTitle }) {
+export default function AdaptPanel({ ad, collectionTitle, collectionSlug }) {
   const [open, setOpen] = useState(false)
   const [ficha, setFicha] = useState(() => loadFicha())
   const [verPrompt, setVerPrompt] = useState(false)
 
-  const prompt = useMemo(() => buildPrompt({ ad, collectionTitle, ficha }), [ad, collectionTitle, ficha])
+  const prompt = useMemo(() => buildPrompt({ ad, collectionTitle, collectionSlug, ficha }), [ad, collectionTitle, collectionSlug, ficha])
   const sugestao = (ad.objectives || []).map(o => DESTINO_SUGESTAO[o]).filter(Boolean)[0]
-  const campos = camposPara(ad)
+  const campos = camposPara(ad, collectionSlug)
   const tons = (ficha.tons || '').split(', ').filter(Boolean)
 
   function toggleTom(t) {

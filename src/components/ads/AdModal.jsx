@@ -25,6 +25,7 @@ function toParagraphs(text) {
 export default function AdModal({
   ad,
   collectionTitle,
+  collectionSlug,
   isFavorite,
   onToggleFavorite,
   onClose,
@@ -142,7 +143,7 @@ export default function AdModal({
             <p className="ad-modal__no-analysis">A análise deste anúncio chega em breve.</p>
           )}
 
-          {paragraphs.length > 0 && <AdaptPanel ad={ad} collectionTitle={collectionTitle} />}
+          {paragraphs.length > 0 && <AdaptPanel ad={ad} collectionTitle={collectionTitle} collectionSlug={collectionSlug} />}
 
           <div className="ad-modal__actions">
             <button

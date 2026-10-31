@@ -26,8 +26,15 @@ export const CAMPOS_POR_OBJETIVO = {
   objecao: ['quebrar-o-mas', 'vender-agora'],
 }
 
-export function camposPara(ad) {
-  const objs = ad.objectives || []
+// Objetivo que vale para as perguntas: a coleção em que a aluna abriu o anúncio
+// (se for uma coleção por objetivo) ou, fora dela, as tags do próprio anúncio.
+export function objetivosDoContexto(ad, collectionSlug) {
+  if (collectionSlug && LENTES[collectionSlug]) return [collectionSlug]
+  return ad.objectives || []
+}
+
+export function camposPara(ad, collectionSlug) {
+  const objs = objetivosDoContexto(ad, collectionSlug)
   return CAMPOS.filter(c => {
     const regra = CAMPOS_POR_OBJETIVO[c.key]
     return !regra || objs.length === 0 || regra.some(o => objs.includes(o))
@@ -121,7 +128,7 @@ const ENTREGA_POR_MIDIA = {
   pdf: 'a estrutura da página em blocos (título, promessa, prova, oferta, chamada), com o texto de cada bloco',
 }
 
-export function buildPrompt({ ad, collectionTitle, ficha }) {
+export function buildPrompt({ ad, collectionTitle, collectionSlug, ficha }) {
   const objetivos = (ad.objectives || []).filter(o => LENTES[o])
   const nomes = objetivos.map(o => OBJECTIVE_LABELS[o]).join(' e ')
   const nichos = (ad.niches || []).map(n => NICHE_LABELS[n] || n).join(', ')
@@ -129,7 +136,10 @@ export function buildPrompt({ ad, collectionTitle, ficha }) {
   const entrega = ENTREGA_POR_MIDIA[ad.media_type] || ENTREGA_POR_MIDIA.video
 
   const lentes = [...new Set([...objetivos.flatMap(o => LENTES[o]), ...LENTE_GERAL])]
-  const v = k => (ficha[k] || '').trim()
+  // Campo que não aparece nesse anúncio não entra no prompt, mesmo que a aluna
+  // tenha preenchido em outro anúncio (a ficha fica salva no aparelho)
+  const visiveis = new Set(camposPara(ad, collectionSlug).map(c => c.key))
+  const v = k => (CAMPOS.some(c => c.key === k) && !visiveis.has(k) ? '' : (ficha[k] || '').trim())
   const linhas = [
     v('vendo') ? `O que eu vendo: ${v('vendo')}` : null,
     v('tipo') ? `Tipo de negócio: ${v('tipo')}` : null,
@@ -137,7 +147,7 @@ export function buildPrompt({ ad, collectionTitle, ficha }) {
     v('muda') ? `O que muda pra ela: ${v('muda')}` : null,
     v('preco') ? `Preço ou condição real: ${v('preco')}` : null,
     v('destino') ? `Pra onde o anúncio leva: ${v('destino')}` : null,
-    v('prova') ? `Prova real que eu posso usar: ${v('prova')}` : 'Prova real que eu posso usar: nenhuma informada (não invente)',
+    v('prova') ? `Prova real que eu posso usar: ${v('prova')}` : visiveis.has('prova') ? 'Prova real que eu posso usar: nenhuma informada (não invente)' : null,
     v('objecao') ? `O "mas" que eu mais ouço das clientes: ${v('objecao')}` : null,
     (v('tons') || v('tomOutro')) ? `Como eu falo: ${[v('tons'), v('tomOutro')].filter(Boolean).join(', ')}` : null,
   ].filter(Boolean)
