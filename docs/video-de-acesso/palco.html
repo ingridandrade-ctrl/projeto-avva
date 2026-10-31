@@ -68,6 +68,14 @@
   .toque.on { opacity: 1; transform: scale(1); }
   .toque.aperta { transform: scale(0.78); }
 
+  .aviso {
+    position: absolute; left: 50%; top: 1858px; transform: translateX(-50%); z-index: 6;
+    padding: 9px 22px; border-radius: 999px; white-space: nowrap;
+    background: rgba(0, 0, 0, 0.35); border: 1px solid rgba(255, 255, 255, 0.3);
+    font-size: 24px; font-weight: 500; color: rgba(255, 255, 255, 0.9);
+    opacity: 0; transition: opacity 0.4s ease;
+  }
+  .aviso.on { opacity: 1; }
   .marca { position: absolute; left: 0; right: 0; bottom: 30px; text-align: center; font-size: 24px; letter-spacing: 0.2em; color: rgba(255, 255, 255, 0.55); font-weight: 500; z-index: 1; }
 
   /* Abertura e encerramento */
@@ -104,12 +112,13 @@
     </div>
   </div>
   <div class="toque" id="toque"></div>
-  <div class="marca">AVVA HUB</div>
+  <div class="marca" id="marca">AVVA HUB</div>
+  <div class="aviso" id="aviso">Imagens ilustrativas · os anúncios e os dados são de exemplo</div>
 
   <div class="cartao" id="abertura">
     <div class="bola1"></div><div class="bola2"></div>
     <img src="capa-acervo.png" alt="" />
-    <h1>Como acessar o <em>Acervo de Anúncios</em></h1>
+    <h1>Como acessar o<br /><em>Acervo de Anúncios</em></h1>
     <p>O passo a passo, do login até a sua versão com IA.</p>
     <span class="pilula">Leva 1 minuto</span>
     <div class="rod"><span>AVVA HUB</span><span>GUIA DE ACESSO</span></div>
@@ -180,6 +189,10 @@
       t.classList.remove('aperta'); await esperar(120);
     },
     async soltar() { document.getElementById('toque').classList.remove('on'); await esperar(200); },
+    aviso(on) {
+      document.getElementById('aviso').classList.toggle('on', on);
+      document.getElementById('marca').style.opacity = on ? 0 : 1;
+    },
     async cartao(id, on) { document.getElementById(id).classList.toggle('on', on); await esperar(750); },
   };
 </script>

@@ -137,6 +137,7 @@ async function rotas(page) {
   await esperar(1900);
   await palco('legenda', 'Passo 1 de 6', 'Abra <em>metodoavva.com/login</em>', 'No navegador do celular ou do computador');
   await palco('cartao', 'abertura', false);
+  await palco('aviso', true);
 
   // Passo 1
   const urlBox = await p.locator('#url').boundingBox();
@@ -169,21 +170,22 @@ async function rotas(page) {
   await tocar('.module-card');
   await trocaDeTela('metodoavva.com/colecao/ser-descoberta', '.ad-card');
 
-  // Passo 5: a tela do celular é coberta pela gravação real (encaixada na edição).
-  // Enquanto isso, por baixo, o site chega no painel aberto pra emendar no passo 6.
+  // Passo 5
   await palco('legenda', 'Passo 5 de 6', 'Toque no anúncio e <em>leia o porquê</em>', 'A análise mostra por que ele funciona');
-  const j0 = Date.now() - inicio;
-  await f().locator('.ad-card').first().evaluate(e => e.click());
-  await f().locator('.adapt__toggle').waitFor();
-  await f().locator('.adapt__toggle').evaluate(e => e.click());
+  await rolar('.ad-grid', 'start');
   await esperar(400);
-  await rolarAte(f().locator('.adapt__passo').first(), 'start');
-  const JANELA = Number(process.env.JANELA || 9600);
-  await esperar(Math.max(0, JANELA - (Date.now() - inicio - j0)));
-  const j1 = Date.now() - inicio;
+  await tocar('.ad-card');
+  await f().locator('.ad-modal__analysis').waitFor();
+  await esperar(1300);
+  await rolarAte(f().locator('.ad-modal__analysis'), 'start');
+  await esperar(2400);
 
   // Passo 6
   await palco('legenda', 'Passo 6 de 6', 'Faça a sua versão <em>com IA</em>', 'Conte do seu negócio e do seu jeito de falar');
+  await tocar('.adapt__toggle');
+  await esperar(300);
+  await rolarAte(f().locator('.adapt__passo').first(), 'start');
+  await esperar(700);
   await tocar('.adapt__chip', { idx: 3 });
   await tocar('.adapt__field input', { idx: 0 });
   await digitar('.adapt__field input >> nth=0', 'Consultoria de imagem', 40);
@@ -197,10 +199,11 @@ async function rotas(page) {
   await esperar(900);
 
   // Encerramento
+  palco('aviso', false);
   await palco('cartao', 'encerramento', true);
   await esperar(3000);
   const t1 = Date.now() - inicio;
-  fs.writeFileSync(path.join(OUT, 'tempos.json'), JSON.stringify({ t0, t1, j0, j1 }));
+  fs.writeFileSync(path.join(OUT, 'tempos.json'), JSON.stringify({ t0, t1 }));
   await ctx.close();
   await b.close();
 })().catch(e => { console.error(e); process.exit(1); });
