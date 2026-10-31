@@ -219,7 +219,6 @@ export default function MemberDashboard() {
         </div>
       </section>
 
-
       {openAd && (
         <AdModal
           ad={openAd}

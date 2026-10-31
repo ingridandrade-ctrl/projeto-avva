@@ -10,6 +10,7 @@ import PhoneCard from '../../components/ui/PhoneCard'
 import Row from '../../components/ui/Row'
 import CoverCard from '../../components/ads/CoverCard'
 import AdModal from '../../components/ads/AdModal'
+import SuggestionBox from '../../components/feedback/SuggestionBox'
 import './ProductPage.css'
 
 const PRODUCTS = {
@@ -126,6 +127,8 @@ export default function ProductPage() {
           )}
         </div>
       </div>
+
+      {collections !== null && <SuggestionBox />}
 
       <section className="product-page__modules">
         <h2>Coleções por objetivo</h2>

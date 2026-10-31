@@ -12,6 +12,7 @@ export const PRODUCTS = {
       { to: 'alunas', label: 'Alunas' },
       { to: 'anuncios', label: 'Anúncios' },
       { to: 'colecoes', label: 'Coleções e capas' },
+      { to: 'sugestoes', label: 'Sugestões' },
     ],
   },
   kit: {
