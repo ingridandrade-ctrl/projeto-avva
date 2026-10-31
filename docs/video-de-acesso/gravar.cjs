@@ -20,7 +20,7 @@ const collections = [
   C('c3', 'provar-que-funciona', 'Provar que funciona', 'Prova social e resultados reais', 3, { cover_url: capa('provar-que-funciona') }),
   C('c4', 'quebrar-o-mas', 'Quebrar o "mas..."', 'Quebra de objeção e dos motivos pra adiar', 4, { cover_url: capa('quebrar-o-mas') }),
   C('c5', 'vender-agora', 'Vender agora', 'Oferta direta e remarketing', 5, { cover_url: capa('vender-agora') }),
-  C('c7', 'melhores-de-outubro-2026', 'Melhores de outubro 2026', 'Curadoria do mês, garimpada pela Flora', 7, { featured: true }),
+  C('c7', 'melhores-de-outubro-2026', 'Melhores de outubro 2026', 'Curadoria nova todo mês', 7, { featured: true }),
 ];
 const analiseMeme = `A frase de meme "um dia alguém vai te convidar..." vira um convite sem cara de convite.
 
