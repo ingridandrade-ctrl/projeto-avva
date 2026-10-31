@@ -163,12 +163,15 @@ async function grantAccess(order) {
 
   const { data: existing } = await supabase
     .from('users')
-    .select('id, has_order_bump, access_blocked')
+    .select('id, name, has_order_bump, access_blocked, cakto_order_id')
     .eq('email', email)
     .maybeSingle()
 
   if (existing) {
     const patch = { access_blocked: false }
+    // Conta criada antes do webhook (ex.: entrou pelo login enquanto o Pix confirmava)
+    // pode ter ficado sem nome: completa com o nome da compra
+    if (!String(existing.name || '').trim() && name) patch.name = name
     if (isKit) patch.has_order_bump = true
     if (!existing.cakto_order_id && !isKit) patch.cakto_order_id = orderId
     await supabase.from('users').update(patch).eq('id', existing.id)

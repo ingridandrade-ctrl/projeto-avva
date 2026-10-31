@@ -1,6 +1,7 @@
 import { NavLink } from 'react-router-dom'
 import { useAuth } from '../../hooks/useAuth'
 import './Sidebar.css'
+import Avatar from '../ui/Avatar'
 
 const WHATS_URL = 'https://wa.me/5519920002917'
 
@@ -60,7 +61,7 @@ export default function Sidebar({ open, collapsed, onClose }) {
 
           <div className="sidebar__user-info">
             <div className="sidebar__user-avatar">
-              {profile?.name?.[0]?.toUpperCase() || '?'}
+              <Avatar profile={profile} />
             </div>
             <div className="sidebar__user-details">
               <span className="sidebar__user-name">{profile?.name || 'Aluna'}</span>
