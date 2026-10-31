@@ -51,9 +51,45 @@
 .adapt__aviso { color: var(--terracotta); font-weight: 600; }
 .adapt__nota { font-size: 0.8rem; }
 
-.adapt__ficha { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
 .adapt__field { display: flex; flex-direction: column; gap: 4px; }
-.adapt__field:nth-child(5) { grid-column: span 2; }
+.adapt__field span em { font-style: normal; font-weight: 500; letter-spacing: 0; text-transform: none; color: rgba(76, 54, 45, 0.55); }
+
+.adapt__destinos { display: flex; flex-direction: column; gap: 6px; }
+.adapt__destinos > span {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--umber);
+}
+.adapt__chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.adapt__chip {
+  padding: 7px 12px;
+  border-radius: 999px;
+  border: 1px solid rgba(76, 54, 45, 0.2);
+  background: #fff;
+  color: var(--umber);
+  font: inherit;
+  font-size: 0.84rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+.adapt__chip--on { background: var(--teal-profundo); border-color: var(--teal-profundo); color: #fff; }
+
+.adapt__cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 18px;
+  border-radius: 999px;
+  background: var(--terracotta);
+  color: #fff;
+  font-weight: 700;
+  font-size: 0.95rem;
+  text-decoration: none;
+  box-shadow: 0 8px 20px rgba(150, 94, 65, 0.3);
+}
+.adapt__cta:hover { background: #864F34; }
 
 .adapt__field span {
   font-size: 0.7rem;
@@ -78,40 +114,10 @@
 
 .adapt__acoes { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
 
-.adapt__link, .adapt__ver {
-  padding: 8px 14px;
-  border-radius: 999px;
-  border: 1px solid rgba(12, 71, 71, 0.3);
-  background: #fff;
-  color: var(--teal-profundo);
-  font: inherit;
-  font-size: 0.84rem;
-  font-weight: 600;
-  text-decoration: none;
-  cursor: pointer;
-}
 
-.adapt__link--off { opacity: 0.45; cursor: not-allowed; }
-.adapt__ver { border-style: dashed; }
 
-.adapt__prompt {
-  margin: 0;
-  padding: 12px 14px;
-  background: var(--off-white);
-  border: 1px solid rgba(76, 54, 45, 0.12);
-  border-radius: 12px;
-  font-family: var(--font-mono);
-  font-size: 0.76rem;
-  line-height: 1.5;
-  white-space: pre-wrap;
-  word-break: break-word;
-  max-height: 320px;
-  overflow: auto;
-  color: var(--tinta);
-}
 
 @media (max-width: 640px) {
-  .adapt__ficha { grid-template-columns: 1fr; }
-  .adapt__field:nth-child(5) { grid-column: auto; }
   .adapt__toggle { font-size: 0.95rem; }
+  .adapt__cta { width: 100%; justify-content: center; }
 }
