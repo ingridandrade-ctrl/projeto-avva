@@ -14,9 +14,79 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 20px;
+  margin-bottom: 0;
   box-shadow: 0 4px 20px rgba(12, 71, 71, 0.2);
+  position: relative;
+  flex: 0 0 auto;
+  padding: 0;
+  border: none;
+  cursor: pointer;
 }
+
+.profile-page__avatar > span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.profile-page__camera {
+  position: absolute;
+  right: -2px;
+  bottom: -2px;
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--terracotta, #965E41);
+  color: #fff;
+  border: 2px solid #fff;
+}
+
+.profile-page__foto {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin-bottom: 20px;
+}
+
+.profile-page__foto-acoes {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.profile-page__foto-btn {
+  padding: 8px 16px;
+  border-radius: 999px;
+  border: 1px solid var(--terracotta, #965E41);
+  background: transparent;
+  color: var(--terracotta, #965E41);
+  font: inherit;
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.profile-page__foto-btn--sec {
+  border-color: rgba(76, 54, 45, 0.25);
+  color: var(--umber, #4C362D);
+}
+
+.profile-page__foto-btn:disabled { opacity: 0.6; cursor: wait; }
+
+.profile-page__foto-msg {
+  flex-basis: 100%;
+  font-size: 0.8rem;
+  color: rgba(76, 54, 45, 0.6);
+}
+
+.profile-page__foto-msg.is-erro { color: #b3412b; }
 
 .profile-page__avatar span {
   font-family: var(--font-corpo);

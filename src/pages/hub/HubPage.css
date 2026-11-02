@@ -1,0 +1,186 @@
+/* Página inicial do AVVA Hub — mesmo clima do login das alunas:
+   degradê verde profundo → marrom, textos claros e cards em off-white */
+
+.hub {
+  position: relative;
+  min-height: 100vh;
+  min-height: 100dvh;
+  overflow: hidden;
+  color: #fff;
+  font-family: var(--font-corpo);
+}
+
+.hub__bg {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(150deg, #0C4747 0%, #14504B 30%, #3A2419 62%, #6B4A38 88%, #8A6650 100%);
+}
+
+.hub__bg::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 820px 560px at 50% 30%, rgba(228, 211, 188, 0.18), transparent 70%);
+}
+
+@keyframes hub-orb { 0%, 100% { transform: translate(0, 0) scale(1); } 50% { transform: translate(40px, -50px) scale(1.12); } }
+
+.hub__orb { position: absolute; border-radius: 50%; filter: blur(100px); opacity: 0.45; }
+.hub__orb--1 { width: 560px; height: 560px; top: -18%; right: -12%; background: radial-gradient(circle, #1A6868, transparent 70%); animation: hub-orb 24s ease-in-out infinite; }
+.hub__orb--2 { width: 480px; height: 480px; bottom: -14%; left: -10%; background: radial-gradient(circle, #965E41, transparent 70%); animation: hub-orb 30s ease-in-out infinite reverse; }
+
+@keyframes hub-rise { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
+
+.hub__main {
+  position: relative;
+  z-index: 1;
+  max-width: 940px;
+  margin: 0 auto;
+  padding: clamp(48px, 9vh, 96px) 20px 32px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 36px;
+}
+
+.hub__header { text-align: center; max-width: 620px; animation: hub-rise 0.7s cubic-bezier(0.16, 1, 0.3, 1) both; }
+
+.hub__kicker {
+  display: block;
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--amendoado, #D4B99A);
+  margin-bottom: 6px;
+}
+
+.hub__header h1 {
+  font-family: var(--font-titulo);
+  font-size: clamp(2.6rem, 7vw, 4rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1;
+  margin: 0 0 16px;
+}
+
+.hub__header p {
+  margin: 0;
+  font-size: clamp(1rem, 2.2vw, 1.12rem);
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.hub__cards {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.hub-card {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 26px 24px 22px;
+  border-radius: 22px;
+  background: var(--off-white, #F7F4F0);
+  color: var(--umber, #4C362D);
+  text-decoration: none;
+  box-shadow: 0 24px 50px -24px rgba(0, 0, 0, 0.55);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  animation: hub-rise 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.hub-card--alunas { animation-delay: 0.12s; }
+.hub-card--mentoria { animation-delay: 0.2s; }
+
+.hub-card:hover,
+.hub-card:focus-visible { transform: translateY(-4px); box-shadow: 0 30px 60px -24px rgba(0, 0, 0, 0.6); outline: none; }
+
+.hub-card__icone {
+  display: grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  margin-bottom: 10px;
+  border-radius: 14px;
+  color: #fff;
+}
+
+.hub-card--alunas .hub-card__icone { background: var(--teal-profundo, #0C4747); }
+.hub-card--mentoria .hub-card__icone { background: var(--terracotta, #965E41); }
+
+.hub-card__kicker {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--terracotta, #965E41);
+}
+
+.hub-card strong {
+  font-family: var(--font-titulo);
+  font-size: 1.35rem;
+  line-height: 1.2;
+  letter-spacing: -0.015em;
+}
+
+.hub-card__texto {
+  font-size: 0.92rem;
+  line-height: 1.55;
+  color: rgba(76, 54, 45, 0.75);
+  flex: 1;
+}
+
+.hub-card__cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  align-self: flex-start;
+  margin-top: 14px;
+  padding: 11px 20px;
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: 0.92rem;
+  color: #fff;
+  transition: gap 0.2s ease;
+}
+
+.hub-card--alunas .hub-card__cta { background: var(--teal-profundo, #0C4747); }
+.hub-card--mentoria .hub-card__cta { background: var(--terracotta, #965E41); }
+.hub-card:hover .hub-card__cta { gap: 12px; }
+
+.hub__suporte {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 18px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  background: rgba(255, 255, 255, 0.08);
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 0.9rem;
+  text-decoration: none;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  transition: background 0.2s ease;
+  animation: hub-rise 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.3s both;
+}
+
+.hub__suporte svg { color: #7fd6a4; flex: 0 0 auto; }
+.hub__suporte strong { color: #fff; }
+.hub__suporte:hover { background: rgba(255, 255, 255, 0.16); }
+
+.hub__rodape { font-size: 0.78rem; color: rgba(255, 255, 255, 0.5); }
+
+@media (max-width: 720px) {
+  .hub__main { gap: 28px; padding-top: 44px; }
+  .hub__cards { grid-template-columns: 1fr; gap: 14px; }
+  .hub-card { padding: 22px 20px 20px; }
+  .hub-card__cta { align-self: stretch; justify-content: center; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hub__orb, .hub__header, .hub-card, .hub__suporte { animation: none; }
+}

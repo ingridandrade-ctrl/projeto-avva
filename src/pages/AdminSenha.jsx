@@ -15,7 +15,7 @@ export default function AdminSenha() {
   const [salvando, setSalvando] = useState(false)
   const [esperou, setEsperou] = useState(false)
 
-  useEffect(() => { document.title = 'Definir senha — AVVA Hub' }, [])
+  useEffect(() => { document.title = 'AVVA Hub — Definir senha' }, [])
 
   // O Supabase lê o link e cria a sessão em instantes; dá um tempo antes de dizer que expirou
   useEffect(() => {

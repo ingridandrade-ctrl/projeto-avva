@@ -206,7 +206,7 @@ export default function MemberDashboard() {
                         Quero desbloquear
                       </a>
                     ) : (
-                      <span className="product-card__locked-label">{p.comingSoon ? 'Em breve pra você' : 'Disponível para quem tem o Kit'}</span>
+                      <span className="product-card__locked-label">Em breve disponível para compra</span>
                     )}
                   </div>
                 </div>

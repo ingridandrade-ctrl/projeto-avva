@@ -97,7 +97,7 @@ export default function ProductPage() {
       <PhoneCard
         key={col.id}
         to={`/colecao/${col.slug}`}
-        image={collectionCover(col, ads, 900)}
+        image={collectionCover(col, ads, 720)}
         title={col.title}
         subtitle={col.subtitle || getCollection(col.slug)?.subtitle || ''}
         kicker={kicker}
@@ -110,7 +110,7 @@ export default function ProductPage() {
     )
   }
 
-  const heroCover = collections?.length ? collectionCover(extras[extras.length - 1] || fixas[0], ads, 1600) : null
+  const heroCover = collections?.length ? collectionCover(extras[extras.length - 1] || fixas[0], ads, 480) : null
 
   return (
     <div className="product-page">

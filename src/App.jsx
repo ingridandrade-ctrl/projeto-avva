@@ -33,6 +33,7 @@ const FormIngrid = lazy(() => import('./pages/FormIngrid'))
 const Confirmacao = lazy(() => import('./pages/Confirmacao'))
 const Dashboard = lazy(() => import('./pages/Dashboard'))
 const AcervoPage = lazy(() => import('./pages/acervo/AcervoPage'))
+const HubPage = lazy(() => import('./pages/hub/HubPage'))
 
 function PageLoader() {
   return (
@@ -132,8 +133,8 @@ export default function App() {
               <Route path="/admin/mentoria" element={<Dashboard embedded />} />
             </Route>
 
-            {/* Raiz: por enquanto leva pro formulário da mentoria */}
-            <Route path="/" element={<Navigate to="/mentoria" replace />} />
+            {/* Raiz: página inicial do AVVA Hub (área de alunas, mentoria e suporte) */}
+            <Route path="/" element={<HubPage />} />
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </Suspense>

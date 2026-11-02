@@ -106,7 +106,7 @@ export default async function handler(req, res) {
 
   let { data: user } = await supabase
     .from('users')
-    .select('id, access_blocked, is_admin')
+    .select('id, name, access_blocked, is_admin')
     .eq('email', email)
     .maybeSingle()
 
@@ -117,6 +117,16 @@ export default async function handler(req, res) {
 
   if (!user) {
     return res.status(404).json({ error: 'email_not_found' })
+  }
+
+  // Aluna sem nome (conta criada antes de o nome chegar): busca o nome da compra na Cakto
+  if (user.id && !String(user.name || '').trim() && !user.is_admin) {
+    try {
+      const purchase = await findPaidPurchaseOnCakto(email)
+      if (purchase?.name) await supabase.from('users').update({ name: purchase.name }).eq('id', user.id)
+    } catch (err) {
+      console.error('name backfill error', err)
+    }
   }
 
   // Reembolso ou chargeback: o webhook da Cakto bloqueia o acesso na hora

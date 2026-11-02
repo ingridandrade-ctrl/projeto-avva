@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useAuth } from '../../hooks/useAuth'
 import './Header.css'
+import Avatar from '../ui/Avatar'
 
 // Faixa de cima: ocupa toda a largura, carrega a marca e, no celular, o
 // botão do menu. O menu lateral fica logo abaixo dela.
@@ -39,7 +40,7 @@ export default function Header({ onMenuToggle, sidebarOpen }) {
 
       <Link to="/perfil" className="header__user" aria-label="Meu perfil">
         <span className="header__avatar">
-          {profile?.name?.[0]?.toUpperCase() || '?'}
+          <Avatar profile={profile} />
         </span>
       </Link>
     </header>

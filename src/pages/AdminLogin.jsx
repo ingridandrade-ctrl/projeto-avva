@@ -13,7 +13,7 @@ export default function AdminLogin() {
   const [enviando, setEnviando] = useState(false)
   const [aviso, setAviso] = useState('')
 
-  useEffect(() => { document.title = 'Painel — AVVA Hub' }, [])
+  useEffect(() => { document.title = 'AVVA Hub — Painel' }, [])
 
   if (loading) return null
   if (session && profile?.is_admin) {
