@@ -2,6 +2,7 @@ import { useEffect, useState, useMemo } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { supabase } from '../../lib/supabase'
 import { useFavorites } from '../../hooks/useFavorites'
+import { useTitle } from '../../hooks/useTitle'
 import { useActivity } from '../../hooks/useActivity'
 import { getCollectionStyle, OBJECTIVES } from '../../lib/catalog'
 import { collectionCover } from '../../lib/drive'
@@ -16,6 +17,7 @@ export default function CollectionPage() {
   const { toggleFavorite, isFavorite } = useFavorites()
   const { isSeen } = useActivity()
   const [collection, setCollection] = useState(undefined)
+  useTitle(collection?.title || 'Acervo de Anúncios')
   const [allCollections, setAllCollections] = useState([])
   const [allAds, setAllAds] = useState([])
   const [ads, setAds] = useState([])

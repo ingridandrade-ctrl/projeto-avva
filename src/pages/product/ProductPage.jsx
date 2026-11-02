@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react'
 import { useParams, Link, useNavigate } from 'react-router-dom'
 import { supabase } from '../../lib/supabase'
 import { useAuth } from '../../hooks/useAuth'
+import { useTitle } from '../../hooks/useTitle'
 import { useFavorites } from '../../hooks/useFavorites'
 import { useActivity } from '../../hooks/useActivity'
 import { getCollectionStyle, getCollection } from '../../lib/catalog'
@@ -41,6 +42,7 @@ export default function ProductPage() {
   const [openList, setOpenList] = useState([])
 
   const product = PRODUCTS[slug]
+  useTitle(product?.title || '')
 
   useEffect(() => {
     if (!product) {

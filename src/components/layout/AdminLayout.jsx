@@ -26,7 +26,7 @@ export default function AdminLayout() {
         <div className="adm-side__brand">
           <span className="adm-side__logo">A</span>
           <div>
-            <strong>Método AVVA</strong>
+            <strong>AVVA Hub</strong>
             <span>Administração</span>
           </div>
         </div>

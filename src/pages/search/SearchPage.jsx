@@ -2,11 +2,13 @@ import { useEffect, useRef, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { supabase } from '../../lib/supabase'
 import { useFavorites } from '../../hooks/useFavorites'
+import { useTitle } from '../../hooks/useTitle'
 import AdCard from '../../components/ads/AdCard'
 import AdModal from '../../components/ads/AdModal'
 import './SearchPage.css'
 
 export default function SearchPage() {
+  useTitle('Busca')
   const [params, setParams] = useSearchParams()
   const query = params.get('q') || ''
   const [typed, setTyped] = useState(query)

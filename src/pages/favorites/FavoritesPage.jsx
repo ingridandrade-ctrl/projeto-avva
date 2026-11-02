@@ -2,12 +2,14 @@ import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { supabase } from '../../lib/supabase'
 import { useFavorites } from '../../hooks/useFavorites'
+import { useTitle } from '../../hooks/useTitle'
 import { useActivity } from '../../hooks/useActivity'
 import AdCard from '../../components/ads/AdCard'
 import AdModal from '../../components/ads/AdModal'
 import '../search/SearchPage.css'
 
 export default function FavoritesPage() {
+  useTitle('Favoritos')
   const { favorites, loading, toggleFavorite, isFavorite } = useFavorites()
   const { isSeen } = useActivity()
   const [collections, setCollections] = useState({})

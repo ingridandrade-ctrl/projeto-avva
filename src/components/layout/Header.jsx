@@ -32,7 +32,7 @@ export default function Header({ onMenuToggle, sidebarOpen }) {
       <Link to="/alunas" className="header__brand">
         <span className="header__logo">A</span>
         <span className="header__brand-text">
-          <strong>Método AVVA</strong>
+          <strong>AVVA Hub</strong>
           <small>Área de Membros</small>
         </span>
       </Link>

@@ -1,9 +1,11 @@
 import { useState } from 'react'
 import { Link, Navigate, useLocation } from 'react-router-dom'
 import { useAuth } from '../../hooks/useAuth'
+import { useTitle } from '../../hooks/useTitle'
 import './LoginPage.css'
 
 export default function LoginPage() {
+  useTitle('Entrar')
   const { session, signIn, loading } = useAuth()
   const location = useLocation()
   const [email, setEmail] = useState('')
@@ -49,7 +51,7 @@ export default function LoginPage() {
           <span>A</span>
         </div>
 
-        <h1 className="login-card__title">Método AVVA</h1>
+        <h1 className="login-card__title">AVVA Hub</h1>
         <p className="login-card__subtitle">Seja bem-vinda à sua área de membros</p>
 
         <form className="login-form" onSubmit={handleSubmit}>
@@ -101,7 +103,7 @@ export default function LoginPage() {
         </form>
 
         <p className="login-card__footer">
-          Acesso exclusivo para alunas do <strong>Método AVVA</strong>
+          Acesso exclusivo para alunas do <strong>AVVA Hub</strong>
         </p>
       </div>
     </div>

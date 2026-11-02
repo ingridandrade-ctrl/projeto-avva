@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { Navigate } from 'react-router-dom'
 import { supabase } from '../../lib/supabase'
 import { useAuth } from '../../hooks/useAuth'
+import { useTitle } from '../../hooks/useTitle'
 import CopyButton from '../../components/ui/CopyButton'
 import { getCollectionStyle } from '../../lib/catalog'
 import { COMO_USAR, QUAL_USAR, FICHA, PROMPT_CLASSIFICAR, ESTRUTURAS } from '../../lib/kitEstruturas'
@@ -11,6 +12,7 @@ const MOMENT_LABELS = { topo: 'Topo de funil', meio: 'Meio de funil', fundo: 'Fu
 const MOMENT_COLORS = { topo: 'topo', meio: 'meio', fundo: 'fundo' }
 
 export default function KitPage() {
+  useTitle('Kit de Execução')
   const { profile } = useAuth()
   const [ganchos, setGanchos] = useState([])
   const [narrativas, setNarrativas] = useState([])

@@ -2,6 +2,7 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { supabase } from '../../lib/supabase'
 import { useAuth } from '../../hooks/useAuth'
+import { useTitle } from '../../hooks/useTitle'
 import { useFavorites } from '../../hooks/useFavorites'
 import { useActivity } from '../../hooks/useActivity'
 import { getCollectionStyle, belongsTo } from '../../lib/catalog'
@@ -15,6 +16,7 @@ const KIT_SALES_URL = ''
 // Home = vitrine dos produtos + um destaque do Acervo (mês mais recente).
 // O conteúdo de cada produto vive dentro dele.
 export default function MemberDashboard() {
+  useTitle('')
   const { profile } = useAuth()
   const { toggleFavorite, isFavorite } = useFavorites()
   const { isSeen } = useActivity()
@@ -120,7 +122,7 @@ export default function MemberDashboard() {
             <div className="home-hero__content">
               <p className="home-hero__greeting">Oiee, {firstName}!</p>
               <h1 className="home-hero__title">Bem-vinda à sua<br />área de membros</h1>
-              <p className="home-hero__subtitle">Aqui ficam os seus produtos do Método AVVA. É só escolher por onde começar.</p>
+              <p className="home-hero__subtitle">Aqui ficam os seus produtos do AVVA Hub. É só escolher por onde começar.</p>
             </div>
           </div>
 

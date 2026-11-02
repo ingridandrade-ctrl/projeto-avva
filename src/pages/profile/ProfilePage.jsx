@@ -1,9 +1,11 @@
 import { useState, useEffect } from 'react'
 import { useAuth } from '../../hooks/useAuth'
+import { useTitle } from '../../hooks/useTitle'
 import { supabase } from '../../lib/supabase'
 import './ProfilePage.css'
 
 export default function ProfilePage() {
+  useTitle('Meu perfil')
   const { profile, session } = useAuth()
   const [name, setName] = useState('')
   const [saving, setSaving] = useState(false)

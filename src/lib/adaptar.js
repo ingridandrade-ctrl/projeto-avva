@@ -151,7 +151,7 @@ export function buildPrompt({ ad, collectionTitle, ficha }) {
 
   const sugestaoDestino = objetivos.map(o => DESTINO_SUGESTAO[o]).filter(Boolean)[0]
 
-  return `Quero fazer a minha versão de um anúncio que está no Acervo de Anúncios do Método AVVA. Trabalhe em duas partes: primeiro destrinche a análise, depois adapte pra mim.
+  return `Quero fazer a minha versão de um anúncio que está no Acervo de Anúncios do AVVA Hub. Trabalhe em duas partes: primeiro destrinche a análise, depois adapte pra mim.
 
 ANÚNCIO DE REFERÊNCIA
 Título: ${ad.title}
