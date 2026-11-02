@@ -23,10 +23,28 @@ export default function AdminAdForm() {
     active: true,
   })
 
+  const [atualizando, setAtualizando] = useState(false)
+
+  const buscarColecoes = () => supabase.from('collections').select('*').order('order')
+    .then(({ data }) => { if (data) setCollections(data) })
+
+  async function carregarColecoes() {
+    setAtualizando(true)
+    await buscarColecoes()
+    setAtualizando(false)
+  }
+
+  // Busca as coleções ao abrir e de novo sempre que a aba volta a ficar visível:
+  // assim uma coleção criada em outra aba aparece aqui sem recarregar a página.
   useEffect(() => {
-    supabase.from('collections').select('*').order('order').then(({ data }) => {
-      setCollections(data || [])
-    })
+    buscarColecoes()
+    const aoVoltar = () => { if (document.visibilityState === 'visible') buscarColecoes() }
+    document.addEventListener('visibilitychange', aoVoltar)
+    window.addEventListener('focus', aoVoltar)
+    return () => {
+      document.removeEventListener('visibilitychange', aoVoltar)
+      window.removeEventListener('focus', aoVoltar)
+    }
   }, [])
 
   useEffect(() => {
@@ -156,6 +174,14 @@ export default function AdminAdForm() {
                 </option>
               ))}
             </select>
+            <small className="admin-form__hint">
+              Não achou a coleção?{' '}
+              <button type="button" className="admin-form__linkbtn" onClick={carregarColecoes} disabled={atualizando}>
+                {atualizando ? 'Atualizando…' : 'Atualizar lista'}
+              </button>
+              {' · '}
+              <Link to="/admin/produtos/acervo/colecoes" target="_blank">Criar coleção</Link>
+            </small>
           </div>
 
           <div className="admin-form__field">
