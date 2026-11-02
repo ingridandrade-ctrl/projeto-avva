@@ -141,20 +141,20 @@ export default function ProductPage() {
         </div>
       </section>
 
-      {melhores.length > 0 && (
-        <section className="product-page__modules">
-          <h2>Melhores do mês</h2>
-          <div className="module-grid">
-            {[...melhores].reverse().map(renderCard)}
-          </div>
-        </section>
-      )}
-
       {especiais.length > 0 && (
         <section className="product-page__modules">
           <h2>Especiais e Páginas</h2>
           <div className="module-grid">
             {especiais.map(renderCard)}
+          </div>
+        </section>
+      )}
+
+      {melhores.length > 0 && (
+        <section className="product-page__modules">
+          <h2>Melhores do mês</h2>
+          <div className="module-grid">
+            {[...melhores].reverse().map(renderCard)}
           </div>
         </section>
       )}
