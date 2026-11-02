@@ -5,7 +5,7 @@
 
 import { OBJECTIVE_LABELS, MEDIA_LABELS, NICHE_LABELS, PAGE_TYPE_LABELS, isPage } from './catalog'
 
-export const DESTINOS = ['WhatsApp', 'Site', 'Página de vendas', 'Perfil', 'Direct']
+export const DESTINOS = ['WhatsApp', 'Site', 'Página de vendas', 'Página de captura', 'Perfil', 'Direct']
 
 export const CAMPOS = [
   { key: 'vendo', label: 'O que você vende', ajuda: 'Produto ou serviço, em poucas palavras.', placeholder: 'Ex.: consultoria de imagem' },
@@ -22,7 +22,7 @@ export const TONS = ['Direta', 'Leve e divertida', 'Acolhedora', 'Elegante', 'Pr
 // Anúncio sem objetivo mostra todos.
 export const CAMPOS_POR_OBJETIVO = {
   preco: ['vender-agora', 'quebrar-o-mas'],
-  prova: ['provar-que-funciona', 'vender-agora', 'mostrar-que-voce-entende'],
+  prova: ['provar-que-funciona', 'vender-agora', 'mostrar-que-voce-entende', 'captar-leads'],
   objecao: ['quebrar-o-mas', 'vender-agora'],
 }
 
@@ -71,6 +71,7 @@ export function saveFicha(ficha) {
 // Para onde esse tipo de anúncio costuma levar. Orientação, não regra.
 export const DESTINO_SUGESTAO = {
   'ser-descoberta': 'Anúncio de descoberta costuma levar pro perfil ou pro direct, pra pessoa te conhecer. Mas não é regra: se a oferta encaixa, pode levar pra venda.',
+  'captar-leads': 'Anúncio de captação costuma levar pra página de captura ou pro WhatsApp, onde a pessoa deixa o contato. Não é regra: se o cadastro é simples, pode ser no próprio formulário do anúncio.',
   'mostrar-que-voce-entende': 'Anúncio de autoridade costuma levar pro perfil, pro direct ou pra uma página com mais conteúdo. Se a pessoa já conhece você, pode levar direto pra oferta.',
   'provar-que-funciona': 'Anúncio de prova costuma levar pro WhatsApp ou pra página de vendas, porque quem viu a prova já quer perguntar. Não é regra.',
   'quebrar-o-mas': 'Anúncio de objeção costuma levar pro WhatsApp ou pra página de vendas, onde a dúvida termina de ser respondida. Não é regra.',
@@ -87,6 +88,15 @@ const LENTES = {
     'Que formato ou linguagem ela pega emprestado (meme, notícia, conversa, tendência, bastidor) e por que isso baixa a defesa de quem vê?',
     'O que a peça faz a pessoa querer no fim: conhecer, seguir, salvar, comentar, clicar, comprar? (pode ser mais de um)',
     'O que dessa peça depende do anunciante ser famoso ou ter um contexto específico, e o que funciona pra qualquer marca?',
+  ],
+  'captar-leads': [
+    'O que a peça oferece em troca do cadastro (aula, evento, material, lista de espera, diagnóstico) e em quantas palavras explica o valor disso?',
+    'Qual é o resultado concreto que a pessoa imagina ao ler o convite? Onde isso aparece: no gancho, no meio, na chamada?',
+    'O que a peça faz pra parecer fácil e leve de aceitar (gratuito, data e hora, duração, "só nome e e-mail")?',
+    'Que sinal de confiança ou de quem entrega aparece, mesmo que rápido (número de pessoas, prova, bastidor, cargo)?',
+    'Como a peça trata o compromisso: pede pouco agora e deixa a venda pra depois, ou já insinua a oferta?',
+    'O que o botão ou a chamada diz, e por que esse verbo e não "cadastre-se"?',
+    'Que tipo de pessoa esse convite filtra, e o que isso diz sobre quem o anunciante quer na lista?',
   ],
   'mostrar-que-voce-entende': [
     'Que conhecimento, critério ou visão a peça mostra, e como ela mostra em vez de só afirmar?',
