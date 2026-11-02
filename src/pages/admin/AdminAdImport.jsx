@@ -133,7 +133,7 @@ export default function AdminAdImport({ kind = 'anuncio' }) {
           {repetidos.length > 0 && (
             <label className="adm-import__opcao">
               <input type="checkbox" checked={atualizar} onChange={e => setAtualizar(e.target.checked)} />
-              {ehPagina ? 'Atualizar as já cadastradas com o texto novo (título, tipo, nicho, formato e análise). Desmarcado, elas ficam como estão.' : 'Atualizar os já cadastrados com o texto novo (título, coleção, objetivos, nicho, mídia e análise). Desmarcado, eles ficam como estão.'}
+              {ehPagina ? 'Atualizar as já cadastradas com o texto novo (título, tipo, nicho, formato e análise). Desmarcado, elas ficam como estão.' : 'Atualizar os já cadastrados com o texto novo (título, coleção, objetivos, especiais, nicho, mídia e análise). Desmarcado, eles ficam como estão.'}
             </label>
           )}
           {bad.length > 0 && <p className="adm-import__aviso">Os blocos com problema ficam de fora. Corrija no texto e clique em Conferir de novo.</p>}
@@ -153,6 +153,7 @@ export default function AdminAdImport({ kind = 'anuncio' }) {
                 </div>
                 <div className="adm-import__tags">
                   {r.objectives.map(o => <span key={o} className="adm-import__tag adm-import__tag--obj">{OBJECTIVE_LABELS[o]}</span>)}
+                  {(r.extras || []).map(e => <span key={e} className="adm-import__tag adm-import__tag--obj">+ {collections.find(c => c.slug === e)?.title || e}</span>)}
                   {r.niches.map(n => <span key={n} className="adm-import__tag">{NICHE_LABELS[n]}</span>)}
                 </div>
                 {r.analysis && <p className="adm-import__analise">{r.analysis.length > 260 ? r.analysis.slice(0, 260) + '…' : r.analysis}</p>}

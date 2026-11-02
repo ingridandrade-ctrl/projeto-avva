@@ -38,7 +38,7 @@ export default function CollectionPage() {
 
       const [{ data: cols }, { data: covers }] = await Promise.all([
         supabase.from('collections').select('*').order('order'),
-        supabase.from('ads').select('id, collection_id, objectives, drive_url').eq('active', true).order('created_at'),
+        supabase.from('ads').select('id, collection_id, objectives, extras, drive_url').eq('active', true).order('created_at'),
       ])
       const list = cols || []
       setAllCollections(list)
@@ -48,11 +48,15 @@ export default function CollectionPage() {
 
       if (col) {
         const isObjective = isObjectiveCollection(col)
-        let q = supabase.from('ads').select('*').eq('active', true).order('created_at')
-        q = isObjective
-          ? q.or(`collection_id.eq.${col.id},objectives.cs.{${col.slug}}`)
-          : q.eq('collection_id', col.id)
-        const { data: adsData } = await q
+        const base = () => supabase.from('ads').select('*').eq('active', true).order('created_at')
+        // Entra pela origem, pela tag de objetivo ou pela tag de especial (extras)
+        let { data: adsData, error } = await base().or(`collection_id.eq.${col.id},${isObjective ? `objectives.cs.{${col.slug}},` : ''}extras.cs.{${col.slug}}`)
+        if (error) {
+          // Banco sem a coluna extras (migração não rodada): sem as especiais extras
+          ;({ data: adsData } = await (isObjective
+            ? base().or(`collection_id.eq.${col.id},objectives.cs.{${col.slug}}`)
+            : base().eq('collection_id', col.id)))
+        }
         setAds(adsData || [])
       } else {
         setAds([])
