@@ -75,8 +75,9 @@ export default function ProductPage() {
   if (!product || slug === 'kit-execucao') return null
 
   const fixas = (collections || []).filter(c => getCollectionStyle(c.slug).kind === 'fixa')
-  const paginas = (collections || []).filter(c => getCollectionStyle(c.slug).kind === 'paginas')
-  const extras = (collections || []).filter(c => !['fixa', 'paginas'].includes(getCollectionStyle(c.slug).kind))
+  // Melhores do mês num bloco; Especiais (Especial Black, Páginas…) em outro
+  const melhores = (collections || []).filter(c => getCollectionStyle(c.slug).kind === 'melhores')
+  const especiais = (collections || []).filter(c => !['fixa', 'melhores'].includes(getCollectionStyle(c.slug).kind))
   const totalAnuncios = ads.filter(a => !isPage(a)).length
   const totalPaginas = ads.length - totalAnuncios
   const colTitle = ad => colById[ad.collection_id]?.title
@@ -109,7 +110,7 @@ export default function ProductPage() {
     )
   }
 
-  const heroCover = collections?.length ? collectionCover(extras[extras.length - 1] || fixas[0], ads, 480) : null
+  const heroCover = collections?.length ? collectionCover(melhores[melhores.length - 1] || especiais[0] || fixas[0], ads, 480) : null
 
   return (
     <div className="product-page">
@@ -140,20 +141,20 @@ export default function ProductPage() {
         </div>
       </section>
 
-      {extras.length > 0 && (
+      {melhores.length > 0 && (
         <section className="product-page__modules">
-          <h2>Melhores do mês e especiais</h2>
+          <h2>Melhores do mês</h2>
           <div className="module-grid">
-            {[...extras].reverse().map(renderCard)}
+            {[...melhores].reverse().map(renderCard)}
           </div>
         </section>
       )}
 
-      {paginas.length > 0 && (
+      {especiais.length > 0 && (
         <section className="product-page__modules">
-          <h2>Páginas</h2>
+          <h2>Especiais e Páginas</h2>
           <div className="module-grid">
-            {paginas.map(renderCard)}
+            {especiais.map(renderCard)}
           </div>
         </section>
       )}
