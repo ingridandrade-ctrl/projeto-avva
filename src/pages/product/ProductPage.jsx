@@ -152,7 +152,7 @@ export default function ProductPage() {
 
       {especiais.length > 0 && (
         <section className="product-page__modules">
-          <h2>Especiais</h2>
+          <h2>Especiais e Páginas</h2>
           <div className="module-grid">
             {especiais.map(renderCard)}
           </div>
