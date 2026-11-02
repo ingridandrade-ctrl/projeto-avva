@@ -3,7 +3,7 @@ import DriveEmbed from './DriveEmbed'
 import Tag from '../ui/Tag'
 import CopyButton from '../ui/CopyButton'
 import AdaptPanel from './AdaptPanel'
-import { NICHE_LABELS, MEDIA_LABELS } from '../../lib/catalog'
+import { NICHE_LABELS, itemTypeLabel, isPage } from '../../lib/catalog'
 import { useActivity } from '../../hooks/useActivity'
 import './AdModal.css'
 
@@ -101,7 +101,7 @@ export default function AdModal({
 
         <div className="ad-modal__media" data-media={ad.media_type} onTouchStart={onTouchStart} onTouchEnd={onTouchEnd}>
           <div className="ad-modal__phone">
-            <DriveEmbed key={ad.id} url={ad.drive_url} title={ad.title} mediaType={ad.media_type} />
+            <DriveEmbed key={ad.id} url={ad.drive_url} title={ad.title} mediaType={ad.media_type} page={isPage(ad)} />
           </div>
           {onNavigate && prev && (
             <button type="button" className="ad-modal__arrow ad-modal__arrow--prev" onClick={() => onNavigate(prev)} aria-label="Anterior">
@@ -126,7 +126,7 @@ export default function AdModal({
           <h2 className="ad-modal__title">{ad.title}</h2>
 
           <div className="ad-modal__tags">
-            {ad.media_type && <Tag type="teal">{MEDIA_LABELS[ad.media_type] || ad.media_type}</Tag>}
+            {itemTypeLabel(ad) && <Tag type="teal">{itemTypeLabel(ad)}</Tag>}
             {(ad.niches || []).map(n => <Tag key={n}>{NICHE_LABELS[n] || n}</Tag>)}
           </div>
 
@@ -140,7 +140,7 @@ export default function AdModal({
               <CopyButton text={ad.analysis} label="Copiar análise" />
             </section>
           ) : (
-            <p className="ad-modal__no-analysis">A análise deste anúncio chega em breve.</p>
+            <p className="ad-modal__no-analysis">A análise {isPage(ad) ? 'desta página' : 'deste anúncio'} chega em breve.</p>
           )}
 
           {paragraphs.length > 0 && <AdaptPanel ad={ad} collectionTitle={collectionTitle} collectionSlug={collectionSlug} />}

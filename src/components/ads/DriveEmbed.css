@@ -224,3 +224,38 @@
   right: 12px;
   background: rgba(255, 255, 255, 0.2);
 }
+
+/* ── Print de página: rola dentro da moldura ── */
+.drive-embed--page { animation: none; background: #fff; }
+
+.drive-embed__scroll {
+  position: absolute;
+  inset: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+}
+
+.drive-embed__page {
+  display: block;
+  width: 100%;
+  height: auto;
+  cursor: zoom-in;
+}
+
+.drive-lightbox--page {
+  overflow-y: auto;
+  align-items: flex-start;
+  padding: 24px 16px 60px;
+}
+
+.drive-lightbox--page img {
+  width: min(100%, 980px);
+  max-height: none;
+  height: auto;
+  margin: 0 auto;
+}
+
+.drive-lightbox--page .drive-lightbox__close { position: fixed; }
+.drive-lightbox--page .drive-lightbox__open { position: fixed; }

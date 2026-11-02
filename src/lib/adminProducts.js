@@ -11,6 +11,7 @@ export const PRODUCTS = {
     tabs: [
       { to: 'alunas', label: 'Alunas' },
       { to: 'anuncios', label: 'Anúncios' },
+      { to: 'paginas', label: 'Páginas' },
       { to: 'colecoes', label: 'Coleções e capas' },
       { to: 'sugestoes', label: 'Sugestões' },
     ],

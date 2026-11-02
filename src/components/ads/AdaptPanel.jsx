@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react'
 import CopyButton from '../ui/CopyButton'
 import { camposPara, TIPOS, TONS, DESTINOS, DESTINO_SUGESTAO, DESTINO_AJUDA, loadFicha, saveFicha, buildPrompt, linkChatGPT, linkClaude } from '../../lib/adaptar'
+import { isPage } from '../../lib/catalog'
 import './AdaptPanel.css'
 
 // "Fazer a minha versão": abre a IA com a análise deste anúncio, as perguntas
@@ -14,6 +15,7 @@ export default function AdaptPanel({ ad, collectionTitle, collectionSlug }) {
   const prompt = useMemo(() => buildPrompt({ ad, collectionTitle, collectionSlug, ficha }), [ad, collectionTitle, collectionSlug, ficha])
   const sugestao = (ad.objectives || []).map(o => DESTINO_SUGESTAO[o]).filter(Boolean)[0]
   const campos = camposPara(ad, collectionSlug)
+  const pagina = isPage(ad)
   const tons = (ficha.tons || '').split(', ').filter(Boolean)
 
   function toggleTom(t) {
@@ -38,7 +40,7 @@ export default function AdaptPanel({ ad, collectionTitle, collectionSlug }) {
       {open && (
         <div className="adapt__body">
           <p className="adapt__intro">
-            <strong>A IA destrincha a análise desse anúncio pela lente da coleção e escreve a sua versão.</strong>{' '}
+            <strong>{pagina ? 'A IA destrincha a análise dessa página, bloco por bloco, e escreve a sua versão.' : 'A IA destrincha a análise desse anúncio pela lente da coleção e escreve a sua versão.'}</strong>{' '}
             Nenhum campo é obrigatório: o que você preencher fica salvo no seu aparelho, e o que faltar ela pergunta antes de escrever.
           </p>
 
@@ -95,7 +97,7 @@ export default function AdaptPanel({ ad, collectionTitle, collectionSlug }) {
             />
           </section>
 
-          <section className="adapt__passo">
+          {!pagina && <section className="adapt__passo">
             <header className="adapt__passo-head">
               <span className="adapt__num">3</span>
               <div>
@@ -114,11 +116,11 @@ export default function AdaptPanel({ ad, collectionTitle, collectionSlug }) {
               ))}
             </div>
             {sugestao && <p className="adapt__sugestao">{sugestao}</p>}
-          </section>
+          </section>}
 
           <section className="adapt__passo adapt__passo--final">
             <header className="adapt__passo-head">
-              <span className="adapt__num">4</span>
+              <span className="adapt__num">{pagina ? 3 : 4}</span>
               <div>
                 <h4>Agora é só abrir na IA</h4>
                 <small>A IA escreve, você decide. Se sair uma prova que você não tem, apaga.</small>

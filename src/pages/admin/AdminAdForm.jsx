@@ -1,13 +1,18 @@
 import { useEffect, useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { supabase } from '../../lib/supabase'
-import { NICHES, MEDIA_TYPES, OBJECTIVES } from '../../lib/catalog'
+import { NICHES, MEDIA_TYPES, OBJECTIVES, PAGE_TYPES, PAGE_MEDIA_TYPES, PAGES_SLUG } from '../../lib/catalog'
 import './AdminAdForm.css'
 
-export default function AdminAdForm() {
+// kind: 'anuncio' (padrão) ou 'pagina'. Página não tem objetivos nem coleção
+// de origem (vai sempre pra coleção "paginas"); tem tipo de página e chega
+// como print ou PDF.
+export default function AdminAdForm({ kind = 'anuncio' }) {
   const { id } = useParams()
   const navigate = useNavigate()
   const isEdit = Boolean(id)
+  const ehPagina = kind === 'pagina'
+  const base = ehPagina ? '/admin/produtos/acervo/paginas' : '/admin/produtos/acervo/anuncios'
 
   const [collections, setCollections] = useState([])
   const [saving, setSaving] = useState(false)
@@ -17,7 +22,8 @@ export default function AdminAdForm() {
     collection_id: '',
     niches: [],
     objectives: [],
-    media_type: 'video',
+    media_type: ehPagina ? 'image' : 'video',
+    page_type: '',
     drive_url: '',
     analysis: '',
     active: true,
@@ -26,7 +32,15 @@ export default function AdminAdForm() {
   const [atualizando, setAtualizando] = useState(false)
 
   const buscarColecoes = () => supabase.from('collections').select('*').order('order')
-    .then(({ data }) => { if (data) setCollections(data) })
+    .then(({ data }) => {
+      if (!data) return
+      setCollections(data)
+      // Página: a coleção é sempre "Páginas"; preenche sozinho quando a lista chega
+      if (ehPagina) {
+        const col = data.find(c => c.slug === PAGES_SLUG)
+        if (col) setForm(f => (f.collection_id ? f : { ...f, collection_id: col.id }))
+      }
+    })
 
   async function carregarColecoes() {
     setAtualizando(true)
@@ -59,13 +73,15 @@ export default function AdminAdForm() {
         collection_id: data.collection_id || '',
         niches: data.niches || [],
         objectives: data.objectives || [],
-        media_type: data.media_type || 'video',
+        media_type: data.media_type || (ehPagina ? 'image' : 'video'),
+        page_type: data.page_type || '',
         drive_url: data.drive_url || '',
         analysis: data.analysis || '',
         active: data.active ?? true,
       })
     })
-  }, [id, isEdit])
+  }, [id, isEdit, ehPagina])
+
 
   function handleChange(field, value) {
     setForm(f => ({ ...f, [field]: value }))
@@ -93,7 +109,12 @@ export default function AdminAdForm() {
     setFeedback(null)
 
     if (!form.title || !form.collection_id || !form.drive_url || !form.analysis) {
-      setFeedback({ type: 'error', msg: 'Preencha todos os campos obrigatórios.' })
+      setFeedback({ type: 'error', msg: ehPagina && !form.collection_id ? 'A coleção "Páginas" ainda não existe no banco: rode a migração supabase-migration-paginas.sql.' : 'Preencha todos os campos obrigatórios.' })
+      return
+    }
+
+    if (ehPagina && !form.page_type) {
+      setFeedback({ type: 'error', msg: 'Escolha o tipo da página.' })
       return
     }
 
@@ -104,11 +125,12 @@ export default function AdminAdForm() {
 
     setSaving(true)
 
+    const row = { ...form, kind, page_type: ehPagina ? form.page_type : null, objectives: ehPagina ? [] : form.objectives }
     let error
     if (isEdit) {
-      ;({ error } = await supabase.from('ads').update(form).eq('id', id))
+      ;({ error } = await supabase.from('ads').update(row).eq('id', id))
     } else {
-      ;({ error } = await supabase.from('ads').insert(form))
+      ;({ error } = await supabase.from('ads').insert(row))
     }
 
     setSaving(false)
@@ -118,16 +140,17 @@ export default function AdminAdForm() {
       return
     }
 
+    const nome = ehPagina ? 'Página' : 'Anúncio'
     if (isEdit) {
-      setFeedback({ type: 'success', msg: 'Anúncio atualizado!' })
+      setFeedback({ type: 'success', msg: `${nome} ${ehPagina ? 'atualizada' : 'atualizado'}!` })
     } else if (stayForNext) {
       // Mantém coleção e nichos para cadastrar o próximo em sequência
       setForm(f => ({ ...f, title: '', drive_url: '', analysis: '' }))
-      setFeedback({ type: 'success', msg: 'Anúncio criado! Pode cadastrar o próximo.' })
+      setFeedback({ type: 'success', msg: `${nome} ${ehPagina ? 'criada' : 'criado'}! Pode cadastrar ${ehPagina ? 'a próxima' : 'o próximo'}.` })
       window.scrollTo({ top: 0, behavior: 'smooth' })
     } else {
-      setFeedback({ type: 'success', msg: 'Anúncio criado!' })
-      setTimeout(() => navigate('/admin/produtos/acervo/anuncios'), 1000)
+      setFeedback({ type: 'success', msg: `${nome} ${ehPagina ? 'criada' : 'criado'}!` })
+      setTimeout(() => navigate(base), 1000)
     }
   }
 
@@ -138,12 +161,12 @@ export default function AdminAdForm() {
 
   return (
     <div className="admin-ad-form">
-      <Link to="/admin/produtos/acervo/anuncios" className="admin-ad-form__back">← Voltar para anúncios</Link>
+      <Link to={base} className="admin-ad-form__back">← Voltar para {ehPagina ? 'páginas' : 'anúncios'}</Link>
       <div className="adm-page-header">
         <div>
           <span className="adm-eyebrow">Acervo de Anúncios</span>
-          <h1>{isEdit ? 'Editar anúncio' : 'Novo anúncio'}</h1>
-          <p>{isEdit ? 'As alterações aparecem na hora para as alunas.' : 'Preencha os campos. Nichos e objetivos aceitam mais de um.'}</p>
+          <h1>{ehPagina ? (isEdit ? 'Editar página' : 'Nova página') : (isEdit ? 'Editar anúncio' : 'Novo anúncio')}</h1>
+          <p>{isEdit ? 'As alterações aparecem na hora para as alunas.' : ehPagina ? 'Suba o print longo (ou o PDF) da página no Drive e cole o link. Nicho aceita mais de um.' : 'Preencha os campos. Nichos e objetivos aceitam mais de um.'}</p>
         </div>
       </div>
 
@@ -155,12 +178,32 @@ export default function AdminAdForm() {
             value={form.title}
             onChange={e => handleChange('title', e.target.value)}
             required
-            placeholder="Ex: Depoimento de cliente — academia"
+            placeholder={ehPagina ? 'Ex: Página de vendas — curso de confeitaria' : 'Ex: Depoimento de cliente — academia'}
           />
         </div>
 
-        <div className="admin-form__row">
+        {ehPagina && (
           <div className="admin-form__field">
+            <label>Tipo de página <span className="admin-form__required">*</span></label>
+            <div className="admin-form__checks">
+              {PAGE_TYPES.map(t => (
+                <label key={t.value} className={`admin-form__check ${form.page_type === t.value ? 'admin-form__check--on' : ''}`} title={t.hint}>
+                  <input
+                    type="radio"
+                    name="page_type"
+                    checked={form.page_type === t.value}
+                    onChange={() => handleChange('page_type', t.value)}
+                  />
+                  {t.label}
+                </label>
+              ))}
+            </div>
+            <small className="admin-form__hint">{PAGE_TYPES.find(t => t.value === form.page_type)?.hint || 'A aluna filtra as páginas por esse tipo.'}</small>
+          </div>
+        )}
+
+        <div className="admin-form__row">
+          {!ehPagina && <div className="admin-form__field">
             <label>Coleção <span className="admin-form__required">*</span></label>
             <select
               value={form.collection_id}
@@ -182,23 +225,23 @@ export default function AdminAdForm() {
               {' · '}
               <Link to="/admin/produtos/acervo/colecoes" target="_blank">Criar coleção</Link>
             </small>
-          </div>
+          </div>}
 
           <div className="admin-form__field">
-            <label>Tipo de mídia <span className="admin-form__required">*</span></label>
+            <label>{ehPagina ? 'Formato' : 'Tipo de mídia'} <span className="admin-form__required">*</span></label>
             <select
               value={form.media_type}
               onChange={e => handleChange('media_type', e.target.value)}
               required
             >
-              {MEDIA_TYPES.map(t => (
+              {(ehPagina ? PAGE_MEDIA_TYPES : MEDIA_TYPES).map(t => (
                 <option key={t.value} value={t.value}>{t.label}</option>
               ))}
             </select>
           </div>
         </div>
 
-        <div className="admin-form__field">
+        {!ehPagina && <div className="admin-form__field">
           <label>Objetivos (coleções por objetivo — pode marcar vários)</label>
           <div className="admin-form__checks">
             {OBJECTIVES.map(o => (
@@ -213,7 +256,7 @@ export default function AdminAdForm() {
             ))}
           </div>
           <small className="admin-form__hint">O anúncio continua na coleção de origem (ex.: Melhores de Setembro) e aparece também em cada objetivo marcado.</small>
-        </div>
+        </div>}
 
         <div className="admin-form__field">
           <label>Nichos <span className="admin-form__required">*</span> (pode marcar vários)</label>
@@ -264,7 +307,7 @@ export default function AdminAdForm() {
             onChange={e => handleChange('analysis', e.target.value)}
             required
             rows={5}
-            placeholder="Explique por que esse anúncio funciona, quais elementos chamam atenção..."
+            placeholder={ehPagina ? 'Explique por que essa página converte: a ordem dos blocos, a promessa, a prova, a oferta, a chamada...' : 'Explique por que esse anúncio funciona, quais elementos chamam atenção...'}
           />
         </div>
 
@@ -287,7 +330,7 @@ export default function AdminAdForm() {
 
         <div className="admin-form__actions">
           <button type="submit" className="adm-btn adm-btn--primary" disabled={saving}>
-            {saving ? 'Salvando...' : isEdit ? 'Salvar alterações' : 'Criar anúncio'}
+            {saving ? 'Salvando...' : isEdit ? 'Salvar alterações' : ehPagina ? 'Criar página' : 'Criar anúncio'}
           </button>
           {!isEdit && (
             <button
@@ -296,10 +339,10 @@ export default function AdminAdForm() {
               disabled={saving}
               onClick={() => save({ stayForNext: true })}
             >
-              Salvar e criar próximo
+              {ehPagina ? 'Salvar e criar próxima' : 'Salvar e criar próximo'}
             </button>
           )}
-          <button type="button" className="adm-btn adm-btn--ghost" onClick={() => navigate('/admin/produtos/acervo/anuncios')}>
+          <button type="button" className="adm-btn adm-btn--ghost" onClick={() => navigate(base)}>
             Cancelar
           </button>
         </div>

@@ -119,6 +119,10 @@ export default function App() {
                 <Route path="anuncios/novo" element={<AdminAdForm />} />
                 <Route path="anuncios/importar" element={<AdminAdImport />} />
                 <Route path="anuncios/:id/editar" element={<AdminAdForm />} />
+                <Route path="paginas" element={<AdminAdsList kind="pagina" />} />
+                <Route path="paginas/novo" element={<AdminAdForm kind="pagina" />} />
+                <Route path="paginas/importar" element={<AdminAdImport kind="pagina" />} />
+                <Route path="paginas/:id/editar" element={<AdminAdForm kind="pagina" />} />
                 <Route path="colecoes" element={<AdminCollections />} />
                 <Route path="sugestoes" element={<AdminSugestoes />} />
                 <Route path="itens" element={<AdminKit />} />

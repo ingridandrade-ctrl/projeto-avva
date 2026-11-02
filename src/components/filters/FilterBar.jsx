@@ -1,5 +1,5 @@
 import Tag from '../ui/Tag'
-import { NICHES, MEDIA_TYPES } from '../../lib/catalog'
+import { NICHES, MEDIA_TYPES, PAGE_TYPES } from '../../lib/catalog'
 import './FilterBar.css'
 
 export default function FilterBar({
@@ -11,8 +11,11 @@ export default function FilterBar({
   onMediaChange,
   total,
   shown,
+  pages = false, // coleção de páginas: o segundo filtro é o tipo de página
 }) {
   const hasFilter = selectedNiche || selectedMedia || search
+  const tipos = pages ? PAGE_TYPES : MEDIA_TYPES
+  const unidade = pages ? (total === 1 ? 'página' : 'páginas') : (total === 1 ? 'anúncio' : 'anúncios')
 
   function clear() {
     onNicheChange(null)
@@ -37,7 +40,7 @@ export default function FilterBar({
         <div className="filter-bar__meta">
           {typeof shown === 'number' && (
             <span className="filter-bar__count">
-              {hasFilter ? `${shown} de ${total}` : `${total}`} {total === 1 ? 'anúncio' : 'anúncios'}
+              {hasFilter ? `${shown} de ${total}` : `${total}`} {unidade}
             </span>
           )}
           {hasFilter && (
@@ -58,10 +61,10 @@ export default function FilterBar({
           </select>
         </label>
         <label>
-          <span>Mídia</span>
+          <span>{pages ? 'Tipo de página' : 'Mídia'}</span>
           <select value={selectedMedia || ''} onChange={e => onMediaChange(e.target.value || null)}>
-            <option value="">Todas</option>
-            {MEDIA_TYPES.map(m => <option key={m.value} value={m.value}>{m.label}</option>)}
+            <option value="">{pages ? 'Todos' : 'Todas'}</option>
+            {tipos.map(m => <option key={m.value} value={m.value}>{m.label}</option>)}
           </select>
         </label>
       </div>
@@ -84,10 +87,10 @@ export default function FilterBar({
         </div>
 
         <div className="filter-bar__group">
-          <span className="filter-bar__label">Tipo de mídia</span>
+          <span className="filter-bar__label">{pages ? 'Tipo de página' : 'Tipo de mídia'}</span>
           <div className="filter-bar__tags">
-            <Tag onClick={() => onMediaChange(null)} active={!selectedMedia}>Todas</Tag>
-            {MEDIA_TYPES.map(m => (
+            <Tag onClick={() => onMediaChange(null)} active={!selectedMedia}>{pages ? 'Todos' : 'Todas'}</Tag>
+            {tipos.map(m => (
               <Tag
                 key={m.value}
                 onClick={() => onMediaChange(selectedMedia === m.value ? null : m.value)}
