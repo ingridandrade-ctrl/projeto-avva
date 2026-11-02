@@ -22,7 +22,6 @@ Título: Próximo anúncio
 export const FORMATO_EXEMPLO_PAGINA = `Título: Página de vendas que fecha sem chamar no WhatsApp
 Tipo: vendas
 Nicho: infoproduto
-Formato: imagem
 Drive: https://drive.google.com/file/d/ID_DO_PRINT/view
 Análise:
 Primeiro parágrafo da análise.
@@ -46,7 +45,7 @@ const LABELS = {
   collection: ['colecao de origem', 'colecao', 'colecao do mes', 'origem'],
   objectives: ['objetivos', 'objetivo', 'colecoes por objetivo'],
   niches: ['nichos', 'nicho'],
-  media: ['midia', 'tipo de midia', 'tipo', 'formato'],
+  media: ['midia', 'tipo de midia', 'tipo', 'formato', 'arquivo'],
   pageType: ['tipo de pagina', 'tipo da pagina', 'pagina'],
   drive: ['drive', 'link do drive', 'link', 'arquivo', 'url'],
   analysis: ['analise', 'analise completa', 'por que funciona'],

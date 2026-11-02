@@ -113,7 +113,7 @@ export default function AdminAdImport({ kind = 'anuncio' }) {
           spellCheck={false}
         />
         <div className="adm-import__acoes">
-          <span className="adm-import__dica">{ehPagina ? 'Tipo: vendas, captura, obrigado ou serviço. Formato: imagem (print) ou PDF. Todas entram na coleção "Páginas".' : 'Coleção pode ser o nome ("Melhores de Novembro 2026") ou o identificador. Objetivos, nicho e mídia aceitam o nome ou o valor interno.'}</span>
+          <span className="adm-import__dica">{ehPagina ? 'Tipo: vendas, captura, obrigado ou serviço. O arquivo do Drive é um print (imagem); se for PDF, acrescente a linha "Formato: pdf". Todas entram na coleção "Páginas".' : 'Coleção pode ser o nome ("Melhores de Novembro 2026") ou o identificador. Objetivos, nicho e mídia aceitam o nome ou o valor interno.'}</span>
           <button type="button" className="adm-btn adm-btn--secondary" onClick={conferir} disabled={!text.trim() || !collections.length}>Conferir</button>
         </div>
       </div>
