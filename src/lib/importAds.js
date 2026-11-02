@@ -2,7 +2,7 @@
 // (um bloco por anúncio, separados por "---") e devolve linhas prontas para
 // conferir e cadastrar. Tolerante a maiúsculas, acentos e negrito de markdown.
 
-import { objectivesFrom, isObjectiveCollection, NICHES, MEDIA_TYPES, PAGE_TYPES, PAGE_MEDIA_TYPES, PAGE_NICHES, PAGES_SLUG } from './catalog'
+import { objectivesFrom, isObjectiveCollection, isSpecialCollection, NICHES, MEDIA_TYPES, PAGE_TYPES, PAGE_MEDIA_TYPES, PAGE_NICHES, PAGES_SLUG } from './catalog'
 import { driveId } from './drive'
 
 export const FORMATO_EXEMPLO = `Título: Depoimento que vendeu mais que o anúncio bonito
@@ -44,6 +44,7 @@ const LABELS = {
   title: ['titulo', 'title', 'nome'],
   collection: ['colecao de origem', 'colecao', 'colecao do mes', 'origem'],
   objectives: ['objetivos', 'objetivo', 'colecoes por objetivo'],
+  extras: ['tambem em', 'especiais', 'especial', 'tambem aparece em', 'aparece tambem em'],
   niches: ['nichos', 'nicho'],
   media: ['midia', 'tipo de midia', 'tipo', 'formato', 'arquivo'],
   pageType: ['tipo de pagina', 'tipo da pagina', 'pagina'],
@@ -107,7 +108,7 @@ export function parseImport(text, collections = [], existingByDrive = new Map(),
     .filter(Boolean)
 
   return blocks.map((block, index) => {
-    const raw = { title: '', collection: '', objectives: '', niches: '', media: '', pageType: '', drive: '', analysis: [] }
+    const raw = { title: '', collection: '', objectives: '', extras: '', niches: '', media: '', pageType: '', drive: '', analysis: [] }
     let current = null
     for (const line of block.split('\n')) {
       const l = labelOf(line)
@@ -134,6 +135,8 @@ export function parseImport(text, collections = [], existingByDrive = new Map(),
       ? (collections.find(c => c.slug === PAGES_SLUG) || null)
       : findCollection(raw.collection, collections)
     const objectives = ehPagina ? [] : splitList(raw.objectives).map(o => matchOption(o, objectivesFrom(collections), OBJ_EXTRAS)).filter(Boolean)
+    const especiais = collections.filter(isSpecialCollection)
+    const extras = ehPagina ? [] : [...new Set(splitList(raw.extras).map(e => findCollection(e, especiais)?.slug).filter(Boolean))].filter(s => s !== col?.slug)
     const niches = [...new Set(splitList(raw.niches).map(n => matchOption(n, ehPagina ? PAGE_NICHES : NICHES, NICHE_EXTRAS)).filter(Boolean))].filter(n => !ehPagina || n !== 'ecommerce')
     const media_type = ehPagina
       ? (matchOption(raw.media, PAGE_MEDIA_TYPES, PAGE_MEDIA_EXTRAS) || (raw.media ? null : 'image'))
@@ -154,6 +157,7 @@ export function parseImport(text, collections = [], existingByDrive = new Map(),
     if (!media_type) errors.push(`${ehPagina ? 'formato' : 'mídia'} "${raw.media}" não reconhecid${ehPagina ? 'o' : 'a'}`)
     if (!ehPagina && !objectives.length) warnings.push('sem objetivo: só aparece na coleção do mês')
     if (raw.objectives && objectives.length < splitList(raw.objectives).length) warnings.push('algum objetivo não foi reconhecido')
+    if (raw.extras && extras.length < splitList(raw.extras).filter(e => findCollection(e, especiais)?.slug !== col?.slug).length) warnings.push('alguma especial em "Também em" não foi reconhecida')
     if (raw.niches && niches.length < splitList(raw.niches).length) warnings.push('algum nicho não foi reconhecido')
     const existing = id ? existingByDrive.get(id) || null : null
     if (raw.title.trim().length > 70) warnings.push('título longo (acima de 70 caracteres)')
@@ -164,6 +168,7 @@ export function parseImport(text, collections = [], existingByDrive = new Map(),
       collection_id: col?.id || null,
       collectionLabel: col?.title || raw.collection,
       objectives: [...new Set(objectives)],
+      extras,
       niches,
       media_type,
       kind,
@@ -182,6 +187,7 @@ export function toRow(item) {
     title: item.title,
     collection_id: item.collection_id,
     objectives: item.objectives,
+    extras: item.extras || [],
     niches: item.niches,
     media_type: item.media_type,
     kind: item.kind || 'anuncio',

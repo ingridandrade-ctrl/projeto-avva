@@ -86,8 +86,13 @@ export const isObjectiveCollection = (col) => Boolean(col) && (col.kind === 'obj
 export function belongsTo(ad, col) {
   if (!ad || !col) return false
   if (ad.collection_id === col.id) return true
+  if ((ad.extras || []).includes(col.slug)) return true
   return isObjectiveCollection(col) && (ad.objectives || []).includes(col.slug)
 }
+
+// Especiais em que um anúncio pode aparecer além da coleção de origem
+export const isSpecialCollection = (col) => Boolean(col) && (col.kind === 'especial' || (!col.kind && (col.slug || '').startsWith('especial-')))
+export const specialsFrom = (collections = []) => collections.filter(isSpecialCollection)
 
 export function getCollection(slug) {
   return FIXED_COLLECTIONS.find(c => c.slug === slug)

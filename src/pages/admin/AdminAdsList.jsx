@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import { Link, useNavigate, useSearchParams } from 'react-router-dom'
 import { supabase } from '../../lib/supabase'
-import { NICHE_LABELS, MEDIA_LABELS, objectiveLabelsFrom, NICHES, MEDIA_TYPES, PAGE_TYPES, PAGE_TYPE_LABELS, PAGE_MEDIA_TYPES, PAGE_NICHES, PAGES_SLUG, getCollectionStyle, belongsTo, collectionKindLabel } from '../../lib/catalog'
+import { NICHE_LABELS, MEDIA_LABELS, objectiveLabelsFrom, NICHES, MEDIA_TYPES, PAGE_TYPES, PAGE_TYPE_LABELS, PAGE_MEDIA_TYPES, PAGE_NICHES, PAGES_SLUG, getCollectionStyle, belongsTo, collectionKindLabel, specialsFrom } from '../../lib/catalog'
 import { driveThumb, driveId } from '../../lib/drive'
 import Tag from '../../components/ui/Tag'
 import './AdminAdsList.css'
@@ -53,6 +53,7 @@ export default function AdminAdsList({ kind = 'anuncio' }) {
   const [bulkCol, setBulkCol] = useState('')
   const [bulkObj, setBulkObj] = useState('')
   const [bulkNiche, setBulkNiche] = useState('')
+  const [bulkExtra, setBulkExtra] = useState('')
   const [bulkBusy, setBulkBusy] = useState(false)
   const [bulkMsg, setBulkMsg] = useState(null)
   const navigate = useNavigate()
@@ -99,6 +100,7 @@ export default function AdminAdsList({ kind = 'anuncio' }) {
         collection_id: ad.collection_id,
         niches: ad.niches || [],
         objectives: ad.objectives || [],
+        extras: ad.extras || [],
         media_type: ad.media_type,
         kind: ad.kind || 'anuncio',
         page_type: ad.page_type || null,
@@ -245,7 +247,7 @@ export default function AdminAdsList({ kind = 'anuncio' }) {
           </span>
         )}
       </td>
-      {!ehPagina && <td>{ad.collections?.title || '—'}</td>}
+      {!ehPagina && <td>{ad.collections?.title || '—'}{(ad.extras || []).map(e => <span key={e} className="admin-ads__multi" title="Aparece também nesta especial">+ {collections.find(c => c.slug === e)?.title || e}</span>)}</td>}
       <td>
         <div className="admin-table__tags">
           {ehPagina ? (
@@ -419,6 +421,17 @@ export default function AdminAdsList({ kind = 'anuncio' }) {
                 </select>
                 <button type="button" className="adm-btn adm-btn--secondary adm-btn--sm" disabled={bulkBusy || !bulkObj} onClick={() => bulkTag('objectives', bulkObj, true)}>+ Adicionar</button>
                 <button type="button" className="adm-btn adm-btn--ghost adm-btn--sm" disabled={bulkBusy || !bulkObj} onClick={() => bulkTag('objectives', bulkObj, false)}>Remover</button>
+                {specialsFrom(collections).length > 0 && (
+                  <>
+                    <span className="admin-ads__bulk-sep" />
+                    <select className="admin-select" value={bulkExtra} onChange={e => setBulkExtra(e.target.value)}>
+                      <option value="">Também em (especial)…</option>
+                      {specialsFrom(collections).map(c => <option key={c.id} value={c.slug}>{c.title}</option>)}
+                    </select>
+                    <button type="button" className="adm-btn adm-btn--secondary adm-btn--sm" disabled={bulkBusy || !bulkExtra} onClick={() => bulkTag('extras', bulkExtra, true)}>+ Adicionar</button>
+                    <button type="button" className="adm-btn adm-btn--ghost adm-btn--sm" disabled={bulkBusy || !bulkExtra} onClick={() => bulkTag('extras', bulkExtra, false)}>Remover</button>
+                  </>
+                )}
               </>
             )}
             <span className="admin-ads__bulk-sep" />

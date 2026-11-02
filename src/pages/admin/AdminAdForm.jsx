@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { supabase } from '../../lib/supabase'
-import { NICHES, MEDIA_TYPES, objectivesFrom, isObjectiveCollection, PAGE_TYPES, PAGE_MEDIA_TYPES, PAGE_NICHES, PAGES_SLUG } from '../../lib/catalog'
+import { NICHES, MEDIA_TYPES, objectivesFrom, isObjectiveCollection, specialsFrom, PAGE_TYPES, PAGE_MEDIA_TYPES, PAGE_NICHES, PAGES_SLUG } from '../../lib/catalog'
 import './AdminAdForm.css'
 
 // kind: 'anuncio' (padrão) ou 'pagina'. Página não tem objetivos nem coleção
@@ -22,6 +22,7 @@ export default function AdminAdForm({ kind = 'anuncio' }) {
     collection_id: '',
     niches: [],
     objectives: [],
+    extras: [],
     media_type: ehPagina ? 'image' : 'video',
     page_type: '',
     drive_url: '',
@@ -73,6 +74,7 @@ export default function AdminAdForm({ kind = 'anuncio' }) {
         collection_id: data.collection_id || '',
         niches: data.niches || [],
         objectives: data.objectives || [],
+        extras: data.extras || [],
         media_type: data.media_type || (ehPagina ? 'image' : 'video'),
         page_type: data.page_type || '',
         drive_url: data.drive_url || '',
@@ -94,6 +96,10 @@ export default function AdminAdForm({ kind = 'anuncio' }) {
         ? f.objectives.filter(o => o !== value)
         : [...f.objectives, value],
     }))
+  }
+
+  function toggleExtra(value) {
+    setForm(f => ({ ...f, extras: f.extras.includes(value) ? f.extras.filter(x => x !== value) : [...f.extras, value] }))
   }
 
   function toggleNiche(value) {
@@ -125,12 +131,18 @@ export default function AdminAdForm({ kind = 'anuncio' }) {
 
     setSaving(true)
 
-    const row = { ...form, kind, page_type: ehPagina ? form.page_type : null, objectives: ehPagina ? [] : form.objectives }
+    const origem = collections.find(c => c.id === form.collection_id)
+    const row = { ...form, kind, page_type: ehPagina ? form.page_type : null, objectives: ehPagina ? [] : form.objectives, extras: ehPagina ? [] : form.extras.filter(s => s !== origem?.slug) }
     let error
     if (isEdit) {
       ;({ error } = await supabase.from('ads').update(row).eq('id', id))
     } else {
       ;({ error } = await supabase.from('ads').insert(row))
+    }
+    if (error && /extras/i.test(error.message)) {
+      setFeedback({ type: 'error', msg: 'Pra marcar especiais extras, rode o arquivo supabase-migration-extras.sql no Supabase.' })
+      setSaving(false)
+      return
     }
 
     setSaving(false)
@@ -257,6 +269,21 @@ export default function AdminAdForm({ kind = 'anuncio' }) {
           </div>
           <small className="admin-form__hint">O anúncio continua na coleção de origem (ex.: Melhores de Setembro) e aparece também em cada objetivo marcado.</small>
         </div>}
+
+        {!ehPagina && specialsFrom(collections).filter(c => c.id !== form.collection_id).length > 0 && (
+          <div className="admin-form__field">
+            <label>Também aparece em (especiais)</label>
+            <div className="admin-form__checks">
+              {specialsFrom(collections).filter(c => c.id !== form.collection_id).map(c => (
+                <label key={c.id} className={`admin-form__check ${form.extras.includes(c.slug) ? 'admin-form__check--on' : ''}`} title={c.subtitle || ''}>
+                  <input type="checkbox" checked={form.extras.includes(c.slug)} onChange={() => toggleExtra(c.slug)} />
+                  {c.title}
+                </label>
+              ))}
+            </div>
+            <small className="admin-form__hint">Pra um anúncio que mora num mês e precisa aparecer numa especial (ex.: Especial Mini VSL) sem sair do mês.</small>
+          </div>
+        )}
 
         <div className="admin-form__field">
           <label>Nichos <span className="admin-form__required">*</span> (pode marcar vários)</label>
