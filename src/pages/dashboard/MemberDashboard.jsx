@@ -2,6 +2,7 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { supabase } from '../../lib/supabase'
 import { useAuth } from '../../hooks/useAuth'
+import { useTitle } from '../../hooks/useTitle'
 import { useFavorites } from '../../hooks/useFavorites'
 import { useActivity } from '../../hooks/useActivity'
 import { getCollectionStyle, belongsTo } from '../../lib/catalog'
@@ -15,6 +16,7 @@ const KIT_SALES_URL = ''
 // Home = vitrine dos produtos + um destaque do Acervo (mês mais recente).
 // O conteúdo de cada produto vive dentro dele.
 export default function MemberDashboard() {
+  useTitle('')
   const { profile } = useAuth()
   const { toggleFavorite, isFavorite } = useFavorites()
   const { isSeen } = useActivity()

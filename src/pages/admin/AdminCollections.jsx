@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { supabase } from '../../lib/supabase'
-import { getCollectionStyle, getCollection, belongsTo } from '../../lib/catalog'
+import { getCollectionStyle, getCollection, belongsTo, collectionKindLabel } from '../../lib/catalog'
 import { collectionCover } from '../../lib/drive'
 import PhoneCard from '../../components/ui/PhoneCard'
 import { comprimirImagem, extensao } from '../../lib/imagem'
@@ -307,7 +307,7 @@ export default function AdminCollections() {
             const preview = { ...col, cover_url: d.cover_url || null }
             const n = ads.filter(a => belongsTo(a, col)).length
             const fb = feedback[col.id]
-            const kind = col.is_bonus ? 'Bônus' : style.kind === 'fixa' ? `Coleção ${String(col.order).padStart(2, '0')}` : style.kind === 'melhores' ? 'Melhores do mês' : 'Especial'
+            const kind = collectionKindLabel(col)
             return (
               <div key={col.id} className="adm-card admin-collection">
                 <div className="admin-collection__preview">

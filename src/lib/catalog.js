@@ -87,6 +87,9 @@ const MELHORES_GRADIENTS = [
 export function getCollectionStyle(slug = '') {
   const fixed = getCollection(slug)
   if (fixed) return { gradient: fixed.gradient, kind: 'fixa' }
+  if (slug === PAGES_SLUG) {
+    return { gradient: 'linear-gradient(135deg, #2E211B 0%, #0C4747 55%, #3F7A66 100%)', kind: 'paginas' }
+  }
   if (slug.startsWith('especial-')) {
     return { gradient: 'linear-gradient(135deg, #2E211B 0%, #4C362D 45%, #965E41 100%)', kind: 'especial' }
   }
@@ -108,6 +111,35 @@ export const NICHES = [
 
 export const NICHE_LABELS = Object.fromEntries(NICHES.map(n => [n.value, n.label]))
 
+// ── Páginas ──
+// Segundo tipo de item do Acervo (ads.kind = 'pagina'). Não usam os objetivos
+// dos anúncios: têm o próprio tipo e moram numa coleção só, "paginas".
+export const PAGES_SLUG = 'paginas'
+
+export const PAGE_TYPES = [
+  { value: 'vendas', label: 'Página de vendas', hint: 'Apresenta a oferta e fecha a venda' },
+  { value: 'captura', label: 'Página de captura', hint: 'Troca um material ou acesso pelo contato' },
+  { value: 'obrigado', label: 'Obrigado / upsell', hint: 'Depois da compra ou do cadastro: próximo passo ou oferta extra' },
+  { value: 'servico', label: 'Página de serviço', hint: 'Apresenta o serviço e leva pro contato ou agendamento' },
+]
+
+export const PAGE_TYPE_LABELS = Object.fromEntries(PAGE_TYPES.map(t => [t.value, t.label]))
+
+// Formatos em que uma página chega (print longo ou PDF)
+export const PAGE_MEDIA_TYPES = [
+  { value: 'image', label: 'Print (imagem)' },
+  { value: 'pdf', label: 'PDF' },
+]
+
+export const isPage = (ad) => ad?.kind === 'pagina'
+
+// Rótulo curto do item: tipo de página pra páginas, mídia pra anúncios
+export function itemTypeLabel(ad) {
+  if (!ad) return null
+  if (isPage(ad)) return PAGE_TYPE_LABELS[ad.page_type] || 'Página'
+  return ad.media_type ? (MEDIA_LABELS[ad.media_type] || ad.media_type) : null
+}
+
 // Tipos de mídia
 export const MEDIA_TYPES = [
   { value: 'video', label: 'Vídeo' },
@@ -117,3 +149,14 @@ export const MEDIA_TYPES = [
 ]
 
 export const MEDIA_LABELS = Object.fromEntries(MEDIA_TYPES.map(m => [m.value, m.label]))
+
+// Etiqueta da coleção nos cards e cabeçalhos ("Coleção 01", "Melhores do mês"…)
+export function collectionKindLabel(col) {
+  if (!col) return ''
+  if (col.is_bonus) return 'Bônus'
+  const kind = getCollectionStyle(col.slug).kind
+  if (kind === 'fixa') return `Coleção ${String(col.order).padStart(2, '0')}`
+  if (kind === 'melhores') return 'Melhores do mês'
+  if (kind === 'paginas') return 'Páginas'
+  return 'Especial'
+}

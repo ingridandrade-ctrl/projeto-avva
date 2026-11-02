@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import { Link, useNavigate, useSearchParams } from 'react-router-dom'
 import { supabase } from '../../lib/supabase'
-import { NICHE_LABELS, MEDIA_LABELS, OBJECTIVE_LABELS, NICHES, MEDIA_TYPES, getCollectionStyle, belongsTo } from '../../lib/catalog'
+import { NICHE_LABELS, MEDIA_LABELS, OBJECTIVE_LABELS, NICHES, MEDIA_TYPES, PAGE_TYPES, PAGE_TYPE_LABELS, PAGE_MEDIA_TYPES, PAGES_SLUG, getCollectionStyle, belongsTo, collectionKindLabel } from '../../lib/catalog'
 import { driveThumb, driveId } from '../../lib/drive'
 import Tag from '../../components/ui/Tag'
 import './AdminAdsList.css'
@@ -20,26 +20,32 @@ function CoverCheck({ ad }) {
   )
 }
 
-const kindLabel = (col) => col.is_bonus
-  ? 'Bônus'
-  : getCollectionStyle(col.slug).kind === 'fixa'
-    ? `Coleção ${String(col.order).padStart(2, '0')}`
-    : getCollectionStyle(col.slug).kind === 'melhores' ? 'Melhores do mês' : 'Especial'
+const kindLabel = (col) => collectionKindLabel(col)
 
-export default function AdminAdsList() {
+// kind: 'anuncio' (padrão) ou 'pagina'. As páginas moram na coleção "paginas",
+// têm tipo de página em vez de objetivos e chegam como print ou PDF.
+export default function AdminAdsList({ kind = 'anuncio' }) {
+  const ehPagina = kind === 'pagina'
+  const base = ehPagina ? '/admin/produtos/acervo/paginas' : '/admin/produtos/acervo/anuncios'
+  const um = ehPagina ? 'página' : 'anúncio'
+  const varios = ehPagina ? 'páginas' : 'anúncios'
+  const chaveFiltros = ehPagina ? 'avva.admin.paginas.filtros' : 'avva.admin.ads.filtros'
   const [params] = useSearchParams()
   const [ads, setAds] = useState([])
   const [collections, setCollections] = useState([])
   // Filtros lembrados entre idas e vindas (editar um anúncio e voltar)
   const lembrados = (() => {
-    try { return JSON.parse(sessionStorage.getItem('avva.admin.ads.filtros') || '{}') } catch { return {} }
+    try { return JSON.parse(sessionStorage.getItem(chaveFiltros) || '{}') } catch { return {} }
   })()
   const [selectedCollection, setSelectedCollection] = useState(params.get('collection') || lembrados.collection || '')
   const [search, setSearch] = useState(lembrados.search || '')
   const [niche, setNiche] = useState(lembrados.niche || '')
   const [media, setMedia] = useState(lembrados.media || '')
   const [onlyDups, setOnlyDups] = useState(Boolean(lembrados.onlyDups))
+  const [pageType, setPageType] = useState(lembrados.pageType || '')
+  const [bulkPageType, setBulkPageType] = useState('')
   const [view, setView] = useState(() => {
+    if (ehPagina) return 'lista'
     try { return localStorage.getItem('avva.admin.ads.view') || 'colecoes' } catch { return 'colecoes' }
   })
   const [loading, setLoading] = useState(true)
@@ -55,20 +61,21 @@ export default function AdminAdsList() {
     setLoading(true)
     const [{ data: cols }, { data: adsData }] = await Promise.all([
       supabase.from('collections').select('*').order('order'),
-      supabase.from('ads').select('*, collections(title, slug)').order('created_at', { ascending: false }),
+      supabase.from('ads').select('*, collections(title, slug)').eq('kind', kind).order('created_at', { ascending: false }),
     ])
-    setCollections(cols || [])
+    // Páginas: só a coleção delas entra nos filtros; anúncios: todas as outras
+    setCollections((cols || []).filter(c => ehPagina ? c.slug === PAGES_SLUG : c.slug !== PAGES_SLUG))
     setAds(adsData || [])
     setLoading(false)
   }
 
-  useEffect(() => { Promise.resolve().then(load) }, [])
+  useEffect(() => { Promise.resolve().then(load) }, [kind]) // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     try {
-      sessionStorage.setItem('avva.admin.ads.filtros', JSON.stringify({ collection: selectedCollection, search, niche, media, onlyDups }))
+      sessionStorage.setItem(chaveFiltros, JSON.stringify({ collection: selectedCollection, search, niche, media, onlyDups, pageType }))
     } catch { /* sem armazenamento, sem problema */ }
-  }, [selectedCollection, search, niche, media, onlyDups])
+  }, [chaveFiltros, selectedCollection, search, niche, media, onlyDups, pageType])
 
   function changeView(v) {
     setView(v)
@@ -92,6 +99,8 @@ export default function AdminAdsList() {
         niches: ad.niches || [],
         objectives: ad.objectives || [],
         media_type: ad.media_type,
+        kind: ad.kind || 'anuncio',
+        page_type: ad.page_type || null,
         drive_url: ad.drive_url,
         analysis: ad.analysis,
         active: false,
@@ -102,7 +111,7 @@ export default function AdminAdsList() {
       window.alert(`Não consegui duplicar: ${error?.message || 'erro'}`)
       return
     }
-    navigate(`/admin/produtos/acervo/anuncios/${data.id}/editar`)
+    navigate(`${base}/${data.id}/editar`)
   }
 
   // ── Seleção e ações em lote ──
@@ -124,7 +133,7 @@ export default function AdminAdsList() {
     setBulkMsg(null)
     try {
       await fn()
-      setBulkMsg({ type: 'ok', msg: `${label}: ${selected.size} ${selected.size === 1 ? 'anúncio' : 'anúncios'}.` })
+      setBulkMsg({ type: 'ok', msg: `${label}: ${selected.size} ${selected.size === 1 ? um : varios}.` })
       clearSel()
       await load()
     } catch (e) {
@@ -140,12 +149,16 @@ export default function AdminAdsList() {
   })
 
   const bulkDelete = () => {
-    if (!window.confirm(`Apagar ${selected.size} ${selected.size === 1 ? 'anúncio' : 'anúncios'}? Não dá pra desfazer.`)) return
+    if (!window.confirm(`Apagar ${selected.size} ${selected.size === 1 ? um : varios}? Não dá pra desfazer.`)) return
     bulk('Apagados', async () => { must(await supabase.from('ads').delete().in('id', selIds())) })
   }
 
   const bulkCollection = () => bulk('Coleção trocada em', async () => {
     must(await supabase.from('ads').update({ collection_id: bulkCol || null }).in('id', selIds()))
+  })
+
+  const bulkPage = () => bulk('Tipo de página trocado em', async () => {
+    must(await supabase.from('ads').update({ page_type: bulkPageType }).in('id', selIds()))
   })
 
   // Tags são listas por anúncio: cada um recebe a própria lista atualizada
@@ -193,6 +206,7 @@ export default function AdminAdsList() {
     if (onlyDups && !dupInfo[a.id]) return false
     if (niche && !(a.niches || []).includes(niche)) return false
     if (media && a.media_type !== media) return false
+    if (pageType && a.page_type !== pageType) return false
     if (term && !`${a.title} ${a.analysis || ''}`.toLowerCase().includes(term)) return false
     return true
   })
@@ -228,13 +242,19 @@ export default function AdminAdsList() {
           </span>
         )}
       </td>
-      <td>{ad.collections?.title || '—'}</td>
+      {!ehPagina && <td>{ad.collections?.title || '—'}</td>}
       <td>
         <div className="admin-table__tags">
-          {(ad.objectives || []).length === 0 && <span className="admin-table__muted">—</span>}
-          {(ad.objectives || []).map(o => (
-            <Tag key={o} type="teal">{OBJECTIVE_LABELS[o] || o}</Tag>
-          ))}
+          {ehPagina ? (
+            ad.page_type ? <Tag type="teal">{PAGE_TYPE_LABELS[ad.page_type] || ad.page_type}</Tag> : <span className="admin-table__muted">—</span>
+          ) : (
+            <>
+              {(ad.objectives || []).length === 0 && <span className="admin-table__muted">—</span>}
+              {(ad.objectives || []).map(o => (
+                <Tag key={o} type="teal">{OBJECTIVE_LABELS[o] || o}</Tag>
+              ))}
+            </>
+          )}
         </div>
       </td>
       <td>
@@ -244,7 +264,7 @@ export default function AdminAdsList() {
           ))}
         </div>
       </td>
-      <td>{MEDIA_LABELS[ad.media_type] || '—'}</td>
+      <td>{(ehPagina ? PAGE_MEDIA_TYPES.find(m => m.value === ad.media_type)?.label : MEDIA_LABELS[ad.media_type]) || MEDIA_LABELS[ad.media_type] || '—'}</td>
       <td>
         <button
           className={`admin-toggle ${ad.active ? 'admin-toggle--on' : ''}`}
@@ -256,7 +276,7 @@ export default function AdminAdsList() {
       </td>
       <td>
         <div className="admin-table__actions admin-ads__actions">
-          <Link to={`/admin/produtos/acervo/anuncios/${ad.id}/editar`} className="admin-ads__icon" title="Editar" aria-label="Editar">
+          <Link to={`${base}/${ad.id}/editar`} className="admin-ads__icon" title="Editar" aria-label="Editar">
             <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4 12.5-12.5z"/></svg>
           </Link>
           <button className="admin-ads__icon" onClick={() => duplicate(ad)} title="Duplicar (cria uma cópia desativada pra você ajustar)" aria-label="Duplicar">
@@ -285,10 +305,10 @@ export default function AdminAdsList() {
             </th>
             <th>Capa</th>
             <th>Título</th>
-            <th>Coleção</th>
-            <th>Objetivos</th>
+            {!ehPagina && <th>Coleção</th>}
+            <th>{ehPagina ? 'Tipo' : 'Objetivos'}</th>
             <th>Nichos</th>
-            <th>Mídia</th>
+            <th>{ehPagina ? 'Formato' : 'Mídia'}</th>
             <th>Ativo</th>
             <th></th>
           </tr>
@@ -301,16 +321,16 @@ export default function AdminAdsList() {
   const empty = (msg) => <div className="adm-card"><p className="adm-empty">{msg}</p></div>
 
   return (
-    <div className="admin-ads">
+    <div className={`admin-ads ${ehPagina ? 'admin-ads--paginas' : ''}`}>
       <div className="adm-page-header">
         <div>
           <span className="adm-eyebrow">Acervo de Anúncios</span>
-          <h1>Anúncios</h1>
-          <p>Tudo que as alunas veem nas Coleções. Desative para esconder sem apagar.</p>
+          <h1>{ehPagina ? 'Páginas' : 'Anúncios'}</h1>
+          <p>{ehPagina ? 'Páginas de vendas, captura, obrigado e serviço. Ficam na coleção "Páginas", num bloco próprio pra aluna.' : 'Tudo que as alunas veem nas Coleções. Desative para esconder sem apagar.'}</p>
         </div>
         <div className="adm-page-header__actions">
-          <Link to="/admin/produtos/acervo/anuncios/importar" className="adm-btn adm-btn--secondary">Importar em lote</Link>
-          <Link to="/admin/produtos/acervo/anuncios/novo" className="adm-btn adm-btn--primary">+ Novo anúncio</Link>
+          <Link to={`${base}/importar`} className="adm-btn adm-btn--secondary">Importar em lote</Link>
+          <Link to={`${base}/novo`} className="adm-btn adm-btn--primary">{ehPagina ? '+ Nova página' : '+ Novo anúncio'}</Link>
         </div>
       </div>
 
@@ -322,38 +342,45 @@ export default function AdminAdsList() {
           value={search}
           onChange={e => setSearch(e.target.value)}
         />
-        <select value={selectedCollection} onChange={e => setSelectedCollection(e.target.value)} className="admin-select">
-          <option value="">Todas as coleções</option>
-          {collections.map(c => (
-            <option key={c.id} value={c.id}>{c.is_bonus ? `Bônus — ${c.title}` : c.title}</option>
-          ))}
-        </select>
+        {ehPagina ? (
+          <select value={pageType} onChange={e => setPageType(e.target.value)} className="admin-select">
+            <option value="">Todos os tipos de página</option>
+            {PAGE_TYPES.map(t => <option key={t.value} value={t.value}>{t.label}</option>)}
+          </select>
+        ) : (
+          <select value={selectedCollection} onChange={e => setSelectedCollection(e.target.value)} className="admin-select">
+            <option value="">Todas as coleções</option>
+            {collections.map(c => (
+              <option key={c.id} value={c.id}>{c.is_bonus ? `Bônus — ${c.title}` : c.title}</option>
+            ))}
+          </select>
+        )}
         <select value={niche} onChange={e => setNiche(e.target.value)} className="admin-select">
           <option value="">Todos os nichos</option>
           {NICHES.map(n => <option key={n.value} value={n.value}>{n.label}</option>)}
         </select>
         <select value={media} onChange={e => setMedia(e.target.value)} className="admin-select">
-          <option value="">Toda mídia</option>
-          {MEDIA_TYPES.map(m => <option key={m.value} value={m.value}>{m.label}</option>)}
+          <option value="">{ehPagina ? 'Todo formato' : 'Toda mídia'}</option>
+          {(ehPagina ? PAGE_MEDIA_TYPES : MEDIA_TYPES).map(m => <option key={m.value} value={m.value}>{m.label}</option>)}
         </select>
       </div>
 
       <div className="admin-ads__bar">
-        <div className="admin-ads__view" role="group" aria-label="Como ver">
+        {!ehPagina && <div className="admin-ads__view" role="group" aria-label="Como ver">
           <button type="button" className={view === 'colecoes' ? 'is-on' : ''} onClick={() => changeView('colecoes')}>Por coleção</button>
           <button type="button" className={view === 'lista' ? 'is-on' : ''} onClick={() => changeView('lista')}>Lista única</button>
-        </div>
+        </div>}
         <button
           type="button"
           className={`admin-ads__dupbtn ${onlyDups ? 'is-on' : ''} ${dupCount ? 'has-dups' : ''}`}
           onClick={() => setOnlyDups(v => !v)}
           disabled={!dupCount}
-          title={dupCount ? 'Anúncios com o mesmo vídeo do Drive cadastrado mais de uma vez' : 'Nenhum vídeo cadastrado duas vezes'}
+          title={dupCount ? `${ehPagina ? 'Páginas' : 'Anúncios'} com o mesmo arquivo do Drive cadastrado mais de uma vez` : 'Nenhum arquivo cadastrado duas vezes'}
         >
           {dupCount ? `${dupCount} ${dupCount === 1 ? 'repetido' : 'repetidos'}` : 'Sem repetidos'}
         </button>
         <span className="admin-ads__count">
-          {visible.length} {visible.length === 1 ? 'anúncio' : 'anúncios'}
+          {visible.length} {visible.length === 1 ? um : varios}
         </span>
       </div>
 
@@ -367,18 +394,30 @@ export default function AdminAdsList() {
             <button type="button" className="adm-btn adm-btn--secondary adm-btn--sm" disabled={bulkBusy} onClick={() => bulkActive(true)}>Ativar</button>
             <button type="button" className="adm-btn adm-btn--secondary adm-btn--sm" disabled={bulkBusy} onClick={() => bulkActive(false)}>Desativar</button>
             <span className="admin-ads__bulk-sep" />
-            <select className="admin-select" value={bulkCol} onChange={e => setBulkCol(e.target.value)}>
-              <option value="">Coleção do mês / especial: nenhuma</option>
-              {collections.filter(c => getCollectionStyle(c.slug).kind !== 'fixa').map(c => <option key={c.id} value={c.id}>{c.title}</option>)}
-            </select>
-            <button type="button" className="adm-btn adm-btn--secondary adm-btn--sm" disabled={bulkBusy} onClick={bulkCollection}>Aplicar coleção</button>
-            <span className="admin-ads__bulk-sep" />
-            <select className="admin-select" value={bulkObj} onChange={e => setBulkObj(e.target.value)}>
-              <option value="">Objetivo…</option>
-              {Object.entries(OBJECTIVE_LABELS).map(([v, l]) => <option key={v} value={v}>{l}</option>)}
-            </select>
-            <button type="button" className="adm-btn adm-btn--secondary adm-btn--sm" disabled={bulkBusy || !bulkObj} onClick={() => bulkTag('objectives', bulkObj, true)}>+ Adicionar</button>
-            <button type="button" className="adm-btn adm-btn--ghost adm-btn--sm" disabled={bulkBusy || !bulkObj} onClick={() => bulkTag('objectives', bulkObj, false)}>Remover</button>
+            {ehPagina ? (
+              <>
+                <select className="admin-select" value={bulkPageType} onChange={e => setBulkPageType(e.target.value)}>
+                  <option value="">Tipo de página…</option>
+                  {PAGE_TYPES.map(t => <option key={t.value} value={t.value}>{t.label}</option>)}
+                </select>
+                <button type="button" className="adm-btn adm-btn--secondary adm-btn--sm" disabled={bulkBusy || !bulkPageType} onClick={bulkPage}>Aplicar tipo</button>
+              </>
+            ) : (
+              <>
+                <select className="admin-select" value={bulkCol} onChange={e => setBulkCol(e.target.value)}>
+                  <option value="">Coleção do mês / especial: nenhuma</option>
+                  {collections.filter(c => getCollectionStyle(c.slug).kind !== 'fixa').map(c => <option key={c.id} value={c.id}>{c.title}</option>)}
+                </select>
+                <button type="button" className="adm-btn adm-btn--secondary adm-btn--sm" disabled={bulkBusy} onClick={bulkCollection}>Aplicar coleção</button>
+                <span className="admin-ads__bulk-sep" />
+                <select className="admin-select" value={bulkObj} onChange={e => setBulkObj(e.target.value)}>
+                  <option value="">Objetivo…</option>
+                  {Object.entries(OBJECTIVE_LABELS).map(([v, l]) => <option key={v} value={v}>{l}</option>)}
+                </select>
+                <button type="button" className="adm-btn adm-btn--secondary adm-btn--sm" disabled={bulkBusy || !bulkObj} onClick={() => bulkTag('objectives', bulkObj, true)}>+ Adicionar</button>
+                <button type="button" className="adm-btn adm-btn--ghost adm-btn--sm" disabled={bulkBusy || !bulkObj} onClick={() => bulkTag('objectives', bulkObj, false)}>Remover</button>
+              </>
+            )}
             <span className="admin-ads__bulk-sep" />
             <select className="admin-select" value={bulkNiche} onChange={e => setBulkNiche(e.target.value)}>
               <option value="">Nicho…</option>
@@ -397,12 +436,12 @@ export default function AdminAdsList() {
         : ads.length === 0 ? (
           <div className="adm-card">
             <div className="adm-empty">
-              <p>Nenhum anúncio cadastrado ainda.</p>
-              <Link to="/admin/produtos/acervo/anuncios/novo" className="adm-btn adm-btn--primary" style={{ marginTop: 16 }}>Cadastrar o primeiro</Link>
+              <p>{ehPagina ? 'Nenhuma página cadastrada ainda.' : 'Nenhum anúncio cadastrado ainda.'}</p>
+              <Link to={`${base}/novo`} className="adm-btn adm-btn--primary" style={{ marginTop: 16 }}>{ehPagina ? 'Cadastrar a primeira' : 'Cadastrar o primeiro'}</Link>
             </div>
           </div>
         )
-        : visible.length === 0 ? empty('Nenhum anúncio com esses filtros.')
+        : visible.length === 0 ? empty(ehPagina ? 'Nenhuma página com esses filtros.' : 'Nenhum anúncio com esses filtros.')
         : view === 'lista' ? (listRows.length ? table(listRows) : empty('Nenhum anúncio nessa coleção.'))
         : (
           <div className="admin-ads__groups">

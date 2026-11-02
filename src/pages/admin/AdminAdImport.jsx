@@ -1,16 +1,21 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { supabase } from '../../lib/supabase'
-import { OBJECTIVE_LABELS, NICHE_LABELS, MEDIA_LABELS } from '../../lib/catalog'
+import { OBJECTIVE_LABELS, NICHE_LABELS, MEDIA_LABELS, PAGE_TYPE_LABELS } from '../../lib/catalog'
 import { driveId } from '../../lib/drive'
-import { parseImport, toRow, FORMATO_EXEMPLO } from '../../lib/importAds'
+import { parseImport, toRow, FORMATO_EXEMPLO, FORMATO_EXEMPLO_PAGINA } from '../../lib/importAds'
 import CopyButton from '../../components/ui/CopyButton'
 import './AdminAdImport.css'
 
 // Importar vários anúncios de uma vez: cola o texto gerado pela skill de
 // análise (um bloco por anúncio), confere a prévia e cadastra.
-export default function AdminAdImport() {
+export default function AdminAdImport({ kind = 'anuncio' }) {
   const navigate = useNavigate()
+  const ehPagina = kind === 'pagina'
+  const base = ehPagina ? '/admin/produtos/acervo/paginas' : '/admin/produtos/acervo/anuncios'
+  const exemplo = ehPagina ? FORMATO_EXEMPLO_PAGINA : FORMATO_EXEMPLO
+  const um = ehPagina ? 'página' : 'anúncio'
+  const varios = ehPagina ? 'páginas' : 'anúncios'
   const [collections, setCollections] = useState([])
   const [existing, setExisting] = useState(new Map())
   const [atualizar, setAtualizar] = useState(true) // mesmo arquivo do Drive: atualiza em vez de duplicar
@@ -46,7 +51,7 @@ export default function AdminAdImport() {
 
   function conferir() {
     setDone(null)
-    setRows(parseImport(text, collections, existing))
+    setRows(parseImport(text, collections, existing, { kind }))
   }
 
   async function cadastrar() {
@@ -81,20 +86,20 @@ export default function AdminAdImport() {
 
   return (
     <div className="adm-import">
-      <Link to="/admin/produtos/acervo/anuncios" className="admin-ad-form__back">← Voltar para anúncios</Link>
+      <Link to={base} className="admin-ad-form__back">← Voltar para {varios}</Link>
 
       <div className="adm-page-header">
         <div>
           <span className="adm-eyebrow">Acervo de Anúncios</span>
-          <h1>Importar anúncios</h1>
-          <p>Cole o texto gerado pela skill de análise, um bloco por anúncio separado por <code>---</code>. Confira a prévia e cadastre tudo de uma vez.</p>
+          <h1>Importar {varios}</h1>
+          <p>Cole o texto gerado pela skill de análise, um bloco por {um} separado por <code>---</code>. Confira a prévia e cadastre tudo de uma vez.</p>
         </div>
         <div className="adm-page-header__actions">
-          <CopyButton text={FORMATO_EXEMPLO} label="Copiar formato" />
+          <CopyButton text={exemplo} label="Copiar formato" />
         </div>
       </div>
 
-      {done && <div className={`adm-import__feedback adm-import__feedback--${done.type}`}>{done.msg} {done.type === 'success' && <button type="button" className="adm-btn adm-btn--ghost" onClick={() => navigate('/admin/produtos/acervo/anuncios')}>Ver anúncios</button>}</div>}
+      {done && <div className={`adm-import__feedback adm-import__feedback--${done.type}`}>{done.msg} {done.type === 'success' && <button type="button" className="adm-btn adm-btn--ghost" onClick={() => navigate(base)}>Ver {varios}</button>}</div>}
 
       <div className="adm-card adm-import__entrada">
         <label htmlFor="imp-text" className="adm-import__label">Texto para importar</label>
@@ -104,11 +109,11 @@ export default function AdminAdImport() {
           className="adm-input adm-import__textarea"
           value={text}
           onChange={e => { setText(e.target.value); setRows(null) }}
-          placeholder={FORMATO_EXEMPLO}
+          placeholder={exemplo}
           spellCheck={false}
         />
         <div className="adm-import__acoes">
-          <span className="adm-import__dica">Coleção pode ser o nome ("Melhores de Novembro 2026") ou o identificador. Objetivos, nicho e mídia aceitam o nome ou o valor interno.</span>
+          <span className="adm-import__dica">{ehPagina ? 'Tipo: vendas, captura, obrigado ou serviço. O arquivo do Drive é um print (imagem); se for PDF, acrescente a linha "Formato: pdf". Todas entram na coleção "Páginas".' : 'Coleção pode ser o nome ("Melhores de Novembro 2026") ou o identificador. Objetivos, nicho e mídia aceitam o nome ou o valor interno.'}</span>
           <button type="button" className="adm-btn adm-btn--secondary" onClick={conferir} disabled={!text.trim() || !collections.length}>Conferir</button>
         </div>
       </div>
@@ -121,13 +126,13 @@ export default function AdminAdImport() {
             {repetidos.length > 0 && <span className="adm-import__rep">{repetidos.length} já cadastrado{repetidos.length === 1 ? '' : 's'}</span>}
             {bad.length > 0 && <span className="adm-import__bad">{bad.length} com problema</span>}
             <button type="button" className="adm-btn adm-btn--primary" onClick={cadastrar} disabled={saving || !totalAcao}>
-              {saving ? 'Salvando…' : `Salvar ${totalAcao} anúncio${totalAcao === 1 ? '' : 's'}`}
+              {saving ? 'Salvando…' : `Salvar ${totalAcao} ${totalAcao === 1 ? um : varios}`}
             </button>
           </div>
           {repetidos.length > 0 && (
             <label className="adm-import__opcao">
               <input type="checkbox" checked={atualizar} onChange={e => setAtualizar(e.target.checked)} />
-              Atualizar os já cadastrados com o texto novo (título, coleção, objetivos, nicho, mídia e análise). Desmarcado, eles ficam como estão.
+              {ehPagina ? 'Atualizar as já cadastradas com o texto novo (título, tipo, nicho, formato e análise). Desmarcado, elas ficam como estão.' : 'Atualizar os já cadastrados com o texto novo (título, coleção, objetivos, nicho, mídia e análise). Desmarcado, eles ficam como estão.'}
             </label>
           )}
           {bad.length > 0 && <p className="adm-import__aviso">Os blocos com problema ficam de fora. Corrija no texto e clique em Conferir de novo.</p>}
@@ -139,7 +144,7 @@ export default function AdminAdImport() {
                   <span className="adm-import__num">{String(r.index + 1).padStart(2, '0')}</span>
                   <div className="adm-import__item-titulo">
                     <strong>{r.title || <em>sem título</em>}</strong>
-                    <span>{r.collectionLabel || 'sem coleção'} · {r.media_type ? MEDIA_LABELS[r.media_type] : 'mídia?'}</span>
+                    <span>{ehPagina ? (r.page_type ? PAGE_TYPE_LABELS[r.page_type] : 'tipo?') : (r.collectionLabel || 'sem coleção')} · {r.media_type ? MEDIA_LABELS[r.media_type] : ehPagina ? 'formato?' : 'mídia?'}</span>
                   </div>
                   {driveId(r.drive_url) && (
                     <img className="adm-import__capa" src={`https://drive.google.com/thumbnail?id=${driveId(r.drive_url)}&sz=w200`} alt="" loading="lazy" onError={e => { e.currentTarget.style.display = 'none' }} />
@@ -152,7 +157,7 @@ export default function AdminAdImport() {
                 {r.analysis && <p className="adm-import__analise">{r.analysis.length > 260 ? r.analysis.slice(0, 260) + '…' : r.analysis}</p>}
                 {r.existing && !r.errors.length && (
                   <p className="adm-import__rep-info">
-                    {atualizar ? 'Vai atualizar o anúncio já cadastrado' : 'Já cadastrado, vai ficar como está'}: "{r.existing.title}"
+                    {atualizar ? `Vai atualizar ${ehPagina ? 'a página já cadastrada' : 'o anúncio já cadastrado'}` : `Já cadastrad${ehPagina ? 'a' : 'o'}, vai ficar como está`}: "{r.existing.title}"
                   </p>
                 )}
                 {r.errors.length > 0 && <p className="adm-import__erros">Problemas: {r.errors.join(' · ')}</p>}

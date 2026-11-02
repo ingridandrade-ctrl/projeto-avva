@@ -2,9 +2,10 @@ import { useEffect, useMemo, useState } from 'react'
 import { useParams, Link, useNavigate } from 'react-router-dom'
 import { supabase } from '../../lib/supabase'
 import { useAuth } from '../../hooks/useAuth'
+import { useTitle } from '../../hooks/useTitle'
 import { useFavorites } from '../../hooks/useFavorites'
 import { useActivity } from '../../hooks/useActivity'
-import { getCollectionStyle, getCollection } from '../../lib/catalog'
+import { getCollectionStyle, getCollection, collectionKindLabel, isPage } from '../../lib/catalog'
 import { collectionCover } from '../../lib/drive'
 import PhoneCard from '../../components/ui/PhoneCard'
 import Row from '../../components/ui/Row'
@@ -41,6 +42,7 @@ export default function ProductPage() {
   const [openList, setOpenList] = useState([])
 
   const product = PRODUCTS[slug]
+  useTitle(product?.title || '')
 
   useEffect(() => {
     if (!product) {
@@ -73,7 +75,10 @@ export default function ProductPage() {
   if (!product || slug === 'kit-execucao') return null
 
   const fixas = (collections || []).filter(c => getCollectionStyle(c.slug).kind === 'fixa')
-  const extras = (collections || []).filter(c => getCollectionStyle(c.slug).kind !== 'fixa')
+  const paginas = (collections || []).filter(c => getCollectionStyle(c.slug).kind === 'paginas')
+  const extras = (collections || []).filter(c => !['fixa', 'paginas'].includes(getCollectionStyle(c.slug).kind))
+  const totalAnuncios = ads.filter(a => !isPage(a)).length
+  const totalPaginas = ads.length - totalAnuncios
   const colTitle = ad => colById[ad.collection_id]?.title
 
   const favoriteAds = favorites.map(f => f.ads || byId[f.ad_id]).filter(a => a && a.active !== false)
@@ -86,11 +91,7 @@ export default function ProductPage() {
 
   function renderCard(col, index) {
     const style = getCollectionStyle(col.slug)
-    const kicker = col.is_bonus
-      ? 'Bônus'
-      : style.kind === 'fixa'
-        ? `Coleção ${String(col.order).padStart(2, '0')}`
-        : style.kind === 'melhores' ? 'Melhores do mês' : 'Especial'
+    const kicker = collectionKindLabel(col)
     return (
       <PhoneCard
         key={col.id}
@@ -123,7 +124,7 @@ export default function ProductPage() {
           <h1>{product.title}</h1>
           <p>{product.description}</p>
           {collections && (
-            <span className="product-page__hero-meta">{collections.length} coleções · {ads.length} anúncios</span>
+            <span className="product-page__hero-meta">{collections.length} coleções · {totalAnuncios} anúncios{totalPaginas > 0 && ` · ${totalPaginas} ${totalPaginas === 1 ? 'página' : 'páginas'}`}</span>
           )}
         </div>
       </div>
@@ -144,6 +145,15 @@ export default function ProductPage() {
           <h2>Melhores do mês e especiais</h2>
           <div className="module-grid">
             {[...extras].reverse().map(renderCard)}
+          </div>
+        </section>
+      )}
+
+      {paginas.length > 0 && (
+        <section className="product-page__modules">
+          <h2>Páginas</h2>
+          <div className="module-grid">
+            {paginas.map(renderCard)}
           </div>
         </section>
       )}

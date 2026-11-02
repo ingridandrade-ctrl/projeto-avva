@@ -1,9 +1,11 @@
 import { useState } from 'react'
 import { Link, Navigate, useLocation } from 'react-router-dom'
 import { useAuth } from '../../hooks/useAuth'
+import { useTitle } from '../../hooks/useTitle'
 import './LoginPage.css'
 
 export default function LoginPage() {
+  useTitle('Entrar')
   const { session, signIn, loading } = useAuth()
   const location = useLocation()
   const [email, setEmail] = useState('')

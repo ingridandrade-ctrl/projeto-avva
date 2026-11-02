@@ -2,8 +2,9 @@ import { useEffect, useState, useMemo } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { supabase } from '../../lib/supabase'
 import { useFavorites } from '../../hooks/useFavorites'
+import { useTitle } from '../../hooks/useTitle'
 import { useActivity } from '../../hooks/useActivity'
-import { getCollectionStyle, OBJECTIVES } from '../../lib/catalog'
+import { getCollectionStyle, OBJECTIVES, collectionKindLabel, PAGES_SLUG } from '../../lib/catalog'
 import { collectionCover } from '../../lib/drive'
 import AdCard from '../../components/ads/AdCard'
 import AdModal from '../../components/ads/AdModal'
@@ -16,6 +17,7 @@ export default function CollectionPage() {
   const { toggleFavorite, isFavorite } = useFavorites()
   const { isSeen } = useActivity()
   const [collection, setCollection] = useState(undefined)
+  useTitle(collection?.title || 'Acervo de Anúncios')
   const [allCollections, setAllCollections] = useState([])
   const [allAds, setAllAds] = useState([])
   const [ads, setAds] = useState([])
@@ -63,7 +65,7 @@ export default function CollectionPage() {
   const filteredAds = useMemo(() => {
     let result = ads
     if (selectedNiche) result = result.filter(a => (a.niches || []).includes(selectedNiche))
-    if (selectedMedia) result = result.filter(a => a.media_type === selectedMedia)
+    if (selectedMedia) result = result.filter(a => (a.kind === 'pagina' ? a.page_type : a.media_type) === selectedMedia)
     const term = search.trim().toLowerCase()
     if (term) result = result.filter(a => `${a.title} ${a.analysis || ''}`.toLowerCase().includes(term))
     return result
@@ -79,11 +81,9 @@ export default function CollectionPage() {
   const style = getCollectionStyle(collection.slug)
   const idx = allCollections.findIndex(c => c.id === collection.id)
   const next = allCollections[idx + 1]
-  const label = collection.is_bonus
-    ? 'Bônus'
-    : style.kind === 'fixa'
-      ? `Coleção ${String(collection.order).padStart(2, '0')}`
-      : style.kind === 'melhores' ? 'Melhores do mês' : 'Especial'
+  const label = collectionKindLabel(collection)
+  const ehPaginas = collection.slug === PAGES_SLUG
+  const unidade = (n) => ehPaginas ? (n === 1 ? 'página' : 'páginas') : (n === 1 ? 'anúncio' : 'anúncios')
 
   const cover = collectionCover(collection, allAds, 720)
   // O fundo do topo fica desfocado: uma versão pequena basta
@@ -121,7 +121,7 @@ export default function CollectionPage() {
           {ads.length > 0 && (
             <div className="collection-page__progress">
               <div className="collection-page__progress-meta">
-                <span>{ads.length} {ads.length === 1 ? 'anúncio' : 'anúncios'}</span>
+                <span>{ads.length} {unidade(ads.length)}</span>
                 <span>{seenCount} vistos · {pct}%</span>
               </div>
               <div className="collection-page__progress-track">
@@ -156,6 +156,7 @@ export default function CollectionPage() {
         onMediaChange={setSelectedMedia}
         total={ads.length}
         shown={filteredAds.length}
+        pages={ehPaginas}
       />
 
       {loading ? (
@@ -182,11 +183,11 @@ export default function CollectionPage() {
 
           {filteredAds.length === 0 && (
             <div className="collection-page__empty">
-              <p className="collection-page__empty-title">Nenhum anúncio encontrado</p>
+              <p className="collection-page__empty-title">{ehPaginas ? 'Nenhuma página encontrada' : 'Nenhum anúncio encontrado'}</p>
               <p className="collection-page__empty-sub">
                 {ads.length > 0
                   ? 'Tente ajustar os filtros ou a busca.'
-                  : 'Os anúncios dessa coleção chegam em breve.'}
+                  : ehPaginas ? 'As páginas chegam em breve.' : 'Os anúncios dessa coleção chegam em breve.'}
               </p>
             </div>
           )}

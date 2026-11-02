@@ -1,6 +1,6 @@
 import PhoneCard from '../ui/PhoneCard'
 import { driveThumb, driveThumbAlt } from '../../lib/drive'
-import { NICHE_LABELS, MEDIA_LABELS } from '../../lib/catalog'
+import { NICHE_LABELS, itemTypeLabel } from '../../lib/catalog'
 import './AdCard.css'
 
 export { driveThumb }
@@ -14,7 +14,7 @@ export default function AdCard({ ad, isFavorite, onToggleFavorite, onOpen, seen 
   const niches = nicheList.length
     ? <>{nicheList[0]}{nicheList.length > 1 && <span className="ad-card__more"> · {nicheList.slice(1).join(' · ')}</span>}</>
     : null
-  const media = ad.media_type ? (MEDIA_LABELS[ad.media_type] || ad.media_type) : null
+  const media = itemTypeLabel(ad)
 
   const side = (
     <span className="ad-card__side">

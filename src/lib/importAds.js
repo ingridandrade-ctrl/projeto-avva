@@ -2,7 +2,7 @@
 // (um bloco por anúncio, separados por "---") e devolve linhas prontas para
 // conferir e cadastrar. Tolerante a maiúsculas, acentos e negrito de markdown.
 
-import { OBJECTIVES, NICHES, MEDIA_TYPES } from './catalog'
+import { OBJECTIVES, NICHES, MEDIA_TYPES, PAGE_TYPES, PAGE_MEDIA_TYPES, PAGES_SLUG } from './catalog'
 import { driveId } from './drive'
 
 export const FORMATO_EXEMPLO = `Título: Depoimento que vendeu mais que o anúncio bonito
@@ -19,6 +19,18 @@ Segundo parágrafo da análise.
 Título: Próximo anúncio
 ...`
 
+export const FORMATO_EXEMPLO_PAGINA = `Título: Página de vendas que fecha sem chamar no WhatsApp
+Tipo: vendas
+Nicho: infoproduto
+Drive: https://drive.google.com/file/d/ID_DO_PRINT/view
+Análise:
+Primeiro parágrafo da análise.
+
+Segundo parágrafo da análise.
+---
+Título: Próxima página
+...`
+
 const norm = (s = '') => s
   .toString()
   .normalize('NFD')
@@ -33,7 +45,8 @@ const LABELS = {
   collection: ['colecao de origem', 'colecao', 'colecao do mes', 'origem'],
   objectives: ['objetivos', 'objetivo', 'colecoes por objetivo'],
   niches: ['nichos', 'nicho'],
-  media: ['midia', 'tipo de midia', 'tipo', 'formato'],
+  media: ['midia', 'tipo de midia', 'tipo', 'formato', 'arquivo'],
+  pageType: ['tipo de pagina', 'tipo da pagina', 'pagina'],
   drive: ['drive', 'link do drive', 'link', 'arquivo', 'url'],
   analysis: ['analise', 'analise completa', 'por que funciona'],
   ignore: ['teste do objetivo', 'teste', 'por que', 'porque'],
@@ -67,6 +80,8 @@ function matchOption(value, options, extras = {}) {
 
 const NICHE_EXTRAS = { 'servico': 'servico', 'prestacao de servico': 'servico', 'local': 'negocio-local', 'negocio local': 'negocio-local', 'e-commerce': 'ecommerce', 'ecommerce': 'ecommerce', 'loja online': 'ecommerce', 'info': 'infoproduto' }
 const MEDIA_EXTRAS = { 'video': 'video', 'reels': 'video', 'imagem': 'image', 'estatico': 'image', 'estatica': 'image', 'foto': 'image', 'carrossel': 'carousel', 'carousel': 'carousel', 'pdf': 'pdf', 'pagina': 'pdf', 'landing': 'pdf' }
+const PAGE_EXTRAS = { 'venda': 'vendas', 'vendas': 'vendas', 'sales': 'vendas', 'captura': 'captura', 'lead': 'captura', 'isca': 'captura', 'obrigado': 'obrigado', 'upsell': 'obrigado', 'thank': 'obrigado', 'servico': 'servico', 'agendamento': 'servico', 'orcamento': 'servico' }
+const PAGE_MEDIA_EXTRAS = { 'print': 'image', 'imagem': 'image', 'png': 'image', 'jpg': 'image', 'jpeg': 'image', 'foto': 'image', 'pdf': 'pdf' }
 const OBJ_EXTRAS = { 'descoberta': 'ser-descoberta', 'entende': 'mostrar-que-voce-entende', 'autoridade': 'mostrar-que-voce-entende', 'funciona': 'provar-que-funciona', 'prova': 'provar-que-funciona', 'mas': 'quebrar-o-mas', 'objecao': 'quebrar-o-mas', 'vender': 'vender-agora', 'oferta': 'vender-agora' }
 
 function findCollection(value, collections) {
@@ -78,7 +93,11 @@ function findCollection(value, collections) {
 }
 
 // existingByDrive: Map(id do Drive -> { id, title }) dos anúncios já cadastrados
-export function parseImport(text, collections = [], existingByDrive = new Map()) {
+// kind: 'anuncio' (padrão) ou 'pagina'. Em página, "Tipo" é o tipo da página
+// (vendas, captura, obrigado, serviço), "Formato" é print ou PDF e a coleção é
+// sempre "paginas".
+export function parseImport(text, collections = [], existingByDrive = new Map(), { kind = 'anuncio' } = {}) {
+  const ehPagina = kind === 'pagina'
   const blocks = (text || '')
     .replace(/\r/g, '')
     .split(/\n\s*(?:-{3,}|={3,}|\*{3,})\s*\n/)
@@ -86,12 +105,14 @@ export function parseImport(text, collections = [], existingByDrive = new Map())
     .filter(Boolean)
 
   return blocks.map((block, index) => {
-    const raw = { title: '', collection: '', objectives: '', niches: '', media: '', drive: '', analysis: [] }
+    const raw = { title: '', collection: '', objectives: '', niches: '', media: '', pageType: '', drive: '', analysis: [] }
     let current = null
     for (const line of block.split('\n')) {
       const l = labelOf(line)
       if (l) {
         current = l.field
+        // Em página, "Tipo:" é o tipo da página; em anúncio, é a mídia
+        if (ehPagina && current === 'media' && ['tipo', 'tipo de midia'].includes(norm(line.split(':')[0]))) current = 'pageType'
         if (current === 'ignore') { current = null; continue }
         if (current === 'analysis') { if (l.rest) raw.analysis.push(l.rest); continue }
         raw[current] = l.rest
@@ -107,10 +128,15 @@ export function parseImport(text, collections = [], existingByDrive = new Map())
       if (first && !labelOf(first)) raw.title = first
     }
 
-    const col = findCollection(raw.collection, collections)
-    const objectives = splitList(raw.objectives).map(o => matchOption(o, OBJECTIVES, OBJ_EXTRAS)).filter(Boolean)
+    const col = ehPagina
+      ? (collections.find(c => c.slug === PAGES_SLUG) || null)
+      : findCollection(raw.collection, collections)
+    const objectives = ehPagina ? [] : splitList(raw.objectives).map(o => matchOption(o, OBJECTIVES, OBJ_EXTRAS)).filter(Boolean)
     const niches = [...new Set(splitList(raw.niches).map(n => matchOption(n, NICHES, NICHE_EXTRAS)).filter(Boolean))]
-    const media_type = matchOption(raw.media, MEDIA_TYPES, MEDIA_EXTRAS) || (raw.media ? null : 'video')
+    const media_type = ehPagina
+      ? (matchOption(raw.media, PAGE_MEDIA_TYPES, PAGE_MEDIA_EXTRAS) || (raw.media ? null : 'image'))
+      : (matchOption(raw.media, MEDIA_TYPES, MEDIA_EXTRAS) || (raw.media ? null : 'video'))
+    const page_type = ehPagina ? matchOption(raw.pageType, PAGE_TYPES, PAGE_EXTRAS) : null
     const drive_url = (raw.drive.match(/https?:\/\/\S+/) || [raw.drive])[0].trim()
     const analysis = raw.analysis.join('\n').replace(/\n{3,}/g, '\n\n').replace(/^\*+|\*+$/g, '').trim()
     const id = driveId(drive_url)
@@ -118,12 +144,13 @@ export function parseImport(text, collections = [], existingByDrive = new Map())
     const errors = []
     const warnings = []
     if (!raw.title.trim()) errors.push('sem título')
-    if (!col) errors.push(raw.collection ? `coleção "${raw.collection}" não encontrada` : 'sem coleção de origem')
+    if (!col) errors.push(ehPagina ? 'a coleção "Páginas" não existe no banco (rode supabase-migration-paginas.sql)' : raw.collection ? `coleção "${raw.collection}" não encontrada` : 'sem coleção de origem')
+    if (ehPagina && !page_type) errors.push(raw.pageType ? `tipo de página "${raw.pageType}" não reconhecido` : 'sem tipo de página (vendas, captura, obrigado ou serviço)')
     if (!id) errors.push(raw.drive ? 'link do Drive inválido' : 'sem link do Drive')
     if (!analysis) errors.push('sem análise')
     if (!niches.length) errors.push('sem nicho')
-    if (!media_type) errors.push(`mídia "${raw.media}" não reconhecida`)
-    if (!objectives.length) warnings.push('sem objetivo: só aparece na coleção do mês')
+    if (!media_type) errors.push(`${ehPagina ? 'formato' : 'mídia'} "${raw.media}" não reconhecid${ehPagina ? 'o' : 'a'}`)
+    if (!ehPagina && !objectives.length) warnings.push('sem objetivo: só aparece na coleção do mês')
     if (raw.objectives && objectives.length < splitList(raw.objectives).length) warnings.push('algum objetivo não foi reconhecido')
     if (raw.niches && niches.length < splitList(raw.niches).length) warnings.push('algum nicho não foi reconhecido')
     const existing = id ? existingByDrive.get(id) || null : null
@@ -137,6 +164,8 @@ export function parseImport(text, collections = [], existingByDrive = new Map())
       objectives: [...new Set(objectives)],
       niches,
       media_type,
+      kind,
+      page_type,
       drive_url,
       analysis,
       existing,
@@ -153,6 +182,8 @@ export function toRow(item) {
     objectives: item.objectives,
     niches: item.niches,
     media_type: item.media_type,
+    kind: item.kind || 'anuncio',
+    page_type: item.page_type || null,
     drive_url: item.drive_url,
     analysis: item.analysis,
     active: true,

@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 import { useAuth } from '../../hooks/useAuth'
+import { useTitle } from '../../hooks/useTitle'
 import { supabase } from '../../lib/supabase'
 import { comprimirImagem } from '../../lib/imagem'
 import Avatar from '../../components/ui/Avatar'
@@ -30,6 +31,7 @@ function paraBase64(blob) {
 }
 
 export default function ProfilePage() {
+  useTitle('Meu perfil')
   const { profile, session, refreshProfile } = useAuth()
   const [name, setName] = useState('')
   const [saving, setSaving] = useState(false)

@@ -3,7 +3,7 @@
 // adaptação para o negócio da aluna. Nada aqui é regra: as lentes orientam a
 // leitura, a IA decide com o que a aluna responder.
 
-import { OBJECTIVE_LABELS, MEDIA_LABELS, NICHE_LABELS } from './catalog'
+import { OBJECTIVE_LABELS, MEDIA_LABELS, NICHE_LABELS, PAGE_TYPE_LABELS, isPage } from './catalog'
 
 export const DESTINOS = ['WhatsApp', 'Site', 'Página de vendas', 'Perfil', 'Direct']
 
@@ -33,7 +33,20 @@ export function objetivosDoContexto(ad, collectionSlug) {
   return ad.objectives || []
 }
 
+// Páginas: quais campos extras aparecem conforme o tipo da página
+export const CAMPOS_POR_PAGINA = {
+  preco: ['vendas', 'obrigado', 'servico'],
+  prova: ['vendas', 'servico', 'captura'],
+  objecao: ['vendas', 'servico'],
+}
+
 export function camposPara(ad, collectionSlug) {
+  if (isPage(ad)) {
+    return CAMPOS.filter(c => {
+      const regra = CAMPOS_POR_PAGINA[c.key]
+      return !regra || !ad.page_type || regra.includes(ad.page_type)
+    })
+  }
   const objs = objetivosDoContexto(ad, collectionSlug)
   return CAMPOS.filter(c => {
     const regra = CAMPOS_POR_OBJETIVO[c.key]
@@ -113,6 +126,53 @@ const LENTES = {
   ],
 }
 
+// Lentes para páginas, conforme o tipo
+const LENTES_PAGINA = {
+  vendas: [
+    'O que a primeira dobra promete e pra quem? Dá pra entender a oferta sem rolar?',
+    'Em que ordem os blocos aparecem (promessa, problema, solução, prova, oferta, garantia, perguntas, chamada) e por que essa ordem?',
+    'Onde a prova entra e em que formato (depoimento, número, antes e depois, caso)?',
+    'Como o preço é apresentado: ancorado, parcelado, comparado, justificado? O que vem logo antes e logo depois dele?',
+    'Que objeções a página responde e onde (bloco próprio, perguntas frequentes, garantia, dentro do texto)?',
+    'Quantas chamadas pra ação existem, onde ficam e o que o botão diz?',
+    'O que dá segurança pra comprar (garantia, quem é a pessoa, suporte, política)?',
+  ],
+  captura: [
+    'O que a página oferece em troca do contato, e em quantas palavras ela explica o valor disso?',
+    'O que o título promete e qual é o resultado concreto que a pessoa imagina ao ler?',
+    'Quantos campos o formulário pede e o que isso diz sobre o nível de compromisso esperado?',
+    'O que aparece antes do formulário pra convencer, e o que foi deixado de fora de propósito?',
+    'Que sinal de confiança a página dá (quem entrega, pra quantas pessoas já entregou, prova)?',
+    'O que o botão diz, e por que esse texto e não "enviar"?',
+    'O que acontece depois do cadastro, segundo a página (promessa do próximo passo)?',
+  ],
+  obrigado: [
+    'A página confirma o que a pessoa acabou de fazer e diz claramente o próximo passo?',
+    'Que oferta ou pedido extra aparece, e como ela se conecta com o que a pessoa acabou de comprar ou pedir?',
+    'Em que momento a oferta extra entra: antes ou depois da confirmação? Por quê?',
+    'Qual é o argumento pra aceitar agora (condição única, complemento, atalho)?',
+    'Como a página trata quem não quer a oferta extra: tem saída clara?',
+    'Que instruções práticas aparecem (acesso, prazo, grupo, e-mail), e como elas evitam dúvidas no suporte?',
+    'O que a página faz pra pessoa continuar engajada (seguir, entrar no grupo, compartilhar)?',
+  ],
+  servico: [
+    'Em uma frase, a página diz o que faz, pra quem e qual é o resultado? Onde isso aparece?',
+    'Como o serviço é explicado: processo, etapas, o que está incluído, o que não está?',
+    'Que prova de que o serviço funciona aparece (antes e depois, caso, depoimento, número, portfólio)?',
+    'Como a página apresenta quem entrega o serviço, e por que isso importa nesse nicho?',
+    'Como a página lida com preço: mostra, dá faixa, pede contato, explica o que define o valor?',
+    'Qual é a chamada pra ação (agendar, chamar no WhatsApp, pedir orçamento) e quantos cliques até ela?',
+    'Que dúvida comum de quem contrata esse tipo de serviço a página responde antes de a pessoa perguntar?',
+  ],
+}
+
+const ENTREGA_PAGINA = {
+  vendas: { titulo: 'A página de vendas', texto: 'bloco por bloco, na ordem: o título de cada bloco, o texto (curto, do jeito que vai na página) e o que aparece de visual. Inclua os textos dos botões' },
+  captura: { titulo: 'A página de captura', texto: 'título, subtítulo, os 3 a 5 ganhos em tópicos, o texto do botão e a frase de confiança perto do formulário' },
+  obrigado: { titulo: 'A página de obrigado', texto: 'a confirmação, o próximo passo em instruções curtas e, se couber, a oferta extra com o argumento e o botão' },
+  servico: { titulo: 'A página de serviço', texto: 'bloco por bloco: o que é e pra quem, como funciona, prova, quem entrega, preço ou como pedir orçamento, e a chamada pra ação com o texto do botão' },
+}
+
 const LENTE_GERAL = [
   'Qual é a escolha de comunicação que sustenta a peça, e o que ela muda na decisão de quem vê?',
   'Que tensão a peça resolve: uma dúvida, um adiamento, um medo, uma resistência, um conflito entre o que a pessoa quer e o que a peça pede?',
@@ -130,6 +190,7 @@ const ENTREGA_POR_MIDIA = {
 }
 
 export function buildPrompt({ ad, collectionTitle, collectionSlug, ficha }) {
+  if (isPage(ad)) return buildPromptPagina({ ad, ficha })
   // Só a lente da coleção em que a aluna abriu o anúncio (fora de coleção, as tags dele)
   const objetivos = objetivosDoContexto(ad, collectionSlug).filter(o => LENTES[o])
   const nomes = objetivos.map(o => OBJECTIVE_LABELS[o]).join(' e ')
@@ -198,6 +259,63 @@ ${peca.titulo}: ${peca.texto}. Use o melhor gancho.
 Legenda: curta, terminando com a chamada ${destino ? `pro ${destino}` : 'pro destino'}.${!destino ? `\n\nDestino: escolha um (WhatsApp, site, página de vendas, perfil ou direct) e diga por quê em uma linha.${sugestaoDestino ? ` Referência: ${sugestaoDestino}` : ''}` : ''}
 
 Pra confirmar: só se faltar algo que mude a versão (uma prova real, uma condição), me faça até 2 perguntas curtas. Se não faltar nada, pule essa parte.`
+}
+
+// Páginas: a própria página é o destino, então não tem "pra onde leva".
+function buildPromptPagina({ ad, ficha }) {
+  const tipo = ad.page_type
+  const nomeTipo = (PAGE_TYPE_LABELS[tipo] || 'Página').toLowerCase()
+  const nichos = (ad.niches || []).map(n => NICHE_LABELS[n] || n).join(', ')
+  const lentes = [...(LENTES_PAGINA[tipo] || []), ...LENTE_GERAL.slice(3)]
+  const peca = ENTREGA_PAGINA[tipo] || { titulo: 'A página', texto: 'bloco por bloco, na ordem, com o texto de cada um e os textos dos botões' }
+
+  const visiveis = new Set(camposPara(ad).map(c => c.key))
+  const v = k => (CAMPOS.some(c => c.key === k) && !visiveis.has(k) ? '' : (ficha[k] || '').trim())
+  const linhas = [
+    v('vendo') ? `O que eu vendo: ${v('vendo')}` : null,
+    v('tipo') ? `Tipo de negócio: ${v('tipo')}` : null,
+    v('cliente') ? `Pra quem: ${v('cliente')}` : null,
+    v('muda') ? `O que muda pra ela: ${v('muda')}` : null,
+    v('preco') ? `Preço ou condição real: ${v('preco')}` : null,
+    v('prova') ? `Prova real que eu posso usar: ${v('prova')}` : visiveis.has('prova') ? 'Prova real que eu posso usar: nenhuma informada (não invente)' : null,
+    v('objecao') ? `O "mas" que eu mais ouço das clientes: ${v('objecao')}` : null,
+    (v('tons') || v('tomOutro')) ? `Como eu falo: ${[v('tons'), v('tomOutro')].filter(Boolean).join(', ')}` : null,
+  ].filter(Boolean)
+  const meu = linhas.length ? linhas.join('\n') : '(ainda não informei nada)'
+  const faltando = [!v('vendo') ? 'o que eu vendo' : null, !v('cliente') ? 'pra quem' : null].filter(Boolean)
+
+  return `Quero fazer a minha versão de uma página que está no Acervo de Anúncios do AVVA Hub. Me entregue a página pronta pra eu montar, bloco por bloco. Não me explique a análise.
+
+PÁGINA DE REFERÊNCIA
+Título: ${ad.title}
+Tipo: ${nomeTipo}${nichos ? `\nNicho de quem usou: ${nichos}` : ''}
+
+Por que funciona, segundo o Acervo:
+"""
+${(ad.analysis || '').trim()}
+"""
+
+MEU NEGÓCIO
+${meu}
+
+COMO TRABALHAR (isso é pra você, não precisa me mostrar)
+- A minha página tem que repetir o que faz essa página funcionar, segundo a análise: a mesma lógica, os blocos na mesma ordem, com o meu produto, a minha cliente e o meu jeito de falar. Volte na análise a cada bloco.
+- Pra entender o que faz ela funcionar, pense em:
+${lentes.map(l => `  · ${l}`).join('\n')}
+- Não copie frases da página de referência. Não invente prova, número, desconto, prazo, garantia ou história: use só o que está aqui.
+- Escreva como gente fala, sem jargão de marketing e sem travessão. Texto de página é curto: frases que cabem numa linha de celular.
+- Se tiver uma dúvida que muda a página, pode me perguntar, mas de forma direta e curta.${faltando.length ? `\n- Se faltar ${faltando.join(' ou ')}, me pergunte isso primeiro, numa mensagem só, e espere a resposta.` : ''}
+
+O QUE ME ENTREGAR
+Direto, nessa ordem, sem introdução e sem resumo no fim:
+
+Por que funciona: até 2 frases. Por que a página de referência funciona e o que eu vou repetir dela na minha.
+
+3 títulos pra primeira dobra: de até 12 palavras, cada um de um jeito. Marque o melhor.
+
+${peca.titulo}: ${peca.texto}. Use o melhor título.
+
+Pra confirmar: só se faltar algo que mude a página (uma prova real, uma condição, uma garantia), me faça até 2 perguntas curtas. Se não faltar nada, pule essa parte.`
 }
 
 export function linkChatGPT(prompt) {

@@ -7,7 +7,8 @@ import './DriveEmbed.css'
 // - imagem/carrossel: a própria imagem (sem o visualizador cinza do Drive)
 // - vídeo: player do Drive em 9:16, com a miniatura como pôster enquanto carrega
 // - pdf: visualizador em 3:4
-export default function DriveEmbed({ url, title, mediaType = 'video' }) {
+// - page (print de página): a imagem inteira, rolando dentro da moldura 3:4
+export default function DriveEmbed({ url, title, mediaType = 'video', page = false }) {
   const [loaded, setLoaded] = useState(false)
   const [imgFailed, setImgFailed] = useState(false)
   const [ratio, setRatio] = useState(null)
@@ -61,15 +62,41 @@ export default function DriveEmbed({ url, title, mediaType = 'video' }) {
   // toca sem o iframe do Drive (que pede login/cookies no iPhone) e com tela cheia de verdade
   const streamUrl = id ? `/api/video?id=${id}` : null
   const useNative = mediaType === 'video' && streamUrl && !nativeFailed
-  const isImage = (mediaType === 'image' || mediaType === 'carousel') && poster && !imgFailed
+  const isPageImage = page && mediaType === 'image' && poster && !imgFailed
+  const isImage = !isPageImage && (mediaType === 'image' || mediaType === 'carousel') && poster && !imgFailed
   const fallbackRatio = mediaType === 'pdf' ? '3 / 4' : mediaType === 'video' ? '9 / 16' : '4 / 5'
 
   return (
     <div
-      className={`drive-embed drive-embed--${mediaType}${loaded || isImage || (isMobile && poster) ? ' drive-embed--loaded' : ''}`}
-      style={{ '--embed-ratio': ratio || fallbackRatio }}
+      className={`drive-embed drive-embed--${mediaType}${isPageImage ? ' drive-embed--page' : ''}${loaded || isImage || isPageImage || (isMobile && poster) ? ' drive-embed--loaded' : ''}`}
+      style={{ '--embed-ratio': isPageImage ? '3 / 4' : (ratio || fallbackRatio) }}
     >
-      {isImage ? (
+      {isPageImage ? (
+        <>
+          <div className="drive-embed__scroll">
+            <img
+              className="drive-embed__page"
+              src={driveThumb(url, 2400)}
+              alt={title || 'Página'}
+              onError={() => setImgFailed(true)}
+              onClick={() => setZoom(true)}
+            />
+          </div>
+          <button type="button" className="drive-embed__zoom" onClick={() => setZoom(true)} aria-label="Ver em tela cheia" title="Ver em tela cheia">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg>
+          </button>
+          {zoom && createPortal(
+            <div className="drive-lightbox drive-lightbox--page" onClick={() => setZoom(false)} role="dialog" aria-label="Página em tela cheia">
+              <img src={driveThumb(url, 2400)} alt={title || 'Página'} onClick={e => e.stopPropagation()} />
+              <button type="button" className="drive-lightbox__close" onClick={() => setZoom(false)} aria-label="Fechar">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+              </button>
+              <a className="drive-lightbox__open" href={url} target="_blank" rel="noreferrer" onClick={e => e.stopPropagation()}>Abrir no Drive em tamanho real</a>
+            </div>,
+            document.body
+          )}
+        </>
+      ) : isImage ? (
         <>
           <img
             className="drive-embed__img drive-embed__img--zoomable"
