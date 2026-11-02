@@ -24,6 +24,7 @@ with checks (ordem, item, arquivo, ok) as (
   (14, 'ads.page_type',                'supabase-migration-paginas.sql',      exists (select 1 from information_schema.columns where table_schema='public' and table_name='ads' and column_name='page_type')),
   (15, 'collections.cover_url',        'supabase-migration-capas.sql',        exists (select 1 from information_schema.columns where table_schema='public' and table_name='collections' and column_name='cover_url')),
   (16, 'collections.featured',         'supabase-migration-destaque.sql',     exists (select 1 from information_schema.columns where table_schema='public' and table_name='collections' and column_name='featured')),
+  (29, 'collections.kind (tipo da coleção)', 'supabase-migration-tipos-colecao.sql', exists (select 1 from information_schema.columns where table_schema='public' and table_name='collections' and column_name='kind')),
   (17, 'users.cakto_order_id',         'supabase-migration-cakto.sql',        exists (select 1 from information_schema.columns where table_schema='public' and table_name='users' and column_name='cakto_order_id')),
   (18, 'users.access_blocked',         'supabase-migration-cakto.sql',        exists (select 1 from information_schema.columns where table_schema='public' and table_name='users' and column_name='access_blocked')),
   (19, 'users.avatar_url (foto)',      'supabase-migration-foto.sql',         exists (select 1 from information_schema.columns where table_schema='public' and table_name='users' and column_name='avatar_url')),

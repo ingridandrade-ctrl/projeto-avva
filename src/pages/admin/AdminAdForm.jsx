@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { supabase } from '../../lib/supabase'
-import { NICHES, MEDIA_TYPES, OBJECTIVES, PAGE_TYPES, PAGE_MEDIA_TYPES, PAGE_NICHES, PAGES_SLUG } from '../../lib/catalog'
+import { NICHES, MEDIA_TYPES, objectivesFrom, isObjectiveCollection, PAGE_TYPES, PAGE_MEDIA_TYPES, PAGE_NICHES, PAGES_SLUG } from '../../lib/catalog'
 import './AdminAdForm.css'
 
 // kind: 'anuncio' (padrão) ou 'pagina'. Página não tem objetivos nem coleção
@@ -211,7 +211,7 @@ export default function AdminAdForm({ kind = 'anuncio' }) {
               required
             >
               <option value="">Selecione...</option>
-              {collections.map(c => (
+              {collections.filter(c => !isObjectiveCollection(c) && c.slug !== PAGES_SLUG).map(c => (
                 <option key={c.id} value={c.id}>
                   {c.is_bonus ? `Bônus — ${c.title}` : c.title}
                 </option>
@@ -244,7 +244,7 @@ export default function AdminAdForm({ kind = 'anuncio' }) {
         {!ehPagina && <div className="admin-form__field">
           <label>Objetivos (coleções por objetivo — pode marcar vários)</label>
           <div className="admin-form__checks">
-            {OBJECTIVES.map(o => (
+            {objectivesFrom(collections).map(o => (
               <label key={o.value} className={`admin-form__check ${form.objectives.includes(o.value) ? 'admin-form__check--on' : ''}`} title={o.hint}>
                 <input
                   type="checkbox"

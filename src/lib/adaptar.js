@@ -193,7 +193,7 @@ export function buildPrompt({ ad, collectionTitle, collectionSlug, ficha }) {
   if (isPage(ad)) return buildPromptPagina({ ad, ficha })
   // Só a lente da coleção em que a aluna abriu o anúncio (fora de coleção, as tags dele)
   const objetivos = objetivosDoContexto(ad, collectionSlug).filter(o => LENTES[o])
-  const nomes = objetivos.map(o => OBJECTIVE_LABELS[o]).join(' e ')
+  const nomes = objetivos.map(o => OBJECTIVE_LABELS[o] || (collectionSlug === o && collectionTitle) || o.replace(/-/g, ' ')).join(' e ')
   const nichos = (ad.niches || []).map(n => NICHE_LABELS[n] || n).join(', ')
   const midia = (MEDIA_LABELS[ad.media_type] || ad.media_type || 'vídeo').toLowerCase()
   const peca = ENTREGA_POR_MIDIA[ad.media_type] || ENTREGA_POR_MIDIA.video

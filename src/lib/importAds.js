@@ -2,7 +2,7 @@
 // (um bloco por anúncio, separados por "---") e devolve linhas prontas para
 // conferir e cadastrar. Tolerante a maiúsculas, acentos e negrito de markdown.
 
-import { OBJECTIVES, NICHES, MEDIA_TYPES, PAGE_TYPES, PAGE_MEDIA_TYPES, PAGE_NICHES, PAGES_SLUG } from './catalog'
+import { objectivesFrom, isObjectiveCollection, NICHES, MEDIA_TYPES, PAGE_TYPES, PAGE_MEDIA_TYPES, PAGE_NICHES, PAGES_SLUG } from './catalog'
 import { driveId } from './drive'
 
 export const FORMATO_EXEMPLO = `Título: Depoimento que vendeu mais que o anúncio bonito
@@ -84,9 +84,11 @@ const PAGE_EXTRAS = { 'venda': 'vendas', 'vendas': 'vendas', 'sales': 'vendas', 
 const PAGE_MEDIA_EXTRAS = { 'print': 'image', 'imagem': 'image', 'png': 'image', 'jpg': 'image', 'jpeg': 'image', 'foto': 'image', 'pdf': 'pdf' }
 const OBJ_EXTRAS = { 'descoberta': 'ser-descoberta', 'entende': 'mostrar-que-voce-entende', 'autoridade': 'mostrar-que-voce-entende', 'funciona': 'provar-que-funciona', 'prova': 'provar-que-funciona', 'mas': 'quebrar-o-mas', 'objecao': 'quebrar-o-mas', 'vender': 'vender-agora', 'oferta': 'vender-agora' }
 
-function findCollection(value, collections) {
+function findCollection(value, allCollections) {
   const v = norm(value)
   if (!v) return null
+  // Coleção de origem é um mês ou uma especial; objetivo vai em "Objetivos"
+  const collections = allCollections.filter(c => !isObjectiveCollection(c) && c.slug !== PAGES_SLUG)
   return collections.find(c => norm(c.slug) === v || norm(c.title) === v)
     || collections.find(c => norm(c.title).includes(v) || v.includes(norm(c.title)))
     || null
@@ -131,7 +133,7 @@ export function parseImport(text, collections = [], existingByDrive = new Map(),
     const col = ehPagina
       ? (collections.find(c => c.slug === PAGES_SLUG) || null)
       : findCollection(raw.collection, collections)
-    const objectives = ehPagina ? [] : splitList(raw.objectives).map(o => matchOption(o, OBJECTIVES, OBJ_EXTRAS)).filter(Boolean)
+    const objectives = ehPagina ? [] : splitList(raw.objectives).map(o => matchOption(o, objectivesFrom(collections), OBJ_EXTRAS)).filter(Boolean)
     const niches = [...new Set(splitList(raw.niches).map(n => matchOption(n, ehPagina ? PAGE_NICHES : NICHES, NICHE_EXTRAS)).filter(Boolean))].filter(n => !ehPagina || n !== 'ecommerce')
     const media_type = ehPagina
       ? (matchOption(raw.media, PAGE_MEDIA_TYPES, PAGE_MEDIA_EXTRAS) || (raw.media ? null : 'image'))

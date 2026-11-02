@@ -74,10 +74,10 @@ export default function ProductPage() {
 
   if (!product || slug === 'kit-execucao') return null
 
-  const fixas = (collections || []).filter(c => getCollectionStyle(c.slug).kind === 'fixa')
+  const fixas = (collections || []).filter(c => getCollectionStyle(c).kind === 'fixa')
   // Melhores do mês num bloco; Especiais (Especial Black, Páginas…) em outro
-  const melhores = (collections || []).filter(c => getCollectionStyle(c.slug).kind === 'melhores')
-  const especiais = (collections || []).filter(c => !['fixa', 'melhores'].includes(getCollectionStyle(c.slug).kind))
+  const melhores = (collections || []).filter(c => getCollectionStyle(c).kind === 'melhores')
+  const especiais = (collections || []).filter(c => !['fixa', 'melhores'].includes(getCollectionStyle(c).kind))
   const totalAnuncios = ads.filter(a => !isPage(a)).length
   const totalPaginas = ads.length - totalAnuncios
   const colTitle = ad => colById[ad.collection_id]?.title
@@ -91,8 +91,8 @@ export default function ProductPage() {
   }
 
   function renderCard(col, index) {
-    const style = getCollectionStyle(col.slug)
-    const kicker = collectionKindLabel(col)
+    const style = getCollectionStyle(col)
+    const kicker = collectionKindLabel(col, collections)
     return (
       <PhoneCard
         key={col.id}
@@ -102,7 +102,7 @@ export default function ProductPage() {
         subtitle={col.subtitle || getCollection(col.slug)?.subtitle || ''}
         kicker={kicker}
         fallbackGradient={style.gradient}
-        fallbackLabel={col.is_bonus ? '★' : style.kind === 'fixa' ? String(col.order).padStart(2, '0') : ''}
+        fallbackLabel={col.is_bonus ? '★' : style.kind === 'fixa' ? kicker.replace('Coleção ', '') : ''}
         textBelow
         className="module-card"
         style={{ animationDelay: `${index * 0.06}s` }}

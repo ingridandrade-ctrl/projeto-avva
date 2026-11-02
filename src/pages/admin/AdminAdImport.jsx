@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { supabase } from '../../lib/supabase'
-import { OBJECTIVE_LABELS, NICHE_LABELS, MEDIA_LABELS, PAGE_TYPE_LABELS } from '../../lib/catalog'
+import { objectiveLabelsFrom, NICHE_LABELS, MEDIA_LABELS, PAGE_TYPE_LABELS } from '../../lib/catalog'
 import { driveId } from '../../lib/drive'
 import { parseImport, toRow, FORMATO_EXEMPLO, FORMATO_EXEMPLO_PAGINA } from '../../lib/importAds'
 import CopyButton from '../../components/ui/CopyButton'
@@ -28,7 +28,7 @@ export default function AdminAdImport({ kind = 'anuncio' }) {
   useEffect(() => {
     Promise.resolve().then(async () => {
       const [{ data: cols }, { data: ads }] = await Promise.all([
-        supabase.from('collections').select('id, slug, title').order('order'),
+        supabase.from('collections').select('id, slug, title, subtitle, kind').order('order'),
         supabase.from('ads').select('id, title, drive_url'),
       ])
       setCollections(cols || [])
@@ -44,6 +44,7 @@ export default function AdminAdImport({ kind = 'anuncio' }) {
     el.style.height = `${Math.max(240, el.scrollHeight + 4)}px`
   }, [text])
 
+  const OBJECTIVE_LABELS = objectiveLabelsFrom(collections)
   const ok = useMemo(() => (rows || []).filter(r => !r.errors.length), [rows])
   const bad = useMemo(() => (rows || []).filter(r => r.errors.length), [rows])
   const novos = useMemo(() => ok.filter(r => !r.existing), [ok])

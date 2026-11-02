@@ -60,13 +60,26 @@ export const OBJECTIVES = FIXED_COLLECTIONS
 
 export const OBJECTIVE_LABELS = Object.fromEntries(OBJECTIVES.map(o => [o.value, o.label]))
 
+// Coleções por objetivo que existem no banco (as 5 fixas + as criadas pelo
+// admin). Sem a coluna "kind" (migração não rodada), vale a lista fixa.
+export function objectivesFrom(collections = []) {
+  const doBanco = collections.filter(c => c.kind === 'objetivo')
+  if (!doBanco.length) return OBJECTIVES
+  return doBanco.map(c => ({ value: c.slug, label: c.title, hint: c.subtitle || '' }))
+}
+
+export function objectiveLabelsFrom(collections = []) {
+  return Object.fromEntries(objectivesFrom(collections).map(o => [o.value, o.label]))
+}
+
+export const isObjectiveCollection = (col) => Boolean(col) && (col.kind === 'objetivo' || (!col.kind && OBJECTIVES.some(o => o.value === col.slug)))
+
 // Um anúncio pertence a uma coleção por objetivo pela tag; às coleções
 // extras (melhores do mês, especiais) pela coleção "de origem".
 export function belongsTo(ad, col) {
   if (!ad || !col) return false
   if (ad.collection_id === col.id) return true
-  const isObjective = OBJECTIVES.some(o => o.value === col.slug)
-  return isObjective && (ad.objectives || []).includes(col.slug)
+  return isObjectiveCollection(col) && (ad.objectives || []).includes(col.slug)
 }
 
 export function getCollection(slug) {
@@ -84,8 +97,29 @@ const MELHORES_GRADIENTS = [
   'linear-gradient(135deg, #B97A4E 0%, #D4B99A 50%, #3F7A66 100%)',
 ]
 
-export function getCollectionStyle(slug = '') {
+const OBJETIVO_GRADIENTS = [
+  'linear-gradient(135deg, #1A6868 0%, #3F7A66 100%)',
+  'linear-gradient(135deg, #2C6B5A 0%, #7FA588 100%)',
+  'linear-gradient(135deg, #1A6868 0%, #B97A4E 100%)',
+  'linear-gradient(135deg, #8A5C3F 0%, #C98A5E 100%)',
+  'linear-gradient(135deg, #965E41 0%, #C98A5E 60%, #D4B99A 100%)',
+  'linear-gradient(135deg, #0C4747 0%, #7FA588 100%)',
+]
+
+const hashOf = (s = '') => { let h = 0; for (const ch of s) h = (h * 31 + ch.charCodeAt(0)) % 997; return h }
+
+// Aceita o slug (texto) ou a coleção inteira. Com a coleção, o tipo vem da
+// coluna "kind" do banco; sem ela, do slug (coleções antigas).
+export function getCollectionStyle(colOrSlug = '') {
+  const col = typeof colOrSlug === 'object' && colOrSlug ? colOrSlug : null
+  const slug = col ? (col.slug || '') : (colOrSlug || '')
   const fixed = getCollection(slug)
+  if (col?.kind) {
+    if (col.kind === 'objetivo') return { gradient: fixed?.gradient || OBJETIVO_GRADIENTS[hashOf(slug) % OBJETIVO_GRADIENTS.length], kind: 'fixa' }
+    if (col.kind === 'mes') return { gradient: MELHORES_GRADIENTS[hashOf(slug) % MELHORES_GRADIENTS.length], kind: 'melhores' }
+    if (col.kind === 'paginas') return { gradient: 'linear-gradient(135deg, #2E211B 0%, #0C4747 55%, #3F7A66 100%)', kind: 'paginas' }
+    return { gradient: fixed?.gradient || 'linear-gradient(135deg, #2E211B 0%, #4C362D 45%, #965E41 100%)', kind: 'especial' }
+  }
   if (fixed) return { gradient: fixed.gradient, kind: 'fixa' }
   if (slug === PAGES_SLUG) {
     return { gradient: 'linear-gradient(135deg, #2E211B 0%, #0C4747 55%, #3F7A66 100%)', kind: 'paginas' }
@@ -94,9 +128,7 @@ export function getCollectionStyle(slug = '') {
     return { gradient: 'linear-gradient(135deg, #2E211B 0%, #4C362D 45%, #965E41 100%)', kind: 'especial' }
   }
   if (slug.startsWith('melhores-')) {
-    let h = 0
-    for (const ch of slug) h = (h * 31 + ch.charCodeAt(0)) % 997
-    return { gradient: MELHORES_GRADIENTS[h % MELHORES_GRADIENTS.length], kind: 'melhores' }
+    return { gradient: MELHORES_GRADIENTS[hashOf(slug) % MELHORES_GRADIENTS.length], kind: 'melhores' }
   }
   return { gradient: 'linear-gradient(135deg, #1A6868 0%, #3F7A66 100%)', kind: 'outra' }
 }
@@ -154,11 +186,17 @@ export const MEDIA_TYPES = [
 export const MEDIA_LABELS = Object.fromEntries(MEDIA_TYPES.map(m => [m.value, m.label]))
 
 // Etiqueta da coleção nos cards e cabeçalhos ("Coleção 01", "Melhores do mês"…)
-export function collectionKindLabel(col) {
+// Passe a lista de coleções pra numerar pela posição (Coleção 01, 02…) e
+// não pelo número de ordem bruto do banco.
+export function collectionKindLabel(col, collections = null) {
   if (!col) return ''
   if (col.is_bonus) return 'Bônus'
-  const kind = getCollectionStyle(col.slug).kind
-  if (kind === 'fixa') return `Coleção ${String(col.order).padStart(2, '0')}`
+  const kind = getCollectionStyle(col).kind
+  if (kind === 'fixa') {
+    const objetivos = collections ? collections.filter(c => getCollectionStyle(c).kind === 'fixa').sort((a, b) => a.order - b.order) : null
+    const pos = objetivos ? objetivos.findIndex(c => c.id === col.id) + 1 : col.order
+    return `Coleção ${String(pos || col.order).padStart(2, '0')}`
+  }
   if (kind === 'melhores') return 'Melhores do mês'
   if (kind === 'paginas') return 'Páginas'
   return 'Especial'

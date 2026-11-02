@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import { Link, useNavigate, useSearchParams } from 'react-router-dom'
 import { supabase } from '../../lib/supabase'
-import { NICHE_LABELS, MEDIA_LABELS, OBJECTIVE_LABELS, NICHES, MEDIA_TYPES, PAGE_TYPES, PAGE_TYPE_LABELS, PAGE_MEDIA_TYPES, PAGE_NICHES, PAGES_SLUG, getCollectionStyle, belongsTo, collectionKindLabel } from '../../lib/catalog'
+import { NICHE_LABELS, MEDIA_LABELS, objectiveLabelsFrom, NICHES, MEDIA_TYPES, PAGE_TYPES, PAGE_TYPE_LABELS, PAGE_MEDIA_TYPES, PAGE_NICHES, PAGES_SLUG, getCollectionStyle, belongsTo, collectionKindLabel } from '../../lib/catalog'
 import { driveThumb, driveId } from '../../lib/drive'
 import Tag from '../../components/ui/Tag'
 import './AdminAdsList.css'
@@ -20,7 +20,6 @@ function CoverCheck({ ad }) {
   )
 }
 
-const kindLabel = (col) => collectionKindLabel(col)
 
 // kind: 'anuncio' (padrão) ou 'pagina'. As páginas moram na coleção "paginas",
 // têm tipo de página em vez de objetivos e chegam como print ou PDF.
@@ -33,6 +32,7 @@ export default function AdminAdsList({ kind = 'anuncio' }) {
   const [params] = useSearchParams()
   const [ads, setAds] = useState([])
   const [collections, setCollections] = useState([])
+  const [todasColecoes, setTodasColecoes] = useState([])
   // Filtros lembrados entre idas e vindas (editar um anúncio e voltar)
   const lembrados = (() => {
     try { return JSON.parse(sessionStorage.getItem(chaveFiltros) || '{}') } catch { return {} }
@@ -64,6 +64,7 @@ export default function AdminAdsList({ kind = 'anuncio' }) {
       supabase.from('ads').select('*, collections(title, slug)').eq('kind', kind).order('created_at', { ascending: false }),
     ])
     // Páginas: só a coleção delas entra nos filtros; anúncios: todas as outras
+    setTodasColecoes(cols || [])
     setCollections((cols || []).filter(c => ehPagina ? c.slug === PAGES_SLUG : c.slug !== PAGES_SLUG))
     setAds(adsData || [])
     setLoading(false)
@@ -201,6 +202,8 @@ export default function AdminAdsList({ kind = 'anuncio' }) {
     return out
   }, [ads, collections])
 
+  const OBJECTIVE_LABELS = objectiveLabelsFrom(todasColecoes)
+  const kindLabel = (col) => collectionKindLabel(col, todasColecoes)
   const term = search.trim().toLowerCase()
   const visible = ads.filter(a => {
     if (onlyDups && !dupInfo[a.id]) return false
@@ -406,7 +409,7 @@ export default function AdminAdsList({ kind = 'anuncio' }) {
               <>
                 <select className="admin-select" value={bulkCol} onChange={e => setBulkCol(e.target.value)}>
                   <option value="">Coleção do mês / especial: nenhuma</option>
-                  {collections.filter(c => getCollectionStyle(c.slug).kind !== 'fixa').map(c => <option key={c.id} value={c.id}>{c.title}</option>)}
+                  {collections.filter(c => getCollectionStyle(c).kind !== 'fixa').map(c => <option key={c.id} value={c.id}>{c.title}</option>)}
                 </select>
                 <button type="button" className="adm-btn adm-btn--secondary adm-btn--sm" disabled={bulkBusy} onClick={bulkCollection}>Aplicar coleção</button>
                 <span className="admin-ads__bulk-sep" />
@@ -448,14 +451,14 @@ export default function AdminAdsList({ kind = 'anuncio' }) {
             {groups.map(({ col, items }) => (
               <section key={col ? col.id : 'sem'} className={`admin-ads__group ${items.length === 0 ? 'is-empty' : ''}`}>
                 <header className="admin-ads__group-head">
-                  <span className="admin-ads__group-swatch" style={{ background: col ? getCollectionStyle(col.slug).gradient : 'rgba(76, 54, 45, 0.15)' }} />
+                  <span className="admin-ads__group-swatch" style={{ background: col ? getCollectionStyle(col).gradient : 'rgba(76, 54, 45, 0.15)' }} />
                   <div>
                     <span className="adm-eyebrow">{col ? kindLabel(col) : 'Fora das coleções'}</span>
                     <h2>{col ? col.title : 'Sem coleção'}</h2>
                   </div>
                   <span className="admin-ads__group-count">{items.length} {items.length === 1 ? 'anúncio' : 'anúncios'}</span>
                 </header>
-                {items.length ? table(items) : <p className="admin-ads__group-empty">Nenhum anúncio aqui{col && getCollectionStyle(col.slug).kind === 'fixa' ? '. Marque o objetivo no anúncio pra ele entrar.' : '.'}</p>}
+                {items.length ? table(items) : <p className="admin-ads__group-empty">Nenhum anúncio aqui{col && getCollectionStyle(col).kind === 'fixa' ? '. Marque o objetivo no anúncio pra ele entrar.' : '.'}</p>}
               </section>
             ))}
           </div>

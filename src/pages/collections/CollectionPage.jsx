@@ -4,7 +4,7 @@ import { supabase } from '../../lib/supabase'
 import { useFavorites } from '../../hooks/useFavorites'
 import { useTitle } from '../../hooks/useTitle'
 import { useActivity } from '../../hooks/useActivity'
-import { getCollectionStyle, OBJECTIVES, collectionKindLabel, PAGES_SLUG } from '../../lib/catalog'
+import { getCollectionStyle, isObjectiveCollection, collectionKindLabel, PAGES_SLUG } from '../../lib/catalog'
 import { collectionCover } from '../../lib/drive'
 import AdCard from '../../components/ads/AdCard'
 import AdModal from '../../components/ads/AdModal'
@@ -47,7 +47,7 @@ export default function CollectionPage() {
       setCollection(col)
 
       if (col) {
-        const isObjective = OBJECTIVES.some(o => o.value === col.slug)
+        const isObjective = isObjectiveCollection(col)
         let q = supabase.from('ads').select('*').eq('active', true).order('created_at')
         q = isObjective
           ? q.or(`collection_id.eq.${col.id},objectives.cs.{${col.slug}}`)
@@ -78,10 +78,10 @@ export default function CollectionPage() {
     return <div className="collection-page__loading"><div className="collection-page__loading-spinner" /></div>
   }
 
-  const style = getCollectionStyle(collection.slug)
+  const style = getCollectionStyle(collection)
   const idx = allCollections.findIndex(c => c.id === collection.id)
   const next = allCollections[idx + 1]
-  const label = collectionKindLabel(collection)
+  const label = collectionKindLabel(collection, allCollections)
   const ehPaginas = collection.slug === PAGES_SLUG
   const unidade = (n) => ehPaginas ? (n === 1 ? 'página' : 'páginas') : (n === 1 ? 'anúncio' : 'anúncios')
 
@@ -104,7 +104,7 @@ export default function CollectionPage() {
             image={cover}
             title={collection.title}
             fallbackGradient={style.gradient}
-            fallbackLabel={collection.is_bonus ? '★' : style.kind === 'fixa' ? String(collection.order).padStart(2, '0') : ''}
+            fallbackLabel={collection.is_bonus ? '★' : style.kind === 'fixa' ? label.replace('Coleção ', '') : ''}
             className="collection-page__phone"
           />
         </div>
@@ -197,7 +197,7 @@ export default function CollectionPage() {
       {next && (
         <div className="collection-page__nav">
           <Link to={`/colecao/${next.slug}`} className="collection-page__next">
-            <span className="collection-page__next-thumb" style={{ background: getCollectionStyle(next.slug).gradient }}>
+            <span className="collection-page__next-thumb" style={{ background: getCollectionStyle(next).gradient }}>
               {collectionCover(next, allAds, 300) && <img src={collectionCover(next, allAds, 300)} alt="" loading="lazy" />}
             </span>
             <span>
