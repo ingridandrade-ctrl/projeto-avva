@@ -15,3 +15,15 @@
 .admin-ad-form__back:hover {
   color: var(--a-accent);
 }
+
+.admin-form__linkbtn {
+  padding: 0;
+  border: none;
+  background: none;
+  color: var(--terracotta, #965E41);
+  font: inherit;
+  font-weight: 600;
+  text-decoration: underline;
+  cursor: pointer;
+}
+.admin-form__linkbtn:disabled { opacity: 0.6; cursor: wait; }
