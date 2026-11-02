@@ -2,7 +2,7 @@
 // (um bloco por anúncio, separados por "---") e devolve linhas prontas para
 // conferir e cadastrar. Tolerante a maiúsculas, acentos e negrito de markdown.
 
-import { OBJECTIVES, NICHES, MEDIA_TYPES, PAGE_TYPES, PAGE_MEDIA_TYPES, PAGES_SLUG } from './catalog'
+import { OBJECTIVES, NICHES, MEDIA_TYPES, PAGE_TYPES, PAGE_MEDIA_TYPES, PAGE_NICHES, PAGES_SLUG } from './catalog'
 import { driveId } from './drive'
 
 export const FORMATO_EXEMPLO = `Título: Depoimento que vendeu mais que o anúncio bonito
@@ -80,7 +80,7 @@ function matchOption(value, options, extras = {}) {
 
 const NICHE_EXTRAS = { 'servico': 'servico', 'prestacao de servico': 'servico', 'local': 'negocio-local', 'negocio local': 'negocio-local', 'e-commerce': 'ecommerce', 'ecommerce': 'ecommerce', 'loja online': 'ecommerce', 'info': 'infoproduto' }
 const MEDIA_EXTRAS = { 'video': 'video', 'reels': 'video', 'imagem': 'image', 'estatico': 'image', 'estatica': 'image', 'foto': 'image', 'carrossel': 'carousel', 'carousel': 'carousel', 'pdf': 'pdf', 'pagina': 'pdf', 'landing': 'pdf' }
-const PAGE_EXTRAS = { 'venda': 'vendas', 'vendas': 'vendas', 'sales': 'vendas', 'captura': 'captura', 'lead': 'captura', 'isca': 'captura', 'obrigado': 'obrigado', 'upsell': 'obrigado', 'thank': 'obrigado', 'servico': 'servico', 'agendamento': 'servico', 'orcamento': 'servico' }
+const PAGE_EXTRAS = { 'venda': 'vendas', 'vendas': 'vendas', 'sales': 'vendas', 'captura': 'captura', 'lead': 'captura', 'isca': 'captura', 'obrigado': 'obrigado', 'upsell': 'vendas', 'thank': 'obrigado', 'servico': 'servico', 'agendamento': 'servico', 'orcamento': 'servico' }
 const PAGE_MEDIA_EXTRAS = { 'print': 'image', 'imagem': 'image', 'png': 'image', 'jpg': 'image', 'jpeg': 'image', 'foto': 'image', 'pdf': 'pdf' }
 const OBJ_EXTRAS = { 'descoberta': 'ser-descoberta', 'entende': 'mostrar-que-voce-entende', 'autoridade': 'mostrar-que-voce-entende', 'funciona': 'provar-que-funciona', 'prova': 'provar-que-funciona', 'mas': 'quebrar-o-mas', 'objecao': 'quebrar-o-mas', 'vender': 'vender-agora', 'oferta': 'vender-agora' }
 
@@ -132,7 +132,7 @@ export function parseImport(text, collections = [], existingByDrive = new Map(),
       ? (collections.find(c => c.slug === PAGES_SLUG) || null)
       : findCollection(raw.collection, collections)
     const objectives = ehPagina ? [] : splitList(raw.objectives).map(o => matchOption(o, OBJECTIVES, OBJ_EXTRAS)).filter(Boolean)
-    const niches = [...new Set(splitList(raw.niches).map(n => matchOption(n, NICHES, NICHE_EXTRAS)).filter(Boolean))]
+    const niches = [...new Set(splitList(raw.niches).map(n => matchOption(n, ehPagina ? PAGE_NICHES : NICHES, NICHE_EXTRAS)).filter(Boolean))].filter(n => !ehPagina || n !== 'ecommerce')
     const media_type = ehPagina
       ? (matchOption(raw.media, PAGE_MEDIA_TYPES, PAGE_MEDIA_EXTRAS) || (raw.media ? null : 'image'))
       : (matchOption(raw.media, MEDIA_TYPES, MEDIA_EXTRAS) || (raw.media ? null : 'video'))

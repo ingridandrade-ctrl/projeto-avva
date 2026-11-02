@@ -117,13 +117,16 @@ export const NICHE_LABELS = Object.fromEntries(NICHES.map(n => [n.value, n.label
 export const PAGES_SLUG = 'paginas'
 
 export const PAGE_TYPES = [
-  { value: 'vendas', label: 'Página de vendas', hint: 'Apresenta a oferta e fecha a venda' },
+  { value: 'vendas', label: 'Página de vendas', hint: 'Apresenta a oferta e fecha a venda (inclui upsell)' },
   { value: 'captura', label: 'Página de captura', hint: 'Troca um material ou acesso pelo contato' },
-  { value: 'obrigado', label: 'Obrigado / upsell', hint: 'Depois da compra ou do cadastro: próximo passo ou oferta extra' },
+  { value: 'obrigado', label: 'Página de obrigado', hint: 'Depois da compra ou do cadastro: confirma e dá o próximo passo' },
   { value: 'servico', label: 'Página de serviço', hint: 'Apresenta o serviço e leva pro contato ou agendamento' },
 ]
 
 export const PAGE_TYPE_LABELS = Object.fromEntries(PAGE_TYPES.map(t => [t.value, t.label]))
+
+// Nichos que valem pra página (sem e-commerce)
+export const PAGE_NICHES = NICHES.filter(n => n.value !== 'ecommerce')
 
 // Formatos em que uma página chega (print longo ou PDF)
 export const PAGE_MEDIA_TYPES = [

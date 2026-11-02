@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import { Link, useNavigate, useSearchParams } from 'react-router-dom'
 import { supabase } from '../../lib/supabase'
-import { NICHE_LABELS, MEDIA_LABELS, OBJECTIVE_LABELS, NICHES, MEDIA_TYPES, PAGE_TYPES, PAGE_TYPE_LABELS, PAGE_MEDIA_TYPES, PAGES_SLUG, getCollectionStyle, belongsTo, collectionKindLabel } from '../../lib/catalog'
+import { NICHE_LABELS, MEDIA_LABELS, OBJECTIVE_LABELS, NICHES, MEDIA_TYPES, PAGE_TYPES, PAGE_TYPE_LABELS, PAGE_MEDIA_TYPES, PAGE_NICHES, PAGES_SLUG, getCollectionStyle, belongsTo, collectionKindLabel } from '../../lib/catalog'
 import { driveThumb, driveId } from '../../lib/drive'
 import Tag from '../../components/ui/Tag'
 import './AdminAdsList.css'
@@ -357,7 +357,7 @@ export default function AdminAdsList({ kind = 'anuncio' }) {
         )}
         <select value={niche} onChange={e => setNiche(e.target.value)} className="admin-select">
           <option value="">Todos os nichos</option>
-          {NICHES.map(n => <option key={n.value} value={n.value}>{n.label}</option>)}
+          {(ehPagina ? PAGE_NICHES : NICHES).map(n => <option key={n.value} value={n.value}>{n.label}</option>)}
         </select>
         <select value={media} onChange={e => setMedia(e.target.value)} className="admin-select">
           <option value="">{ehPagina ? 'Todo formato' : 'Toda mídia'}</option>
@@ -421,7 +421,7 @@ export default function AdminAdsList({ kind = 'anuncio' }) {
             <span className="admin-ads__bulk-sep" />
             <select className="admin-select" value={bulkNiche} onChange={e => setBulkNiche(e.target.value)}>
               <option value="">Nicho…</option>
-              {NICHES.map(n => <option key={n.value} value={n.value}>{n.label}</option>)}
+              {(ehPagina ? PAGE_NICHES : NICHES).map(n => <option key={n.value} value={n.value}>{n.label}</option>)}
             </select>
             <button type="button" className="adm-btn adm-btn--secondary adm-btn--sm" disabled={bulkBusy || !bulkNiche} onClick={() => bulkTag('niches', bulkNiche, true)}>+ Adicionar</button>
             <button type="button" className="adm-btn adm-btn--ghost adm-btn--sm" disabled={bulkBusy || !bulkNiche} onClick={() => bulkTag('niches', bulkNiche, false)}>Remover</button>
