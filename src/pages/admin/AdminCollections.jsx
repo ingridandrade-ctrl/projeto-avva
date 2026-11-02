@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { supabase } from '../../lib/supabase'
 import { getCollectionStyle, getCollection, belongsTo, collectionKindLabel } from '../../lib/catalog'
 import { collectionCover } from '../../lib/drive'
@@ -23,6 +23,60 @@ export default function AdminCollections() {
   const [createFb, setCreateFb] = useState(null)
   const fileInputs = useRef({})
   const [otimizando, setOtimizando] = useState(null) // null | { feitas, total } | { fim: msg }
+  const [dragId, setDragId] = useState(null)   // coleção sendo arrastada
+  const [overId, setOverId] = useState(null)   // coleção embaixo do cursor
+  const [ordenando, setOrdenando] = useState(false)
+  const [ordemFb, setOrdemFb] = useState(null)
+
+  // Grupos: a ordem só pode ser trocada dentro do mesmo grupo. "Melhores do
+  // mês" fica na ordem do calendário e não entra.
+  const grupos = useMemo(() => {
+    const cols = collections || []
+    const kindOf = c => getCollectionStyle(c.slug).kind
+    return [
+      { key: 'fixa', titulo: 'Coleções por objetivo', dica: 'Arraste pra trocar a ordem. A numeração (Coleção 01, 02…) segue a ordem.', itens: cols.filter(c => kindOf(c) === 'fixa'), arrastavel: true },
+      { key: 'melhores', titulo: 'Melhores do mês', dica: 'Ficam na ordem do calendário.', itens: cols.filter(c => kindOf(c) === 'melhores'), arrastavel: false },
+      { key: 'especiais', titulo: 'Especiais e Páginas', dica: 'Arraste pra trocar a ordem.', itens: cols.filter(c => !['fixa', 'melhores'].includes(kindOf(c))), arrastavel: true },
+    ].filter(g => g.itens.length)
+  }, [collections])
+
+  // Move uma coleção pra posição de outra dentro do grupo e regrava os
+  // números de ordem do grupo (os mesmos números, só redistribuídos).
+  async function mover(grupo, fromId, toId) {
+    if (!fromId || !toId || fromId === toId) return
+    const itens = [...grupo.itens]
+    const from = itens.findIndex(c => c.id === fromId)
+    const to = itens.findIndex(c => c.id === toId)
+    if (from < 0 || to < 0) return
+    const [item] = itens.splice(from, 1)
+    itens.splice(to, 0, item)
+    const numeros = grupo.itens.map(c => c.order).sort((a, b) => a - b)
+    const novos = itens.map((c, i) => ({ id: c.id, order: numeros[i] }))
+    // Mostra a nova ordem na hora
+    setCollections(cs => cs.map(c => { const n = novos.find(x => x.id === c.id); return n ? { ...c, order: n.order } : c }).sort((a, b) => a.order - b.order))
+    setOrdenando(true)
+    setOrdemFb(null)
+    for (const n of novos) {
+      const atual = grupo.itens.find(c => c.id === n.id)
+      if (atual.order === n.order) continue
+      const { error } = await supabase.from('collections').update({ order: n.order }).eq('id', n.id)
+      if (error) {
+        setOrdenando(false)
+        setOrdemFb({ type: 'error', msg: /policy|permission|row-level/i.test(error.message) ? 'Sem permissão pra reordenar: rode o arquivo supabase-migration-capas.sql no Supabase.' : error.message })
+        load()
+        return
+      }
+    }
+    setOrdenando(false)
+    setOrdemFb({ type: 'ok', msg: 'Ordem salva! As alunas já veem a mudança.' })
+    load()
+  }
+
+  function moverPasso(grupo, col, delta) {
+    const i = grupo.itens.findIndex(c => c.id === col.id)
+    const alvo = grupo.itens[i + delta]
+    if (alvo) mover(grupo, col.id, alvo.id)
+  }
 
   async function load() {
     const [{ data: cols }, { data: adsData }] = await Promise.all([
@@ -301,15 +355,48 @@ export default function AdminCollections() {
         <div className="adm-card"><p className="adm-empty">Carregando…</p></div>
       ) : (
         <div className="admin-collections__list">
-          {collections.map(col => {
+          {ordemFb && <span className={`admin-collection__fb admin-collection__fb--${ordemFb.type}`}>{ordemFb.msg}</span>}
+          {grupos.map(grupo => (
+          <section key={grupo.key} className="admin-collections__grupo">
+            <header className="admin-collections__grupo-head">
+              <h2>{grupo.titulo}</h2>
+              <span>{grupo.dica}</span>
+            </header>
+          {grupo.itens.map((col, idx) => {
             const d = drafts[col.id] || {}
             const style = getCollectionStyle(col.slug)
             const preview = { ...col, cover_url: d.cover_url || null }
             const n = ads.filter(a => belongsTo(a, col)).length
             const fb = feedback[col.id]
             const kind = collectionKindLabel(col)
+            const arrastando = dragId === col.id
+            const emCima = overId === col.id && dragId && dragId !== col.id
             return (
-              <div key={col.id} className="adm-card admin-collection">
+              <div
+                key={col.id}
+                className={`adm-card admin-collection ${arrastando ? 'is-dragging' : ''} ${emCima ? 'is-dragover' : ''}`}
+                draggable={grupo.arrastavel && dragId === col.id}
+                onDragStart={e => { e.dataTransfer.effectAllowed = 'move'; e.dataTransfer.setData('text/plain', col.id) }}
+                onDragOver={e => { if (grupo.arrastavel && dragId && grupo.itens.some(c => c.id === dragId)) { e.preventDefault(); setOverId(col.id) } }}
+                onDragLeave={() => setOverId(o => (o === col.id ? null : o))}
+                onDrop={e => { e.preventDefault(); const from = dragId || e.dataTransfer.getData('text/plain'); setDragId(null); setOverId(null); mover(grupo, from, col.id) }}
+                onDragEnd={() => { setDragId(null); setOverId(null) }}
+              >
+                {grupo.arrastavel && (
+                  <div className="admin-collection__ordem">
+                    <button
+                      type="button"
+                      className="admin-collection__alca"
+                      title="Arraste pra mudar a ordem"
+                      aria-label="Arrastar"
+                      onMouseDown={() => setDragId(col.id)}
+                      onMouseUp={() => { if (!overId) setDragId(null) }}
+                    >⋮⋮</button>
+                    <span className="admin-collection__pos">{String(idx + 1).padStart(2, '0')}</span>
+                    <button type="button" className="admin-collection__seta" disabled={ordenando || idx === 0} onClick={() => moverPasso(grupo, col, -1)} aria-label="Subir" title="Subir">▲</button>
+                    <button type="button" className="admin-collection__seta" disabled={ordenando || idx === grupo.itens.length - 1} onClick={() => moverPasso(grupo, col, 1)} aria-label="Descer" title="Descer">▼</button>
+                  </div>
+                )}
                 <div className="admin-collection__preview">
                   <PhoneCard
                     image={collectionCover(preview, ads, 600)}
@@ -420,6 +507,8 @@ export default function AdminCollections() {
               </div>
             )
           })}
+          </section>
+          ))}
         </div>
       )}
     </div>
