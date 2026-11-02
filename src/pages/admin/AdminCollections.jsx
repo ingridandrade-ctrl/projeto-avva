@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { supabase } from '../../lib/supabase'
-import { getCollectionStyle, getCollection, belongsTo, collectionKindLabel } from '../../lib/catalog'
+import { getCollectionStyle, getCollection, belongsTo, collectionKindLabel, PAGES_SLUG } from '../../lib/catalog'
 import { collectionCover } from '../../lib/drive'
 import PhoneCard from '../../components/ui/PhoneCard'
 import { comprimirImagem, extensao } from '../../lib/imagem'
@@ -21,6 +21,9 @@ export default function AdminCollections() {
     return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`
   })
   const [createFb, setCreateFb] = useState(null)
+  const [novoTipo, setNovoTipo] = useState('mes') // mes | objetivo | especial
+  const [novoTitulo, setNovoTitulo] = useState('')
+  const [novoSub, setNovoSub] = useState('')
   const fileInputs = useRef({})
   const [otimizando, setOtimizando] = useState(null) // null | { feitas, total } | { fim: msg }
   const [dragId, setDragId] = useState(null)   // coleção sendo arrastada
@@ -32,7 +35,7 @@ export default function AdminCollections() {
   // mês" fica na ordem do calendário e não entra.
   const grupos = useMemo(() => {
     const cols = collections || []
-    const kindOf = c => getCollectionStyle(c.slug).kind
+    const kindOf = c => getCollectionStyle(c).kind
     return [
       { key: 'fixa', titulo: 'Coleções por objetivo', dica: 'Arraste pra trocar a ordem. A numeração (Coleção 01, 02…) segue a ordem.', itens: cols.filter(c => kindOf(c) === 'fixa'), arrastavel: true },
       { key: 'melhores', titulo: 'Melhores do mês', dica: 'Ficam na ordem do calendário.', itens: cols.filter(c => kindOf(c) === 'melhores'), arrastavel: false },
@@ -95,6 +98,50 @@ export default function AdminCollections() {
     setFeedback(f => ({ ...f, [id]: null }))
   }
 
+  // Insere a coleção com o tipo (kind). Se a coluna ainda não existe no
+  // banco (migração não rodada), tenta sem ela: os meses e os especiais
+  // funcionam pelo slug mesmo.
+  async function inserirColecao(row) {
+    let { error } = await supabase.from('collections').insert(row)
+    if (error && /kind/i.test(error.message) && row.kind !== 'objetivo') {
+      const { kind, ...semKind } = row // eslint-disable-line no-unused-vars
+      ;({ error } = await supabase.from('collections').insert(semKind))
+    }
+    return error
+  }
+
+  const slugify = (t) => t.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '')
+
+  // Coleção por objetivo ou especial, com título e subtítulo
+  async function createCustom() {
+    const titulo = novoTitulo.trim()
+    if (!titulo) { setCreateFb({ type: 'error', msg: 'Dê um título pra coleção.' }); return }
+    const base = slugify(titulo)
+    const slug = novoTipo === 'especial' && !base.startsWith('especial-') ? `especial-${base}` : base
+    if (!base) { setCreateFb({ type: 'error', msg: 'O título precisa ter letras ou números.' }); return }
+    if ((collections || []).some(c => c.slug === slug)) { setCreateFb({ type: 'error', msg: `"${titulo}" já existe.` }); return }
+    setCreating(true)
+    setCreateFb(null)
+    const cols = collections || []
+    const objetivos = cols.filter(c => getCollectionStyle(c).kind === 'fixa')
+    const order = novoTipo === 'objetivo'
+      ? (objetivos.length ? Math.max(...objetivos.map(c => c.order)) : 0) + 1
+      : (cols.length ? Math.max(...cols.map(c => c.order)) : 0) + 1
+    const error = await inserirColecao({ slug, title: titulo, subtitle: novoSub.trim(), order, is_bonus: false, kind: novoTipo })
+    setCreating(false)
+    if (error) {
+      setCreateFb({ type: 'error', msg: /kind/i.test(error.message)
+        ? 'Pra criar coleção por objetivo, rode o arquivo supabase-migration-tipos-colecao.sql no Supabase.'
+        : /policy|permission|row-level/i.test(error.message) ? 'Sem permissão: rode o arquivo supabase-migration-capas.sql no Supabase.' : error.message })
+      return
+    }
+    setNovoTitulo(''); setNovoSub('')
+    setCreateFb({ type: 'ok', msg: novoTipo === 'objetivo'
+      ? 'Coleção criada! Ela já aparece em "Coleções por objetivo". Pra um anúncio entrar nela, marque esse objetivo no anúncio.'
+      : 'Coleção criada! Agora cadastre os anúncios nela em Anúncios → Novo anúncio (campo Coleção).' })
+    load()
+  }
+
   // Cria "Melhores de <Mês> <Ano>" com um clique. A home passa a destacar
   // automaticamente a coleção de mês mais recente.
   async function createMonth() {
@@ -114,12 +161,13 @@ export default function AdminCollections() {
     const months = (collections || []).filter(c => c.slug.startsWith('melhores-'))
     const specials = (collections || []).filter(c => c.slug.startsWith('especial-'))
     const order = (months.length ? Math.max(...months.map(c => c.order)) : 6) + 1
-    const { error } = await supabase.from('collections').insert({
+    const error = await inserirColecao({
       slug,
       title: `Melhores de ${name[0].toUpperCase() + name.slice(1)} ${year}`,
       subtitle: `Os anúncios que mais se destacaram em ${name} de ${year}`,
       order,
       is_bonus: false,
+      kind: 'mes',
     })
     if (!error && specials.some(c => c.order <= order)) {
       // empurra os especiais para depois do novo mês
@@ -324,16 +372,37 @@ export default function AdminCollections() {
         </div>
       </div>
 
-      <div className="adm-card admin-collections__new">
+      <div className="adm-card admin-collections__new admin-collections__new--tipos">
         <div>
-          <h2>Nova coleção do mês</h2>
-          <p>Cria "Melhores de Mês Ano". A home das alunas passa a destacar o mês mais recente automaticamente.</p>
+          <h2>Nova coleção</h2>
+          <p>
+            {novoTipo === 'mes' && 'Cria "Melhores de Mês Ano". A home das alunas passa a destacar o mês mais recente automaticamente.'}
+            {novoTipo === 'objetivo' && 'Entra no bloco "Coleções por objetivo" e vira uma opção de objetivo no cadastro do anúncio.'}
+            {novoTipo === 'especial' && 'Entra no bloco "Especiais e Páginas". O anúncio entra nela pelo campo Coleção.'}
+          </p>
         </div>
         <div className="admin-collections__new-form">
-          <input type="month" className="adm-input" value={newMonth} onChange={e => setNewMonth(e.target.value)} />
-          <button type="button" className="adm-btn adm-btn--primary" disabled={creating} onClick={createMonth}>
-            {creating ? 'Criando…' : 'Criar coleção'}
-          </button>
+          <select className="admin-select" value={novoTipo} onChange={e => { setNovoTipo(e.target.value); setCreateFb(null) }}>
+            <option value="mes">Melhores do mês</option>
+            <option value="objetivo">Coleção por objetivo</option>
+            <option value="especial">Especial</option>
+          </select>
+          {novoTipo === 'mes' ? (
+            <>
+              <input type="month" className="adm-input" value={newMonth} onChange={e => setNewMonth(e.target.value)} />
+              <button type="button" className="adm-btn adm-btn--primary" disabled={creating} onClick={createMonth}>
+                {creating ? 'Criando…' : 'Criar coleção'}
+              </button>
+            </>
+          ) : (
+            <>
+              <input type="text" className="adm-input" placeholder="Título (ex.: Fidelizar quem já comprou)" value={novoTitulo} onChange={e => setNovoTitulo(e.target.value)} />
+              <input type="text" className="adm-input admin-collections__new-sub" placeholder="Subtítulo (uma linha)" value={novoSub} onChange={e => setNovoSub(e.target.value)} />
+              <button type="button" className="adm-btn adm-btn--primary" disabled={creating || !novoTitulo.trim()} onClick={createCustom}>
+                {creating ? 'Criando…' : 'Criar coleção'}
+              </button>
+            </>
+          )}
         </div>
         {createFb && <span className={`admin-collection__fb admin-collection__fb--${createFb.type}`}>{createFb.msg}</span>}
       </div>
@@ -364,11 +433,12 @@ export default function AdminCollections() {
             </header>
           {grupo.itens.map((col, idx) => {
             const d = drafts[col.id] || {}
-            const style = getCollectionStyle(col.slug)
+            const style = getCollectionStyle(col)
             const preview = { ...col, cover_url: d.cover_url || null }
             const n = ads.filter(a => belongsTo(a, col)).length
             const fb = feedback[col.id]
-            const kind = collectionKindLabel(col)
+            const kind = collectionKindLabel(col, collections)
+            const fixaDoCodigo = Boolean(getCollection(col.slug)) || col.slug === PAGES_SLUG
             const arrastando = dragId === col.id
             const emCima = overId === col.id && dragId && dragId !== col.id
             return (
@@ -404,7 +474,7 @@ export default function AdminCollections() {
                     subtitle={d.subtitle || getCollection(col.slug)?.subtitle || ''}
                     kicker={kind}
                     fallbackGradient={style.gradient}
-                    fallbackLabel={col.is_bonus ? '★' : style.kind === 'fixa' ? String(col.order).padStart(2, '0') : ''}
+                    fallbackLabel={col.is_bonus ? '★' : style.kind === 'fixa' ? kind.replace('Coleção ', '') : ''}
                     textBelow
                   />
                   <span className="admin-collection__preview-label">
@@ -492,7 +562,7 @@ export default function AdminCollections() {
                         {col.featured ? 'Tirar do destaque' : 'Destacar na home'}
                       </button>
                     )}
-                    {style.kind !== 'fixa' && (
+                    {!fixaDoCodigo && (
                       <button
                         type="button"
                         className="adm-btn adm-btn--danger admin-collection__delete"

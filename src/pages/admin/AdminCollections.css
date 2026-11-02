@@ -181,6 +181,10 @@
   width: auto;
 }
 
+.admin-collections__new--tipos .admin-collections__new-form { flex-wrap: wrap; }
+.admin-collections__new--tipos .admin-collections__new-form .adm-input[type="text"] { min-width: 240px; }
+.admin-collections__new-sub { min-width: 260px; }
+
 .admin-collection__delete {
   margin-left: auto;
 }

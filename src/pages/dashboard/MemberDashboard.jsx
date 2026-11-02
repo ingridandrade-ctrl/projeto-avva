@@ -51,8 +51,8 @@ export default function MemberDashboard() {
   const featured = useMemo(() => {
     const chosen = collections.find(c => c.featured)
     if (chosen) return chosen
-    const months = collections.filter(c => getCollectionStyle(c.slug).kind === 'melhores')
-    const extras = collections.filter(c => getCollectionStyle(c.slug).kind !== 'fixa')
+    const months = collections.filter(c => getCollectionStyle(c).kind === 'melhores')
+    const extras = collections.filter(c => getCollectionStyle(c).kind !== 'fixa')
     return months[months.length - 1] || extras[extras.length - 1] || null
   }, [collections])
   const featuredAds = useMemo(() => (featured ? ads.filter(a => belongsTo(a, featured)) : []), [ads, featured])
