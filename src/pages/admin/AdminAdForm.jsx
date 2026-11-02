@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { supabase } from '../../lib/supabase'
-import { NICHES, MEDIA_TYPES, OBJECTIVES, PAGE_TYPES, PAGE_MEDIA_TYPES, PAGES_SLUG } from '../../lib/catalog'
+import { NICHES, MEDIA_TYPES, OBJECTIVES, PAGE_TYPES, PAGE_MEDIA_TYPES, PAGE_NICHES, PAGES_SLUG } from '../../lib/catalog'
 import './AdminAdForm.css'
 
 // kind: 'anuncio' (padrão) ou 'pagina'. Página não tem objetivos nem coleção
@@ -261,7 +261,7 @@ export default function AdminAdForm({ kind = 'anuncio' }) {
         <div className="admin-form__field">
           <label>Nichos <span className="admin-form__required">*</span> (pode marcar vários)</label>
           <div className="admin-form__checks">
-            {NICHES.map(n => (
+            {(ehPagina ? PAGE_NICHES : NICHES).map(n => (
               <label key={n.value} className={`admin-form__check ${form.niches.includes(n.value) ? 'admin-form__check--on' : ''}`}>
                 <input
                   type="checkbox"

@@ -1,5 +1,5 @@
 import Tag from '../ui/Tag'
-import { NICHES, MEDIA_TYPES, PAGE_TYPES } from '../../lib/catalog'
+import { NICHES, MEDIA_TYPES, PAGE_TYPES, PAGE_NICHES } from '../../lib/catalog'
 import './FilterBar.css'
 
 export default function FilterBar({
@@ -15,6 +15,7 @@ export default function FilterBar({
 }) {
   const hasFilter = selectedNiche || selectedMedia || search
   const tipos = pages ? PAGE_TYPES : MEDIA_TYPES
+  const nichos = pages ? PAGE_NICHES : NICHES
   const unidade = pages ? (total === 1 ? 'página' : 'páginas') : (total === 1 ? 'anúncio' : 'anúncios')
 
   function clear() {
@@ -57,7 +58,7 @@ export default function FilterBar({
           <span>Nicho</span>
           <select value={selectedNiche || ''} onChange={e => onNicheChange(e.target.value || null)}>
             <option value="">Todos</option>
-            {NICHES.map(n => <option key={n.value} value={n.value}>{n.label}</option>)}
+            {nichos.map(n => <option key={n.value} value={n.value}>{n.label}</option>)}
           </select>
         </label>
         <label>
@@ -74,7 +75,7 @@ export default function FilterBar({
           <span className="filter-bar__label">Para qual nicho?</span>
           <div className="filter-bar__tags">
             <Tag onClick={() => onNicheChange(null)} active={!selectedNiche}>Todos</Tag>
-            {NICHES.map(n => (
+            {nichos.map(n => (
               <Tag
                 key={n.value}
                 onClick={() => onNicheChange(selectedNiche === n.value ? null : n.value)}
