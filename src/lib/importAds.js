@@ -82,7 +82,7 @@ const NICHE_EXTRAS = { 'servico': 'servico', 'prestacao de servico': 'servico', 
 const MEDIA_EXTRAS = { 'video': 'video', 'reels': 'video', 'imagem': 'image', 'estatico': 'image', 'estatica': 'image', 'foto': 'image', 'carrossel': 'carousel', 'carousel': 'carousel', 'pdf': 'pdf', 'pagina': 'pdf', 'landing': 'pdf' }
 const PAGE_EXTRAS = { 'venda': 'vendas', 'vendas': 'vendas', 'sales': 'vendas', 'captura': 'captura', 'lead': 'captura', 'isca': 'captura', 'obrigado': 'obrigado', 'upsell': 'vendas', 'thank': 'obrigado', 'servico': 'servico', 'agendamento': 'servico', 'orcamento': 'servico' }
 const PAGE_MEDIA_EXTRAS = { 'print': 'image', 'imagem': 'image', 'png': 'image', 'jpg': 'image', 'jpeg': 'image', 'foto': 'image', 'pdf': 'pdf' }
-const OBJ_EXTRAS = { 'descoberta': 'ser-descoberta', 'entende': 'mostrar-que-voce-entende', 'autoridade': 'mostrar-que-voce-entende', 'funciona': 'provar-que-funciona', 'prova': 'provar-que-funciona', 'mas': 'quebrar-o-mas', 'objecao': 'quebrar-o-mas', 'vender': 'vender-agora', 'oferta': 'vender-agora' }
+const OBJ_EXTRAS = { 'descoberta': 'ser-descoberta', 'atrair': 'ser-descoberta', 'seguidores': 'ser-descoberta', 'captar': 'captar-leads', 'leads': 'captar-leads', 'lead': 'captar-leads', 'cadastro': 'captar-leads', 'inscricao': 'captar-leads', 'entende': 'mostrar-que-voce-entende', 'autoridade': 'mostrar-que-voce-entende', 'funciona': 'provar-que-funciona', 'prova': 'provar-que-funciona', 'mas': 'quebrar-o-mas', 'objecao': 'quebrar-o-mas', 'vender': 'vender-agora', 'oferta': 'vender-agora' }
 
 function findCollection(value, allCollections) {
   const v = norm(value)

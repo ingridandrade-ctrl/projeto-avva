@@ -4,37 +4,44 @@
 export const COLLECTIONS = [
   {
     slug: 'ser-descoberta',
-    title: 'Ser descoberta',
+    title: 'Atrair seguidores',
     subtitle: 'Atrair seguidores e chamar a atenção de quem não te conhece',
     order: 1,
     gradient: 'linear-gradient(135deg, #1A6868 0%, #3F7A66 100%)',
   },
   {
+    slug: 'captar-leads',
+    title: 'Captar leads',
+    subtitle: 'Gerar cadastros para seu evento, lançamento, produto, serviço',
+    order: 2,
+    gradient: 'linear-gradient(135deg, #0C4747 0%, #7FA588 100%)',
+  },
+  {
     slug: 'mostrar-que-voce-entende',
     title: 'Mostrar que você entende',
     subtitle: 'Gerar autoridade e construir confiança',
-    order: 2,
+    order: 3,
     gradient: 'linear-gradient(135deg, #2C6B5A 0%, #7FA588 100%)',
   },
   {
     slug: 'provar-que-funciona',
     title: 'Provar que funciona',
     subtitle: 'Prova social e resultados reais',
-    order: 3,
+    order: 4,
     gradient: 'linear-gradient(135deg, #1A6868 0%, #B97A4E 100%)',
   },
   {
     slug: 'quebrar-o-mas',
     title: 'Quebrar o "mas..."',
     subtitle: 'Quebra de objeção e dos motivos pra adiar',
-    order: 4,
+    order: 5,
     gradient: 'linear-gradient(135deg, #8A5C3F 0%, #C98A5E 100%)',
   },
   {
     slug: 'vender-agora',
     title: 'Vender agora',
     subtitle: 'Oferta direta e remarketing',
-    order: 5,
+    order: 6,
     gradient: 'linear-gradient(135deg, #965E41 0%, #C98A5E 60%, #D4B99A 100%)',
   },
   // Bônus aposentado na área de membros (segue só na página de vendas, que
@@ -43,7 +50,7 @@ export const COLLECTIONS = [
     slug: 'datas-especiais',
     title: 'Datas especiais',
     subtitle: 'Black Friday, Dia das Mães, aniversário...',
-    order: 6,
+    order: 7,
     isBonus: true,
     retired: true,
     gradient: 'linear-gradient(135deg, #C98A5E 0%, #D4B99A 55%, #7FA588 100%)',
@@ -55,7 +62,7 @@ export const FIXED_COLLECTIONS = COLLECTIONS.filter(c => !c.retired)
 
 // Coleções por objetivo = tags que um anúncio pode ter (várias por anúncio).
 export const OBJECTIVES = FIXED_COLLECTIONS
-  .filter(c => c.order <= 6)
+  .filter(c => !c.isBonus)
   .map(c => ({ value: c.slug, label: c.title, hint: c.subtitle }))
 
 export const OBJECTIVE_LABELS = Object.fromEntries(OBJECTIVES.map(o => [o.value, o.label]))
