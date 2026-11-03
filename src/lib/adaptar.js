@@ -1,62 +1,51 @@
-// "Fazer a minha versão": monta, a partir da análise de um anúncio do Acervo,
-// um prompt que destrincha a análise pela lente da coleção (objetivo) e guia a
-// adaptação para o negócio da aluna. Nada aqui é regra: as lentes orientam a
-// leitura, a IA decide com o que a aluna responder.
+// "Fazer a minha versão": monta, a partir da análise de um anúncio (ou página)
+// do Acervo e da ficha da aluna, o prompt que a IA usa pra escrever a versão
+// dela. A ordem do trabalho é fixa: entender a sequência da referência,
+// checar o material, escrever a fala corrida na voz da aluna, escrever o
+// gancho por último e só então cortar em cenas. A voz vem de exemplo (texto
+// dela, frase da cliente, palavras proibidas), não de adjetivo.
 
-import { OBJECTIVE_LABELS, MEDIA_LABELS, NICHE_LABELS, PAGE_TYPE_LABELS, isPage } from './catalog'
+import { OBJECTIVE_LABELS, NICHE_LABELS, PAGE_TYPE_LABELS, isPage } from './catalog'
 
 export const DESTINOS = ['WhatsApp', 'Site', 'Página de vendas', 'Página de captura', 'Perfil', 'Direct']
 
-export const CAMPOS = [
-  { key: 'vendo', label: 'O que você vende', ajuda: 'Produto ou serviço, em poucas palavras.', placeholder: 'Ex.: consultoria de imagem' },
-  { key: 'cliente', label: 'Pra quem', ajuda: 'Quem é a cliente que você quer atrair.', placeholder: 'Ex.: mulheres acima de 40 que voltaram a trabalhar' },
-  { key: 'muda', label: 'O que muda pra ela', ajuda: 'O resultado que ela leva, não o produto.', placeholder: 'Ex.: se veste em 5 minutos, sem dúvida' },
-  { key: 'preco', label: 'Preço ou condição', ajuda: 'Valor, parcelamento, prazo. Só se for real.', placeholder: 'Ex.: R$ 497 em 12x · só até domingo' },
-  { key: 'prova', label: 'Uma prova real', ajuda: 'Número, depoimento, antes e depois. Vazio, a IA não inventa.', placeholder: 'Ex.: 120 clientes atendidas · depoimento da Carla' },
-  { key: 'objecao', label: 'O "mas" que você mais ouve', ajuda: 'A desculpa de quando a cliente quer mas não fecha.', placeholder: 'Ex.: "é caro" · "não tenho tempo"' },
-]
-
-export const TONS = ['Direta', 'Leve e divertida', 'Acolhedora', 'Elegante', 'Provocadora', 'Técnica e precisa']
-
-// Quais campos extras aparecem conforme a coleção do anúncio (os básicos aparecem sempre).
-// Anúncio sem objetivo mostra todos.
-export const CAMPOS_POR_OBJETIVO = {
-  preco: ['vender-agora', 'quebrar-o-mas'],
-  prova: ['provar-que-funciona', 'vender-agora', 'mostrar-que-voce-entende', 'captar-leads'],
-  objecao: ['quebrar-o-mas', 'vender-agora'],
-}
-
-// Objetivo que vale para as perguntas: a coleção em que a aluna abriu o anúncio
-// (se for uma coleção por objetivo) ou, fora dela, as tags do próprio anúncio.
-export function objetivosDoContexto(ad, collectionSlug) {
-  if (collectionSlug && LENTES[collectionSlug]) return [collectionSlug]
-  return ad.objectives || []
-}
-
-// Páginas: quais campos extras aparecem conforme o tipo da página
-export const CAMPOS_POR_PAGINA = {
-  preco: ['vendas', 'obrigado', 'servico'],
-  prova: ['vendas', 'servico', 'captura'],
-  objecao: ['vendas', 'servico'],
-}
-
-export function camposPara(ad, collectionSlug) {
-  if (isPage(ad)) {
-    return CAMPOS.filter(c => {
-      const regra = CAMPOS_POR_PAGINA[c.key]
-      return !regra || !ad.page_type || regra.includes(ad.page_type)
-    })
-  }
-  const objs = objetivosDoContexto(ad, collectionSlug)
-  return CAMPOS.filter(c => {
-    const regra = CAMPOS_POR_OBJETIVO[c.key]
-    return !regra || objs.length === 0 || regra.some(o => objs.includes(o))
-  })
-}
-
 export const TIPOS = ['Infoproduto', 'E-commerce', 'Negócio local', 'Serviço']
 
-export const DESTINO_AJUDA = 'Pra onde a pessoa vai quando toca no anúncio.'
+// ── A ficha (única: vale aqui e no Kit) ──
+// `longo` vira caixa de texto maior. `grupo` organiza a tela.
+export const CAMPOS = [
+  { key: 'vendo', grupo: 'negocio', label: 'O que você vende', ajuda: 'Produto ou serviço, em poucas palavras.', placeholder: 'Ex.: consultoria de imagem' },
+  { key: 'cliente', grupo: 'negocio', label: 'Pra quem, com detalhe', ajuda: 'Segmento, cargo ou momento de vida. Quanto mais específico, menos genérica sai a fala.', placeholder: 'Ex.: dona de clínica de estética com 2 a 5 funcionárias' },
+  { key: 'muda', grupo: 'negocio', label: 'O que muda pra ela', ajuda: 'O resultado que ela leva, não o produto.', placeholder: 'Ex.: agenda cheia sem depender de indicação' },
+  { key: 'frase_cliente', grupo: 'voz', label: 'Como a sua cliente fala do problema', ajuda: 'Uma frase dela, com as palavras dela. Vira o material do gancho e da objeção.', placeholder: 'Ex.: "eu posto todo dia e não vem ninguém"' },
+  { key: 'prova', grupo: 'negocio', label: 'Uma prova real, com contexto', ajuda: 'De quem, o que mudou, em quanto tempo. Número solto não vale. Vazio, a IA não inventa.', placeholder: 'Ex.: a Carla, salão em Campinas, saiu de 6 pra 20 agendamentos por semana em 2 meses' },
+  { key: 'objecao', grupo: 'negocio', label: 'O "mas" que você mais ouve', ajuda: 'A desculpa de quando a cliente quer mas não fecha.', placeholder: 'Ex.: "é caro" · "não tenho tempo"' },
+  { key: 'preco', grupo: 'negocio', label: 'Preço ou condição', ajuda: 'Valor, parcelamento, prazo. Só se for real. Entra só onde a referência fala de preço.', placeholder: 'Ex.: R$ 497 em 12x · só até domingo' },
+  { key: 'ganha', grupo: 'destino', label: 'O que a pessoa ganha ao clicar', ajuda: 'O que acontece no destino: uma análise, uma aula, um orçamento, uma conversa.', placeholder: 'Ex.: uma análise gratuita do que ela já fez de anúncio' },
+  { key: 'amostra', grupo: 'voz', longo: true, label: 'Um texto seu', ajuda: 'Uma legenda que você escreveu ou a transcrição de um áudio seu. A IA imita o ritmo, o tamanho das frases e as palavras. É o que mais tira a cara de IA.', placeholder: 'Cole aqui um texto seu, do jeito que você fala' },
+  { key: 'proibidas', grupo: 'voz', label: 'Eu nunca diria', ajuda: 'Palavras ou jeitos que você não usa.', placeholder: 'Ex.: "amiga", "gatilho", "escala", emoji' },
+]
+
+// Tom: um só por vez, e cada um vira uma descrição concreta de como escrever,
+// não um adjetivo pra IA atuar.
+export const TONS = [
+  { nome: 'Direta', regra: 'Frases curtas. Começa pelo assunto, sem rodeio na abertura. Sem pergunta retórica, sem tranquilizar a pessoa, sem explicar por que está dizendo. Diz e segue.' },
+  { nome: 'Leve e divertida', regra: 'Humor vem de situação concreta do dia a dia da cliente, nunca de piada pronta ou trocadilho. Uma observação engraçada por vez. O resto é fala normal.' },
+  { nome: 'Acolhedora', regra: 'Primeira pessoa contando algo que ela viveu ou viu numa cliente. Reconhece a situação da cliente com um fato, nunca com "eu entendo" ou "faz sentido". Nada de "a gente junto", "tá tudo bem", "respira".' },
+  { nome: 'Elegante', regra: 'Vocabulário preciso, sem gíria e sem diminutivo. Frases completas, ritmo calmo. Afirma sem exclamação. Não usa superlativo nem "incrível", "maravilhoso".' },
+  { nome: 'Provocadora', regra: 'Nomeia o que a cliente faz errado, pelo nome, sem suavizar e sem ofender. Afirmação, não pergunta. Sem "verdade dura", "ninguém te conta", "pare de".' },
+  { nome: 'Técnica e precisa', regra: 'Usa o termo certo do ofício e explica em meia frase quando a cliente não usaria. Dá o critério e o porquê. Sem promessa, sem adjetivo, sem metáfora.' },
+]
+
+// Vícios de estrutura que marcam texto de IA. Lista única, usada em todos os prompts.
+export const VICIOS = [
+  'Nenhuma frase do original nem da análise, nem a mesma estrutura de abertura. Copie o movimento, nunca a frase.',
+  'Validação pronta: "faz todo sentido", "eu entendo", "tá tudo bem", "a gente junto", "respira".',
+  'Frase curta de efeito fechando parágrafo, pergunta retórica, lista de três coisas, "a verdade é que", "imagina", "o segredo", "não é X, é Y".',
+  'Jargão de marketing, promessa genérica, emoji, exclamação, travessão.',
+  'Número, prova, preço, prazo, garantia ou condição que eu não tenha dado. Prova só com contexto: de quem e o que mudou.',
+  'Preço fora do ponto em que o original fala de preço. Se o original não fala de preço, a minha versão também não.',
+]
 
 const CHAVE = 'avva.ficha'
 
@@ -69,263 +58,38 @@ export function saveFicha(ficha) {
 }
 
 // Para onde esse tipo de anúncio costuma levar. Orientação, não regra.
+export const DESTINO_AJUDA = 'Pra onde a pessoa vai quando toca no anúncio, e o que ela ganha lá.'
 export const DESTINO_SUGESTAO = {
-  'ser-descoberta': 'Anúncio de descoberta costuma levar pro perfil ou pro direct, pra pessoa te conhecer. Mas não é regra: se a oferta encaixa, pode levar pra venda.',
-  'captar-leads': 'Anúncio de captação costuma levar pra página de captura ou pro WhatsApp, onde a pessoa deixa o contato. Não é regra: se o cadastro é simples, pode ser no próprio formulário do anúncio.',
-  'mostrar-que-voce-entende': 'Anúncio de autoridade costuma levar pro perfil, pro direct ou pra uma página com mais conteúdo. Se a pessoa já conhece você, pode levar direto pra oferta.',
-  'provar-que-funciona': 'Anúncio de prova costuma levar pro WhatsApp ou pra página de vendas, porque quem viu a prova já quer perguntar. Não é regra.',
-  'quebrar-o-mas': 'Anúncio de objeção costuma levar pro WhatsApp ou pra página de vendas, onde a dúvida termina de ser respondida. Não é regra.',
+  'ser-descoberta': 'Anúncio de descoberta costuma levar pro perfil ou pro direct, pra pessoa te conhecer. Se a oferta encaixa, pode levar pra venda.',
+  'captar-leads': 'Anúncio de captação costuma levar pra página de captura ou pro WhatsApp, onde a pessoa deixa o contato.',
+  'mostrar-que-voce-entende': 'Anúncio de autoridade costuma levar pro perfil, pro direct ou pra uma página com mais conteúdo.',
+  'provar-que-funciona': 'Anúncio de prova costuma levar pro WhatsApp ou pra página de vendas, porque quem viu a prova já quer perguntar.',
+  'quebrar-o-mas': 'Anúncio de objeção costuma levar pro WhatsApp ou pra página de vendas, onde a dúvida termina de ser respondida.',
   'vender-agora': 'Anúncio de venda costuma levar pra página de vendas, site ou WhatsApp, o lugar onde a compra acontece.',
 }
 
-// Lentes: como destrinchar a análise conforme a coleção do anúncio
-const LENTES = {
-  'ser-descoberta': [
-    'O que, nos primeiros segundos ou na primeira frase, faz quem nunca viu essa marca parar? É cena, curiosidade, humor, afirmação, formato, contraste?',
-    'Com quem a peça está falando: que situação, momento ou sentimento da pessoa ela reconhece logo de cara?',
-    'O que a peça entrega antes de pedir qualquer coisa: uma piada, uma informação, uma história, uma identificação?',
-    'Em que momento e de que jeito o produto ou a marca aparece? Cedo, tarde, de leve, de frente?',
-    'Que formato ou linguagem ela pega emprestado (meme, notícia, conversa, tendência, bastidor) e por que isso baixa a defesa de quem vê?',
-    'O que a peça faz a pessoa querer no fim: conhecer, seguir, salvar, comentar, clicar, comprar? (pode ser mais de um)',
-    'O que dessa peça depende do anunciante ser famoso ou ter um contexto específico, e o que funciona pra qualquer marca?',
-  ],
-  'captar-leads': [
-    'O que a peça oferece em troca do cadastro (aula, evento, material, lista de espera, diagnóstico) e em quantas palavras explica o valor disso?',
-    'Qual é o resultado concreto que a pessoa imagina ao ler o convite? Onde isso aparece: no gancho, no meio, na chamada?',
-    'O que a peça faz pra parecer fácil e leve de aceitar (gratuito, data e hora, duração, "só nome e e-mail")?',
-    'Que sinal de confiança ou de quem entrega aparece, mesmo que rápido (número de pessoas, prova, bastidor, cargo)?',
-    'Como a peça trata o compromisso: pede pouco agora e deixa a venda pra depois, ou já insinua a oferta?',
-    'O que o botão ou a chamada diz, e por que esse verbo e não "cadastre-se"?',
-    'Que tipo de pessoa esse convite filtra, e o que isso diz sobre quem o anunciante quer na lista?',
-  ],
-  'mostrar-que-voce-entende': [
-    'Que conhecimento, critério ou visão a peça mostra, e como ela mostra em vez de só afirmar?',
-    'Tem algum detalhe que só quem vive esse problema conhece? Qual?',
-    'Que erro, dúvida ou crença do público a peça nomeia, e nas palavras de quem?',
-    'O que a pessoa leva de útil mesmo que não compre nada?',
-    'Como a autoridade vira confiança sem a peça virar aula? Onde entra a posição de quem anuncia ("eu faço assim", "eu não faço isso")?',
-    'O produto aparece como consequência do critério ou como foco? Que diferença isso faz?',
-    'Que sinal de experiência a peça dá sem dizer "sou especialista" (bastidor, caso, número, processo)?',
-  ],
-  'provar-que-funciona': [
-    'Qual é a prova: depoimento, print, antes e depois, número, caso, reação? Em que formato ela aparece?',
-    'Qual é o contexto dela: quem era a cliente, qual era o problema, o que foi feito, o que mudou?',
-    'Em que ponto a prova entra em relação ao argumento, e por que essa ordem?',
-    'O que faz essa prova parecer verdadeira (detalhe, imperfeição, nome, situação específica)?',
-    'Que dúvida essa prova derruba na cabeça de quem vê? E qual ela deixa aberta?',
-    'A prova fala sozinha ou alguém interpreta a prova? Quem conduz?',
-    'Tirando a prova, a peça fica de pé? O que isso diz sobre o papel dela?',
-  ],
-  'quebrar-o-mas': [
-    'Qual objeção a peça responde e como ela nomeia essa objeção (nas palavras da cliente, por cena, por comparação)?',
-    'Em que momento da peça a objeção aparece: no gancho, no meio, no fim?',
-    'A peça valida a objeção antes de rebater? Como, e em que tom (conversa, provocação, humor)?',
-    'Qual é o argumento concreto que vira a objeção: custo de não resolver, facilidade, diferença, caso parecido, condição, garantia?',
-    'Que prova ou exemplo sustenta a virada, se houver?',
-    'Como a peça termina depois de responder: pede algo, deixa a pessoa decidir, abre conversa?',
-    'A objeção respondida é a mesma que a minha cliente tem, ou é parecida em outra forma?',
-  ],
-  'vender-agora': [
-    'Qual é a oferta e como ela aparece: o que é, pra quem, o que ganha, o que vem junto?',
-    'Em que momento a oferta aparece e o que vem antes dela?',
-    'Qual é o motivo pra agir agora, e ele é real na peça (prazo, condição, vagas, custo de adiar)?',
-    'Como a peça trata o preço ou a condição: mostra, compara, justifica, esconde?',
-    'Como é a chamada: que verbo, pra que destino, o que acontece depois do clique?',
-    'A peça fala com quem já conhece a marca (remarketing) ou com quem nunca viu? Como dá pra perceber?',
-    'Que prova ou argumento aparece como apoio da oferta, mesmo que rápido?',
-  ],
+// ── Duração ──
+// A versão da aluna tem a duração da referência. Sem o campo preenchido: 30 a
+// 60 segundos, ou 60 a 180 quando o anúncio está na Especial Mini VSL.
+export const MINI_VSL_SLUG = 'especial-mini-vsl'
+
+export function ehMiniVsl(ad, collectionSlug) {
+  return collectionSlug === MINI_VSL_SLUG || (ad?.extras || []).includes(MINI_VSL_SLUG) || ad?.collections?.slug === MINI_VSL_SLUG
 }
 
-// Lentes para páginas, conforme o tipo
-const LENTES_PAGINA = {
-  vendas: [
-    'O que a primeira dobra promete e pra quem? Dá pra entender a oferta sem rolar?',
-    'Em que ordem os blocos aparecem (promessa, problema, solução, prova, oferta, garantia, perguntas, chamada) e por que essa ordem?',
-    'Onde a prova entra e em que formato (depoimento, número, antes e depois, caso)?',
-    'Como o preço é apresentado: ancorado, parcelado, comparado, justificado? O que vem logo antes e logo depois dele?',
-    'Que objeções a página responde e onde (bloco próprio, perguntas frequentes, garantia, dentro do texto)?',
-    'Quantas chamadas pra ação existem, onde ficam e o que o botão diz?',
-    'O que dá segurança pra comprar (garantia, quem é a pessoa, suporte, política)?',
-  ],
-  captura: [
-    'O que a página oferece em troca do contato, e em quantas palavras ela explica o valor disso?',
-    'O que o título promete e qual é o resultado concreto que a pessoa imagina ao ler?',
-    'Quantos campos o formulário pede e o que isso diz sobre o nível de compromisso esperado?',
-    'O que aparece antes do formulário pra convencer, e o que foi deixado de fora de propósito?',
-    'Que sinal de confiança a página dá (quem entrega, pra quantas pessoas já entregou, prova)?',
-    'O que o botão diz, e por que esse texto e não "enviar"?',
-    'O que acontece depois do cadastro, segundo a página (promessa do próximo passo)?',
-  ],
-  obrigado: [
-    'A página confirma o que a pessoa acabou de fazer e diz claramente o próximo passo?',
-    'Que oferta ou pedido extra aparece, e como ela se conecta com o que a pessoa acabou de comprar ou pedir?',
-    'Em que momento a oferta extra entra: antes ou depois da confirmação? Por quê?',
-    'Qual é o argumento pra aceitar agora (condição única, complemento, atalho)?',
-    'Como a página trata quem não quer a oferta extra: tem saída clara?',
-    'Que instruções práticas aparecem (acesso, prazo, grupo, e-mail), e como elas evitam dúvidas no suporte?',
-    'O que a página faz pra pessoa continuar engajada (seguir, entrar no grupo, compartilhar)?',
-  ],
-  servico: [
-    'Em uma frase, a página diz o que faz, pra quem e qual é o resultado? Onde isso aparece?',
-    'Como o serviço é explicado: processo, etapas, o que está incluído, o que não está?',
-    'Que prova de que o serviço funciona aparece (antes e depois, caso, depoimento, número, portfólio)?',
-    'Como a página apresenta quem entrega o serviço, e por que isso importa nesse nicho?',
-    'Como a página lida com preço: mostra, dá faixa, pede contato, explica o que define o valor?',
-    'Qual é a chamada pra ação (agendar, chamar no WhatsApp, pedir orçamento) e quantos cliques até ela?',
-    'Que dúvida comum de quem contrata esse tipo de serviço a página responde antes de a pessoa perguntar?',
-  ],
+export function duracaoDe(ad, collectionSlug) {
+  const s = Number(ad?.duration_seconds)
+  if (s > 0) return `a mesma do original: cerca de ${s} segundos`
+  if (ehMiniVsl(ad, collectionSlug)) return 'o original é uma mini VSL: de 60 a 180 segundos'
+  return 'a mesma do original; sem essa informação, de 30 a 60 segundos'
 }
 
-const ENTREGA_PAGINA = {
-  vendas: { titulo: 'A página de vendas', texto: 'bloco por bloco, na ordem: o título de cada bloco, o texto (curto, do jeito que vai na página) e o que aparece de visual. Inclua os textos dos botões' },
-  captura: { titulo: 'A página de captura', texto: 'título, subtítulo, os 3 a 5 ganhos em tópicos, o texto do botão e a frase de confiança perto do formulário' },
-  obrigado: { titulo: 'A página de obrigado', texto: 'a confirmação, o próximo passo em instruções curtas e, se couber, a oferta extra com o argumento e o botão' },
-  servico: { titulo: 'A página de serviço', texto: 'bloco por bloco: o que é e pra quem, como funciona, prova, quem entrega, preço ou como pedir orçamento, e a chamada pra ação com o texto do botão' },
-}
+// ── Links ──
+// O prompt vai inteiro na URL. Acima disso, o botão copia em vez de abrir.
+export const LIMITE_LINK = 8000
 
-const LENTE_GERAL = [
-  'Qual é a escolha de comunicação que sustenta a peça, e o que ela muda na decisão de quem vê?',
-  'Que tensão a peça resolve: uma dúvida, um adiamento, um medo, uma resistência, um conflito entre o que a pessoa quer e o que a peça pede?',
-  'Como o formato (vídeo, imagem, carrossel, página) ajuda a ideia? Em outro formato, ela funcionaria?',
-  'O que é ideia (dá pra reaproveitar) e o que é só execução daquele anunciante (não dá)?',
-  'Que erro seria fácil cometer ao copiar essa peça sem entender o porquê?',
-]
-
-// O que a IA entrega como peça, conforme o tipo do anúncio de referência
-const ENTREGA_POR_MIDIA = {
-  video: { titulo: 'Roteiro do vídeo', texto: 'cena por cena, de 15 a 30 segundos. Em cada cena: o que aparece na tela, o que eu falo (ou o texto na tela) e quando entra o corte' },
-  image: { titulo: 'A imagem', texto: 'o texto que vai na imagem (até 12 palavras) e como é a foto ou a cena' },
-  carousel: { titulo: 'O carrossel', texto: 'de 4 a 6 telas, uma ideia por tela: o texto de cada tela e o que aparece nela' },
-  pdf: { titulo: 'A página', texto: 'os blocos na ordem (título, promessa, prova, oferta, chamada), com o texto de cada um' },
-}
-
-export function buildPrompt({ ad, collectionTitle, collectionSlug, ficha }) {
-  if (isPage(ad)) return buildPromptPagina({ ad, ficha })
-  // Só a lente da coleção em que a aluna abriu o anúncio (fora de coleção, as tags dele)
-  const objetivos = objetivosDoContexto(ad, collectionSlug).filter(o => LENTES[o])
-  const nomes = objetivos.map(o => OBJECTIVE_LABELS[o] || (collectionSlug === o && collectionTitle) || o.replace(/-/g, ' ')).join(' e ')
-  const nichos = (ad.niches || []).map(n => NICHE_LABELS[n] || n).join(', ')
-  const midia = (MEDIA_LABELS[ad.media_type] || ad.media_type || 'vídeo').toLowerCase()
-  const peca = ENTREGA_POR_MIDIA[ad.media_type] || ENTREGA_POR_MIDIA.video
-
-  // As lentes ficam só no raciocínio da IA; a aluna recebe a versão pronta
-  const lentes = [...new Set([...objetivos.flatMap(o => LENTES[o]), ...LENTE_GERAL.slice(3)])]
-  // Campo que não aparece nesse anúncio não entra no prompt, mesmo que a aluna
-  // tenha preenchido em outro anúncio (a ficha fica salva no aparelho)
-  const visiveis = new Set(camposPara(ad, collectionSlug).map(c => c.key))
-  const v = k => (CAMPOS.some(c => c.key === k) && !visiveis.has(k) ? '' : (ficha[k] || '').trim())
-  const linhas = [
-    v('vendo') ? `O que eu vendo: ${v('vendo')}` : null,
-    v('tipo') ? `Tipo de negócio: ${v('tipo')}` : null,
-    v('cliente') ? `Pra quem: ${v('cliente')}` : null,
-    v('muda') ? `O que muda pra ela: ${v('muda')}` : null,
-    v('preco') ? `Preço ou condição real: ${v('preco')}` : null,
-    v('destino') ? `Pra onde o anúncio leva: ${v('destino')}` : null,
-    v('prova') ? `Prova real que eu posso usar: ${v('prova')}` : visiveis.has('prova') ? 'Prova real que eu posso usar: nenhuma informada (não invente)' : null,
-    v('objecao') ? `O "mas" que eu mais ouço das clientes: ${v('objecao')}` : null,
-    (v('tons') || v('tomOutro')) ? `Como eu falo: ${[v('tons'), v('tomOutro')].filter(Boolean).join(', ')}` : null,
-  ].filter(Boolean)
-  const meu = linhas.length ? linhas.join('\n') : '(ainda não informei nada)'
-
-  const faltando = [
-    !v('vendo') ? 'o que eu vendo' : null,
-    !v('cliente') ? 'pra quem' : null,
-  ].filter(Boolean)
-
-  const sugestaoDestino = objetivos.map(o => DESTINO_SUGESTAO[o]).filter(Boolean)[0]
-  const destino = v('destino')
-
-  return `Quero fazer a minha versão de um anúncio do Acervo de Anúncios do AVVA Hub. Me entregue a versão pronta pra eu gravar ou montar. Não me explique a análise.
-
-ANÚNCIO DE REFERÊNCIA
-Título: ${ad.title}
-Tipo: ${midia}${nichos ? `\nNicho de quem anunciou: ${nichos}` : ''}${collectionTitle ? `\nColeção: ${collectionTitle}` : ''}${nomes ? `\nObjetivo: ${nomes}` : ''}
-
-Por que funciona, segundo o Acervo:
-"""
-${(ad.analysis || '').trim()}
-"""
-
-MEU NEGÓCIO
-${meu}
-
-COMO TRABALHAR (isso é pra você, não precisa me mostrar)
-- A minha versão tem que repetir o que faz esse anúncio funcionar, segundo a análise: a mesma lógica, na mesma ordem, com o meu produto, a minha cliente e o meu jeito de falar. Volte na análise a cada parte da entrega.
-- Pra entender o que faz ele funcionar, pense em:
-${lentes.map(l => `  · ${l}`).join('\n')}
-- Não copie frases do anúncio de referência. Não invente prova, número, desconto, prazo ou história: use só o que está aqui.
-- Escreva como gente fala, sem jargão de marketing e sem travessão.
-- Se tiver uma dúvida que muda a versão, pode me perguntar, mas de forma direta e curta.${faltando.length ? `\n- Se faltar ${faltando.join(' ou ')}, me pergunte isso primeiro, numa mensagem só, e espere a resposta.` : ''}
-
-O QUE ME ENTREGAR
-Direto, nessa ordem, sem introdução e sem resumo no fim:
-
-Por que funciona: até 2 frases. Por que o anúncio de referência funciona e o que eu vou repetir dele na minha versão.
-
-3 ganchos: de até 12 palavras, cada um de um jeito. Marque o melhor.
-
-${peca.titulo}: ${peca.texto}. Use o melhor gancho.
-
-Legenda: curta, terminando com a chamada ${destino ? `pro ${destino}` : 'pro destino'}.${!destino ? `\n\nDestino: escolha um (WhatsApp, site, página de vendas, perfil ou direct) e diga por quê em uma linha.${sugestaoDestino ? ` Referência: ${sugestaoDestino}` : ''}` : ''}
-
-Pra confirmar: só se faltar algo que mude a versão (uma prova real, uma condição), me faça até 2 perguntas curtas. Se não faltar nada, pule essa parte.`
-}
-
-// Páginas: a própria página é o destino, então não tem "pra onde leva".
-function buildPromptPagina({ ad, ficha }) {
-  const tipo = ad.page_type
-  const nomeTipo = (PAGE_TYPE_LABELS[tipo] || 'Página').toLowerCase()
-  const nichos = (ad.niches || []).map(n => NICHE_LABELS[n] || n).join(', ')
-  const lentes = [...(LENTES_PAGINA[tipo] || []), ...LENTE_GERAL.slice(3)]
-  const peca = ENTREGA_PAGINA[tipo] || { titulo: 'A página', texto: 'bloco por bloco, na ordem, com o texto de cada um e os textos dos botões' }
-
-  const visiveis = new Set(camposPara(ad).map(c => c.key))
-  const v = k => (CAMPOS.some(c => c.key === k) && !visiveis.has(k) ? '' : (ficha[k] || '').trim())
-  const linhas = [
-    v('vendo') ? `O que eu vendo: ${v('vendo')}` : null,
-    v('tipo') ? `Tipo de negócio: ${v('tipo')}` : null,
-    v('cliente') ? `Pra quem: ${v('cliente')}` : null,
-    v('muda') ? `O que muda pra ela: ${v('muda')}` : null,
-    v('preco') ? `Preço ou condição real: ${v('preco')}` : null,
-    v('prova') ? `Prova real que eu posso usar: ${v('prova')}` : visiveis.has('prova') ? 'Prova real que eu posso usar: nenhuma informada (não invente)' : null,
-    v('objecao') ? `O "mas" que eu mais ouço das clientes: ${v('objecao')}` : null,
-    (v('tons') || v('tomOutro')) ? `Como eu falo: ${[v('tons'), v('tomOutro')].filter(Boolean).join(', ')}` : null,
-  ].filter(Boolean)
-  const meu = linhas.length ? linhas.join('\n') : '(ainda não informei nada)'
-  const faltando = [!v('vendo') ? 'o que eu vendo' : null, !v('cliente') ? 'pra quem' : null].filter(Boolean)
-
-  return `Quero fazer a minha versão de uma página que está no Acervo de Anúncios do AVVA Hub. Me entregue a página pronta pra eu montar, bloco por bloco. Não me explique a análise.
-
-PÁGINA DE REFERÊNCIA
-Título: ${ad.title}
-Tipo: ${nomeTipo}${nichos ? `\nNicho de quem usou: ${nichos}` : ''}
-
-Por que funciona, segundo o Acervo:
-"""
-${(ad.analysis || '').trim()}
-"""
-
-MEU NEGÓCIO
-${meu}
-
-COMO TRABALHAR (isso é pra você, não precisa me mostrar)
-- A minha página tem que repetir o que faz essa página funcionar, segundo a análise: a mesma lógica, os blocos na mesma ordem, com o meu produto, a minha cliente e o meu jeito de falar. Volte na análise a cada bloco.
-- Pra entender o que faz ela funcionar, pense em:
-${lentes.map(l => `  · ${l}`).join('\n')}
-- Não copie frases da página de referência. Não invente prova, número, desconto, prazo, garantia ou história: use só o que está aqui.
-- Escreva como gente fala, sem jargão de marketing e sem travessão. Texto de página é curto: frases que cabem numa linha de celular.
-- Se tiver uma dúvida que muda a página, pode me perguntar, mas de forma direta e curta.${faltando.length ? `\n- Se faltar ${faltando.join(' ou ')}, me pergunte isso primeiro, numa mensagem só, e espere a resposta.` : ''}
-
-O QUE ME ENTREGAR
-Direto, nessa ordem, sem introdução e sem resumo no fim:
-
-Por que funciona: até 2 frases. Por que a página de referência funciona e o que eu vou repetir dela na minha.
-
-3 títulos pra primeira dobra: de até 12 palavras, cada um de um jeito. Marque o melhor.
-
-${peca.titulo}: ${peca.texto}. Use o melhor título.
-
-Pra confirmar: só se faltar algo que mude a página (uma prova real, uma condição, uma garantia), me faça até 2 perguntas curtas. Se não faltar nada, pule essa parte.`
+export function cabeNoLink(prompt) {
+  return encodeURIComponent(prompt).length <= LIMITE_LINK
 }
 
 export function linkChatGPT(prompt) {
@@ -335,3 +99,164 @@ export function linkChatGPT(prompt) {
 export function linkClaude(prompt) {
   return `https://claude.ai/new?q=${encodeURIComponent(prompt)}`
 }
+
+// ── Montagem ──
+const v = (ficha, k) => (ficha?.[k] || '').toString().trim()
+
+function blocoMeuNegocio(ficha, { comDestino = true } = {}) {
+  const tom = TONS.find(t => t.nome === v(ficha, 'tom'))
+  const linhas = [
+    `O que eu vendo: ${v(ficha, 'vendo') || '(não informei)'}`,
+    v(ficha, 'tipo') ? `Tipo de negócio: ${v(ficha, 'tipo')}` : null,
+    `Pra quem, com detalhe: ${v(ficha, 'cliente') || '(não informei)'}`,
+    v(ficha, 'muda') ? `O que muda pra ela: ${v(ficha, 'muda')}` : null,
+    v(ficha, 'frase_cliente') ? `Como a minha cliente fala do problema, com as palavras dela: ${v(ficha, 'frase_cliente')}` : null,
+    `Prova real, com contexto: ${v(ficha, 'prova') || 'nenhuma. Não invente.'}`,
+    v(ficha, 'objecao') ? `O "mas" que eu mais ouço: ${v(ficha, 'objecao')}` : null,
+    v(ficha, 'preco') ? `Preço ou condição real: ${v(ficha, 'preco')}` : 'Preço ou condição: não informei. Não cite preço.',
+    comDestino ? `Pra onde o anúncio leva: ${v(ficha, 'destino') || '(não informei)'}${v(ficha, 'ganha') ? `. O que a pessoa ganha ao clicar: ${v(ficha, 'ganha')}` : ''}` : null,
+    v(ficha, 'amostra') ? `Um texto meu, pra você pegar o meu jeito de falar:\n"""\n${v(ficha, 'amostra')}\n"""` : null,
+    tom ? `Como eu escrevo: ${tom.regra}` : null,
+    v(ficha, 'tomOutro') ? `Mais sobre o meu jeito: ${v(ficha, 'tomOutro')}` : null,
+    v(ficha, 'proibidas') ? `Eu nunca diria: ${v(ficha, 'proibidas')}` : null,
+  ].filter(Boolean)
+  return linhas.join('\n')
+}
+
+function blocoNaoEscreva(extras = []) {
+  return [...VICIOS, ...extras].map(l => `- ${l}`).join('\n')
+}
+
+// O que muda por formato: como escrever (passo 3) e o que entregar
+const FORMATOS = {
+  video: {
+    nome: 'vídeo',
+    passo3: 'Escreva a fala corrida, como eu falaria num áudio pra uma cliente, com a duração do original. Use as palavras da minha cliente e o ritmo do meu texto. Ainda sem cortar em cenas.',
+    passo4: 'Só depois escreva o gancho: a primeira frase, abrindo o que o vídeo entrega. Ele nasce da fala, não antes dela.',
+    passo5: 'Divida a fala em cenas. Texto na tela só onde ajuda, e nunca repetindo a fala palavra por palavra.',
+    entrega: [
+      'O que eu repito do original: uma linha.',
+      'A fala completa, em parágrafos curtos, já com o gancho na primeira frase.',
+      'As cenas: o que aparece na tela e o trecho da fala em cada uma.',
+      'Mais 2 opções de gancho.',
+      'Legenda: até 3 linhas, terminando no que a pessoa faz no destino.',
+    ],
+  },
+  image: {
+    nome: 'imagem',
+    passo3: 'Escreva o que a imagem diz: o texto que vai nela (até 12 palavras) e a legenda inteira, como eu falaria num áudio pra uma cliente. Use as palavras da minha cliente e o ritmo do meu texto.',
+    passo4: 'Só depois escolha a frase da imagem: ela abre o que a legenda entrega, e não o contrário.',
+    passo5: 'Descreva a imagem: o que aparece, como é a foto ou a cena, onde entra o texto.',
+    entrega: [
+      'O que eu repito do original: uma linha.',
+      'A frase da imagem (até 12 palavras) e a descrição da imagem.',
+      'A legenda, em parágrafos curtos, terminando no que a pessoa faz no destino.',
+      'Mais 2 opções de frase pra imagem.',
+    ],
+  },
+  carousel: {
+    nome: 'carrossel',
+    passo3: 'Escreva o raciocínio corrido, como eu falaria num áudio pra uma cliente, do começo ao fim, sem dividir em telas. Use as palavras da minha cliente e o ritmo do meu texto.',
+    passo4: 'Só depois escreva a capa: a primeira tela abre o que o carrossel entrega. Ela nasce do raciocínio, não antes dele.',
+    passo5: 'Divida em telas, de 4 a 7, uma ideia por tela, com o texto de cada uma. A última tela pede a ação.',
+    entrega: [
+      'O que eu repito do original: uma linha.',
+      'As telas, numeradas, com o texto de cada uma.',
+      'Mais 2 opções de capa.',
+      'Legenda: até 3 linhas, terminando no que a pessoa faz no destino.',
+    ],
+  },
+}
+
+function entregaDe(fmt) {
+  return fmt.entrega.join('\n')
+}
+
+export function buildPrompt({ ad, collectionTitle, collectionSlug, ficha = {} }) {
+  if (isPage(ad)) return buildPromptPagina({ ad, ficha })
+
+  const fmt = FORMATOS[ad.media_type] || FORMATOS.video
+  const objetivos = (ad.objectives || []).map(o => OBJECTIVE_LABELS[o] || o.replace(/-/g, ' '))
+  const nichos = (ad.niches || []).map(n => NICHE_LABELS[n] || n).join(', ')
+  const duracao = fmt === FORMATOS.video ? `\nDuração da minha versão: ${duracaoDe(ad, collectionSlug)}` : ''
+  const destinoVazio = !v(ficha, 'destino')
+
+  return `Vou ${fmt === FORMATOS.video ? 'gravar' : 'montar'} um anúncio meu inspirado num anúncio que funcionou. Quero ${fmt === FORMATOS.video ? 'a fala pronta' : 'o texto pronto'}, na minha voz, seguindo a mesma sequência do original.
+
+O ANÚNCIO ORIGINAL
+Formato: ${fmt.nome}${duracao}
+${collectionTitle ? `Coleção: ${collectionTitle}\n` : ''}${objetivos.length ? `Objetivo: ${objetivos.join(' e ')}\n` : ''}${nichos ? `Nicho de quem anunciou: ${nichos}\n` : ''}O que ele faz, segundo o Acervo:
+"""
+${(ad.analysis || '').trim()}
+"""
+
+O MEU NEGÓCIO
+${blocoMeuNegocio(ficha)}
+
+COMO FAZER
+1. Sem me mostrar, escreva a sequência do anúncio original em 3 a 6 passos curtos, na ordem em que acontecem. É essa sequência que a minha versão repete. As frases e as palavras do original e da análise, não.
+2. Para cada passo, veja se eu te dei material de verdade. Se faltar algo que o passo precisa (um caso com contexto, o que a pessoa ganha ao clicar, um detalhe de como eu trabalho${destinoVazio ? ', pra onde o anúncio leva' : ''}), pare e me pergunte antes de escrever. No máximo 3 perguntas, numa mensagem só. Nunca preencha o buraco com frase genérica.${v(ficha, 'destino') && v(ficha, 'ganha') === '' ? ' Se o destino da minha versão for diferente do original, me pergunte o que a pessoa ganha ao clicar e ajuste o fim.' : ''}
+3. ${fmt.passo3}
+4. ${fmt.passo4}
+5. ${fmt.passo5}
+
+NÃO ESCREVA
+${blocoNaoEscreva()}
+
+Antes de entregar, leia o texto como se fosse eu falando com uma cliente olhando no olho. Corte toda frase que eu não diria.
+
+ME ENTREGUE
+${entregaDe(fmt)}`
+}
+
+// Páginas: o mesmo esqueleto, trocando o passo 3 e a entrega. A própria
+// página é o destino, então não tem "pra onde leva".
+export function buildPromptPagina({ ad, ficha = {} }) {
+  const tipo = (PAGE_TYPE_LABELS[ad.page_type] || 'Página').toLowerCase()
+  const nichos = (ad.niches || []).map(n => NICHE_LABELS[n] || n).join(', ')
+
+  return `Vou montar uma página minha inspirada numa página que funcionou. Quero o texto de cada bloco pronto, na minha voz, seguindo a mesma sequência da original.
+
+A PÁGINA ORIGINAL
+Tipo: ${tipo}${nichos ? `\nNicho de quem usou: ${nichos}` : ''}
+O que ela faz, segundo o Acervo:
+"""
+${(ad.analysis || '').trim()}
+"""
+
+O MEU NEGÓCIO
+${blocoMeuNegocio(ficha, { comDestino: false })}
+
+COMO FAZER
+1. Sem me mostrar, escreva a sequência da página original em 4 a 8 blocos, na ordem em que a pessoa rola. É essa sequência que a minha página repete. As frases e as palavras da original e da análise, não.
+2. Para cada bloco, veja se eu te dei material de verdade. Se faltar algo que o bloco precisa (uma prova com contexto, uma garantia real, o que acontece depois do botão, o que está incluído), pare e me pergunte antes de escrever. No máximo 3 perguntas, numa mensagem só. Nunca preencha o buraco com frase genérica.
+3. Escreva o texto da página corrido, de cima pra baixo, como eu explicaria pra uma cliente que me pediu pra contar o que é. Use as palavras da minha cliente e o ritmo do meu texto. Texto de página é curto: frases que cabem numa linha de celular.
+4. Só depois escreva o título da primeira dobra: ele abre o que a página entrega. Nasce do texto, não antes dele.
+5. Divida o texto nos blocos, com o título de cada bloco e o texto dos botões.
+
+NÃO ESCREVA
+${blocoNaoEscreva(['Bloco que a original não tem só pra parecer completo. Se a original pula uma etapa, a minha também pula.'])}
+
+Antes de entregar, leia a página como se fosse eu explicando pra uma cliente olhando no olho. Corte toda frase que eu não diria.
+
+ME ENTREGUE
+O que eu repito da original: uma linha.
+Os blocos, na ordem: título do bloco, texto e, quando tiver, o texto do botão.
+Mais 2 opções de título pra primeira dobra.`
+}
+
+// ── Ficha em texto (pro Kit) ──
+// A mesma ficha do "Fazer a minha versão", em texto pra copiar e preencher.
+export const FICHA_TEXTO = `FICHA DO MEU NEGÓCIO (preencha uma vez e guarde)
+
+O que eu vendo:
+Tipo de negócio (negócio local, prestação de serviço, infoproduto ou e-commerce):
+Pra quem, com detalhe (segmento, cargo, momento de vida):
+O que muda pra ela (o resultado, não o produto):
+Como a minha cliente fala do problema, com as palavras dela:
+Uma prova real, com contexto (de quem, o que mudou, em quanto tempo):
+O "mas" que eu mais ouço:
+Preço ou condição real (se não tiver, deixe em branco):
+Pra onde o anúncio leva e o que a pessoa ganha ao clicar:
+Um texto meu, pra IA pegar o meu jeito de falar (uma legenda ou a transcrição de um áudio):
+Eu nunca diria:`

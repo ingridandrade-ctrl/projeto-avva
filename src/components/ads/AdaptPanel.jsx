@@ -1,33 +1,45 @@
 import { useMemo, useState } from 'react'
 import CopyButton from '../ui/CopyButton'
-import { camposPara, TIPOS, TONS, DESTINOS, DESTINO_SUGESTAO, DESTINO_AJUDA, loadFicha, saveFicha, buildPrompt, linkChatGPT, linkClaude } from '../../lib/adaptar'
+import { CAMPOS, TIPOS, TONS, DESTINOS, DESTINO_SUGESTAO, DESTINO_AJUDA, loadFicha, saveFicha, buildPrompt, linkChatGPT, linkClaude, cabeNoLink } from '../../lib/adaptar'
 import { isPage } from '../../lib/catalog'
 import './AdaptPanel.css'
 
-// "Fazer a minha versão": abre a IA com a análise deste anúncio, as perguntas
-// certas para a coleção dele e o negócio da aluna. Campos opcionais, salvos no
-// aparelho; o que faltar, a IA pergunta antes de escrever.
+// "Fazer a minha versão": a IA entende a sequência deste anúncio, confere se
+// a aluna deu material pra cada passo, escreve a fala na voz dela e só então
+// corta em cenas. Campos opcionais, salvos no aparelho; o que faltar, a IA
+// pergunta antes de escrever.
 export default function AdaptPanel({ ad, collectionTitle, collectionSlug }) {
   const [open, setOpen] = useState(false)
   const [ficha, setFicha] = useState(() => loadFicha())
   const [verPrompt, setVerPrompt] = useState(false)
 
   const prompt = useMemo(() => buildPrompt({ ad, collectionTitle, collectionSlug, ficha }), [ad, collectionTitle, collectionSlug, ficha])
+  const cabe = useMemo(() => cabeNoLink(prompt), [prompt])
   const sugestao = (ad.objectives || []).map(o => DESTINO_SUGESTAO[o]).filter(Boolean)[0]
-  const campos = camposPara(ad, collectionSlug)
   const pagina = isPage(ad)
-  const tons = (ficha.tons || '').split(', ').filter(Boolean)
+  const tomAtual = TONS.find(t => t.nome === ficha.tom)
 
-  function toggleTom(t) {
-    const next = tons.includes(t) ? tons.filter(x => x !== t) : [...tons, t].slice(-2)
-    edit('tons', next.join(', '))
-  }
+  const negocio = CAMPOS.filter(c => c.grupo === 'negocio')
+  const voz = CAMPOS.filter(c => c.grupo === 'voz')
+  const ganha = CAMPOS.find(c => c.key === 'ganha')
 
   function edit(key, value) {
     const next = { ...ficha, [key]: value }
     setFicha(next)
     saveFicha(next)
   }
+
+  const campo = (c) => (
+    <label key={c.key} className={`adapt__field ${c.longo ? 'adapt__field--longo' : ''}`}>
+      <span className="adapt__rotulo">{c.label}</span>
+      <small>{c.ajuda}</small>
+      {c.longo ? (
+        <textarea rows={4} value={ficha[c.key] || ''} onChange={e => edit(c.key, e.target.value)} placeholder={c.placeholder} />
+      ) : (
+        <input type="text" value={ficha[c.key] || ''} onChange={e => edit(c.key, e.target.value)} placeholder={c.placeholder} />
+      )}
+    </label>
+  )
 
   return (
     <div className={`adapt ${open ? 'adapt--open' : ''}`}>
@@ -40,8 +52,8 @@ export default function AdaptPanel({ ad, collectionTitle, collectionSlug }) {
       {open && (
         <div className="adapt__body">
           <p className="adapt__intro">
-            <strong>{pagina ? 'A IA destrincha a análise dessa página, bloco por bloco, e escreve a sua versão.' : 'A IA destrincha a análise desse anúncio pela lente da coleção e escreve a sua versão.'}</strong>{' '}
-            Nenhum campo é obrigatório: o que você preencher fica salvo no seu aparelho, e o que faltar ela pergunta antes de escrever.
+            <strong>{pagina ? 'A IA entende a sequência dessa página e escreve a sua, bloco por bloco, na sua voz.' : 'A IA entende a sequência desse anúncio e escreve a sua versão na sua voz, com a mesma duração.'}</strong>{' '}
+            Nenhum campo é obrigatório. O que você preencher fica salvo no seu aparelho, e o que faltar ela pergunta antes de escrever.
           </p>
 
           <section className="adapt__passo">
@@ -60,18 +72,7 @@ export default function AdaptPanel({ ad, collectionTitle, collectionSlug }) {
             </div>
 
             <div className="adapt__grid">
-              {campos.map(c => (
-                <label key={c.key} className="adapt__field">
-                  <span className="adapt__rotulo">{c.label}</span>
-                  <small>{c.ajuda}</small>
-                  <input
-                    type="text"
-                    value={ficha[c.key] || ''}
-                    onChange={e => edit(c.key, e.target.value)}
-                    placeholder={c.placeholder}
-                  />
-                </label>
-              ))}
+              {negocio.map(campo)}
             </div>
           </section>
 
@@ -79,22 +80,32 @@ export default function AdaptPanel({ ad, collectionTitle, collectionSlug }) {
             <header className="adapt__passo-head">
               <span className="adapt__num">2</span>
               <div>
-                <h4>Como você fala</h4>
-                <small>Escolha até duas. Ou escreva do seu jeito.</small>
+                <h4>A sua voz</h4>
+                <small>É o que mais tira a cara de IA. Um texto seu vale mais que qualquer ajuste.</small>
               </div>
             </header>
-            <div className="adapt__chips">
-              {TONS.map(t => (
-                <button type="button" key={t} className={`adapt__chip ${tons.includes(t) ? 'adapt__chip--on' : ''}`} onClick={() => toggleTom(t)}>{t}</button>
-              ))}
+
+            <div className="adapt__grid">
+              {voz.map(campo)}
             </div>
-            <input
-              type="text"
-              className="adapt__outro"
-              value={ficha.tomOutro || ''}
-              onChange={e => edit('tomOutro', e.target.value)}
-              placeholder="Outro jeito: ex. sem frescura, de amiga pra amiga"
-            />
+
+            <div className="adapt__grupo">
+              <span className="adapt__rotulo">Como você escreve</span>
+              <small className="adapt__ajuda">Escolha um. Cada opção vira uma regra concreta pra IA, não um adjetivo.</small>
+              <div className="adapt__chips">
+                {TONS.map(t => (
+                  <button type="button" key={t.nome} className={`adapt__chip ${ficha.tom === t.nome ? 'adapt__chip--on' : ''}`} onClick={() => edit('tom', ficha.tom === t.nome ? '' : t.nome)}>{t.nome}</button>
+                ))}
+              </div>
+              {tomAtual && <p className="adapt__sugestao">{tomAtual.regra}</p>}
+              <input
+                type="text"
+                className="adapt__outro"
+                value={ficha.tomOutro || ''}
+                onChange={e => edit('tomOutro', e.target.value)}
+                placeholder="Mais sobre o seu jeito, se quiser: ex. falo rápido, sem rodeio"
+              />
+            </div>
           </section>
 
           {!pagina && <section className="adapt__passo">
@@ -115,6 +126,9 @@ export default function AdaptPanel({ ad, collectionTitle, collectionSlug }) {
                 >{d}</button>
               ))}
             </div>
+            <div className="adapt__grid adapt__grid--um">
+              {campo(ganha)}
+            </div>
             {sugestao && <p className="adapt__sugestao">{sugestao}</p>}
           </section>}
 
@@ -123,24 +137,33 @@ export default function AdaptPanel({ ad, collectionTitle, collectionSlug }) {
               <span className="adapt__num">{pagina ? 3 : 4}</span>
               <div>
                 <h4>Agora é só abrir na IA</h4>
-                <small>A IA escreve, você decide. Se sair uma prova que você não tem, apaga.</small>
+                <small>Se ela perguntar antes de escrever, é de propósito: responda e ela continua. Se sair uma prova que você não tem, apaga.</small>
               </div>
             </header>
 
-            <div className="adapt__ias">
-              <a className="adapt__cta" href={linkChatGPT(prompt)} target="_blank" rel="noreferrer">
-                Abrir no ChatGPT
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-              </a>
-              <a className="adapt__cta adapt__cta--claude" href={linkClaude(prompt)} target="_blank" rel="noreferrer">
-                Abrir no Claude
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-              </a>
-            </div>
+            {cabe ? (
+              <div className="adapt__ias">
+                <a className="adapt__cta" href={linkChatGPT(prompt)} target="_blank" rel="noreferrer">
+                  Abrir no ChatGPT
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                </a>
+                <a className="adapt__cta adapt__cta--claude" href={linkClaude(prompt)} target="_blank" rel="noreferrer">
+                  Abrir no Claude
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                </a>
+              </div>
+            ) : (
+              <div className="adapt__ias adapt__ias--copiar">
+                <CopyButton text={prompt} label="Copiar o prompt" />
+                <p className="adapt__aviso">Com o seu texto, o prompt ficou longo demais pra abrir pelo link. Copie e cole no ChatGPT ou no Claude.</p>
+              </div>
+            )}
 
             <div className="adapt__extras">
-              <span>Prefere outra IA?</span>
-              <CopyButton text={prompt} label="Copiar prompt" />
+              {cabe && <>
+                <span>Prefere outra IA?</span>
+                <CopyButton text={prompt} label="Copiar prompt" />
+              </>}
               <button type="button" className="adapt__ver" onClick={() => setVerPrompt(v => !v)}>{verPrompt ? 'Esconder o prompt' : 'Ver o prompt'}</button>
             </div>
 

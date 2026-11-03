@@ -25,6 +25,7 @@ export default function AdminAdForm({ kind = 'anuncio' }) {
     extras: [],
     media_type: ehPagina ? 'image' : 'video',
     page_type: '',
+    duration_seconds: '',
     drive_url: '',
     analysis: '',
     active: true,
@@ -77,6 +78,7 @@ export default function AdminAdForm({ kind = 'anuncio' }) {
         extras: data.extras || [],
         media_type: data.media_type || (ehPagina ? 'image' : 'video'),
         page_type: data.page_type || '',
+        duration_seconds: data.duration_seconds ?? '',
         drive_url: data.drive_url || '',
         analysis: data.analysis || '',
         active: data.active ?? true,
@@ -132,12 +134,18 @@ export default function AdminAdForm({ kind = 'anuncio' }) {
     setSaving(true)
 
     const origem = collections.find(c => c.id === form.collection_id)
-    const row = { ...form, kind, page_type: ehPagina ? form.page_type : null, objectives: ehPagina ? [] : form.objectives, extras: ehPagina ? [] : form.extras.filter(s => s !== origem?.slug) }
+    const dur = form.media_type === 'video' && !ehPagina && String(form.duration_seconds).trim() !== '' ? parseInt(form.duration_seconds, 10) : null
+    const row = { ...form, kind, page_type: ehPagina ? form.page_type : null, objectives: ehPagina ? [] : form.objectives, extras: ehPagina ? [] : form.extras.filter(s => s !== origem?.slug), duration_seconds: Number.isFinite(dur) && dur > 0 ? dur : null }
     let error
     if (isEdit) {
       ;({ error } = await supabase.from('ads').update(row).eq('id', id))
     } else {
       ;({ error } = await supabase.from('ads').insert(row))
+    }
+    if (error && /duration_seconds/i.test(error.message)) {
+      setFeedback({ type: 'error', msg: 'Pra salvar a duração, rode o arquivo supabase-migration-duracao.sql no Supabase.' })
+      setSaving(false)
+      return
     }
     if (error && /extras/i.test(error.message)) {
       setFeedback({ type: 'error', msg: 'Pra marcar especiais extras, rode o arquivo supabase-migration-extras.sql no Supabase.' })
@@ -252,6 +260,21 @@ export default function AdminAdForm({ kind = 'anuncio' }) {
             </select>
           </div>
         </div>
+
+        {!ehPagina && form.media_type === 'video' && (
+          <div className="admin-form__field admin-form__field--curto">
+            <label>Duração do vídeo (segundos)</label>
+            <input
+              type="number"
+              min="1"
+              max="900"
+              value={form.duration_seconds}
+              onChange={e => handleChange('duration_seconds', e.target.value)}
+              placeholder="Ex.: 100"
+            />
+            <small className="admin-form__hint">O "Fazer a minha versão" pede a mesma duração do original. Sem o número, usa de 30 a 60 segundos (ou 60 a 180 na Especial Mini VSL).</small>
+          </div>
+        )}
 
         {!ehPagina && <div className="admin-form__field">
           <label>Objetivos (coleções por objetivo — pode marcar vários)</label>

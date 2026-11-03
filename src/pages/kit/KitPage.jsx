@@ -107,14 +107,14 @@ export default function KitPage() {
               )
             })}
           </div>
-          <p className="kit-section__nota">Um anúncio pode cumprir duas funções. Um anúncio que tenta cumprir as cinco não cumpre nenhuma.</p>
+          <p className="kit-section__nota">Um anúncio pode cumprir duas funções. Um anúncio que tenta cumprir as seis não cumpre nenhuma.</p>
         </section>
 
         <div className="kit-section__divider" />
 
-        {/* ── As 5 estruturas ── */}
+        {/* ── As 6 estruturas ── */}
         <section className="kit-section" id="kit-estrutura">
-          <h2>As 5 estruturas de anúncio</h2>
+          <h2>As 6 estruturas de anúncio</h2>
           <div className="kit-tabs" role="tablist">
             {ESTRUTURAS.map((e, i) => (
               <button
@@ -151,7 +151,7 @@ export default function KitPage() {
                 </div>
               </div>
 
-              <h4 className="kit-est__titulo">A estrutura em vídeo</h4>
+              <h4 className="kit-est__titulo">A sequência em vídeo</h4>
               <ol className="kit-passos">
                 {estrutura.video.map((v, i) => (
                   <li key={i} className="kit-passo">
@@ -188,7 +188,7 @@ export default function KitPage() {
                 <div className="kit-prompt__head">
                   <div>
                     <h4>Super prompt: {estrutura.title}</h4>
-                    <p>Cole a ficha, cole o prompt e responda ao que ele pedir.</p>
+                    <p>Cole a ficha, cole o prompt e responda ao que ele perguntar antes de escrever.</p>
                   </div>
                   <div className="kit-prompt__acoes">
                     <button type="button" className="kit-prompt__toggle" onClick={() => setPromptAberto(v => !v)}>

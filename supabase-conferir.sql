@@ -24,6 +24,7 @@ with checks (ordem, item, arquivo, ok) as (
   (14, 'ads.page_type',                'supabase-migration-paginas.sql',      exists (select 1 from information_schema.columns where table_schema='public' and table_name='ads' and column_name='page_type')),
   (15, 'collections.cover_url',        'supabase-migration-capas.sql',        exists (select 1 from information_schema.columns where table_schema='public' and table_name='collections' and column_name='cover_url')),
   (16, 'collections.featured',         'supabase-migration-destaque.sql',     exists (select 1 from information_schema.columns where table_schema='public' and table_name='collections' and column_name='featured')),
+  (31, 'ads.duration_seconds (duração do vídeo)', 'supabase-migration-duracao.sql', exists (select 1 from information_schema.columns where table_schema='public' and table_name='ads' and column_name='duration_seconds')),
   (30, 'ads.extras (também nas especiais)', 'supabase-migration-extras.sql', exists (select 1 from information_schema.columns where table_schema='public' and table_name='ads' and column_name='extras')),
   (29, 'collections.kind (tipo da coleção)', 'supabase-migration-tipos-colecao.sql', exists (select 1 from information_schema.columns where table_schema='public' and table_name='collections' and column_name='kind')),
   (17, 'users.cakto_order_id',         'supabase-migration-cakto.sql',        exists (select 1 from information_schema.columns where table_schema='public' and table_name='users' and column_name='cakto_order_id')),
