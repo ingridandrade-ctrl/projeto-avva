@@ -27,3 +27,5 @@
   cursor: pointer;
 }
 .admin-form__linkbtn:disabled { opacity: 0.6; cursor: wait; }
+
+.admin-form__field--curto input { max-width: 200px; }

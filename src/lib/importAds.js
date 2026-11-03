@@ -45,6 +45,7 @@ const LABELS = {
   collection: ['colecao de origem', 'colecao', 'colecao do mes', 'origem'],
   objectives: ['objetivos', 'objetivo', 'colecoes por objetivo'],
   extras: ['tambem em', 'especiais', 'especial', 'tambem aparece em', 'aparece tambem em'],
+  duration: ['duracao', 'duracao do video', 'tempo', 'segundos'],
   niches: ['nichos', 'nicho'],
   media: ['midia', 'tipo de midia', 'tipo', 'formato', 'arquivo'],
   pageType: ['tipo de pagina', 'tipo da pagina', 'pagina'],
@@ -85,6 +86,18 @@ const PAGE_EXTRAS = { 'venda': 'vendas', 'vendas': 'vendas', 'sales': 'vendas', 
 const PAGE_MEDIA_EXTRAS = { 'print': 'image', 'imagem': 'image', 'png': 'image', 'jpg': 'image', 'jpeg': 'image', 'foto': 'image', 'pdf': 'pdf' }
 const OBJ_EXTRAS = { 'descoberta': 'ser-descoberta', 'atrair': 'ser-descoberta', 'seguidores': 'ser-descoberta', 'captar': 'captar-leads', 'leads': 'captar-leads', 'lead': 'captar-leads', 'cadastro': 'captar-leads', 'inscricao': 'captar-leads', 'entende': 'mostrar-que-voce-entende', 'autoridade': 'mostrar-que-voce-entende', 'funciona': 'provar-que-funciona', 'prova': 'provar-que-funciona', 'mas': 'quebrar-o-mas', 'objecao': 'quebrar-o-mas', 'vender': 'vender-agora', 'oferta': 'vender-agora' }
 
+// "100", "100s", "1:40", "1min40", "1 min 40 s" → segundos
+function parseDuracao(s = '') {
+  const t = norm(s)
+  if (!t) return null
+  const mmss = t.match(/^(\d+)[:h](\d{1,2})/)
+  if (mmss) return Number(mmss[1]) * 60 + Number(mmss[2])
+  const minSeg = t.match(/(\d+)\s*min(?:utos?)?\s*(?:e\s*)?(\d+)?/)
+  if (minSeg) return Number(minSeg[1]) * 60 + Number(minSeg[2] || 0)
+  const seg = t.match(/(\d+)/)
+  return seg ? Number(seg[1]) : null
+}
+
 function findCollection(value, allCollections) {
   const v = norm(value)
   if (!v) return null
@@ -108,7 +121,7 @@ export function parseImport(text, collections = [], existingByDrive = new Map(),
     .filter(Boolean)
 
   return blocks.map((block, index) => {
-    const raw = { title: '', collection: '', objectives: '', extras: '', niches: '', media: '', pageType: '', drive: '', analysis: [] }
+    const raw = { title: '', collection: '', objectives: '', extras: '', niches: '', media: '', pageType: '', duration: '', drive: '', analysis: [] }
     let current = null
     for (const line of block.split('\n')) {
       const l = labelOf(line)
@@ -142,6 +155,7 @@ export function parseImport(text, collections = [], existingByDrive = new Map(),
       ? (matchOption(raw.media, PAGE_MEDIA_TYPES, PAGE_MEDIA_EXTRAS) || (raw.media ? null : 'image'))
       : (matchOption(raw.media, MEDIA_TYPES, MEDIA_EXTRAS) || (raw.media ? null : 'video'))
     const page_type = ehPagina ? matchOption(raw.pageType, PAGE_TYPES, PAGE_EXTRAS) : null
+    const duration_seconds = !ehPagina && media_type === 'video' ? parseDuracao(raw.duration) : null
     const drive_url = (raw.drive.match(/https?:\/\/\S+/) || [raw.drive])[0].trim()
     const analysis = raw.analysis.join('\n').replace(/\n{3,}/g, '\n\n').replace(/^\*+|\*+$/g, '').trim()
     const id = driveId(drive_url)
@@ -169,6 +183,7 @@ export function parseImport(text, collections = [], existingByDrive = new Map(),
       collectionLabel: col?.title || raw.collection,
       objectives: [...new Set(objectives)],
       extras,
+      duration_seconds,
       niches,
       media_type,
       kind,
@@ -188,6 +203,7 @@ export function toRow(item) {
     collection_id: item.collection_id,
     objectives: item.objectives,
     extras: item.extras || [],
+    duration_seconds: item.duration_seconds || null,
     niches: item.niches,
     media_type: item.media_type,
     kind: item.kind || 'anuncio',

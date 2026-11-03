@@ -287,3 +287,54 @@
   cursor: pointer;
 }
 .adapt__extras .copy-btn--copied { background: var(--teal-profundo); color: #fff; border-color: var(--teal-profundo); }
+
+/* ── Ficha única: campos longos, tom com regra, aviso de link ── */
+.adapt__field textarea {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 12px 14px;
+  border: 1px solid rgba(76, 54, 45, 0.16);
+  border-radius: 12px;
+  background: var(--off-white, #F7F4F0);
+  font: inherit;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  color: var(--tinta);
+  resize: vertical;
+  min-height: 96px;
+  transition: border-color 0.15s ease, background 0.15s ease, box-shadow 0.15s ease;
+}
+
+.adapt__field textarea:focus {
+  outline: none;
+  background: #fff;
+  border-color: var(--terracotta);
+  box-shadow: 0 0 0 3px rgba(150, 94, 65, 0.14);
+}
+
+.adapt__field--longo { grid-column: 1 / -1; }
+.adapt__grid--um { grid-template-columns: 1fr; margin-top: 12px; }
+
+.adapt__ajuda {
+  display: block;
+  margin-top: -4px;
+  font-size: 0.8rem;
+  line-height: 1.4;
+  color: rgba(76, 54, 45, 0.6);
+}
+
+.adapt__ias--copiar { flex-direction: column; align-items: center; gap: 10px; }
+.adapt__ias--copiar .copy-btn { font-size: 1rem; padding: 12px 22px; }
+
+.adapt__aviso {
+  margin: 0;
+  max-width: 420px;
+  text-align: center;
+  font-size: 0.85rem;
+  line-height: 1.5;
+  color: rgba(76, 54, 45, 0.75);
+}
+
+@media (max-width: 640px) {
+  .adapt__grid { grid-template-columns: 1fr; }
+}
