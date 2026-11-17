@@ -77,6 +77,7 @@
 
 /* Estrelas decorativas (o ✦ da área de membros) */
 .lp-estrela {
+  --rot: 0deg;
   position: absolute;
   font-style: normal;
   line-height: 1;
@@ -84,13 +85,15 @@
   pointer-events: none;
   user-select: none;
   z-index: 0;
+  rotate: var(--rot);
+  filter: drop-shadow(0 0 24px rgba(212, 185, 154, 0.45));
 }
 
-.lp-estrela--1 { top: -30px; left: -34px; font-size: 180px; opacity: 0.55; transform: rotate(-12deg); }
-.lp-estrela--2 { bottom: -40px; right: -30px; font-size: 150px; color: var(--lp-terra); opacity: 0.32; transform: rotate(18deg); }
-.lp-estrela--3 { top: -20px; right: -40px; font-size: 220px; opacity: 0.35; transform: rotate(10deg); }
-.lp-estrela--4 { top: 30px; left: -50px; font-size: 200px; opacity: 0.45; transform: rotate(-14deg); }
-.lp-estrela--5 { bottom: -10px; right: -40px; font-size: 170px; color: var(--lp-terra); opacity: 0.3; transform: rotate(8deg); }
+.lp-estrela--1 { top: -30px; left: -34px; font-size: 180px; opacity: 0.55; --rot: -12deg; }
+.lp-estrela--2 { bottom: -40px; right: -30px; font-size: 150px; color: var(--lp-terra); opacity: 0.32; --rot: 18deg; }
+.lp-estrela--3 { top: -20px; right: -40px; font-size: 220px; opacity: 0.35; --rot: 10deg; }
+.lp-estrela--4 { top: 30px; left: -50px; font-size: 200px; opacity: 0.45; --rot: -14deg; }
+.lp-estrela--5 { bottom: -10px; right: -40px; font-size: 170px; color: var(--lp-terra); opacity: 0.3; --rot: 8deg; }
 
 /* ── Logo ── */
 .lp-logo {
@@ -579,7 +582,7 @@
 .lp-bonus { background: var(--lp-cream); }
 .lp-bonus__head { max-width: 620px; margin-bottom: 32px; }
 .lp-bonus__head h2 { margin-top: 18px; }
-.lp-pill--terra { background: var(--lp-terra); color: #fff; }
+.lp-pill.lp-pill--terra { background: var(--lp-terra); color: #fff; }
 
 .lp-bonus__grid {
   list-style: none;
@@ -1418,4 +1421,286 @@
 @media (prefers-reduced-motion: reduce) {
   .lp *, .lp *::before, .lp *::after { animation: none !important; transition: none !important; }
   .lp-reveal { opacity: 1; transform: none; }
+}
+
+
+/* ═══════════════════════════════════════════════════════════
+   Direção de arte: o palco das capas vem pra página
+   (grade fina, órbitas, sparkles, profundidade, serif itálica)
+   ═══════════════════════════════════════════════════════════ */
+
+/* 1. Palco: grade fina com máscara radial + halo quente no pé */
+.lp-palco { position: relative; isolation: isolate; }
+.lp-palco::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background-image:
+    linear-gradient(rgba(212, 185, 154, 0.09) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(212, 185, 154, 0.09) 1px, transparent 1px);
+  background-size: 44px 44px;
+  -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 35%, #000 20%, transparent 80%);
+  mask-image: radial-gradient(ellipse 70% 60% at 50% 35%, #000 20%, transparent 80%);
+}
+.lp-palco::after {
+  content: '';
+  position: absolute;
+  inset: auto 0 0;
+  height: 60%;
+  pointer-events: none;
+  z-index: 0;
+  background: radial-gradient(ellipse 60% 50% at 50% 100%, rgba(150, 94, 65, 0.28), transparent 70%);
+}
+.lp-palco--claro::before {
+  background-image:
+    linear-gradient(rgba(46, 33, 27, 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(46, 33, 27, 0.06) 1px, transparent 1px);
+}
+.lp-palco--claro::after { background: radial-gradient(ellipse 60% 50% at 50% 100%, rgba(150, 94, 65, 0.12), transparent 70%); }
+.lp-palco > * { position: relative; z-index: 1; }
+.lp-palco > .lp-estrela { position: absolute; z-index: 0; }
+
+/* 2. Hero: órbita inclinada girando ao redor da logo, que respira */
+.lp-palco-logo { position: relative; display: grid; justify-items: center; }
+.lp-orbita {
+  position: absolute;
+  left: 50%;
+  top: 30%;
+  width: min(420px, 110vw);
+  aspect-ratio: 1;
+  translate: -50% -50%;
+  perspective: 900px;
+  pointer-events: none;
+  z-index: 0;
+}
+.lp-orbita__anel {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 1.5px solid rgba(150, 94, 65, 0.45);
+  transform: rotateX(72deg) rotateZ(0deg);
+  animation: lp-orbita 26s linear infinite;
+  will-change: transform;
+}
+.lp-orbita__anel i {
+  position: absolute;
+  top: -11px;
+  left: 50%;
+  font-style: normal;
+  font-size: 20px;
+  line-height: 1;
+  color: var(--lp-terra);
+  transform: rotateX(-72deg);
+}
+@keyframes lp-orbita { to { transform: rotateX(72deg) rotateZ(360deg); } }
+.lp-logomarca { position: relative; z-index: 1; animation: lp-flutua 6s ease-in-out infinite; }
+@keyframes lp-flutua { 50% { translate: 0 -8px; } }
+.lp-hero__sombra {
+  display: block;
+  width: min(240px, 60vw);
+  height: 28px;
+  margin: -6px auto 0;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(46, 33, 27, 0.22), transparent);
+  filter: blur(8px);
+}
+
+/* 3. Serif itálica como acento (a língua das capas) */
+.lp-hero__frase em,
+.lp-oque__frase em,
+.lp-praquem__intro em {
+  font-family: var(--lp-serif);
+  font-style: italic;
+  font-weight: 400;
+  font-size: 1.22em;
+  letter-spacing: -0.01em;
+  line-height: 0.95;
+}
+.lp-hero__frase { font-size: clamp(1.65rem, 6.6vw, 2.6rem); }
+
+/* 4. Cards de coleção viram mini-capas */
+.lp-card--terra, .lp-card--areia { background: none; }
+.lp-card__tilt {
+  position: relative;
+  overflow: hidden;
+  padding: 30px 20px 28px;
+  border: 1px solid rgba(212, 185, 154, 0.22);
+  color: #fff;
+  background-color: #1b1512;
+  background-image:
+    radial-gradient(120% 90% at 50% 0%, rgba(150, 94, 65, 0.55), transparent 60%),
+    linear-gradient(rgba(212, 185, 154, 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(212, 185, 154, 0.08) 1px, transparent 1px);
+  background-size: auto, 28px 28px, 28px 28px;
+}
+.lp-card--areia .lp-card__tilt { background-color: #083232; }
+.lp-card__tilt::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 22px;
+  width: 150px;
+  height: 46px;
+  translate: -50% 0;
+  border-radius: 50%;
+  border: 1px solid rgba(212, 185, 154, 0.45);
+  transform: rotate(-14deg);
+  pointer-events: none;
+}
+.lp-card .lp-seta { position: relative; background: rgba(255, 255, 255, 0.14); color: #fff; }
+.lp-card--areia .lp-seta { background: var(--lp-areia); color: var(--lp-ink); }
+.lp-card h3 { font-size: 1.6rem; color: #fff; }
+.lp-card p { color: var(--lp-areia); opacity: 1; }
+
+/* 5. Bônus: a capa é o card */
+.lp-bonus__card {
+  padding: 0;
+  background: none;
+  border: none;
+  box-shadow: none;
+  perspective: 900px;
+}
+.lp-bonus__tilt {
+  --rx: 0deg;
+  --ry: 0deg;
+  position: relative;
+  overflow: hidden;
+  border-radius: 22px;
+  background: #1b1512;
+  color: #fff;
+  border: 1px solid rgba(212, 185, 154, 0.2);
+  box-shadow: 0 30px 60px -20px rgba(46, 33, 27, 0.5);
+  transform: rotateX(var(--rx)) rotateY(var(--ry));
+  transition: transform 0.35s var(--lp-ease);
+}
+.lp-bonus__capa { border-radius: 0; margin: 0; aspect-ratio: 3 / 4; }
+.lp-bonus__kicker {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  margin: 0;
+  padding: 6px 12px;
+  border-radius: 100px;
+  background: rgba(247, 244, 240, 0.92);
+  color: var(--lp-terra);
+}
+.lp-bonus__card h3 { margin: 18px 20px 0; color: #fff; }
+.lp-bonus__card p { margin: 8px 20px 0; padding-bottom: 24px; color: rgba(255, 255, 255, 0.74); }
+
+/* 6. Espiadinha: fichas translúcidas com o numeral gigante atrás */
+.lp-espiada__card {
+  position: relative;
+  overflow: hidden;
+  grid-template-columns: 1fr;
+  background: rgba(255, 255, 255, 0.045);
+  border: 1px solid rgba(212, 185, 154, 0.22);
+  color: #fff;
+}
+.lp-espiada__card--areia { background: rgba(212, 185, 154, 0.10); color: #fff; }
+.lp-espiada__marca {
+  position: absolute;
+  right: -6px;
+  top: -18px;
+  width: auto;
+  height: auto;
+  border-radius: 0;
+  background: none !important;
+  box-shadow: none !important;
+  font-family: var(--lp-serif);
+  font-style: italic;
+  font-weight: 400;
+  font-size: 132px;
+  line-height: 1;
+  color: rgba(212, 185, 154, 0.14) !important;
+}
+.lp-espiada__card > div { position: relative; }
+.lp-espiada__tipo { color: var(--lp-areia); opacity: 1; }
+.lp-espiada__card h3 { color: #fff; }
+.lp-espiada__card p { color: rgba(255, 255, 255, 0.8); }
+
+/* 7. Preço com halo e órbita */
+.lp-invest__preco {
+  position: relative;
+  display: inline-block;
+  isolation: isolate;
+  background: linear-gradient(180deg, #965E41, #c97a4f 70%, #D4B99A);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.lp-invest__preco::before {
+  content: '';
+  position: absolute;
+  left: -25%;
+  top: 30%;
+  width: 150%;
+  height: 40%;
+  border-radius: 50%;
+  border: 1.5px solid rgba(150, 94, 65, 0.4);
+  transform: rotate(-10deg);
+  z-index: -1;
+}
+.lp-invest__preco::after {
+  content: '';
+  position: absolute;
+  inset: -30% -20%;
+  z-index: -2;
+  background: radial-gradient(closest-side, rgba(150, 94, 65, 0.22), transparent);
+}
+
+/* 8. FAQ: linhas finas sobre o palco escuro */
+.lp-faq__lista { gap: 0; }
+.lp-faq__item { border-radius: 0; background: transparent; border-top: 1px solid rgba(212, 185, 154, 0.22); }
+.lp-faq__item:last-child { border-bottom: 1px solid rgba(212, 185, 154, 0.22); }
+.lp-faq__item.is-open { background: rgba(212, 185, 154, 0.06); }
+.lp-faq__q { padding: 20px 4px; color: #fff; }
+.lp-faq__q svg { color: var(--lp-areia); }
+.lp-faq__a p { padding: 0 4px 22px; color: rgba(212, 185, 154, 0.9); }
+
+/* 9. Estrelas com paralaxe por scroll (onde o navegador suporta) */
+@supports (animation-timeline: view()) {
+  .lp-estrela {
+    animation: lp-deriva linear both;
+    animation-timeline: view();
+    animation-range: entry 0% exit 100%;
+  }
+  @keyframes lp-deriva {
+    from { translate: 0 70px; rotate: calc(var(--rot) - 14deg); }
+    to { translate: 0 -70px; rotate: calc(var(--rot) + 14deg); }
+  }
+}
+
+/* 10. Reveal com profundidade */
+.lp-reveal { transform: translateY(28px) scale(0.97); transform-origin: 50% 100%; }
+.lp-reveal.is-in { transform: none; }
+
+/* 11. CTA com brilho varrendo de tempos em tempos */
+.lp-cta { position: relative; overflow: hidden; isolation: isolate; }
+.lp-cta::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(110deg, transparent 35%, rgba(255, 255, 255, 0.28) 50%, transparent 65%);
+  transform: translateX(-120%);
+  animation: lp-brilho 7s var(--lp-ease) infinite;
+}
+@keyframes lp-brilho { 0%, 70% { transform: translateX(-120%); } 85%, 100% { transform: translateX(120%); } }
+.lp-cta--gradiente {
+  background: var(--lp-terra);
+  color: #fff;
+  box-shadow: 0 0 0 1px rgba(212, 185, 154, 0.6), 0 18px 48px rgba(150, 94, 65, 0.45);
+}
+
+@media (min-width: 720px) {
+  .lp-faq__q { padding: 24px 8px; }
+  .lp-faq__a p { padding: 0 8px 26px; }
+  .lp-orbita { width: 520px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lp-orbita__anel, .lp-logomarca, .lp-cta::after { animation: none !important; }
+  .lp-estrela { animation: none !important; translate: 0 0; }
 }

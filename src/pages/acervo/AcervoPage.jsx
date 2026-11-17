@@ -251,7 +251,9 @@ function Reveal({ as: Tag = 'div', className = '', delay = 0, children, ...rest 
     if (!el || !('IntersectionObserver' in window)) { setVis(true); return }
     const io = new IntersectionObserver(([e]) => { if (e.isIntersecting) { setVis(true); io.disconnect() } }, { rootMargin: '0px 0px -8% 0px', threshold: 0.1 })
     io.observe(el)
-    return () => io.disconnect()
+    // Garantia: se o observador não disparar (alguns webviews), aparece mesmo assim
+    const t = setTimeout(() => setVis(true), 1800)
+    return () => { io.disconnect(); clearTimeout(t) }
   }, [])
   return <Tag ref={ref} className={`lp-reveal ${vis ? 'is-in' : ''} ${className}`} style={{ transitionDelay: `${delay}ms` }} {...rest}>{children}</Tag>
 }
@@ -363,6 +365,35 @@ function CardColecao({ c, index }) {
   )
 }
 
+function CardBonus({ b, index }) {
+  const ref = useRef(null)
+  function move(e) {
+    const el = ref.current
+    if (!el || !window.matchMedia('(hover: hover) and (pointer: fine)').matches) return
+    const r = el.getBoundingClientRect()
+    const x = (e.clientX - r.left) / r.width - 0.5
+    const y = (e.clientY - r.top) / r.height - 0.5
+    el.style.setProperty('--rx', `${(-y * 6).toFixed(2)}deg`)
+    el.style.setProperty('--ry', `${(x * 8).toFixed(2)}deg`)
+  }
+  function leave() {
+    const el = ref.current
+    if (!el) return
+    el.style.setProperty('--rx', '0deg')
+    el.style.setProperty('--ry', '0deg')
+  }
+  return (
+    <Reveal as="li" className="lp-bonus__card" delay={index * 80}>
+      <div ref={ref} className="lp-bonus__tilt" onMouseMove={move} onMouseLeave={leave}>
+        <img className="lp-bonus__capa" src={b.capa} alt="" loading="lazy" width="720" height="957" />
+        <span className="lp-bonus__kicker">Bônus {String(index + 1).padStart(2, '0')}</span>
+        <h3>{b.titulo}</h3>
+        <p>{b.texto}</p>
+      </div>
+    </Reveal>
+  )
+}
+
 function Logo({ className = '' }) {
   return (
     <span className={`lp-logo ${className}`}>
@@ -387,11 +418,15 @@ export default function AcervoPage() {
   return (
     <div className="lp">
       {/* ── 1. Hero ── */}
-      <section className="lp-hero" id="topo">
+      <section className="lp-hero lp-palco lp-palco--claro" id="topo">
         <span className="lp-estrela lp-estrela--1" aria-hidden="true">✦</span>
         <span className="lp-estrela lp-estrela--2" aria-hidden="true">✦</span>
         <div className="lp-hero__inner">
-          <img className="lp-logomarca" src="/acervo/logo.webp" alt="acervo de anúncios" width="1140" height="970" fetchPriority="high" />
+          <div className="lp-palco-logo">
+            <div className="lp-orbita" aria-hidden="true"><span className="lp-orbita__anel"><i>✦</i></span></div>
+            <img className="lp-logomarca" src="/acervo/logo.webp" alt="acervo de anúncios" width="1140" height="970" fetchPriority="high" />
+            <span className="lp-hero__sombra" aria-hidden="true" />
+          </div>
           <h1 className="lp-hero__frase">
             A biblioteca de anúncios das empreendedoras que <em>cansaram de começar do zero.</em>
           </h1>
@@ -446,7 +481,7 @@ export default function AcervoPage() {
       </section>
 
       {/* ── 4. O que é + coleções ── */}
-      <section className="lp-section lp-escuro lp-oque">
+      <section className="lp-section lp-escuro lp-palco lp-oque">
         <div className="lp-container lp-oque__grid">
           <Reveal className="lp-oque__texto">
             <p className="lp-oque__frase">
@@ -496,14 +531,7 @@ export default function AcervoPage() {
             </h2>
           </Reveal>
           <ul className="lp-bonus__grid">
-            {BONUS.map((b, i) => (
-              <Reveal as="li" key={b.titulo} className="lp-bonus__card" delay={i * 80}>
-                <img className="lp-bonus__capa" src={b.capa} alt="" loading="lazy" width="720" height="957" />
-                <span className="lp-bonus__kicker">Bônus {String(i + 1).padStart(2, '0')}</span>
-                <h3>{b.titulo}</h3>
-                <p>{b.texto}</p>
-              </Reveal>
-            ))}
+            {BONUS.map((b, i) => <CardBonus key={b.titulo} b={b} index={i} />)}
           </ul>
         </div>
       </section>
@@ -534,7 +562,7 @@ export default function AcervoPage() {
       </section>
 
       {/* ── 6. Espiadinha ── */}
-      <section className="lp-section lp-escuro lp-escuro--umber lp-espiada">
+      <section className="lp-section lp-escuro lp-escuro--umber lp-palco lp-espiada">
         <div className="lp-container lp-container--narrow">
           <Reveal as="h2" className="lp-titulo lp-titulo--grande lp-titulo--centro lp-titulo--claro">
             Pra você dar uma<br /><strong>espiadinha…</strong>
@@ -575,7 +603,7 @@ export default function AcervoPage() {
       </section>
 
       {/* ── 8. Investimento ── */}
-      <section className="lp-section lp-invest" id="oferta">
+      <section className="lp-section lp-invest lp-palco lp-palco--claro" id="oferta">
         <span className="lp-estrela lp-estrela--4" aria-hidden="true">✦</span>
         <span className="lp-estrela lp-estrela--5" aria-hidden="true">✦</span>
         <Reveal className="lp-container lp-container--narrow lp-invest__inner">
@@ -620,7 +648,7 @@ export default function AcervoPage() {
       </section>
 
       {/* ── 9. FAQ ── */}
-      <section className="lp-section lp-escuro lp-faq">
+      <section className="lp-section lp-escuro lp-palco lp-faq">
         <div className="lp-container lp-container--narrow">
           <Reveal className="lp-faq__lista">
             {FAQ.map((item, i) => {
@@ -670,7 +698,7 @@ export default function AcervoPage() {
       </section>
 
       {/* ── Rodapé ── */}
-      <footer className="lp-escuro lp-fim">
+      <footer className="lp-escuro lp-palco lp-fim">
         <div className="lp-container lp-container--narrow lp-fim__inner">
           <Logo className="lp-logo--rodape" />
           <div className="lp-rodape">
