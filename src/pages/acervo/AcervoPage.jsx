@@ -57,7 +57,7 @@ const COLECOES = [
 const BONUS = [
   { titulo: 'Especial Black Friday', texto: 'As páginas e os criativos que venderam na Black Friday, com a análise do que fez cada um funcionar.', capa: '/acervo/capa-black.webp' },
   { titulo: 'Especial Mini VSL', texto: 'Anúncios mais longos, de 1 a 3 minutos, que vendem sozinhos. Pra quem quer entender como se segura atenção até a oferta.', capa: '/acervo/capa-minivsl.webp' },
-  { titulo: 'Especial Páginas', texto: 'Páginas de vendas, captura, obrigado e serviço, com a análise do que faz cada uma converter. E a IA monta a sua, bloco por bloco.', capa: '/acervo/capa-paginas.webp' },
+  { titulo: 'Especial Páginas', texto: 'Páginas de vendas, captura, obrigado e serviço, com a análise do que faz cada uma converter. E a nossa ferramenta monta a sua, bloco por bloco.', capa: '/acervo/capa-paginas.webp' },
 ]
 
 // O que a IA entrega em cada formato, no "Fazer a minha versão"
@@ -72,9 +72,9 @@ const ENTREGAS = [
   { icone: 'grid', texto: <><strong>Anúncios validados</strong> em vídeo, imagem e carrossel, todos rodando de verdade</> },
   { icone: 'pasta', texto: <><strong>{OFERTA.totalColecoes} coleções por objetivo</strong>, de atrair seguidores até vender agora</> },
   { icone: 'lupa', texto: <><strong>Análise de cada anúncio</strong>: por que funciona, em poucas linhas e sem jargão</> },
-  { icone: 'ia', texto: <><strong>Fazer a minha versão, com IA</strong>: em qualquer anúncio, a IA escreve a sua versão na sua voz, a partir do que você entendeu</> },
+  { icone: 'ia', texto: <><strong>Fazer a minha versão</strong>, a nossa ferramenta: em qualquer anúncio, ela escreve a sua versão na sua voz, a partir do que você entendeu</> },
   { icone: 'estrela', texto: <><strong>Melhores do mês</strong>: uma curadoria nova todo mês, garimpada pela Flora</> },
-  { icone: 'presente', texto: <><strong>Bônus</strong>: Especial Black Friday, Especial Mini VSL e Especial Páginas, com análise e versão sua pela IA</> },
+  { icone: 'presente', texto: <><strong>Bônus</strong>: Especial Black Friday, Especial Mini VSL e Especial Páginas, com análise e a sua versão pela nossa ferramenta</> },
   { icone: 'filtro', texto: <><strong>Filtro por nicho e formato</strong>: negócio local, serviço, infoproduto e e-commerce</> },
   { icone: 'celular', texto: <><strong>Área de membros no celular</strong>, com favoritos, busca e marcação do que você já viu</> },
   { icone: 'calendario', texto: <><strong>{OFERTA.acessoPor} de acesso</strong>, com tudo que entrar nesse período</> },
@@ -126,7 +126,7 @@ const OBJECOES = [
 const INCLUSO = [
   <><strong>{OFERTA.totalColecoes} coleções</strong> organizadas por objetivo</>,
   <><strong>Análise de cada anúncio</strong>: por que funciona</>,
-  <><strong>Fazer a minha versão, com IA</strong>, em todo anúncio e página</>,
+  <><strong>Fazer a minha versão</strong>, a nossa ferramenta, em todo anúncio e página</>,
   <><strong>Melhores do mês</strong>: curadoria nova todo mês</>,
   <><strong>Bônus:</strong> Especial Black Friday, Especial Mini VSL e Especial Páginas</>,
   <><strong>Filtro por nicho e formato</strong>, busca e favoritos</>,
@@ -149,7 +149,7 @@ const CENARIOS = [
     titulo: 'Com o acervo',
     itens: [
       'Você abre o celular, escolhe pelo objetivo e lê por que aquele anúncio vende',
-      'Adapta a estrutura pro seu negócio, ou pede pra IA escrever a sua versão, e coloca no ar ainda essa semana',
+      'Adapta a estrutura pro seu negócio, ou usa a nossa ferramenta pra escrever a sua versão, e coloca no ar ainda essa semana',
       'Daqui a 30 dias: anúncios com estrutura, e não com sorte',
     ],
   },
@@ -165,16 +165,16 @@ const FAQ = [
     a: 'O acervo é organizado por objetivo do anúncio (atrair seguidores, captar leads, mostrar que você entende, provar que funciona, quebrar o "mas...", vender agora), e não por nicho. A estrutura que faz uma loja de roupa vender é a mesma que faz uma nutricionista fechar agenda. E dá pra filtrar por negócio local, serviço, infoproduto e e-commerce.',
   },
   {
-    q: 'A IA vai fazer o anúncio por mim?',
-    a: 'Ela escreve a sua versão, mas a partir do que você entendeu. Primeiro você lê a análise e vê por que aquele anúncio funciona. Depois preenche a sua ficha (o que vende, pra quem, uma prova real, como a sua cliente fala) e a IA escreve na sua voz, com a sua prova, sem inventar número. O objetivo é você ganhar autonomia, e a IA encurtar o caminho.',
+    q: 'A ferramenta vai fazer o anúncio por mim?',
+    a: 'Ela escreve a sua versão, mas a partir do que você entendeu. Primeiro você lê a análise e vê por que aquele anúncio funciona. Depois preenche a sua ficha (o que vende, pra quem, uma prova real, como a sua cliente fala) e a ferramenta escreve na sua voz, com a sua prova, sem inventar número. O objetivo é você ganhar autonomia, e a ferramenta encurtar o caminho.',
   },
   {
     q: 'Preciso pagar ChatGPT ou Claude pra usar o gerador?',
-    a: 'Não. O acervo monta o prompt pronto e abre na IA que você preferir, ChatGPT ou Claude, e funciona nas versões gratuitas. Se quiser usar outra IA, é só copiar o prompt.',
+    a: 'Não. A nossa ferramenta monta tudo pronto e abre na IA que você preferir, ChatGPT ou Claude, e funciona nas versões gratuitas. Se quiser usar outra, é só copiar.',
   },
   {
     q: 'O que são os bônus?',
-    a: 'Três blocos que entram junto com o acervo, sem custo: o Especial Black Friday, com páginas e criativos que venderam na Black; o Especial Mini VSL, com anúncios de 1 a 3 minutos que vendem sozinhos; e o Especial Páginas, de vendas, captura, obrigado e serviço, com análise e versão sua pela IA.',
+    a: 'Três blocos que entram junto com o acervo, sem custo: o Especial Black Friday, com páginas e criativos que venderam na Black; o Especial Mini VSL, com anúncios de 1 a 3 minutos que vendem sozinhos; e o Especial Páginas, de vendas, captura, obrigado e serviço, com análise e a sua versão pela nossa ferramenta.',
   },
   {
     q: 'É só pra Instagram e Facebook ou serve pra outras plataformas?',
@@ -281,6 +281,7 @@ function PainelIA() {
           <div className="lp-painel__campos">
             <span>O que você vende</span>
             <span>Pra quem, com detalhe</span>
+            <span>O que muda pra ela</span>
             <span>Uma prova real, com contexto</span>
           </div>
         </div>
@@ -290,6 +291,11 @@ function PainelIA() {
         <span className="lp-painel__num">2</span>
         <div>
           <strong>A sua voz</strong>
+          <div className="lp-painel__campos">
+            <span>Como a sua cliente fala do problema</span>
+            <span>Um texto seu, do jeito que você fala</span>
+          </div>
+          <em className="lp-painel__rotulo">Como você escreve</em>
           <div className="lp-painel__chips">
             {TONS.map(t => <button type="button" key={t.nome} className={tom === t.nome ? 'is-on' : ''} onClick={() => setTom(t.nome)}>{t.nome}</button>)}
           </div>
@@ -310,11 +316,12 @@ function PainelIA() {
       <div className="lp-painel__passo lp-painel__passo--final">
         <span className="lp-painel__num">4</span>
         <div>
-          <strong>Abre na IA e recebe a sua versão</strong>
+          <strong>Agora é só abrir na IA</strong>
           <div className="lp-painel__ias">
             <span className="lp-painel__btn">Abrir no ChatGPT</span>
             <span className="lp-painel__btn lp-painel__btn--claude">Abrir no Claude</span>
           </div>
+          <em className="lp-painel__rotulo">O que sai, por formato</em>
           <div className="lp-painel__formatos" role="tablist" aria-label="Formato">
             {IA_SAIDAS.map((f, i) => <button type="button" role="tab" aria-selected={formato === i} key={f.formato} className={formato === i ? 'is-on' : ''} onClick={() => setFormato(i)}>{f.formato}</button>)}
           </div>
@@ -459,10 +466,10 @@ export default function AcervoPage() {
           <Reveal className="lp-ia__texto">
             <span className="lp-pill">Incluso no acervo</span>
             <h2 className="lp-titulo lp-titulo--grande">
-              Primeiro você entende.<br /><strong>Depois, a IA escreve a sua versão.</strong>
+              Primeiro você entende.<br /><strong>Depois, a nossa ferramenta escreve a sua versão.</strong>
             </h2>
             <p>
-              Em todo anúncio e página do acervo tem o botão <strong>Fazer a minha versão</strong>. Você preenche a sua ficha uma vez (o que vende, pra quem, uma prova real, como a sua cliente fala) e a IA escreve a sua versão daquele anúncio, na sua voz, com a sua prova, sem inventar número.
+              Em todo anúncio e página do acervo tem o botão <strong>Fazer a minha versão</strong>. Você preenche a sua ficha uma vez (o que vende, pra quem, uma prova real, como a sua cliente fala) e a ferramenta escreve a sua versão daquele anúncio, na sua voz, com a sua prova, sem inventar número.
             </p>
             <p>
               Não é pra copiar o anúncio dos outros. É pra entender por que ele vende e sair com o seu pronto pra gravar, ainda hoje.
