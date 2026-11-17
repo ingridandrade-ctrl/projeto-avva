@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { COLLECTIONS } from '../../lib/catalog'
+import { TIPOS, TONS, DESTINOS } from '../../lib/adaptar'
 import './AcervoPage.css'
 
 // ══════════════════════════════════════════════════════════════
@@ -9,8 +10,9 @@ import './AcervoPage.css'
 // ══════════════════════════════════════════════════════════════
 const OFERTA = {
   checkoutUrl: 'https://pay.cakto.com.br/kcpowk4',
-  precoDe: 'R$ 97',    // valor cheio, aparece riscado acima do preço ('' esconde)
+  precoDe: 'R$ 107',   // valor cheio, aparece riscado acima do preço ('' esconde)
   preco: 'R$ 67',
+  precoNota: 'Preço de lançamento', // etiqueta ao lado do preço ('' esconde)
   parcelas: '',        // AJUSTAR: parcelamento do checkout, ex.: 'ou 9x de R$ 11,38' ('' esconde)
   reforco: 'Dá menos de R$ 0,20 por dia. Um anúncio que não vende custa mais que isso.',
   garantiaDias: 7,
@@ -35,7 +37,7 @@ const AFIRMACOES = [
 
 // Coleções mostradas nos cards (as 6 por objetivo + a curadoria mensal)
 const COLECOES = [
-  ...COLLECTIONS.filter(c => c.order <= 6).sort((a, b) => a.order - b.order).map(c => ({
+  ...COLLECTIONS.filter(c => !c.retired && !c.isBonus).sort((a, b) => a.order - b.order).map(c => ({
     slug: c.slug,
     titulo: c.title,
     subtitulo: c.subtitle,
@@ -51,14 +53,31 @@ const COLECOES = [
   },
 ]
 
+// Bônus: entram junto com o acervo, sem custo
+const BONUS = [
+  { titulo: 'Especial Black', texto: 'As páginas e os criativos que venderam na Black Friday, com a análise do que fez cada um funcionar.', gradient: 'linear-gradient(135deg, #2E211B 0%, #4C362D 45%, #965E41 100%)' },
+  { titulo: 'Especial Mini VSL', texto: 'Anúncios mais longos, de 1 a 3 minutos, que vendem sozinhos. Pra quem quer entender como se segura atenção até a oferta.', gradient: 'linear-gradient(135deg, #0C4747 0%, #1A6868 60%, #7FA588 100%)' },
+  { titulo: 'Páginas', texto: 'Páginas de vendas, captura, obrigado e serviço, com a análise do que faz cada uma converter. E a IA monta a sua, bloco por bloco.', gradient: 'linear-gradient(135deg, #8A5C3F 0%, #C98A5E 60%, #D4B99A 100%)' },
+]
+
+// O que a IA entrega em cada formato, no "Fazer a minha versão"
+const IA_SAIDAS = [
+  { formato: 'Vídeo', itens: ['A fala completa, na sua voz, com a mesma duração do original', 'As cenas, uma a uma', '2 ganchos extras pra testar', 'A legenda do post'] },
+  { formato: 'Imagem', itens: ['A frase da imagem', 'A descrição do visual pra você montar', 'A legenda do post'] },
+  { formato: 'Carrossel', itens: ['De 4 a 7 telas, com o texto de cada uma', '2 opções de capa'] },
+  { formato: 'Página', itens: ['Os blocos da página, na ordem', 'O texto de cada botão', '2 títulos de primeira dobra'] },
+]
+
 const ENTREGAS = [
-  { icone: 'calendario', texto: <><strong>{OFERTA.acessoPor} de acesso</strong>, com tudo que entrar nesse período</> },
-  { icone: 'grid', texto: <><strong>Anúncios validados</strong> em vídeo, estático, carrossel e página de venda em PDF, todos rodando de verdade</> },
-  { icone: 'pasta', texto: <><strong>{OFERTA.totalColecoes} coleções por objetivo</strong>, do primeiro contato até a venda</> },
-  { icone: 'estrela', texto: <><strong>Melhores do mês</strong>: uma curadoria nova todo mês, garimpada pela Flora</> },
+  { icone: 'grid', texto: <><strong>Anúncios validados</strong> em vídeo, imagem e carrossel, todos rodando de verdade</> },
+  { icone: 'pasta', texto: <><strong>{OFERTA.totalColecoes} coleções por objetivo</strong>, de atrair seguidores até vender agora</> },
   { icone: 'lupa', texto: <><strong>Análise de cada anúncio</strong>: por que funciona, em poucas linhas e sem jargão</> },
-  { icone: 'filtro', texto: <><strong>Filtro por nicho</strong>: negócio local, serviço, infoproduto e e-commerce</> },
-  { icone: 'celular', texto: <><strong>Área de membros no celular</strong>, com favoritos, busca e "continue de onde parou"</> },
+  { icone: 'ia', texto: <><strong>Fazer a minha versão, com IA</strong>: em qualquer anúncio, a IA escreve a sua versão na sua voz, a partir do que você entendeu</> },
+  { icone: 'estrela', texto: <><strong>Melhores do mês</strong>: uma curadoria nova todo mês, garimpada pela Flora</> },
+  { icone: 'presente', texto: <><strong>Bônus</strong>: Especial Black, Especial Mini VSL e as Páginas, com análise e versão sua pela IA</> },
+  { icone: 'filtro', texto: <><strong>Filtro por nicho e formato</strong>: negócio local, serviço, infoproduto e e-commerce</> },
+  { icone: 'celular', texto: <><strong>Área de membros no celular</strong>, com favoritos, busca e marcação do que você já viu</> },
+  { icone: 'calendario', texto: <><strong>{OFERTA.acessoPor} de acesso</strong>, com tudo que entrar nesse período</> },
 ]
 
 // Análises reais do acervo, do jeito que estão lá dentro
@@ -106,10 +125,11 @@ const OBJECOES = [
 // Checklist do que está incluído, dentro da oferta
 const INCLUSO = [
   <><strong>{OFERTA.totalColecoes} coleções</strong> organizadas por objetivo</>,
-  <><strong>Melhores do mês</strong>: curadoria nova todo mês</>,
   <><strong>Análise de cada anúncio</strong>: por que funciona</>,
-  <><strong>Filtro por nicho</strong>, busca e favoritos</>,
-  <><strong>Área de membros no celular</strong></>,
+  <><strong>Fazer a minha versão, com IA</strong>, em todo anúncio e página</>,
+  <><strong>Melhores do mês</strong>: curadoria nova todo mês</>,
+  <><strong>Bônus:</strong> Especial Black, Especial Mini VSL e Páginas</>,
+  <><strong>Filtro por nicho e formato</strong>, busca e favoritos</>,
   <><strong>{OFERTA.acessoPor} de acesso</strong>, com tudo que entrar nesse período</>,
 ]
 
@@ -129,7 +149,7 @@ const CENARIOS = [
     titulo: 'Com o acervo',
     itens: [
       'Você abre o celular, escolhe pelo objetivo e lê por que aquele anúncio vende',
-      'Adapta a estrutura pro seu negócio e coloca no ar ainda essa semana',
+      'Adapta a estrutura pro seu negócio, ou pede pra IA escrever a sua versão, e coloca no ar ainda essa semana',
       'Daqui a 30 dias: anúncios com estrutura, e não com sorte',
     ],
   },
@@ -142,7 +162,19 @@ const FAQ = [
   },
   {
     q: 'Funciona pro meu nicho?',
-    a: 'O acervo é organizado por objetivo do anúncio (ser descoberta, gerar autoridade, provar que funciona, quebrar objeção, vender agora), e não por nicho. A estrutura que faz uma loja de roupa vender é a mesma que faz uma nutricionista fechar agenda. E dá pra filtrar por negócio local, serviço, infoproduto e e-commerce.',
+    a: 'O acervo é organizado por objetivo do anúncio (atrair seguidores, captar leads, mostrar que você entende, provar que funciona, quebrar o "mas...", vender agora), e não por nicho. A estrutura que faz uma loja de roupa vender é a mesma que faz uma nutricionista fechar agenda. E dá pra filtrar por negócio local, serviço, infoproduto e e-commerce.',
+  },
+  {
+    q: 'A IA vai fazer o anúncio por mim?',
+    a: 'Ela escreve a sua versão, mas a partir do que você entendeu. Primeiro você lê a análise e vê por que aquele anúncio funciona. Depois preenche a sua ficha (o que vende, pra quem, uma prova real, como a sua cliente fala) e a IA escreve na sua voz, com a sua prova, sem inventar número. O objetivo é você ganhar autonomia, e a IA encurtar o caminho.',
+  },
+  {
+    q: 'Preciso pagar ChatGPT ou Claude pra usar o gerador?',
+    a: 'Não. O acervo monta o prompt pronto e abre na IA que você preferir, ChatGPT ou Claude, e funciona nas versões gratuitas. Se quiser usar outra IA, é só copiar o prompt.',
+  },
+  {
+    q: 'O que são os bônus?',
+    a: 'Três blocos que entram junto com o acervo, sem custo: o Especial Black, com páginas e criativos que venderam na Black Friday; o Especial Mini VSL, com anúncios de 1 a 3 minutos que vendem sozinhos; e as Páginas, de vendas, captura, obrigado e serviço, com análise e versão sua pela IA.',
   },
   {
     q: 'É só pra Instagram e Facebook ou serve pra outras plataformas?',
@@ -188,6 +220,8 @@ function Icone({ nome }) {
     case 'lupa': return <svg {...p}><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
     case 'filtro': return <svg {...p}><path d="M3 5h18l-7 8v6l-4 2v-8z"/></svg>
     case 'celular': return <svg {...p}><rect x="6" y="2" width="12" height="20" rx="3"/><path d="M11 18h2"/></svg>
+    case 'ia': return <svg {...p}><path d="M12 3l1.8 4.7L18.5 9.5l-4.7 1.8L12 16l-1.8-4.7L5.5 9.5l4.7-1.8z"/><path d="M19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8z"/></svg>
+    case 'presente': return <svg {...p}><rect x="3" y="8" width="18" height="4" rx="1"/><path d="M5 12v8a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-8M12 8v13M12 8c-2-3-6-3-6 0h6zm0 0c2-3 6-3 6 0h-6z"/></svg>
     default: return null
   }
 }
@@ -284,6 +318,77 @@ function Celular() {
   )
 }
 
+// Miniatura do "Fazer a minha versão": os mesmos passos e opções do painel
+// real, pra pessoa ver o que vai encontrar lá dentro
+function PainelIA() {
+  const [tipo, setTipo] = useState('Negócio local')
+  const [tom, setTom] = useState('Direta')
+  const [destino, setDestino] = useState('WhatsApp')
+  const [formato, setFormato] = useState(0)
+  const regra = TONS.find(t => t.nome === tom)?.regra
+
+  return (
+    <div className="lp-painel" aria-label="Como funciona o Fazer a minha versão">
+      <div className="lp-painel__topo">
+        <span className="lp-painel__ia">✦ Fazer a minha versão <small>com IA</small></span>
+      </div>
+
+      <div className="lp-painel__passo">
+        <span className="lp-painel__num">1</span>
+        <div>
+          <strong>Seu negócio</strong>
+          <div className="lp-painel__chips">
+            {TIPOS.map(t => <button type="button" key={t} className={tipo === t ? 'is-on' : ''} onClick={() => setTipo(t)}>{t}</button>)}
+          </div>
+          <div className="lp-painel__campos">
+            <span>O que você vende</span>
+            <span>Pra quem, com detalhe</span>
+            <span>Uma prova real, com contexto</span>
+          </div>
+        </div>
+      </div>
+
+      <div className="lp-painel__passo">
+        <span className="lp-painel__num">2</span>
+        <div>
+          <strong>A sua voz</strong>
+          <div className="lp-painel__chips">
+            {TONS.map(t => <button type="button" key={t.nome} className={tom === t.nome ? 'is-on' : ''} onClick={() => setTom(t.nome)}>{t.nome}</button>)}
+          </div>
+          {regra && <p className="lp-painel__regra">{regra}</p>}
+        </div>
+      </div>
+
+      <div className="lp-painel__passo">
+        <span className="lp-painel__num">3</span>
+        <div>
+          <strong>Pra onde o anúncio leva</strong>
+          <div className="lp-painel__chips">
+            {DESTINOS.map(d => <button type="button" key={d} className={destino === d ? 'is-on' : ''} onClick={() => setDestino(d)}>{d}</button>)}
+          </div>
+        </div>
+      </div>
+
+      <div className="lp-painel__passo lp-painel__passo--final">
+        <span className="lp-painel__num">4</span>
+        <div>
+          <strong>Abre na IA e recebe a sua versão</strong>
+          <div className="lp-painel__ias">
+            <span className="lp-painel__btn">Abrir no ChatGPT</span>
+            <span className="lp-painel__btn lp-painel__btn--claude">Abrir no Claude</span>
+          </div>
+          <div className="lp-painel__formatos" role="tablist" aria-label="Formato">
+            {IA_SAIDAS.map((f, i) => <button type="button" role="tab" aria-selected={formato === i} key={f.formato} className={formato === i ? 'is-on' : ''} onClick={() => setFormato(i)}>{f.formato}</button>)}
+          </div>
+          <ul className="lp-painel__saida">
+            {IA_SAIDAS[formato].itens.map(it => <li key={it}>{it}</li>)}
+          </ul>
+        </div>
+      </div>
+    </div>
+  )
+}
+
 // Card que inclina de leve seguindo o mouse (só em telas com cursor)
 function CardColecao({ c, index }) {
   const ref = useRef(null)
@@ -346,7 +451,7 @@ export default function AcervoPage() {
             A biblioteca de anúncios das empreendedoras que <em>cansaram de adivinhar criativo</em> e querem entender por que um anúncio vende antes de fazer o seu.
           </h1>
           <p className="lp-hero__sub">
-            Você escolhe pelo objetivo, lê a análise do porquê, adapta a lógica pro seu negócio e coloca no ar. Tudo pelo celular, com acesso imediato.
+            Você escolhe pelo objetivo, lê a análise do porquê e adapta a lógica pro seu negócio. E, quando quiser, a IA escreve a sua versão na sua voz. Tudo pelo celular, com acesso imediato.
           </p>
           <Cta>Quero o acervo 🤎</Cta>
           <p className="lp-hero__nota">{OFERTA.preco} · pagamento único · {OFERTA.garantiaDias} dias de garantia</p>
@@ -399,11 +504,59 @@ export default function AcervoPage() {
             <p className="lp-oque__frase">
               O acervo é uma <span className="lp-cor-areia">estante de anúncios</span> que estão vendendo agora, organizada pelo que você precisa <span className="lp-cor-areia">hoje</span>, com a análise do porquê cada um funciona, pra te ajudar <em>a ter anúncios mais <span className="lp-cor-terra">simples, honestos e que vendem.</span></em>
             </p>
-            <span className="lp-oque__legenda">As coleções, por objetivo</span>
+            <span className="lp-oque__legenda">As 6 coleções por objetivo, mais a curadoria do mês</span>
           </Reveal>
           <ol className="lp-cards">
             {COLECOES.map((c, i) => <CardColecao key={c.slug} c={c} index={i} />)}
           </ol>
+        </div>
+      </section>
+
+      {/* ── 4b. Fazer a minha versão (IA) ── */}
+      <section className="lp-section lp-ia">
+        <div className="lp-container lp-ia__grid">
+          <Reveal className="lp-ia__texto">
+            <span className="lp-pill">Incluso no acervo</span>
+            <h2 className="lp-titulo lp-titulo--grande">
+              Primeiro você entende.<br /><strong>Depois, a IA escreve a sua versão.</strong>
+            </h2>
+            <p>
+              Em todo anúncio e página do acervo tem o botão <strong>Fazer a minha versão</strong>. Você preenche a sua ficha uma vez (o que vende, pra quem, uma prova real, como a sua cliente fala) e a IA escreve a sua versão daquele anúncio, na sua voz, com a sua prova, sem inventar número.
+            </p>
+            <p>
+              Não é pra copiar o anúncio dos outros. É pra entender por que ele vende e sair com o seu pronto pra gravar, ainda hoje.
+            </p>
+            <ul className="lp-ia__pontos">
+              <li>Funciona no ChatGPT e no Claude, nas versões gratuitas</li>
+              <li>A ficha fica salva: preenche uma vez, usa em todos</li>
+              <li>Vídeo, imagem, carrossel e página, cada um no seu formato</li>
+            </ul>
+          </Reveal>
+          <Reveal className="lp-ia__painel" delay={120}>
+            <PainelIA />
+          </Reveal>
+        </div>
+      </section>
+
+      {/* ── 4c. Bônus ── */}
+      <section className="lp-section lp-bonus">
+        <div className="lp-container">
+          <Reveal className="lp-bonus__head">
+            <span className="lp-pill lp-pill--terra">Bônus</span>
+            <h2 className="lp-titulo lp-titulo--grande">
+              E ainda entra junto,<br /><strong>sem custo:</strong>
+            </h2>
+          </Reveal>
+          <ul className="lp-bonus__grid">
+            {BONUS.map((b, i) => (
+              <Reveal as="li" key={b.titulo} className="lp-bonus__card" delay={i * 80}>
+                <span className="lp-bonus__capa" style={{ background: b.gradient }} aria-hidden="true"><i>✦</i></span>
+                <span className="lp-bonus__kicker">Bônus {String(i + 1).padStart(2, '0')}</span>
+                <h3>{b.titulo}</h3>
+                <p>{b.texto}</p>
+              </Reveal>
+            ))}
+          </ul>
         </div>
       </section>
 
@@ -478,6 +631,7 @@ export default function AcervoPage() {
             <p className="lp-invest__de">de <s>{OFERTA.precoDe}</s> por</p>
           )}
           <p className="lp-invest__preco">{OFERTA.preco}</p>
+          {OFERTA.precoNota && <span className="lp-invest__nota">{OFERTA.precoNota}</span>}
           <p className="lp-invest__detalhe">
             {OFERTA.parcelas && <><strong>{OFERTA.parcelas}</strong><br /></>}
             (pagamento único, sem mensalidade)
