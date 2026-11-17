@@ -237,7 +237,9 @@ function Seta() {
 function Cta({ children, variante = 'terracotta', largo = false }) {
   return (
     <a className={`lp-cta lp-cta--${variante} ${largo ? 'lp-cta--largo' : ''}`} href={OFERTA.checkoutUrl} rel="noopener">
-      {children}
+      <i aria-hidden="true">✦</i>
+      <span>{children}</span>
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg>
     </a>
   )
 }
@@ -467,10 +469,22 @@ export default function AcervoPage() {
           <p className="lp-hero__nota">{OFERTA.preco} · pagamento único · {OFERTA.garantiaDias} dias de garantia</p>
         </div>
 
-        <div className="lp-arcos" aria-hidden="true">
-          <img className="lp-arcos__item" src="/acervo/capa-black.webp" alt="" width="720" height="957" />
-          <img className="lp-arcos__item" src="/acervo/card-melhores.webp" alt="" width="720" height="1158" />
-          <img className="lp-arcos__item" src="/acervo/capa-paginas.webp" alt="" width="720" height="957" />
+        <div className="lp-mock" aria-hidden="true">
+          <div className="lp-laptop">
+            <div className="lp-laptop__screen">
+              <img src="/acervo/tela-acervo.webp" alt="" width="1400" height="742" />
+            </div>
+            <div className="lp-laptop__base" />
+          </div>
+          <div className="lp-mockphone">
+            <span className="lp-mockphone__notch" />
+            <div className="lp-mockphone__screen">
+              <div className="lp-mockphone__bar"><b>A</b><span>AVVA Hub</span></div>
+              <img src="/acervo/card-melhores.webp" alt="" width="720" height="1158" />
+            </div>
+          </div>
+          <span className="lp-sticker lp-sticker--1">curadoria mensal</span>
+          <span className="lp-sticker lp-sticker--2">ferramenta inclusa</span>
           <Selo id="selo-hero" texto={`acesso imediato ✦ ${OFERTA.garantiaDias} dias de garantia ✦ `} className="lp-selo--hero" />
         </div>
       </section>

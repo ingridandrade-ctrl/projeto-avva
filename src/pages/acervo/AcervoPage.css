@@ -1714,27 +1714,6 @@
 .lp-moldura { background: #2a1d17; padding: 10px 10px 0; }
 .lp-moldura .lp-hero { border-radius: 26px 26px 0 0; overflow: hidden; background: var(--lp-cream); }
 
-/* Arcos com as capas, como as fotos da referência */
-.lp-arcos {
-  position: relative;
-  z-index: 1;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 10px;
-  max-width: 820px;
-  margin: 44px auto -2px;
-  padding: 0 14px;
-}
-.lp-arcos__item {
-  width: 100%;
-  height: auto;
-  aspect-ratio: 3 / 4.4;
-  object-fit: cover;
-  object-position: top;
-  border-radius: 999px 999px 18px 18px;
-  box-shadow: 0 18px 40px rgba(46, 33, 27, 0.2);
-}
-.lp-arcos__item:nth-child(2) { translate: 0 -18px; }
 
 /* Selo redondo com texto girando */
 .lp-selo {
@@ -1752,7 +1731,7 @@
 .lp-selo__anel text { font-family: var(--font-titulo); font-size: 10.5px; font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase; fill: currentColor; }
 .lp-selo > i { font-style: normal; font-size: 1.6rem; line-height: 1; }
 @keyframes lp-gira { to { transform: rotate(360deg); } }
-.lp-selo--hero { position: absolute; left: 33.33%; top: 6%; translate: -50% 0; z-index: 3; rotate: -8deg; width: 96px; height: 96px; }
+
 
 /* Letreiro */
 .lp-letreiro { overflow: hidden; background: var(--lp-teal); color: var(--lp-areia); padding: 12px 0; }
@@ -1876,9 +1855,6 @@
 @media (min-width: 720px) {
   .lp-moldura { padding: 14px 14px 0; }
   .lp-moldura .lp-hero { border-radius: 32px 32px 0 0; }
-  .lp-arcos { gap: 18px; margin-top: 56px; }
-  .lp-arcos__item:nth-child(2) { translate: 0 -28px; }
-  .lp-selo--hero { width: 124px; height: 124px; top: 4%; }
   .lp-letreiro__faixa span { font-size: 1.2rem; }
   .lp-checks { gap: 12px 16px; }
   .lp-celular { rotate: -2.5deg; }
@@ -1892,4 +1868,116 @@
 
 @media (prefers-reduced-motion: reduce) {
   .lp-selo__anel, .lp-letreiro__faixa { animation: none !important; }
+}
+
+
+/* ═══════════ Mockup do produto no topo (notebook + celular) ═══════════ */
+.lp-mock {
+  position: relative;
+  z-index: 1;
+  width: min(760px, 100%);
+  margin: 48px auto 0;
+  padding: 0 14px 40px;
+}
+.lp-laptop { position: relative; width: 92%; rotate: -1.5deg; }
+.lp-laptop__screen {
+  position: relative;
+  border: 9px solid #1b1512;
+  border-bottom-width: 14px;
+  border-radius: 16px 16px 6px 6px;
+  background: #1b1512;
+  overflow: hidden;
+  aspect-ratio: 16 / 9.4;
+  box-shadow: 0 30px 70px rgba(46, 33, 27, 0.32);
+}
+.lp-laptop__screen::before {
+  content: '';
+  position: absolute;
+  top: -9px;
+  left: 50%;
+  width: 56px;
+  height: 7px;
+  translate: -50% 0;
+  border-radius: 0 0 8px 8px;
+  background: #1b1512;
+  z-index: 2;
+}
+.lp-laptop__screen img { width: 100%; height: 100%; object-fit: cover; object-position: top left; display: block; }
+.lp-laptop__base {
+  height: 12px;
+  margin: 0 -5%;
+  border-radius: 0 0 16px 16px;
+  background: linear-gradient(#4a3a32, #1b1512);
+  box-shadow: 0 16px 30px rgba(46, 33, 27, 0.25);
+}
+.lp-mockphone {
+  position: absolute;
+  right: 6px;
+  bottom: 0;
+  width: 31%;
+  max-width: 190px;
+  padding: 6px;
+  border-radius: 26px;
+  background: #1b1512;
+  box-shadow: 0 24px 50px rgba(46, 33, 27, 0.4), inset 0 0 0 2px rgba(255, 255, 255, 0.08);
+  rotate: 4deg;
+  z-index: 2;
+}
+.lp-mockphone__notch { position: absolute; top: 12px; left: 50%; width: 42%; height: 12px; translate: -50% 0; border-radius: 100px; background: #1b1512; z-index: 2; }
+.lp-mockphone__screen { border-radius: 20px; overflow: hidden; background: var(--lp-cream); aspect-ratio: 9 / 18; display: flex; flex-direction: column; }
+.lp-mockphone__bar { display: flex; align-items: center; gap: 6px; padding: 26px 10px 8px; background: var(--lp-teal); color: #fff; font-size: 0.6rem; font-weight: 700; }
+.lp-mockphone__bar b { display: grid; place-items: center; width: 16px; height: 16px; border-radius: 5px; background: var(--lp-areia); color: var(--lp-teal); font-size: 0.55rem; }
+.lp-mockphone__screen img { flex: 1; width: 100%; height: 100%; object-fit: cover; object-position: top; display: block; }
+
+/* Adesivos: recorte com borda branca e sombra dura */
+.lp-sticker {
+  position: absolute;
+  z-index: 3;
+  padding: 8px 14px;
+  border-radius: 100px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  white-space: nowrap;
+  background: var(--lp-terra);
+  color: #fff;
+  box-shadow: 0 0 0 3px #fff, 4px 4px 0 rgba(46, 33, 27, 0.9);
+}
+.lp-sticker--1 { left: 0; top: -12px; rotate: -6deg; }
+.lp-sticker--2 { right: 0; bottom: 42%; rotate: 5deg; background: var(--lp-teal); }
+.lp-selo--hero { position: absolute; left: -6px; bottom: 10px; z-index: 3; width: 92px; height: 92px; rotate: -10deg; box-shadow: 0 0 0 3px #fff, 5px 5px 0 rgba(46, 33, 27, 0.9); }
+.lp-selo--preco { box-shadow: 0 0 0 4px #fff, 7px 7px 0 rgba(46, 33, 27, 0.9); }
+
+/* Botões com cara de recorte (adesivo) */
+.lp-cta {
+  gap: 10px;
+  border: 2.5px solid var(--lp-ink);
+  box-shadow: 5px 5px 0 var(--lp-ink);
+  rotate: -1deg;
+  transition: rotate 0.25s var(--lp-ease), transform 0.25s var(--lp-ease), box-shadow 0.25s var(--lp-ease);
+}
+.lp-cta i { font-style: normal; color: var(--lp-areia); }
+.lp-cta:hover { rotate: 0deg; transform: translate(2px, 2px); box-shadow: 3px 3px 0 var(--lp-ink); }
+.lp-cta:active { transform: translate(5px, 5px); box-shadow: 0 0 0 var(--lp-ink); }
+.lp-cta::after { content: none; }
+.lp-cta--teal { background: var(--lp-teal); }
+.lp-cta--gradiente { background: var(--lp-terra); color: #fff; box-shadow: 5px 5px 0 var(--lp-areia); border-color: var(--lp-areia); }
+.lp-cta--gradiente:hover { box-shadow: 3px 3px 0 var(--lp-areia); }
+.lp-cta--gradiente i { color: var(--lp-areia); }
+.lp-sticky .lp-cta { rotate: 0deg; border-width: 2px; box-shadow: 3px 3px 0 var(--lp-areia); border-color: var(--lp-areia); }
+
+@media (min-width: 720px) {
+  .lp-mock { margin-top: 64px; padding-bottom: 56px; }
+  .lp-mockphone { right: -10px; bottom: -8px; }
+  .lp-sticker { font-size: 0.9rem; padding: 10px 18px; }
+  .lp-sticker--1 { left: -18px; top: -16px; }
+  .lp-sticker--2 { right: -22px; bottom: 46%; }
+  .lp-selo--hero { width: 120px; height: 120px; left: -30px; bottom: 20px; }
+}
+
+/* Acertos: check visível nos adesivos terracota; botão largo não quebra linha no celular */
+.lp-checks li.lp-adesivo--2 svg { color: var(--lp-areia); }
+.lp-checks li.lp-adesivo--1 svg { color: var(--lp-areia); }
+@media (max-width: 719px) {
+  .lp-cta--largo { font-size: 0.95rem; padding-left: 18px; padding-right: 18px; }
+  .lp-cta--largo i { display: none; }
 }
