@@ -359,6 +359,7 @@ function CardColecao({ c, index }) {
   return (
     <Reveal as="li" className={`lp-card ${index % 2 ? 'lp-card--areia' : 'lp-card--terra'}`} delay={index * 60}>
       <div ref={ref} className="lp-card__tilt" onMouseMove={move} onMouseLeave={leave}>
+        <span className="lp-sticker lp-sticker--card">{c.kicker}</span>
         <Seta />
         <h3>{c.titulo}</h3>
         <p>{c.subtitulo}</p>
@@ -552,6 +553,7 @@ export default function AcervoPage() {
           </Reveal>
           <Reveal className="lp-ia__painel" delay={120}>
             <div className="lp-celular">
+              <span className="lp-sticker lp-sticker--celular">na sua voz</span>
               <span className="lp-celular__notch" />
               <PainelIA />
             </div>

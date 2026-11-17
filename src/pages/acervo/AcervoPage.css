@@ -1982,3 +1982,78 @@
   .lp-cta--largo { font-size: 0.95rem; padding-left: 18px; padding-right: 18px; }
   .lp-cta--largo i { display: none; }
 }
+
+
+/* ═══════════ O mesmo acabamento de adesivo no resto da página ═══════════ */
+
+/* Pílulas de seção viram adesivos inclinados */
+.lp-pill {
+  box-shadow: 0 0 0 3px #fff, 4px 4px 0 rgba(46, 33, 27, 0.9);
+  background: var(--lp-areia);
+  color: var(--lp-ink);
+  font-weight: 700;
+  rotate: -3deg;
+}
+.lp-pill.lp-pill--terra { box-shadow: 0 0 0 3px #fff, 4px 4px 0 rgba(46, 33, 27, 0.9); }
+
+/* Cards de coleção: etiqueta no canto e sombra dura amendoada */
+.lp-card { overflow: visible; }
+.lp-card__tilt { box-shadow: 7px 7px 0 rgba(212, 185, 154, 0.28); }
+.lp-sticker--card { position: absolute; top: -12px; left: 14px; rotate: -5deg; font-size: 0.68rem; padding: 6px 11px; background: var(--lp-areia); color: var(--lp-ink); }
+.lp-card--areia .lp-sticker--card { background: var(--lp-terra); color: #fff; }
+
+/* Bônus: etiqueta vira adesivo, card com sombra dura */
+.lp-bonus__kicker { box-shadow: 0 0 0 3px #fff, 4px 4px 0 rgba(46, 33, 27, 0.9); rotate: -5deg; top: 18px; left: 16px; font-weight: 800; }
+.lp-bonus__tilt { box-shadow: 8px 8px 0 var(--lp-areia); }
+
+/* Ferramenta: adesivo no celular */
+.lp-sticker--celular { top: -14px; right: -10px; rotate: 7deg; background: var(--lp-terra); z-index: 5; }
+
+/* Espiadinha: o tipo do anúncio vira adesivo */
+.lp-espiada__tipo {
+  display: inline-block;
+  padding: 5px 11px;
+  border-radius: 100px;
+  background: var(--lp-areia);
+  color: var(--lp-ink);
+  font-size: 0.66rem;
+  letter-spacing: 0.06em;
+  box-shadow: 0 0 0 2.5px #fff, 3px 3px 0 rgba(0, 0, 0, 0.6);
+  rotate: -3deg;
+  margin-bottom: 12px;
+}
+.lp-espiada__card { box-shadow: 8px 8px 0 rgba(212, 185, 154, 0.18); }
+
+/* Objeções: cards levemente tortos com sombra dura */
+.lp-objecao { rotate: -0.8deg; box-shadow: 7px 7px 0 rgba(46, 33, 27, 0.85); border: 2px solid var(--lp-ink); }
+.lp-objecao:nth-child(even) { rotate: 0.8deg; }
+
+/* Garantia: selo com borda branca e sombra dura */
+.lp-garantia__selo { box-shadow: 0 0 0 4px #fff, 6px 6px 0 rgba(212, 185, 154, 0.9); }
+
+/* Cenários: etiqueta como adesivo, cards com sombra dura */
+.lp-cenario { box-shadow: 8px 8px 0 rgba(46, 33, 27, 0.85); border: 2px solid var(--lp-ink); }
+.lp-cenario__kicker {
+  display: inline-block;
+  padding: 6px 12px;
+  border-radius: 100px;
+  background: #fff;
+  color: var(--lp-ink);
+  font-weight: 800;
+  box-shadow: 0 0 0 3px #fff, 4px 4px 0 rgba(46, 33, 27, 0.9);
+  rotate: -4deg;
+  margin-bottom: 14px;
+}
+.lp-cenario--b .lp-cenario__kicker { background: var(--lp-areia); }
+
+/* Celular do mockup e carimbo do preço: borda branca */
+.lp-mockphone { box-shadow: 0 0 0 3px #fff, 0 24px 50px rgba(46, 33, 27, 0.4); }
+.lp-laptop__screen { box-shadow: 0 0 0 3px #fff, 0 30px 70px rgba(46, 33, 27, 0.32); }
+
+@media (min-width: 720px) {
+  .lp-sticker--card { font-size: 0.74rem; }
+}
+
+/* Etiqueta dos cards de coleção: fica dentro do card (o tilt corta o que sai) */
+.lp-sticker--card { top: 12px; left: 12px; rotate: -4deg; }
+.lp-card__tilt { padding-top: 44px; }
