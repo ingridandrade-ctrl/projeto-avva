@@ -123,6 +123,14 @@
 .lp-logo--rodape .lp-logo__a { color: #fff; }
 .lp-logo--rodape .lp-logo__b { color: var(--lp-areia); }
 
+/* ── Logomarca oficial (imagem) ── */
+.lp-logomarca {
+  display: block;
+  width: min(300px, 78vw);
+  height: auto;
+  margin: 0 auto;
+}
+
 /* ── 1. Hero ── */
 .lp-hero {
   position: relative;
@@ -575,16 +583,48 @@
 }
 
 .lp-bonus__capa {
-  display: grid;
-  place-items: center;
-  height: 110px;
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 3 / 4;
+  object-fit: cover;
   border-radius: 14px;
-  color: rgba(255, 255, 255, 0.5);
-  font-size: 2.4rem;
   margin-bottom: 16px;
 }
 
-.lp-bonus__capa i { font-style: normal; }
+/* Pilha de capas reais (seção de entregas) */
+.lp-entregas__phone { flex-direction: column; align-items: center; }
+
+.lp-pilha {
+  position: relative;
+  width: min(360px, 100%);
+  height: 300px;
+  margin: 0 auto;
+}
+
+.lp-pilha__item {
+  position: absolute;
+  top: 0;
+  width: 46%;
+  height: auto;
+  border-radius: 16px;
+  box-shadow: 0 18px 44px rgba(46, 33, 27, 0.26);
+  transition: transform 0.5s var(--lp-ease);
+}
+
+.lp-pilha__item--1 { left: 0; transform: rotate(-10deg); z-index: 1; top: 30px; }
+.lp-pilha__item--2 { left: 27%; z-index: 3; }
+.lp-pilha__item--3 { right: 0; transform: rotate(10deg); z-index: 2; top: 30px; }
+.lp-pilha:hover .lp-pilha__item--1 { transform: rotate(-13deg) translateX(-10px); }
+.lp-pilha:hover .lp-pilha__item--3 { transform: rotate(13deg) translateX(10px); }
+
+.lp-pilha__legenda {
+  margin-top: 14px;
+  text-align: center;
+  font-size: 0.8rem;
+  color: var(--lp-ink-2);
+  opacity: 0.8;
+}
 
 .lp-bonus__kicker {
   display: inline-block;
@@ -1290,7 +1330,9 @@
 /* ═══════════════ Tablet / desktop ═══════════════ */
 @media (min-width: 720px) {
   .lp-section { padding: 104px 0; }
-  .lp-hero { padding: 120px 0 110px; }
+  .lp-hero { padding: 110px 0 110px; }
+  .lp-logomarca { width: 380px; }
+  .lp-pilha { width: 440px; height: 380px; }
   .lp-hero__frase { margin-top: 44px; font-size: clamp(2rem, 3.4vw, 2.5rem); }
   .lp-hero__sub { margin-top: 24px; max-width: 520px; font-size: 1.1rem; }
   .lp-estrela--1 { top: 40px; left: 2vw; font-size: 300px; }
@@ -1318,7 +1360,7 @@
   .lp-card { text-align: center; padding: 24px 28px 28px; }
 
   .lp-entregas__grid {
-    grid-template-columns: 300px 1fr;
+    grid-template-columns: 440px 1fr;
     grid-template-areas: 'phone titulo' 'phone lista';
     column-gap: 64px;
     align-items: center;

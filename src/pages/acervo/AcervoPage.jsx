@@ -55,9 +55,9 @@ const COLECOES = [
 
 // Bônus: entram junto com o acervo, sem custo
 const BONUS = [
-  { titulo: 'Especial Black', texto: 'As páginas e os criativos que venderam na Black Friday, com a análise do que fez cada um funcionar.', gradient: 'linear-gradient(135deg, #2E211B 0%, #4C362D 45%, #965E41 100%)' },
-  { titulo: 'Especial Mini VSL', texto: 'Anúncios mais longos, de 1 a 3 minutos, que vendem sozinhos. Pra quem quer entender como se segura atenção até a oferta.', gradient: 'linear-gradient(135deg, #0C4747 0%, #1A6868 60%, #7FA588 100%)' },
-  { titulo: 'Páginas', texto: 'Páginas de vendas, captura, obrigado e serviço, com a análise do que faz cada uma converter. E a IA monta a sua, bloco por bloco.', gradient: 'linear-gradient(135deg, #8A5C3F 0%, #C98A5E 60%, #D4B99A 100%)' },
+  { titulo: 'Especial Black Friday', texto: 'As páginas e os criativos que venderam na Black Friday, com a análise do que fez cada um funcionar.', capa: '/acervo/capa-black.webp' },
+  { titulo: 'Especial Mini VSL', texto: 'Anúncios mais longos, de 1 a 3 minutos, que vendem sozinhos. Pra quem quer entender como se segura atenção até a oferta.', capa: '/acervo/capa-minivsl.webp' },
+  { titulo: 'Especial Páginas', texto: 'Páginas de vendas, captura, obrigado e serviço, com a análise do que faz cada uma converter. E a IA monta a sua, bloco por bloco.', capa: '/acervo/capa-paginas.webp' },
 ]
 
 // O que a IA entrega em cada formato, no "Fazer a minha versão"
@@ -74,7 +74,7 @@ const ENTREGAS = [
   { icone: 'lupa', texto: <><strong>Análise de cada anúncio</strong>: por que funciona, em poucas linhas e sem jargão</> },
   { icone: 'ia', texto: <><strong>Fazer a minha versão, com IA</strong>: em qualquer anúncio, a IA escreve a sua versão na sua voz, a partir do que você entendeu</> },
   { icone: 'estrela', texto: <><strong>Melhores do mês</strong>: uma curadoria nova todo mês, garimpada pela Flora</> },
-  { icone: 'presente', texto: <><strong>Bônus</strong>: Especial Black, Especial Mini VSL e as Páginas, com análise e versão sua pela IA</> },
+  { icone: 'presente', texto: <><strong>Bônus</strong>: Especial Black Friday, Especial Mini VSL e Especial Páginas, com análise e versão sua pela IA</> },
   { icone: 'filtro', texto: <><strong>Filtro por nicho e formato</strong>: negócio local, serviço, infoproduto e e-commerce</> },
   { icone: 'celular', texto: <><strong>Área de membros no celular</strong>, com favoritos, busca e marcação do que você já viu</> },
   { icone: 'calendario', texto: <><strong>{OFERTA.acessoPor} de acesso</strong>, com tudo que entrar nesse período</> },
@@ -128,7 +128,7 @@ const INCLUSO = [
   <><strong>Análise de cada anúncio</strong>: por que funciona</>,
   <><strong>Fazer a minha versão, com IA</strong>, em todo anúncio e página</>,
   <><strong>Melhores do mês</strong>: curadoria nova todo mês</>,
-  <><strong>Bônus:</strong> Especial Black, Especial Mini VSL e Páginas</>,
+  <><strong>Bônus:</strong> Especial Black Friday, Especial Mini VSL e Especial Páginas</>,
   <><strong>Filtro por nicho e formato</strong>, busca e favoritos</>,
   <><strong>{OFERTA.acessoPor} de acesso</strong>, com tudo que entrar nesse período</>,
 ]
@@ -174,7 +174,7 @@ const FAQ = [
   },
   {
     q: 'O que são os bônus?',
-    a: 'Três blocos que entram junto com o acervo, sem custo: o Especial Black, com páginas e criativos que venderam na Black Friday; o Especial Mini VSL, com anúncios de 1 a 3 minutos que vendem sozinhos; e as Páginas, de vendas, captura, obrigado e serviço, com análise e versão sua pela IA.',
+    a: 'Três blocos que entram junto com o acervo, sem custo: o Especial Black Friday, com páginas e criativos que venderam na Black; o Especial Mini VSL, com anúncios de 1 a 3 minutos que vendem sozinhos; e o Especial Páginas, de vendas, captura, obrigado e serviço, com análise e versão sua pela IA.',
   },
   {
     q: 'É só pra Instagram e Facebook ou serve pra outras plataformas?',
@@ -254,68 +254,6 @@ function Reveal({ as: Tag = 'div', className = '', delay = 0, children, ...rest 
     return () => io.disconnect()
   }, [])
   return <Tag ref={ref} className={`lp-reveal ${vis ? 'is-in' : ''} ${className}`} style={{ transitionDelay: `${delay}ms` }} {...rest}>{children}</Tag>
-}
-
-// Miniatura da área de membros: as coleções trocam sozinhas e por toque
-function Celular() {
-  const [ativa, setAtiva] = useState(0)
-  const pausado = useRef(false)
-
-  useEffect(() => {
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
-    const t = setInterval(() => { if (!pausado.current) setAtiva(i => (i + 1) % 6) }, 3200)
-    return () => clearInterval(t)
-  }, [])
-
-  function escolher(i) {
-    setAtiva(i)
-    pausado.current = true
-    setTimeout(() => { pausado.current = false }, 7000)
-  }
-
-  return (
-    <div className="lp-phone" aria-hidden="true">
-      <div className="lp-phone__frame">
-        <span className="lp-phone__notch" />
-        <div className="lp-phone__screen">
-          <div className="lp-phone__topbar">
-            <span>Olá, Ana ✦</span>
-            <span className="lp-phone__avatar">A</span>
-          </div>
-          <div className="lp-phone__hero">
-            {COLECOES.map((c, i) => (
-              <div key={c.slug} className={`lp-phone__slide ${i === ativa ? 'is-on' : ''}`} style={{ background: c.gradient }}>
-                <span className="lp-phone__kicker">{c.kicker}</span>
-                <strong>{c.titulo}</strong>
-                <small>{c.subtitulo}</small>
-                <i className="lp-phone__play" />
-              </div>
-            ))}
-          </div>
-          <div className="lp-phone__row">
-            <span className="lp-phone__rowtitle">Coleções por objetivo</span>
-            <div className="lp-phone__cards">
-              {COLECOES.slice(0, 6).map((c, i) => (
-                <button type="button" key={c.slug} className={`lp-phone__card ${i === ativa ? 'is-on' : ''}`} style={{ background: c.gradient }} onClick={() => escolher(i)} tabIndex={-1}>
-                  <span>{String(i + 1).padStart(2, '0')}</span>
-                </button>
-              ))}
-            </div>
-          </div>
-          <div className="lp-phone__row">
-            <span className="lp-phone__rowtitle">Melhores do mês</span>
-            <div className="lp-phone__cards lp-phone__cards--sm">
-              {[0, 1, 2, 3].map(i => <i key={i} className="lp-phone__card lp-phone__card--ghost" style={{ background: COLECOES[6].gradient, opacity: 0.9 - i * 0.15 }} />)}
-            </div>
-          </div>
-          <div className="lp-phone__nav">
-            {['Início', 'Coleções', 'Busca', 'Favoritos'].map((t, i) => <span key={t} className={i === 1 ? 'is-on' : ''}>{t}</span>)}
-          </div>
-        </div>
-      </div>
-      <div className="lp-phone__glow" />
-    </div>
-  )
 }
 
 // Miniatura do "Fazer a minha versão": os mesmos passos e opções do painel
@@ -446,7 +384,7 @@ export default function AcervoPage() {
         <span className="lp-estrela lp-estrela--1" aria-hidden="true">✦</span>
         <span className="lp-estrela lp-estrela--2" aria-hidden="true">✦</span>
         <div className="lp-hero__inner">
-          <Logo className="lp-logo--hero" />
+          <img className="lp-logomarca" src="/acervo/logo.webp" alt="acervo de anúncios" width="1140" height="970" fetchPriority="high" />
           <h1 className="lp-hero__frase">
             A biblioteca de anúncios das empreendedoras que <em>cansaram de adivinhar criativo</em> e querem entender por que um anúncio vende antes de fazer o seu.
           </h1>
@@ -550,7 +488,7 @@ export default function AcervoPage() {
           <ul className="lp-bonus__grid">
             {BONUS.map((b, i) => (
               <Reveal as="li" key={b.titulo} className="lp-bonus__card" delay={i * 80}>
-                <span className="lp-bonus__capa" style={{ background: b.gradient }} aria-hidden="true"><i>✦</i></span>
+                <img className="lp-bonus__capa" src={b.capa} alt="" loading="lazy" width="720" height="957" />
                 <span className="lp-bonus__kicker">Bônus {String(i + 1).padStart(2, '0')}</span>
                 <h3>{b.titulo}</h3>
                 <p>{b.texto}</p>
@@ -567,7 +505,12 @@ export default function AcervoPage() {
             É aqui que você<br /><strong>para de adivinhar.</strong>
           </Reveal>
           <Reveal className="lp-entregas__phone" delay={100}>
-            <Celular />
+            <div className="lp-pilha" aria-hidden="true">
+              <img className="lp-pilha__item lp-pilha__item--1" src="/acervo/capa-black.webp" alt="" loading="lazy" width="720" height="957" />
+              <img className="lp-pilha__item lp-pilha__item--2" src="/acervo/card-melhores.webp" alt="" loading="lazy" width="720" height="1158" />
+              <img className="lp-pilha__item lp-pilha__item--3" src="/acervo/capa-paginas.webp" alt="" loading="lazy" width="720" height="957" />
+            </div>
+            <p className="lp-pilha__legenda">Capas de verdade, da área de membros</p>
           </Reveal>
           <ul className="lp-entregas__lista">
             {ENTREGAS.map((e, i) => (
