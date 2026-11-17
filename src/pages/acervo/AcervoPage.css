@@ -77,6 +77,7 @@
 
 /* Estrelas decorativas (o ✦ da área de membros) */
 .lp-estrela {
+  --rot: 0deg;
   position: absolute;
   font-style: normal;
   line-height: 1;
@@ -84,13 +85,15 @@
   pointer-events: none;
   user-select: none;
   z-index: 0;
+  rotate: var(--rot);
+  filter: drop-shadow(0 0 24px rgba(212, 185, 154, 0.45));
 }
 
-.lp-estrela--1 { top: -30px; left: -34px; font-size: 180px; opacity: 0.55; transform: rotate(-12deg); }
-.lp-estrela--2 { bottom: -40px; right: -30px; font-size: 150px; color: var(--lp-terra); opacity: 0.32; transform: rotate(18deg); }
-.lp-estrela--3 { top: -20px; right: -40px; font-size: 220px; opacity: 0.35; transform: rotate(10deg); }
-.lp-estrela--4 { top: 30px; left: -50px; font-size: 200px; opacity: 0.45; transform: rotate(-14deg); }
-.lp-estrela--5 { bottom: -10px; right: -40px; font-size: 170px; color: var(--lp-terra); opacity: 0.3; transform: rotate(8deg); }
+.lp-estrela--1 { top: -30px; left: -34px; font-size: 180px; opacity: 0.55; --rot: -12deg; }
+.lp-estrela--2 { bottom: -40px; right: -30px; font-size: 150px; color: var(--lp-terra); opacity: 0.32; --rot: 18deg; }
+.lp-estrela--3 { top: -20px; right: -40px; font-size: 220px; opacity: 0.35; --rot: 10deg; }
+.lp-estrela--4 { top: 30px; left: -50px; font-size: 200px; opacity: 0.45; --rot: -14deg; }
+.lp-estrela--5 { bottom: -10px; right: -40px; font-size: 170px; color: var(--lp-terra); opacity: 0.3; --rot: 8deg; }
 
 /* ── Logo ── */
 .lp-logo {
@@ -122,6 +125,14 @@
 .lp-logo--rodape { margin-top: 64px; justify-self: center; }
 .lp-logo--rodape .lp-logo__a { color: #fff; }
 .lp-logo--rodape .lp-logo__b { color: var(--lp-areia); }
+
+/* ── Logomarca oficial (imagem) ── */
+.lp-logomarca {
+  display: block;
+  width: min(220px, 58vw);
+  height: auto;
+  margin: 0 auto;
+}
 
 /* ── 1. Hero ── */
 .lp-hero {
@@ -158,10 +169,23 @@
   color: var(--lp-terra);
 }
 
+.lp-hero__destaque {
+  margin-top: 20px;
+  max-width: 560px;
+  font-size: clamp(1.1rem, 4.4vw, 1.35rem);
+  font-weight: 500;
+  line-height: 1.4;
+  letter-spacing: -0.015em;
+  color: var(--lp-ink);
+  text-wrap: balance;
+}
+
+.lp-hero__destaque strong { font-weight: 700; color: var(--lp-terra); }
+
 .lp-hero__sub {
-  margin-top: 22px;
+  margin-top: 14px;
   max-width: 480px;
-  font-size: 1rem;
+  font-size: 0.95rem;
   line-height: 1.6;
   color: var(--lp-ink-2);
 }
@@ -507,6 +531,8 @@
   color: rgba(46, 33, 27, 0.5);
 }
 
+.lp-painel__rotulo { display: block; margin: 12px 0 8px; font-style: normal; font-size: 0.74rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--lp-ink-2); }
+
 .lp-painel__regra {
   margin-top: 10px;
   padding: 10px 12px;
@@ -556,7 +582,7 @@
 .lp-bonus { background: var(--lp-cream); }
 .lp-bonus__head { max-width: 620px; margin-bottom: 32px; }
 .lp-bonus__head h2 { margin-top: 18px; }
-.lp-pill--terra { background: var(--lp-terra); color: #fff; }
+.lp-pill.lp-pill--terra { background: var(--lp-terra); color: #fff; }
 
 .lp-bonus__grid {
   list-style: none;
@@ -575,16 +601,48 @@
 }
 
 .lp-bonus__capa {
-  display: grid;
-  place-items: center;
-  height: 110px;
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 3 / 4;
+  object-fit: cover;
   border-radius: 14px;
-  color: rgba(255, 255, 255, 0.5);
-  font-size: 2.4rem;
   margin-bottom: 16px;
 }
 
-.lp-bonus__capa i { font-style: normal; }
+/* Pilha de capas reais (seção de entregas) */
+.lp-entregas__phone { flex-direction: column; align-items: center; }
+
+.lp-pilha {
+  position: relative;
+  width: min(360px, 100%);
+  height: 300px;
+  margin: 0 auto;
+}
+
+.lp-pilha__item {
+  position: absolute;
+  top: 0;
+  width: 46%;
+  height: auto;
+  border-radius: 16px;
+  box-shadow: 0 18px 44px rgba(46, 33, 27, 0.26);
+  transition: transform 0.5s var(--lp-ease);
+}
+
+.lp-pilha__item--1 { left: 0; transform: rotate(-10deg); z-index: 1; top: 30px; }
+.lp-pilha__item--2 { left: 27%; z-index: 3; }
+.lp-pilha__item--3 { right: 0; transform: rotate(10deg); z-index: 2; top: 30px; }
+.lp-pilha:hover .lp-pilha__item--1 { transform: rotate(-13deg) translateX(-10px); }
+.lp-pilha:hover .lp-pilha__item--3 { transform: rotate(13deg) translateX(10px); }
+
+.lp-pilha__legenda {
+  margin-top: 14px;
+  text-align: center;
+  font-size: 0.8rem;
+  color: var(--lp-ink-2);
+  opacity: 0.8;
+}
 
 .lp-bonus__kicker {
   display: inline-block;
@@ -1290,9 +1348,12 @@
 /* ═══════════════ Tablet / desktop ═══════════════ */
 @media (min-width: 720px) {
   .lp-section { padding: 104px 0; }
-  .lp-hero { padding: 120px 0 110px; }
+  .lp-hero { padding: 110px 0 110px; }
+  .lp-logomarca { width: 270px; }
+  .lp-pilha { width: 440px; height: 380px; }
   .lp-hero__frase { margin-top: 44px; font-size: clamp(2rem, 3.4vw, 2.5rem); }
-  .lp-hero__sub { margin-top: 24px; max-width: 520px; font-size: 1.1rem; }
+  .lp-hero__destaque { margin-top: 24px; max-width: 640px; font-size: 1.45rem; }
+  .lp-hero__sub { margin-top: 14px; max-width: 520px; font-size: 1rem; }
   .lp-estrela--1 { top: 40px; left: 2vw; font-size: 300px; }
   .lp-estrela--2 { bottom: 20px; right: 2vw; font-size: 260px; }
   .lp-estrela--3 { top: -60px; right: 0; font-size: 420px; }
@@ -1318,7 +1379,7 @@
   .lp-card { text-align: center; padding: 24px 28px 28px; }
 
   .lp-entregas__grid {
-    grid-template-columns: 300px 1fr;
+    grid-template-columns: 440px 1fr;
     grid-template-areas: 'phone titulo' 'phone lista';
     column-gap: 64px;
     align-items: center;
@@ -1361,3 +1422,638 @@
   .lp *, .lp *::before, .lp *::after { animation: none !important; transition: none !important; }
   .lp-reveal { opacity: 1; transform: none; }
 }
+
+
+/* ═══════════════════════════════════════════════════════════
+   Direção de arte: o palco das capas vem pra página
+   (grade fina, órbitas, sparkles, profundidade, serif itálica)
+   ═══════════════════════════════════════════════════════════ */
+
+/* 1. Palco: grade fina com máscara radial + halo quente no pé */
+.lp-palco { position: relative; isolation: isolate; }
+.lp-palco::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background-image:
+    linear-gradient(rgba(212, 185, 154, 0.09) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(212, 185, 154, 0.09) 1px, transparent 1px);
+  background-size: 44px 44px;
+  -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 35%, #000 20%, transparent 80%);
+  mask-image: radial-gradient(ellipse 70% 60% at 50% 35%, #000 20%, transparent 80%);
+}
+.lp-palco::after {
+  content: '';
+  position: absolute;
+  inset: auto 0 0;
+  height: 60%;
+  pointer-events: none;
+  z-index: 0;
+  background: radial-gradient(ellipse 60% 50% at 50% 100%, rgba(150, 94, 65, 0.28), transparent 70%);
+}
+.lp-palco--claro::before {
+  background-image:
+    linear-gradient(rgba(46, 33, 27, 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(46, 33, 27, 0.06) 1px, transparent 1px);
+}
+.lp-palco--claro::after { background: radial-gradient(ellipse 60% 50% at 50% 100%, rgba(150, 94, 65, 0.12), transparent 70%); }
+.lp-palco > * { position: relative; z-index: 1; }
+.lp-palco > .lp-estrela { position: absolute; z-index: 0; }
+
+/* 2. Hero: órbita inclinada girando ao redor da logo, que respira */
+.lp-palco-logo { position: relative; display: grid; justify-items: center; }
+.lp-orbita {
+  position: absolute;
+  left: 50%;
+  top: 30%;
+  width: min(320px, 84vw);
+  aspect-ratio: 1;
+  translate: -50% -50%;
+  perspective: 900px;
+  pointer-events: none;
+  z-index: 0;
+}
+.lp-orbita__anel {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 1.5px solid rgba(150, 94, 65, 0.45);
+  transform: rotateX(72deg) rotateZ(0deg);
+  animation: lp-orbita 26s linear infinite;
+  will-change: transform;
+}
+.lp-orbita__anel i {
+  position: absolute;
+  top: -11px;
+  left: 50%;
+  font-style: normal;
+  font-size: 20px;
+  line-height: 1;
+  color: var(--lp-terra);
+  transform: rotateX(-72deg);
+}
+@keyframes lp-orbita { to { transform: rotateX(72deg) rotateZ(360deg); } }
+.lp-logomarca { position: relative; z-index: 1; animation: lp-flutua 6s ease-in-out infinite; }
+@keyframes lp-flutua { 50% { translate: 0 -8px; } }
+.lp-hero__sombra {
+  display: block;
+  width: min(240px, 60vw);
+  height: 28px;
+  margin: -6px auto 0;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(46, 33, 27, 0.22), transparent);
+  filter: blur(8px);
+}
+
+/* 3. Serif itálica como acento (a língua das capas) */
+.lp-oque__frase em,
+.lp-praquem__intro em {
+  font-family: var(--lp-serif);
+  font-style: italic;
+  font-weight: 400;
+  font-size: 1.22em;
+  letter-spacing: -0.01em;
+  line-height: 0.95;
+}
+.lp-hero__frase em { font-family: var(--font-titulo); font-style: normal; font-weight: 700; font-size: 1em; color: var(--lp-terra); }
+
+/* 4. Cards de coleção viram mini-capas */
+.lp-card--terra, .lp-card--areia { background: none; }
+.lp-card__tilt {
+  position: relative;
+  overflow: hidden;
+  padding: 30px 20px 28px;
+  border: 1px solid rgba(212, 185, 154, 0.22);
+  color: #fff;
+  background-color: #1b1512;
+  background-image:
+    radial-gradient(120% 90% at 50% 0%, rgba(150, 94, 65, 0.55), transparent 60%),
+    linear-gradient(rgba(212, 185, 154, 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(212, 185, 154, 0.08) 1px, transparent 1px);
+  background-size: auto, 28px 28px, 28px 28px;
+}
+.lp-card--areia .lp-card__tilt { background-color: #083232; }
+.lp-card__tilt::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 22px;
+  width: 150px;
+  height: 46px;
+  translate: -50% 0;
+  border-radius: 50%;
+  border: 1px solid rgba(212, 185, 154, 0.45);
+  transform: rotate(-14deg);
+  pointer-events: none;
+}
+.lp-card .lp-seta { position: relative; background: rgba(255, 255, 255, 0.14); color: #fff; }
+.lp-card--areia .lp-seta { background: var(--lp-areia); color: var(--lp-ink); }
+.lp-card h3 { font-size: 1.6rem; color: #fff; }
+.lp-card p { color: var(--lp-areia); opacity: 1; }
+
+/* 5. Bônus: a capa é o card */
+.lp-bonus__card {
+  padding: 0;
+  background: none;
+  border: none;
+  box-shadow: none;
+  perspective: 900px;
+}
+.lp-bonus__tilt {
+  --rx: 0deg;
+  --ry: 0deg;
+  position: relative;
+  overflow: hidden;
+  border-radius: 22px;
+  background: #1b1512;
+  color: #fff;
+  border: 1px solid rgba(212, 185, 154, 0.2);
+  box-shadow: 0 30px 60px -20px rgba(46, 33, 27, 0.5);
+  transform: rotateX(var(--rx)) rotateY(var(--ry));
+  transition: transform 0.35s var(--lp-ease);
+}
+.lp-bonus__capa { border-radius: 0; margin: 0; aspect-ratio: 3 / 4; }
+.lp-bonus__kicker {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  margin: 0;
+  padding: 6px 12px;
+  border-radius: 100px;
+  background: rgba(247, 244, 240, 0.92);
+  color: var(--lp-terra);
+}
+.lp-bonus__card h3 { margin: 18px 20px 0; color: #fff; }
+.lp-bonus__card p { margin: 8px 20px 0; padding-bottom: 24px; color: rgba(255, 255, 255, 0.74); }
+
+/* 6. Espiadinha: fichas translúcidas com o numeral gigante atrás */
+.lp-espiada__card {
+  position: relative;
+  overflow: hidden;
+  grid-template-columns: 1fr;
+  background: rgba(255, 255, 255, 0.045);
+  border: 1px solid rgba(212, 185, 154, 0.22);
+  color: #fff;
+}
+.lp-espiada__card--areia { background: rgba(212, 185, 154, 0.10); color: #fff; }
+.lp-espiada__marca {
+  position: absolute;
+  right: -6px;
+  top: -18px;
+  width: auto;
+  height: auto;
+  border-radius: 0;
+  background: none !important;
+  box-shadow: none !important;
+  font-family: var(--lp-serif);
+  font-style: italic;
+  font-weight: 400;
+  font-size: 132px;
+  line-height: 1;
+  color: rgba(212, 185, 154, 0.14) !important;
+}
+.lp-espiada__card > div { position: relative; }
+.lp-espiada__tipo { color: var(--lp-areia); opacity: 1; }
+.lp-espiada__card h3 { color: #fff; }
+.lp-espiada__card p { color: rgba(255, 255, 255, 0.8); }
+
+/* 7. Preço com halo e órbita */
+.lp-invest__preco {
+  position: relative;
+  display: inline-block;
+  isolation: isolate;
+  background: linear-gradient(180deg, #965E41, #c97a4f 70%, #D4B99A);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.lp-invest__preco::before {
+  content: '';
+  position: absolute;
+  left: -25%;
+  top: 30%;
+  width: 150%;
+  height: 40%;
+  border-radius: 50%;
+  border: 1.5px solid rgba(150, 94, 65, 0.4);
+  transform: rotate(-10deg);
+  z-index: -1;
+}
+.lp-invest__preco::after {
+  content: '';
+  position: absolute;
+  inset: -30% -20%;
+  z-index: -2;
+  background: radial-gradient(closest-side, rgba(150, 94, 65, 0.22), transparent);
+}
+
+/* 8. FAQ: linhas finas sobre o palco escuro */
+.lp-faq__lista { gap: 0; }
+.lp-faq__item { border-radius: 0; background: transparent; border-top: 1px solid rgba(212, 185, 154, 0.22); }
+.lp-faq__item:last-child { border-bottom: 1px solid rgba(212, 185, 154, 0.22); }
+.lp-faq__item.is-open { background: rgba(212, 185, 154, 0.06); }
+.lp-faq__q { padding: 20px 4px; color: #fff; }
+.lp-faq__q svg { color: var(--lp-areia); }
+.lp-faq__a p { padding: 0 4px 22px; color: rgba(212, 185, 154, 0.9); }
+
+/* 9. Estrelas com paralaxe por scroll (onde o navegador suporta) */
+@supports (animation-timeline: view()) {
+  .lp-estrela {
+    animation: lp-deriva linear both;
+    animation-timeline: view();
+    animation-range: entry 0% exit 100%;
+  }
+  @keyframes lp-deriva {
+    from { translate: 0 70px; rotate: calc(var(--rot) - 14deg); }
+    to { translate: 0 -70px; rotate: calc(var(--rot) + 14deg); }
+  }
+}
+
+/* 10. Reveal com profundidade */
+.lp-reveal { transform: translateY(28px) scale(0.97); transform-origin: 50% 100%; }
+.lp-reveal.is-in { transform: none; }
+
+/* 11. CTA com brilho varrendo de tempos em tempos */
+.lp-cta { position: relative; overflow: hidden; isolation: isolate; }
+.lp-cta::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(110deg, transparent 35%, rgba(255, 255, 255, 0.28) 50%, transparent 65%);
+  transform: translateX(-120%);
+  animation: lp-brilho 7s var(--lp-ease) infinite;
+}
+@keyframes lp-brilho { 0%, 70% { transform: translateX(-120%); } 85%, 100% { transform: translateX(120%); } }
+.lp-cta--gradiente {
+  background: var(--lp-terra);
+  color: #fff;
+  box-shadow: 0 0 0 1px rgba(212, 185, 154, 0.6), 0 18px 48px rgba(150, 94, 65, 0.45);
+}
+
+@media (min-width: 720px) {
+  .lp-faq__q { padding: 24px 8px; }
+  .lp-faq__a p { padding: 0 8px 26px; }
+  .lp-orbita { width: 400px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lp-orbita__anel, .lp-logomarca, .lp-cta::after { animation: none !important; }
+  .lp-estrela { animation: none !important; translate: 0 0; }
+}
+
+
+/* ═══════════════════════════════════════════════════════════
+   Colagem: moldura, etiquetas, arcos, selos, letreiro, ondas,
+   adesivos, rabisco, palavra gigante, celular, fita, carimbo
+   ═══════════════════════════════════════════════════════════ */
+
+/* Moldura escura em volta do topo (o bloco "cartão" da referência) */
+.lp-moldura { background: #2a1d17; padding: 10px 10px 0; }
+.lp-moldura .lp-hero { border-radius: 26px 26px 0 0; overflow: hidden; background: var(--lp-cream); }
+
+
+/* Selo redondo com texto girando */
+.lp-selo {
+  position: relative;
+  display: inline-grid;
+  place-items: center;
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+  background: var(--lp-terra);
+  color: #fff;
+  box-shadow: 0 10px 28px rgba(46, 33, 27, 0.28), inset 0 0 0 2px rgba(255, 255, 255, 0.25);
+}
+.lp-selo__anel { position: absolute; inset: 0; width: 100%; height: 100%; animation: lp-gira 18s linear infinite; }
+.lp-selo__anel text { font-family: var(--font-titulo); font-size: 10.5px; font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase; fill: currentColor; }
+.lp-selo > i { font-style: normal; font-size: 1.6rem; line-height: 1; }
+@keyframes lp-gira { to { transform: rotate(360deg); } }
+
+
+/* Letreiro */
+.lp-letreiro { overflow: hidden; background: var(--lp-teal); color: var(--lp-areia); padding: 12px 0; }
+.lp-letreiro__faixa { display: flex; width: max-content; animation: lp-corre 40s linear infinite; }
+.lp-letreiro__faixa span {
+  display: inline-flex;
+  align-items: center;
+  gap: 18px;
+  padding-right: 18px;
+  font-family: var(--font-titulo);
+  font-size: 1.05rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.lp-letreiro__faixa em { font-style: normal; color: #fff; font-size: 0.9rem; }
+@keyframes lp-corre { to { transform: translateX(-50%); } }
+
+/* Ondas (borda recortada) no topo de uma seção */
+.lp-ondas {
+  position: absolute !important;
+  left: 0;
+  right: 0;
+  top: -16px;
+  height: 17px;
+  z-index: 2 !important;
+  background: radial-gradient(circle at 16px 17px, var(--onda) 15px, transparent 16px);
+  background-size: 32px 17px;
+}
+.lp-ondas--praquem { --onda: #f1dfd3; }
+.lp-ondas--espiada { --onda: #2a1d17; }
+.lp-praquem { position: relative; }
+
+/* "Pra quem é": itens como adesivos */
+.lp-checks { gap: 10px; }
+.lp-adesivo {
+  --giro: 0deg;
+  align-items: center;
+  padding: 14px 18px;
+  border-radius: 18px;
+  border: none !important;
+  rotate: var(--giro);
+  box-shadow: 0 10px 24px rgba(46, 33, 27, 0.12);
+  transition: rotate 0.35s var(--lp-ease), transform 0.35s var(--lp-ease), opacity 0.7s var(--lp-ease);
+}
+.lp-adesivo:hover { rotate: 0deg; transform: translateY(-2px); }
+.lp-adesivo--0 { background: #fff; color: var(--lp-ink); }
+.lp-adesivo--1 { background: var(--lp-teal); color: #fff; }
+.lp-adesivo--2 { background: var(--lp-terra); color: #fff; }
+.lp-adesivo--1 svg, .lp-adesivo--2 svg { color: var(--lp-areia); }
+.lp-adesivo--0 svg { color: var(--lp-terra); }
+
+
+
+/* Palavra gigante atrás das coleções */
+.lp-gigante {
+  position: absolute !important;
+  left: -2%;
+  bottom: -0.1em;
+  z-index: 0 !important;
+  font-family: var(--font-titulo);
+  font-size: 30vw;
+  font-weight: 800;
+  letter-spacing: -0.06em;
+  line-height: 0.8;
+  color: transparent;
+  -webkit-text-stroke: 2px rgba(212, 185, 154, 0.22);
+  pointer-events: none;
+  user-select: none;
+}
+
+/* Painel dentro de um celular */
+.lp-celular {
+  position: relative;
+  padding: 12px;
+  border-radius: 44px;
+  background: #1b1512;
+  box-shadow: 0 40px 80px rgba(46, 33, 27, 0.35), inset 0 0 0 2px rgba(255, 255, 255, 0.08);
+}
+.lp-celular__notch {
+  position: absolute;
+  top: 20px;
+  left: 50%;
+  z-index: 2;
+  width: 84px;
+  height: 22px;
+  margin-left: -42px;
+  border-radius: 100px;
+  background: #1b1512;
+}
+.lp-celular .lp-painel { border-radius: 34px; box-shadow: none; border: none; }
+.lp-celular .lp-painel__topo { padding-top: 48px; }
+
+
+/* Preço como carimbo */
+.lp-carimbo { position: relative; display: grid; place-items: center; width: 250px; height: 250px; margin: 14px auto 0; }
+.lp-selo--preco {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--lp-terra);
+  color: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 24px 60px rgba(150, 94, 65, 0.4), inset 0 0 0 3px rgba(255, 255, 255, 0.2);
+}
+.lp-selo--preco > i { display: none; }
+.lp-selo--preco .lp-selo__anel text { font-size: 9.5px; }
+.lp-carimbo .lp-invest__preco {
+  position: relative;
+  margin: 0;
+  font-size: clamp(3.4rem, 15vw, 4.6rem);
+  background: none;
+  -webkit-text-fill-color: #fff;
+  color: #fff;
+  isolation: auto;
+}
+.lp-carimbo .lp-invest__preco::before, .lp-carimbo .lp-invest__preco::after { content: none; }
+.lp-invest__de s { text-decoration-style: wavy; text-decoration-thickness: 2px; }
+
+@media (min-width: 720px) {
+  .lp-moldura { padding: 14px 14px 0; }
+  .lp-moldura .lp-hero { border-radius: 32px 32px 0 0; }
+  .lp-letreiro__faixa span { font-size: 1.2rem; }
+  .lp-checks { gap: 12px 16px; }
+  .lp-celular { rotate: -2.5deg; }
+  .lp-carimbo { width: 300px; height: 300px; }
+  .lp-carimbo .lp-invest__preco { font-size: 5.6rem; }
+}
+
+@media (min-width: 960px) {
+  .lp-gigante { font-size: 22vw; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lp-selo__anel, .lp-letreiro__faixa { animation: none !important; }
+}
+
+
+/* ═══════════ Mockup do produto no topo (notebook + celular) ═══════════ */
+.lp-mock {
+  position: relative;
+  z-index: 1;
+  width: min(560px, 100%);
+  margin: 8px auto 0;
+  padding: 0 14px 40px;
+}
+.lp-laptop { position: relative; width: 92%; rotate: -1.5deg; }
+.lp-laptop__screen {
+  position: relative;
+  border: 9px solid #1b1512;
+  border-bottom-width: 14px;
+  border-radius: 16px 16px 6px 6px;
+  background: #1b1512;
+  overflow: hidden;
+  aspect-ratio: 16 / 9.4;
+  box-shadow: 0 30px 70px rgba(46, 33, 27, 0.32);
+}
+.lp-laptop__screen::before {
+  content: '';
+  position: absolute;
+  top: -9px;
+  left: 50%;
+  width: 56px;
+  height: 7px;
+  translate: -50% 0;
+  border-radius: 0 0 8px 8px;
+  background: #1b1512;
+  z-index: 2;
+}
+.lp-laptop__screen img { width: 100%; height: 100%; object-fit: cover; object-position: top left; display: block; }
+.lp-laptop__base {
+  height: 12px;
+  margin: 0 -5%;
+  border-radius: 0 0 16px 16px;
+  background: linear-gradient(#4a3a32, #1b1512);
+  box-shadow: 0 16px 30px rgba(46, 33, 27, 0.25);
+}
+.lp-mockphone {
+  position: absolute;
+  right: 6px;
+  bottom: 0;
+  width: 31%;
+  max-width: 190px;
+  padding: 6px;
+  border-radius: 26px;
+  background: #1b1512;
+  box-shadow: 0 24px 50px rgba(46, 33, 27, 0.4), inset 0 0 0 2px rgba(255, 255, 255, 0.08);
+  rotate: 4deg;
+  z-index: 2;
+}
+.lp-mockphone__notch { position: absolute; top: 12px; left: 50%; width: 42%; height: 12px; translate: -50% 0; border-radius: 100px; background: #1b1512; z-index: 2; }
+.lp-mockphone__screen { border-radius: 20px; overflow: hidden; background: var(--lp-cream); aspect-ratio: 9 / 18; display: flex; flex-direction: column; }
+.lp-mockphone__bar { display: flex; align-items: center; gap: 6px; padding: 26px 10px 8px; background: var(--lp-teal); color: #fff; font-size: 0.6rem; font-weight: 700; }
+.lp-mockphone__bar b { display: grid; place-items: center; width: 16px; height: 16px; border-radius: 5px; background: var(--lp-areia); color: var(--lp-teal); font-size: 0.55rem; }
+.lp-mockphone__screen img { flex: 1; width: 100%; height: 100%; object-fit: cover; object-position: top; display: block; }
+
+/* Adesivos: recorte com borda branca e sombra dura */
+.lp-sticker {
+  position: absolute;
+  z-index: 3;
+  padding: 8px 14px;
+  border-radius: 100px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  white-space: nowrap;
+  background: var(--lp-terra);
+  color: #fff;
+  box-shadow: 0 0 0 3px #fff, 4px 4px 0 rgba(46, 33, 27, 0.9);
+}
+.lp-sticker--1 { left: 0; top: -12px; rotate: -6deg; }
+.lp-sticker--2 { right: 0; bottom: 42%; rotate: 5deg; background: var(--lp-teal); }
+.lp-selo--hero { position: absolute; left: -6px; bottom: 10px; z-index: 3; width: 92px; height: 92px; rotate: -10deg; box-shadow: 0 0 0 3px #fff, 5px 5px 0 rgba(46, 33, 27, 0.9); }
+.lp-selo--preco { box-shadow: 0 0 0 4px #fff, 7px 7px 0 rgba(46, 33, 27, 0.9); }
+
+/* Botões com cara de recorte (adesivo) */
+.lp-cta {
+  gap: 10px;
+  border: 2.5px solid var(--lp-ink);
+  box-shadow: 5px 5px 0 var(--lp-ink);
+  rotate: -1deg;
+  transition: rotate 0.25s var(--lp-ease), transform 0.25s var(--lp-ease), box-shadow 0.25s var(--lp-ease);
+}
+.lp-cta i { font-style: normal; color: var(--lp-areia); }
+.lp-cta:hover { rotate: 0deg; transform: translate(2px, 2px); box-shadow: 3px 3px 0 var(--lp-ink); }
+.lp-cta:active { transform: translate(5px, 5px); box-shadow: 0 0 0 var(--lp-ink); }
+.lp-cta::after { content: none; }
+.lp-cta--teal { background: var(--lp-teal); }
+.lp-cta--gradiente { background: var(--lp-terra); color: #fff; box-shadow: 5px 5px 0 var(--lp-areia); border-color: var(--lp-areia); }
+.lp-cta--gradiente:hover { box-shadow: 3px 3px 0 var(--lp-areia); }
+.lp-cta--gradiente i { color: var(--lp-areia); }
+.lp-sticky .lp-cta { rotate: 0deg; border-width: 2px; box-shadow: 3px 3px 0 var(--lp-areia); border-color: var(--lp-areia); }
+
+@media (min-width: 720px) {
+  .lp-mock { margin-top: 0; padding-bottom: 56px; }
+  .lp-entregas__grid { grid-template-columns: 1fr 1fr; column-gap: 48px; }
+  .lp-mockphone { right: -10px; bottom: -8px; }
+  .lp-sticker { font-size: 0.9rem; padding: 10px 18px; }
+  .lp-sticker--1 { left: -18px; top: -16px; }
+  .lp-sticker--2 { right: -22px; bottom: 46%; }
+  .lp-selo--hero { width: 120px; height: 120px; left: -30px; bottom: 20px; }
+}
+
+/* Acertos: check visível nos adesivos terracota; botão largo não quebra linha no celular */
+.lp-checks li.lp-adesivo--2 svg { color: var(--lp-areia); }
+.lp-checks li.lp-adesivo--1 svg { color: var(--lp-areia); }
+@media (max-width: 719px) {
+  .lp-cta--largo { font-size: 0.95rem; padding-left: 18px; padding-right: 18px; }
+  .lp-cta--largo i { display: none; }
+}
+
+
+/* ═══════════ O mesmo acabamento de adesivo no resto da página ═══════════ */
+
+/* Pílulas de seção viram adesivos inclinados */
+.lp-pill {
+  box-shadow: 0 0 0 3px #fff, 4px 4px 0 rgba(46, 33, 27, 0.9);
+  background: var(--lp-areia);
+  color: var(--lp-ink);
+  font-weight: 700;
+  rotate: -3deg;
+}
+.lp-pill.lp-pill--terra { box-shadow: 0 0 0 3px #fff, 4px 4px 0 rgba(46, 33, 27, 0.9); }
+
+/* Cards de coleção: etiqueta no canto e sombra dura amendoada */
+.lp-card { overflow: visible; }
+.lp-card__tilt { box-shadow: 7px 7px 0 rgba(212, 185, 154, 0.28); }
+.lp-sticker--card { position: absolute; top: -12px; left: 14px; rotate: -5deg; font-size: 0.68rem; padding: 6px 11px; background: var(--lp-areia); color: var(--lp-ink); }
+.lp-card--areia .lp-sticker--card { background: var(--lp-terra); color: #fff; }
+
+/* Bônus: etiqueta vira adesivo, card com sombra dura */
+.lp-bonus__kicker { box-shadow: 0 0 0 3px #fff, 4px 4px 0 rgba(46, 33, 27, 0.9); rotate: -5deg; top: 18px; left: 16px; font-weight: 800; }
+.lp-bonus__tilt { box-shadow: 8px 8px 0 var(--lp-areia); }
+
+/* Ferramenta: adesivo no celular */
+.lp-sticker--celular { top: -14px; right: -10px; rotate: 7deg; background: var(--lp-terra); z-index: 5; }
+
+/* Espiadinha: o tipo do anúncio vira adesivo */
+.lp-espiada__tipo {
+  display: inline-block;
+  padding: 5px 11px;
+  border-radius: 100px;
+  background: var(--lp-areia);
+  color: var(--lp-ink);
+  font-size: 0.66rem;
+  letter-spacing: 0.06em;
+  box-shadow: 0 0 0 2.5px #fff, 3px 3px 0 rgba(0, 0, 0, 0.6);
+  rotate: -3deg;
+  margin-bottom: 12px;
+}
+.lp-espiada__card { box-shadow: 8px 8px 0 rgba(212, 185, 154, 0.18); }
+
+/* Objeções: cards levemente tortos com sombra dura */
+.lp-objecao { rotate: -0.8deg; box-shadow: 7px 7px 0 rgba(46, 33, 27, 0.85); border: 2px solid var(--lp-ink); }
+.lp-objecao:nth-child(even) { rotate: 0.8deg; }
+
+/* Garantia: selo com borda branca e sombra dura */
+.lp-garantia__selo { box-shadow: 0 0 0 4px #fff, 6px 6px 0 rgba(212, 185, 154, 0.9); }
+
+/* Cenários: etiqueta como adesivo, cards com sombra dura */
+.lp-cenario { box-shadow: 8px 8px 0 rgba(46, 33, 27, 0.85); border: 2px solid var(--lp-ink); }
+.lp-cenario__kicker {
+  display: inline-block;
+  padding: 6px 12px;
+  border-radius: 100px;
+  background: #fff;
+  color: var(--lp-ink);
+  font-weight: 800;
+  box-shadow: 0 0 0 3px #fff, 4px 4px 0 rgba(46, 33, 27, 0.9);
+  rotate: -4deg;
+  margin-bottom: 14px;
+}
+.lp-cenario--b .lp-cenario__kicker { background: var(--lp-areia); }
+
+/* Celular do mockup e carimbo do preço: borda branca */
+.lp-mockphone { box-shadow: 0 0 0 3px #fff, 0 24px 50px rgba(46, 33, 27, 0.4); }
+.lp-laptop__screen { box-shadow: 0 0 0 3px #fff, 0 30px 70px rgba(46, 33, 27, 0.32); }
+
+@media (min-width: 720px) {
+  .lp-sticker--card { font-size: 0.74rem; }
+}
+
+/* Etiqueta dos cards de coleção: fica dentro do card (o tilt corta o que sai) */
+.lp-sticker--card { top: 12px; left: 12px; rotate: -4deg; }
+.lp-card__tilt { padding-top: 44px; }

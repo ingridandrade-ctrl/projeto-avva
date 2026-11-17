@@ -55,9 +55,9 @@ const COLECOES = [
 
 // Bônus: entram junto com o acervo, sem custo
 const BONUS = [
-  { titulo: 'Especial Black', texto: 'As páginas e os criativos que venderam na Black Friday, com a análise do que fez cada um funcionar.', gradient: 'linear-gradient(135deg, #2E211B 0%, #4C362D 45%, #965E41 100%)' },
-  { titulo: 'Especial Mini VSL', texto: 'Anúncios mais longos, de 1 a 3 minutos, que vendem sozinhos. Pra quem quer entender como se segura atenção até a oferta.', gradient: 'linear-gradient(135deg, #0C4747 0%, #1A6868 60%, #7FA588 100%)' },
-  { titulo: 'Páginas', texto: 'Páginas de vendas, captura, obrigado e serviço, com a análise do que faz cada uma converter. E a IA monta a sua, bloco por bloco.', gradient: 'linear-gradient(135deg, #8A5C3F 0%, #C98A5E 60%, #D4B99A 100%)' },
+  { titulo: 'Especial Black Friday', texto: 'As páginas e os criativos que venderam na Black Friday, com a análise do que fez cada um funcionar.', capa: '/acervo/capa-black.webp' },
+  { titulo: 'Especial Mini VSL', texto: 'Anúncios mais longos, de 1 a 3 minutos, que vendem sozinhos. Pra quem quer entender como se segura atenção até a oferta.', capa: '/acervo/capa-minivsl.webp' },
+  { titulo: 'Especial Páginas', texto: 'Páginas de vendas, captura, obrigado e serviço, com a análise do que faz cada uma converter. E a nossa ferramenta monta a sua, bloco por bloco.', capa: '/acervo/capa-paginas.webp' },
 ]
 
 // O que a IA entrega em cada formato, no "Fazer a minha versão"
@@ -72,9 +72,9 @@ const ENTREGAS = [
   { icone: 'grid', texto: <><strong>Anúncios validados</strong> em vídeo, imagem e carrossel, todos rodando de verdade</> },
   { icone: 'pasta', texto: <><strong>{OFERTA.totalColecoes} coleções por objetivo</strong>, de atrair seguidores até vender agora</> },
   { icone: 'lupa', texto: <><strong>Análise de cada anúncio</strong>: por que funciona, em poucas linhas e sem jargão</> },
-  { icone: 'ia', texto: <><strong>Fazer a minha versão, com IA</strong>: em qualquer anúncio, a IA escreve a sua versão na sua voz, a partir do que você entendeu</> },
+  { icone: 'ia', texto: <><strong>Fazer a minha versão</strong>, a nossa ferramenta: em qualquer anúncio, ela escreve a sua versão na sua voz, a partir do que você entendeu</> },
   { icone: 'estrela', texto: <><strong>Melhores do mês</strong>: uma curadoria nova todo mês, garimpada pela Flora</> },
-  { icone: 'presente', texto: <><strong>Bônus</strong>: Especial Black, Especial Mini VSL e as Páginas, com análise e versão sua pela IA</> },
+  { icone: 'presente', texto: <><strong>Bônus</strong>: Especial Black Friday, Especial Mini VSL e Especial Páginas, com análise e a sua versão pela nossa ferramenta</> },
   { icone: 'filtro', texto: <><strong>Filtro por nicho e formato</strong>: negócio local, serviço, infoproduto e e-commerce</> },
   { icone: 'celular', texto: <><strong>Área de membros no celular</strong>, com favoritos, busca e marcação do que você já viu</> },
   { icone: 'calendario', texto: <><strong>{OFERTA.acessoPor} de acesso</strong>, com tudo que entrar nesse período</> },
@@ -126,9 +126,9 @@ const OBJECOES = [
 const INCLUSO = [
   <><strong>{OFERTA.totalColecoes} coleções</strong> organizadas por objetivo</>,
   <><strong>Análise de cada anúncio</strong>: por que funciona</>,
-  <><strong>Fazer a minha versão, com IA</strong>, em todo anúncio e página</>,
+  <><strong>Fazer a minha versão</strong>, a nossa ferramenta, em todo anúncio e página</>,
   <><strong>Melhores do mês</strong>: curadoria nova todo mês</>,
-  <><strong>Bônus:</strong> Especial Black, Especial Mini VSL e Páginas</>,
+  <><strong>Bônus:</strong> Especial Black Friday, Especial Mini VSL e Especial Páginas</>,
   <><strong>Filtro por nicho e formato</strong>, busca e favoritos</>,
   <><strong>{OFERTA.acessoPor} de acesso</strong>, com tudo que entrar nesse período</>,
 ]
@@ -149,7 +149,7 @@ const CENARIOS = [
     titulo: 'Com o acervo',
     itens: [
       'Você abre o celular, escolhe pelo objetivo e lê por que aquele anúncio vende',
-      'Adapta a estrutura pro seu negócio, ou pede pra IA escrever a sua versão, e coloca no ar ainda essa semana',
+      'Adapta a estrutura pro seu negócio, ou usa a nossa ferramenta pra escrever a sua versão, e coloca no ar ainda essa semana',
       'Daqui a 30 dias: anúncios com estrutura, e não com sorte',
     ],
   },
@@ -165,16 +165,16 @@ const FAQ = [
     a: 'O acervo é organizado por objetivo do anúncio (atrair seguidores, captar leads, mostrar que você entende, provar que funciona, quebrar o "mas...", vender agora), e não por nicho. A estrutura que faz uma loja de roupa vender é a mesma que faz uma nutricionista fechar agenda. E dá pra filtrar por negócio local, serviço, infoproduto e e-commerce.',
   },
   {
-    q: 'A IA vai fazer o anúncio por mim?',
-    a: 'Ela escreve a sua versão, mas a partir do que você entendeu. Primeiro você lê a análise e vê por que aquele anúncio funciona. Depois preenche a sua ficha (o que vende, pra quem, uma prova real, como a sua cliente fala) e a IA escreve na sua voz, com a sua prova, sem inventar número. O objetivo é você ganhar autonomia, e a IA encurtar o caminho.',
+    q: 'A ferramenta vai fazer o anúncio por mim?',
+    a: 'Ela escreve a sua versão, mas a partir do que você entendeu. Primeiro você lê a análise e vê por que aquele anúncio funciona. Depois preenche a sua ficha (o que vende, pra quem, uma prova real, como a sua cliente fala) e a ferramenta escreve na sua voz, com a sua prova, sem inventar número. O objetivo é você ganhar autonomia, e a ferramenta encurtar o caminho.',
   },
   {
     q: 'Preciso pagar ChatGPT ou Claude pra usar o gerador?',
-    a: 'Não. O acervo monta o prompt pronto e abre na IA que você preferir, ChatGPT ou Claude, e funciona nas versões gratuitas. Se quiser usar outra IA, é só copiar o prompt.',
+    a: 'Não. A nossa ferramenta monta tudo pronto e abre na IA que você preferir, ChatGPT ou Claude, e funciona nas versões gratuitas. Se quiser usar outra, é só copiar.',
   },
   {
     q: 'O que são os bônus?',
-    a: 'Três blocos que entram junto com o acervo, sem custo: o Especial Black, com páginas e criativos que venderam na Black Friday; o Especial Mini VSL, com anúncios de 1 a 3 minutos que vendem sozinhos; e as Páginas, de vendas, captura, obrigado e serviço, com análise e versão sua pela IA.',
+    a: 'Três blocos que entram junto com o acervo, sem custo: o Especial Black Friday, com páginas e criativos que venderam na Black; o Especial Mini VSL, com anúncios de 1 a 3 minutos que vendem sozinhos; e o Especial Páginas, de vendas, captura, obrigado e serviço, com análise e a sua versão pela nossa ferramenta.',
   },
   {
     q: 'É só pra Instagram e Facebook ou serve pra outras plataformas?',
@@ -237,7 +237,9 @@ function Seta() {
 function Cta({ children, variante = 'terracotta', largo = false }) {
   return (
     <a className={`lp-cta lp-cta--${variante} ${largo ? 'lp-cta--largo' : ''}`} href={OFERTA.checkoutUrl} rel="noopener">
-      {children}
+      <i aria-hidden="true">✦</i>
+      <span>{children}</span>
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg>
     </a>
   )
 }
@@ -251,71 +253,11 @@ function Reveal({ as: Tag = 'div', className = '', delay = 0, children, ...rest 
     if (!el || !('IntersectionObserver' in window)) { setVis(true); return }
     const io = new IntersectionObserver(([e]) => { if (e.isIntersecting) { setVis(true); io.disconnect() } }, { rootMargin: '0px 0px -8% 0px', threshold: 0.1 })
     io.observe(el)
-    return () => io.disconnect()
+    // Garantia: se o observador não disparar (alguns webviews), aparece mesmo assim
+    const t = setTimeout(() => setVis(true), 1800)
+    return () => { io.disconnect(); clearTimeout(t) }
   }, [])
   return <Tag ref={ref} className={`lp-reveal ${vis ? 'is-in' : ''} ${className}`} style={{ transitionDelay: `${delay}ms` }} {...rest}>{children}</Tag>
-}
-
-// Miniatura da área de membros: as coleções trocam sozinhas e por toque
-function Celular() {
-  const [ativa, setAtiva] = useState(0)
-  const pausado = useRef(false)
-
-  useEffect(() => {
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
-    const t = setInterval(() => { if (!pausado.current) setAtiva(i => (i + 1) % 6) }, 3200)
-    return () => clearInterval(t)
-  }, [])
-
-  function escolher(i) {
-    setAtiva(i)
-    pausado.current = true
-    setTimeout(() => { pausado.current = false }, 7000)
-  }
-
-  return (
-    <div className="lp-phone" aria-hidden="true">
-      <div className="lp-phone__frame">
-        <span className="lp-phone__notch" />
-        <div className="lp-phone__screen">
-          <div className="lp-phone__topbar">
-            <span>Olá, Ana ✦</span>
-            <span className="lp-phone__avatar">A</span>
-          </div>
-          <div className="lp-phone__hero">
-            {COLECOES.map((c, i) => (
-              <div key={c.slug} className={`lp-phone__slide ${i === ativa ? 'is-on' : ''}`} style={{ background: c.gradient }}>
-                <span className="lp-phone__kicker">{c.kicker}</span>
-                <strong>{c.titulo}</strong>
-                <small>{c.subtitulo}</small>
-                <i className="lp-phone__play" />
-              </div>
-            ))}
-          </div>
-          <div className="lp-phone__row">
-            <span className="lp-phone__rowtitle">Coleções por objetivo</span>
-            <div className="lp-phone__cards">
-              {COLECOES.slice(0, 6).map((c, i) => (
-                <button type="button" key={c.slug} className={`lp-phone__card ${i === ativa ? 'is-on' : ''}`} style={{ background: c.gradient }} onClick={() => escolher(i)} tabIndex={-1}>
-                  <span>{String(i + 1).padStart(2, '0')}</span>
-                </button>
-              ))}
-            </div>
-          </div>
-          <div className="lp-phone__row">
-            <span className="lp-phone__rowtitle">Melhores do mês</span>
-            <div className="lp-phone__cards lp-phone__cards--sm">
-              {[0, 1, 2, 3].map(i => <i key={i} className="lp-phone__card lp-phone__card--ghost" style={{ background: COLECOES[6].gradient, opacity: 0.9 - i * 0.15 }} />)}
-            </div>
-          </div>
-          <div className="lp-phone__nav">
-            {['Início', 'Coleções', 'Busca', 'Favoritos'].map((t, i) => <span key={t} className={i === 1 ? 'is-on' : ''}>{t}</span>)}
-          </div>
-        </div>
-      </div>
-      <div className="lp-phone__glow" />
-    </div>
-  )
 }
 
 // Miniatura do "Fazer a minha versão": os mesmos passos e opções do painel
@@ -343,6 +285,7 @@ function PainelIA() {
           <div className="lp-painel__campos">
             <span>O que você vende</span>
             <span>Pra quem, com detalhe</span>
+            <span>O que muda pra ela</span>
             <span>Uma prova real, com contexto</span>
           </div>
         </div>
@@ -352,6 +295,11 @@ function PainelIA() {
         <span className="lp-painel__num">2</span>
         <div>
           <strong>A sua voz</strong>
+          <div className="lp-painel__campos">
+            <span>Como a sua cliente fala do problema</span>
+            <span>Um texto seu, do jeito que você fala</span>
+          </div>
+          <em className="lp-painel__rotulo">Como você escreve</em>
           <div className="lp-painel__chips">
             {TONS.map(t => <button type="button" key={t.nome} className={tom === t.nome ? 'is-on' : ''} onClick={() => setTom(t.nome)}>{t.nome}</button>)}
           </div>
@@ -372,11 +320,12 @@ function PainelIA() {
       <div className="lp-painel__passo lp-painel__passo--final">
         <span className="lp-painel__num">4</span>
         <div>
-          <strong>Abre na IA e recebe a sua versão</strong>
+          <strong>Agora é só abrir na IA</strong>
           <div className="lp-painel__ias">
             <span className="lp-painel__btn">Abrir no ChatGPT</span>
             <span className="lp-painel__btn lp-painel__btn--claude">Abrir no Claude</span>
           </div>
+          <em className="lp-painel__rotulo">O que sai, por formato</em>
           <div className="lp-painel__formatos" role="tablist" aria-label="Formato">
             {IA_SAIDAS.map((f, i) => <button type="button" role="tab" aria-selected={formato === i} key={f.formato} className={formato === i ? 'is-on' : ''} onClick={() => setFormato(i)}>{f.formato}</button>)}
           </div>
@@ -410,11 +359,67 @@ function CardColecao({ c, index }) {
   return (
     <Reveal as="li" className={`lp-card ${index % 2 ? 'lp-card--areia' : 'lp-card--terra'}`} delay={index * 60}>
       <div ref={ref} className="lp-card__tilt" onMouseMove={move} onMouseLeave={leave}>
+        <span className="lp-sticker lp-sticker--card">{c.kicker}</span>
         <Seta />
         <h3>{c.titulo}</h3>
         <p>{c.subtitulo}</p>
       </div>
     </Reveal>
+  )
+}
+
+function CardBonus({ b, index }) {
+  const ref = useRef(null)
+  function move(e) {
+    const el = ref.current
+    if (!el || !window.matchMedia('(hover: hover) and (pointer: fine)').matches) return
+    const r = el.getBoundingClientRect()
+    const x = (e.clientX - r.left) / r.width - 0.5
+    const y = (e.clientY - r.top) / r.height - 0.5
+    el.style.setProperty('--rx', `${(-y * 6).toFixed(2)}deg`)
+    el.style.setProperty('--ry', `${(x * 8).toFixed(2)}deg`)
+  }
+  function leave() {
+    const el = ref.current
+    if (!el) return
+    el.style.setProperty('--rx', '0deg')
+    el.style.setProperty('--ry', '0deg')
+  }
+  return (
+    <Reveal as="li" className="lp-bonus__card" delay={index * 80}>
+      <div ref={ref} className="lp-bonus__tilt" onMouseMove={move} onMouseLeave={leave}>
+        <img className="lp-bonus__capa" src={b.capa} alt="" loading="lazy" width="720" height="957" />
+        <span className="lp-bonus__kicker">Bônus {String(index + 1).padStart(2, '0')}</span>
+        <h3>{b.titulo}</h3>
+        <p>{b.texto}</p>
+      </div>
+    </Reveal>
+  )
+}
+
+// Selo redondo com texto girando em volta (adesivo)
+function Selo({ id, texto, className = '' }) {
+  return (
+    <span className={`lp-selo ${className}`} aria-hidden="true">
+      <svg viewBox="0 0 120 120" className="lp-selo__anel">
+        <defs><path id={id} d="M60,60 m-44,0 a44,44 0 1,1 88,0 a44,44 0 1,1 -88,0" /></defs>
+        <text><textPath href={`#${id}`}>{texto}</textPath></text>
+      </svg>
+      <i>✦</i>
+    </span>
+  )
+}
+
+// Letreiro correndo com as coleções
+function Letreiro() {
+  const itens = [...COLECOES.map(c => c.titulo), 'com análise', 'com a nossa ferramenta']
+  const fila = [...itens, ...itens]
+  return (
+    <div className="lp-letreiro" aria-hidden="true">
+      <div className="lp-letreiro__faixa">
+        {fila.map((t, i) => <span key={i}>{t}<em>✦</em></span>)}
+      </div>
+    </div>
   )
 }
 
@@ -442,24 +447,37 @@ export default function AcervoPage() {
   return (
     <div className="lp">
       {/* ── 1. Hero ── */}
-      <section className="lp-hero" id="topo">
+      <div className="lp-moldura">
+      <section className="lp-hero lp-palco lp-palco--claro" id="topo">
         <span className="lp-estrela lp-estrela--1" aria-hidden="true">✦</span>
         <span className="lp-estrela lp-estrela--2" aria-hidden="true">✦</span>
         <div className="lp-hero__inner">
-          <Logo className="lp-logo--hero" />
+          <div className="lp-palco-logo">
+            <div className="lp-orbita" aria-hidden="true"><span className="lp-orbita__anel"><i>✦</i></span></div>
+            <img className="lp-logomarca" src="/acervo/logo.webp" alt="acervo de anúncios" width="1140" height="970" fetchPriority="high" />
+            <span className="lp-hero__sombra" aria-hidden="true" />
+          </div>
           <h1 className="lp-hero__frase">
-            A biblioteca de anúncios das empreendedoras que <em>cansaram de adivinhar criativo</em> e querem entender por que um anúncio vende antes de fazer o seu.
+            A biblioteca de anúncios das empreendedoras que <em>cansaram de começar do zero.</em>
           </h1>
+          <p className="lp-hero__destaque">
+            Entenda a lógica de quem vende e transforme as suas referências favoritas em anúncios, <strong>com a nossa ferramenta.</strong>
+          </p>
           <p className="lp-hero__sub">
-            Você escolhe pelo objetivo, lê a análise do porquê e adapta a lógica pro seu negócio. E, quando quiser, a IA escreve a sua versão na sua voz. Tudo pelo celular, com acesso imediato.
+            Tudo pelo celular, com acesso imediato.
           </p>
           <Cta>Quero o acervo 🤎</Cta>
           <p className="lp-hero__nota">{OFERTA.preco} · pagamento único · {OFERTA.garantiaDias} dias de garantia</p>
         </div>
+
       </section>
+      </div>
+
+      <Letreiro />
 
       {/* ── 2. Pra quem é ── */}
       <section className="lp-section lp-praquem">
+        <i className="lp-ondas lp-ondas--praquem" aria-hidden="true" />
         <div className="lp-container">
           <Reveal as="h2" className="lp-titulo lp-titulo--colchete">Pra quem é</Reveal>
           <Reveal as="p" className="lp-praquem__intro" delay={80}>
@@ -468,7 +486,7 @@ export default function AcervoPage() {
           </Reveal>
           <ul className="lp-checks">
             {PRA_QUEM.map((item, i) => (
-              <Reveal as="li" key={i} delay={i * 50}>
+              <Reveal as="li" key={i} className={`lp-adesivo lp-adesivo--${i % 3}`} delay={i * 50} style={{ '--giro': `${[-1.5, 1.2, -0.8, 1.6, -1.2, 0.9, -1.4][i % 7]}deg` }}>
                 <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>
                 <span>{item}</span>
               </Reveal>
@@ -498,7 +516,8 @@ export default function AcervoPage() {
       </section>
 
       {/* ── 4. O que é + coleções ── */}
-      <section className="lp-section lp-escuro lp-oque">
+      <section className="lp-section lp-escuro lp-palco lp-oque">
+        <span className="lp-gigante" aria-hidden="true">acervo</span>
         <div className="lp-container lp-oque__grid">
           <Reveal className="lp-oque__texto">
             <p className="lp-oque__frase">
@@ -518,10 +537,10 @@ export default function AcervoPage() {
           <Reveal className="lp-ia__texto">
             <span className="lp-pill">Incluso no acervo</span>
             <h2 className="lp-titulo lp-titulo--grande">
-              Primeiro você entende.<br /><strong>Depois, a IA escreve a sua versão.</strong>
+              Primeiro você entende.<br /><strong>Depois, a nossa ferramenta escreve a sua versão.</strong>
             </h2>
             <p>
-              Em todo anúncio e página do acervo tem o botão <strong>Fazer a minha versão</strong>. Você preenche a sua ficha uma vez (o que vende, pra quem, uma prova real, como a sua cliente fala) e a IA escreve a sua versão daquele anúncio, na sua voz, com a sua prova, sem inventar número.
+              Em todo anúncio e página do acervo tem o botão <strong>Fazer a minha versão</strong>. Você preenche a sua ficha uma vez (o que vende, pra quem, uma prova real, como a sua cliente fala) e a ferramenta escreve a sua versão daquele anúncio, na sua voz, com a sua prova, sem inventar número.
             </p>
             <p>
               Não é pra copiar o anúncio dos outros. É pra entender por que ele vende e sair com o seu pronto pra gravar, ainda hoje.
@@ -533,7 +552,11 @@ export default function AcervoPage() {
             </ul>
           </Reveal>
           <Reveal className="lp-ia__painel" delay={120}>
-            <PainelIA />
+            <div className="lp-celular">
+              <span className="lp-sticker lp-sticker--celular">na sua voz</span>
+              <span className="lp-celular__notch" />
+              <PainelIA />
+            </div>
           </Reveal>
         </div>
       </section>
@@ -548,14 +571,7 @@ export default function AcervoPage() {
             </h2>
           </Reveal>
           <ul className="lp-bonus__grid">
-            {BONUS.map((b, i) => (
-              <Reveal as="li" key={b.titulo} className="lp-bonus__card" delay={i * 80}>
-                <span className="lp-bonus__capa" style={{ background: b.gradient }} aria-hidden="true"><i>✦</i></span>
-                <span className="lp-bonus__kicker">Bônus {String(i + 1).padStart(2, '0')}</span>
-                <h3>{b.titulo}</h3>
-                <p>{b.texto}</p>
-              </Reveal>
-            ))}
+            {BONUS.map((b, i) => <CardBonus key={b.titulo} b={b} index={i} />)}
           </ul>
         </div>
       </section>
@@ -567,7 +583,25 @@ export default function AcervoPage() {
             É aqui que você<br /><strong>para de adivinhar.</strong>
           </Reveal>
           <Reveal className="lp-entregas__phone" delay={100}>
-            <Celular />
+        <div className="lp-mock" aria-hidden="true">
+          <div className="lp-laptop">
+            <div className="lp-laptop__screen">
+              <img src="/acervo/tela-acervo.webp" alt="" width="1400" height="742" loading="lazy" />
+            </div>
+            <div className="lp-laptop__base" />
+          </div>
+          <div className="lp-mockphone">
+            <span className="lp-mockphone__notch" />
+            <div className="lp-mockphone__screen">
+              <div className="lp-mockphone__bar"><b>A</b><span>AVVA Hub</span></div>
+              <img src="/acervo/card-melhores.webp" alt="" width="720" height="1158" loading="lazy" />
+            </div>
+          </div>
+          <span className="lp-sticker lp-sticker--1">curadoria mensal</span>
+          <span className="lp-sticker lp-sticker--2">ferramenta inclusa</span>
+          <Selo id="selo-hero" texto={`acesso imediato ✦ ${OFERTA.garantiaDias} dias de garantia ✦ `} className="lp-selo--hero" />
+        </div>
+            <p className="lp-pilha__legenda">A área de membros, de verdade: no computador e no celular</p>
           </Reveal>
           <ul className="lp-entregas__lista">
             {ENTREGAS.map((e, i) => (
@@ -581,7 +615,8 @@ export default function AcervoPage() {
       </section>
 
       {/* ── 6. Espiadinha ── */}
-      <section className="lp-section lp-escuro lp-escuro--umber lp-espiada">
+      <section className="lp-section lp-escuro lp-escuro--umber lp-palco lp-espiada">
+        <i className="lp-ondas lp-ondas--espiada" aria-hidden="true" />
         <div className="lp-container lp-container--narrow">
           <Reveal as="h2" className="lp-titulo lp-titulo--grande lp-titulo--centro lp-titulo--claro">
             Pra você dar uma<br /><strong>espiadinha…</strong>
@@ -622,7 +657,7 @@ export default function AcervoPage() {
       </section>
 
       {/* ── 8. Investimento ── */}
-      <section className="lp-section lp-invest" id="oferta">
+      <section className="lp-section lp-invest lp-palco lp-palco--claro" id="oferta">
         <span className="lp-estrela lp-estrela--4" aria-hidden="true">✦</span>
         <span className="lp-estrela lp-estrela--5" aria-hidden="true">✦</span>
         <Reveal className="lp-container lp-container--narrow lp-invest__inner">
@@ -630,8 +665,10 @@ export default function AcervoPage() {
           {OFERTA.precoDe && (
             <p className="lp-invest__de">de <s>{OFERTA.precoDe}</s> por</p>
           )}
-          <p className="lp-invest__preco">{OFERTA.preco}</p>
-          {OFERTA.precoNota && <span className="lp-invest__nota">{OFERTA.precoNota}</span>}
+          <div className="lp-carimbo">
+            <Selo id="selo-preco" texto={`${(OFERTA.precoNota || 'oferta').toLowerCase()} ✦ pagamento único ✦ `} className="lp-selo--preco" />
+            <p className="lp-invest__preco">{OFERTA.preco}</p>
+          </div>
           <p className="lp-invest__detalhe">
             {OFERTA.parcelas && <><strong>{OFERTA.parcelas}</strong><br /></>}
             (pagamento único, sem mensalidade)
@@ -667,7 +704,7 @@ export default function AcervoPage() {
       </section>
 
       {/* ── 9. FAQ ── */}
-      <section className="lp-section lp-escuro lp-faq">
+      <section className="lp-section lp-escuro lp-palco lp-faq">
         <div className="lp-container lp-container--narrow">
           <Reveal className="lp-faq__lista">
             {FAQ.map((item, i) => {
@@ -717,7 +754,7 @@ export default function AcervoPage() {
       </section>
 
       {/* ── Rodapé ── */}
-      <footer className="lp-escuro lp-fim">
+      <footer className="lp-escuro lp-palco lp-fim">
         <div className="lp-container lp-container--narrow lp-fim__inner">
           <Logo className="lp-logo--rodape" />
           <div className="lp-rodape">
