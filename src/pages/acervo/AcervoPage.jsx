@@ -386,10 +386,13 @@ export default function AcervoPage() {
         <div className="lp-hero__inner">
           <img className="lp-logomarca" src="/acervo/logo.webp" alt="acervo de anúncios" width="1140" height="970" fetchPriority="high" />
           <h1 className="lp-hero__frase">
-            A biblioteca de anúncios das empreendedoras que <em>cansaram de adivinhar criativo</em> e querem entender por que um anúncio vende antes de fazer o seu.
+            A biblioteca de anúncios das empreendedoras que <em>cansaram de começar do zero.</em>
           </h1>
+          <p className="lp-hero__destaque">
+            Entenda a lógica de quem vende e transforme as suas referências favoritas em anúncios, <strong>com a nossa ferramenta.</strong>
+          </p>
           <p className="lp-hero__sub">
-            Você escolhe pelo objetivo, lê a análise do porquê e adapta a lógica pro seu negócio. E, quando quiser, a IA escreve a sua versão na sua voz. Tudo pelo celular, com acesso imediato.
+            Tudo pelo celular, com acesso imediato.
           </p>
           <Cta>Quero o acervo 🤎</Cta>
           <p className="lp-hero__nota">{OFERTA.preco} · pagamento único · {OFERTA.garantiaDias} dias de garantia</p>
