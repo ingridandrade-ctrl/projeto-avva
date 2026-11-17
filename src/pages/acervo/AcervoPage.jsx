@@ -453,10 +453,6 @@ export default function AcervoPage() {
             <div className="lp-orbita" aria-hidden="true"><span className="lp-orbita__anel"><i>✦</i></span></div>
             <img className="lp-logomarca" src="/acervo/logo.webp" alt="acervo de anúncios" width="1140" height="970" fetchPriority="high" />
             <span className="lp-hero__sombra" aria-hidden="true" />
-            <span className="lp-etiqueta lp-etiqueta--1" aria-hidden="true">curadoria mensal</span>
-            <span className="lp-etiqueta lp-etiqueta--2" aria-hidden="true">com análise</span>
-            <span className="lp-etiqueta lp-etiqueta--3" aria-hidden="true">ferramenta inclusa</span>
-            <span className="lp-etiqueta lp-etiqueta--4" aria-hidden="true">3 bônus</span>
           </div>
           <h1 className="lp-hero__frase">
             A biblioteca de anúncios das empreendedoras que <em>cansaram de começar do zero.</em>
@@ -506,9 +502,6 @@ export default function AcervoPage() {
       {/* ── 3. Afirmação ── */}
       <section className="lp-section lp-afirma">
         <span className="lp-estrela lp-estrela--3" aria-hidden="true">✦</span>
-        <svg className="lp-rabisco" viewBox="0 0 1100 200" preserveAspectRatio="none" aria-hidden="true"><path d="M-20,120 C120,10 220,190 340,90 S540,40 660,140 S900,30 1120,110" /></svg>
-        <Selo id="selo-afirma-1" texto="sem fórmula pronta ✦ sem copiar ninguém ✦ " className="lp-selo--canto lp-selo--canto-1" />
-        <Selo id="selo-afirma-2" texto="entenda a lógica ✦ faça o seu ✦ " className="lp-selo--canto lp-selo--canto-2" />
         <div className="lp-container lp-container--narrow">
           <Reveal as="h2" className="lp-titulo lp-titulo--grande">
             Muita gente diz que o problema é a verba, é o público.<br />
@@ -596,9 +589,7 @@ export default function AcervoPage() {
               <img className="lp-pilha__item lp-pilha__item--1" src="/acervo/capa-black.webp" alt="" loading="lazy" width="720" height="957" />
               <img className="lp-pilha__item lp-pilha__item--2" src="/acervo/card-melhores.webp" alt="" loading="lazy" width="720" height="1158" />
               <img className="lp-pilha__item lp-pilha__item--3" src="/acervo/capa-paginas.webp" alt="" loading="lazy" width="720" height="957" />
-              <i className="lp-pilha__fita" />
             </div>
-            <svg className="lp-pilha__seta" viewBox="0 0 120 60" aria-hidden="true"><path d="M4,40 C30,8 70,8 104,30" /><path d="M92,18 L106,31 L90,38" /></svg>
             <p className="lp-pilha__legenda">Capas de verdade, da área de membros</p>
           </Reveal>
           <ul className="lp-entregas__lista">
