@@ -394,6 +394,32 @@ function CardBonus({ b, index }) {
   )
 }
 
+// Selo redondo com texto girando em volta (adesivo)
+function Selo({ id, texto, className = '' }) {
+  return (
+    <span className={`lp-selo ${className}`} aria-hidden="true">
+      <svg viewBox="0 0 120 120" className="lp-selo__anel">
+        <defs><path id={id} d="M60,60 m-44,0 a44,44 0 1,1 88,0 a44,44 0 1,1 -88,0" /></defs>
+        <text><textPath href={`#${id}`}>{texto}</textPath></text>
+      </svg>
+      <i>✦</i>
+    </span>
+  )
+}
+
+// Letreiro correndo com as coleções
+function Letreiro() {
+  const itens = [...COLECOES.map(c => c.titulo), 'com análise', 'com a nossa ferramenta']
+  const fila = [...itens, ...itens]
+  return (
+    <div className="lp-letreiro" aria-hidden="true">
+      <div className="lp-letreiro__faixa">
+        {fila.map((t, i) => <span key={i}>{t}<em>✦</em></span>)}
+      </div>
+    </div>
+  )
+}
+
 function Logo({ className = '' }) {
   return (
     <span className={`lp-logo ${className}`}>
@@ -418,6 +444,7 @@ export default function AcervoPage() {
   return (
     <div className="lp">
       {/* ── 1. Hero ── */}
+      <div className="lp-moldura">
       <section className="lp-hero lp-palco lp-palco--claro" id="topo">
         <span className="lp-estrela lp-estrela--1" aria-hidden="true">✦</span>
         <span className="lp-estrela lp-estrela--2" aria-hidden="true">✦</span>
@@ -426,6 +453,10 @@ export default function AcervoPage() {
             <div className="lp-orbita" aria-hidden="true"><span className="lp-orbita__anel"><i>✦</i></span></div>
             <img className="lp-logomarca" src="/acervo/logo.webp" alt="acervo de anúncios" width="1140" height="970" fetchPriority="high" />
             <span className="lp-hero__sombra" aria-hidden="true" />
+            <span className="lp-etiqueta lp-etiqueta--1" aria-hidden="true">curadoria mensal</span>
+            <span className="lp-etiqueta lp-etiqueta--2" aria-hidden="true">com análise</span>
+            <span className="lp-etiqueta lp-etiqueta--3" aria-hidden="true">ferramenta inclusa</span>
+            <span className="lp-etiqueta lp-etiqueta--4" aria-hidden="true">3 bônus</span>
           </div>
           <h1 className="lp-hero__frase">
             A biblioteca de anúncios das empreendedoras que <em>cansaram de começar do zero.</em>
@@ -439,10 +470,21 @@ export default function AcervoPage() {
           <Cta>Quero o acervo 🤎</Cta>
           <p className="lp-hero__nota">{OFERTA.preco} · pagamento único · {OFERTA.garantiaDias} dias de garantia</p>
         </div>
+
+        <div className="lp-arcos" aria-hidden="true">
+          <img className="lp-arcos__item" src="/acervo/capa-black.webp" alt="" width="720" height="957" />
+          <img className="lp-arcos__item" src="/acervo/card-melhores.webp" alt="" width="720" height="1158" />
+          <img className="lp-arcos__item" src="/acervo/capa-paginas.webp" alt="" width="720" height="957" />
+          <Selo id="selo-hero" texto={`acesso imediato ✦ ${OFERTA.garantiaDias} dias de garantia ✦ `} className="lp-selo--hero" />
+        </div>
       </section>
+      </div>
+
+      <Letreiro />
 
       {/* ── 2. Pra quem é ── */}
       <section className="lp-section lp-praquem">
+        <i className="lp-ondas lp-ondas--praquem" aria-hidden="true" />
         <div className="lp-container">
           <Reveal as="h2" className="lp-titulo lp-titulo--colchete">Pra quem é</Reveal>
           <Reveal as="p" className="lp-praquem__intro" delay={80}>
@@ -451,7 +493,7 @@ export default function AcervoPage() {
           </Reveal>
           <ul className="lp-checks">
             {PRA_QUEM.map((item, i) => (
-              <Reveal as="li" key={i} delay={i * 50}>
+              <Reveal as="li" key={i} className={`lp-adesivo lp-adesivo--${i % 3}`} delay={i * 50} style={{ '--giro': `${[-1.5, 1.2, -0.8, 1.6, -1.2, 0.9, -1.4][i % 7]}deg` }}>
                 <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>
                 <span>{item}</span>
               </Reveal>
@@ -464,6 +506,9 @@ export default function AcervoPage() {
       {/* ── 3. Afirmação ── */}
       <section className="lp-section lp-afirma">
         <span className="lp-estrela lp-estrela--3" aria-hidden="true">✦</span>
+        <svg className="lp-rabisco" viewBox="0 0 1100 200" preserveAspectRatio="none" aria-hidden="true"><path d="M-20,120 C120,10 220,190 340,90 S540,40 660,140 S900,30 1120,110" /></svg>
+        <Selo id="selo-afirma-1" texto="sem fórmula pronta ✦ sem copiar ninguém ✦ " className="lp-selo--canto lp-selo--canto-1" />
+        <Selo id="selo-afirma-2" texto="entenda a lógica ✦ faça o seu ✦ " className="lp-selo--canto lp-selo--canto-2" />
         <div className="lp-container lp-container--narrow">
           <Reveal as="h2" className="lp-titulo lp-titulo--grande">
             Muita gente diz que o problema é a verba, é o público.<br />
@@ -482,6 +527,7 @@ export default function AcervoPage() {
 
       {/* ── 4. O que é + coleções ── */}
       <section className="lp-section lp-escuro lp-palco lp-oque">
+        <span className="lp-gigante" aria-hidden="true">acervo</span>
         <div className="lp-container lp-oque__grid">
           <Reveal className="lp-oque__texto">
             <p className="lp-oque__frase">
@@ -516,7 +562,10 @@ export default function AcervoPage() {
             </ul>
           </Reveal>
           <Reveal className="lp-ia__painel" delay={120}>
-            <PainelIA />
+            <div className="lp-celular">
+              <span className="lp-celular__notch" />
+              <PainelIA />
+            </div>
           </Reveal>
         </div>
       </section>
@@ -547,7 +596,9 @@ export default function AcervoPage() {
               <img className="lp-pilha__item lp-pilha__item--1" src="/acervo/capa-black.webp" alt="" loading="lazy" width="720" height="957" />
               <img className="lp-pilha__item lp-pilha__item--2" src="/acervo/card-melhores.webp" alt="" loading="lazy" width="720" height="1158" />
               <img className="lp-pilha__item lp-pilha__item--3" src="/acervo/capa-paginas.webp" alt="" loading="lazy" width="720" height="957" />
+              <i className="lp-pilha__fita" />
             </div>
+            <svg className="lp-pilha__seta" viewBox="0 0 120 60" aria-hidden="true"><path d="M4,40 C30,8 70,8 104,30" /><path d="M92,18 L106,31 L90,38" /></svg>
             <p className="lp-pilha__legenda">Capas de verdade, da área de membros</p>
           </Reveal>
           <ul className="lp-entregas__lista">
@@ -563,6 +614,7 @@ export default function AcervoPage() {
 
       {/* ── 6. Espiadinha ── */}
       <section className="lp-section lp-escuro lp-escuro--umber lp-palco lp-espiada">
+        <i className="lp-ondas lp-ondas--espiada" aria-hidden="true" />
         <div className="lp-container lp-container--narrow">
           <Reveal as="h2" className="lp-titulo lp-titulo--grande lp-titulo--centro lp-titulo--claro">
             Pra você dar uma<br /><strong>espiadinha…</strong>
@@ -611,8 +663,10 @@ export default function AcervoPage() {
           {OFERTA.precoDe && (
             <p className="lp-invest__de">de <s>{OFERTA.precoDe}</s> por</p>
           )}
-          <p className="lp-invest__preco">{OFERTA.preco}</p>
-          {OFERTA.precoNota && <span className="lp-invest__nota">{OFERTA.precoNota}</span>}
+          <div className="lp-carimbo">
+            <Selo id="selo-preco" texto={`${(OFERTA.precoNota || 'oferta').toLowerCase()} ✦ pagamento único ✦ `} className="lp-selo--preco" />
+            <p className="lp-invest__preco">{OFERTA.preco}</p>
+          </div>
           <p className="lp-invest__detalhe">
             {OFERTA.parcelas && <><strong>{OFERTA.parcelas}</strong><br /></>}
             (pagamento único, sem mensalidade)

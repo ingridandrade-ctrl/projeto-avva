@@ -1704,3 +1704,258 @@
   .lp-orbita__anel, .lp-logomarca, .lp-cta::after { animation: none !important; }
   .lp-estrela { animation: none !important; translate: 0 0; }
 }
+
+
+/* ═══════════════════════════════════════════════════════════
+   Colagem: moldura, etiquetas, arcos, selos, letreiro, ondas,
+   adesivos, rabisco, palavra gigante, celular, fita, carimbo
+   ═══════════════════════════════════════════════════════════ */
+
+/* Moldura escura em volta do topo (o bloco "cartão" da referência) */
+.lp-moldura { background: #2a1d17; padding: 10px 10px 0; }
+.lp-moldura .lp-hero { border-radius: 26px 26px 0 0; overflow: hidden; background: var(--lp-cream); }
+
+/* Etiquetas inclinadas em volta da logo */
+.lp-etiqueta {
+  position: absolute;
+  z-index: 2;
+  padding: 7px 13px;
+  border-radius: 100px;
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+  box-shadow: 0 6px 16px rgba(46, 33, 27, 0.18);
+  rotate: var(--g, -6deg);
+}
+.lp-etiqueta--1 { --g: -8deg; top: 6%; left: -4%; background: var(--lp-terra); color: #fff; }
+.lp-etiqueta--2 { --g: 7deg; top: 2%; right: -6%; background: var(--lp-teal); color: #fff; }
+.lp-etiqueta--3 { --g: 5deg; bottom: 10%; left: -8%; background: var(--lp-areia); color: var(--lp-ink); }
+.lp-etiqueta--4 { --g: -6deg; bottom: 4%; right: -4%; background: #fff; color: var(--lp-ink); }
+
+/* Arcos com as capas, como as fotos da referência */
+.lp-arcos {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  max-width: 820px;
+  margin: 44px auto -2px;
+  padding: 0 14px;
+}
+.lp-arcos__item {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 3 / 4.4;
+  object-fit: cover;
+  object-position: top;
+  border-radius: 999px 999px 18px 18px;
+  box-shadow: 0 18px 40px rgba(46, 33, 27, 0.2);
+}
+.lp-arcos__item:nth-child(2) { translate: 0 -18px; }
+
+/* Selo redondo com texto girando */
+.lp-selo {
+  position: relative;
+  display: inline-grid;
+  place-items: center;
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+  background: var(--lp-terra);
+  color: #fff;
+  box-shadow: 0 10px 28px rgba(46, 33, 27, 0.28), inset 0 0 0 2px rgba(255, 255, 255, 0.25);
+}
+.lp-selo__anel { position: absolute; inset: 0; width: 100%; height: 100%; animation: lp-gira 18s linear infinite; }
+.lp-selo__anel text { font-family: var(--font-titulo); font-size: 10.5px; font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase; fill: currentColor; }
+.lp-selo > i { font-style: normal; font-size: 1.6rem; line-height: 1; }
+@keyframes lp-gira { to { transform: rotate(360deg); } }
+.lp-selo--hero { position: absolute; left: 50%; top: -34px; translate: -50% 0; z-index: 3; rotate: -8deg; }
+.lp-selo--canto { position: absolute; z-index: 1; width: 92px; height: 92px; background: var(--lp-areia); color: var(--lp-ink); }
+.lp-selo--canto-1 { top: 18px; left: -14px; rotate: -10deg; }
+.lp-selo--canto-2 { bottom: 24px; right: -14px; rotate: 8deg; background: var(--lp-teal); color: #fff; }
+
+/* Letreiro */
+.lp-letreiro { overflow: hidden; background: var(--lp-teal); color: var(--lp-areia); padding: 12px 0; }
+.lp-letreiro__faixa { display: flex; width: max-content; animation: lp-corre 40s linear infinite; }
+.lp-letreiro__faixa span {
+  display: inline-flex;
+  align-items: center;
+  gap: 18px;
+  padding-right: 18px;
+  font-family: var(--font-titulo);
+  font-size: 1.05rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.lp-letreiro__faixa em { font-style: normal; color: #fff; font-size: 0.9rem; }
+@keyframes lp-corre { to { transform: translateX(-50%); } }
+
+/* Ondas (borda recortada) no topo de uma seção */
+.lp-ondas {
+  position: absolute !important;
+  left: 0;
+  right: 0;
+  top: -16px;
+  height: 17px;
+  z-index: 2 !important;
+  background: radial-gradient(circle at 16px 17px, var(--onda) 15px, transparent 16px);
+  background-size: 32px 17px;
+}
+.lp-ondas--praquem { --onda: #f1dfd3; }
+.lp-ondas--espiada { --onda: #2a1d17; }
+.lp-praquem { position: relative; }
+
+/* "Pra quem é": itens como adesivos */
+.lp-checks { gap: 10px; }
+.lp-adesivo {
+  --giro: 0deg;
+  align-items: center;
+  padding: 14px 18px;
+  border-radius: 18px;
+  border: none !important;
+  rotate: var(--giro);
+  box-shadow: 0 10px 24px rgba(46, 33, 27, 0.12);
+  transition: rotate 0.35s var(--lp-ease), transform 0.35s var(--lp-ease), opacity 0.7s var(--lp-ease);
+}
+.lp-adesivo:hover { rotate: 0deg; transform: translateY(-2px); }
+.lp-adesivo--0 { background: #fff; color: var(--lp-ink); }
+.lp-adesivo--1 { background: var(--lp-teal); color: #fff; }
+.lp-adesivo--2 { background: var(--lp-terra); color: #fff; }
+.lp-adesivo--1 svg, .lp-adesivo--2 svg { color: var(--lp-areia); }
+.lp-adesivo--0 svg { color: var(--lp-terra); }
+
+/* Afirmação: rabisco atravessando e título gritando */
+.lp-rabisco {
+  position: absolute;
+  left: -10%;
+  top: 46%;
+  width: 120%;
+  height: 200px;
+  z-index: 0;
+  pointer-events: none;
+}
+.lp-rabisco path { fill: none; stroke: var(--lp-areia); stroke-width: 14; stroke-linecap: round; opacity: 0.7; }
+.lp-afirma .lp-container { position: relative; z-index: 1; }
+.lp-afirma .lp-titulo--grande {
+  text-transform: uppercase;
+  font-weight: 800;
+  font-size: clamp(1.45rem, 5.6vw, 2.5rem);
+  letter-spacing: -0.02em;
+  line-height: 1.06;
+}
+.lp-afirma .lp-titulo--grande strong { color: var(--lp-terra); }
+
+/* Palavra gigante atrás das coleções */
+.lp-gigante {
+  position: absolute !important;
+  left: -2%;
+  bottom: -0.1em;
+  z-index: 0 !important;
+  font-family: var(--font-titulo);
+  font-size: 30vw;
+  font-weight: 800;
+  letter-spacing: -0.06em;
+  line-height: 0.8;
+  color: transparent;
+  -webkit-text-stroke: 2px rgba(212, 185, 154, 0.22);
+  pointer-events: none;
+  user-select: none;
+}
+
+/* Painel dentro de um celular */
+.lp-celular {
+  position: relative;
+  padding: 12px;
+  border-radius: 44px;
+  background: #1b1512;
+  box-shadow: 0 40px 80px rgba(46, 33, 27, 0.35), inset 0 0 0 2px rgba(255, 255, 255, 0.08);
+}
+.lp-celular__notch {
+  position: absolute;
+  top: 20px;
+  left: 50%;
+  z-index: 2;
+  width: 84px;
+  height: 22px;
+  margin-left: -42px;
+  border-radius: 100px;
+  background: #1b1512;
+}
+.lp-celular .lp-painel { border-radius: 34px; box-shadow: none; border: none; }
+.lp-celular .lp-painel__topo { padding-top: 48px; }
+
+/* Fita e seta na pilha de capas */
+.lp-pilha__fita {
+  position: absolute;
+  z-index: 4;
+  left: 50%;
+  top: -10px;
+  width: 110px;
+  height: 30px;
+  translate: -50% 0;
+  rotate: -6deg;
+  background: rgba(212, 185, 154, 0.75);
+  box-shadow: 0 2px 6px rgba(46, 33, 27, 0.15);
+}
+.lp-pilha__seta { display: none; }
+
+/* Preço como carimbo */
+.lp-carimbo { position: relative; display: grid; place-items: center; width: 250px; height: 250px; margin: 14px auto 0; }
+.lp-selo--preco {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--lp-terra);
+  color: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 24px 60px rgba(150, 94, 65, 0.4), inset 0 0 0 3px rgba(255, 255, 255, 0.2);
+}
+.lp-selo--preco > i { display: none; }
+.lp-selo--preco .lp-selo__anel text { font-size: 9.5px; }
+.lp-carimbo .lp-invest__preco {
+  position: relative;
+  margin: 0;
+  font-size: clamp(3.4rem, 15vw, 4.6rem);
+  background: none;
+  -webkit-text-fill-color: #fff;
+  color: #fff;
+  isolation: auto;
+}
+.lp-carimbo .lp-invest__preco::before, .lp-carimbo .lp-invest__preco::after { content: none; }
+.lp-invest__de s { text-decoration-style: wavy; text-decoration-thickness: 2px; }
+
+@media (min-width: 720px) {
+  .lp-moldura { padding: 14px 14px 0; }
+  .lp-moldura .lp-hero { border-radius: 32px 32px 0 0; }
+  .lp-arcos { gap: 18px; margin-top: 56px; }
+  .lp-arcos__item:nth-child(2) { translate: 0 -28px; }
+  .lp-selo--hero { width: 130px; height: 130px; }
+  .lp-selo--canto { width: 120px; height: 120px; }
+  .lp-selo--canto-1 { left: 24px; }
+  .lp-selo--canto-2 { right: 24px; }
+  .lp-letreiro__faixa span { font-size: 1.2rem; }
+  .lp-checks { gap: 12px 16px; }
+  .lp-celular { rotate: -2.5deg; }
+  .lp-pilha__seta { display: block; position: absolute; right: -96px; top: 30%; width: 90px; height: 45px; rotate: -20deg; }
+  .lp-rabisco { top: 18%; }
+  .lp-pilha__seta path { fill: none; stroke: var(--lp-terra); stroke-width: 4; stroke-linecap: round; stroke-linejoin: round; }
+  .lp-carimbo { width: 300px; height: 300px; }
+  .lp-carimbo .lp-invest__preco { font-size: 5.6rem; }
+}
+
+@media (min-width: 960px) {
+  .lp-etiqueta { font-size: 0.82rem; padding: 8px 15px; }
+  .lp-etiqueta--1 { left: -22%; top: 18%; }
+  .lp-etiqueta--2 { right: -22%; top: 10%; }
+  .lp-etiqueta--3 { left: -26%; bottom: 18%; }
+  .lp-etiqueta--4 { right: -20%; bottom: 12%; }
+  .lp-gigante { font-size: 22vw; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lp-selo__anel, .lp-letreiro__faixa { animation: none !important; }
+}
