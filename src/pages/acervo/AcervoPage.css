@@ -2057,3 +2057,107 @@
 /* Etiqueta dos cards de coleção: fica dentro do card (o tilt corta o que sai) */
 .lp-sticker--card { top: 12px; left: 12px; rotate: -4deg; }
 .lp-card__tilt { padding-top: 44px; }
+
+/* ═══════════ Nova ordem: produto na segunda dobra ═══════════ */
+
+/* 2. Veja por dentro */
+.lp-video { background: #fff; }
+.lp-video__head { text-align: center; max-width: 640px; margin: 0 auto 32px; }
+.lp-video__head h2 { margin-top: 18px; }
+.lp-video__head p { margin-top: 16px; font-size: 1.05rem; line-height: 1.6; color: var(--lp-ink-2); }
+.lp-video__frame {
+  position: relative;
+  aspect-ratio: 9 / 16;
+  max-width: 380px;
+  margin: 0 auto;
+  border-radius: 28px;
+  overflow: hidden;
+  background: #1b1512;
+  box-shadow: 0 0 0 3px #fff, 0 30px 70px rgba(46, 33, 27, 0.32);
+}
+.lp-video__frame iframe, .lp-video__frame video { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; object-fit: cover; }
+.lp-video .lp-mock { margin-top: 0; }
+
+/* 3. Passos em prints */
+.lp-passos__head { max-width: 640px; margin-bottom: 36px; }
+.lp-passos__head h2 { margin-top: 18px; }
+.lp-passos__lista { list-style: none; margin: 0; padding: 0; display: grid; gap: 18px; }
+.lp-passo {
+  position: relative;
+  padding: 0 0 22px;
+  border-radius: 24px;
+  background: #fff;
+  border: 2px solid var(--lp-ink);
+  box-shadow: 7px 7px 0 var(--lp-ink);
+  overflow: hidden;
+}
+.lp-passo__print {
+  aspect-ratio: 4 / 3;
+  background: var(--lp-cream);
+  border-bottom: 2px solid var(--lp-ink);
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+}
+.lp-passo__print img { width: 100%; height: 100%; object-fit: cover; object-position: top left; display: block; }
+.lp-passo__vazio {
+  padding: 16px 20px;
+  border: 2px dashed rgba(46, 33, 27, 0.35);
+  border-radius: 14px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--lp-ink-2);
+  text-align: center;
+  max-width: 80%;
+}
+.lp-sticker--passo { position: absolute; top: 14px; left: 14px; rotate: -5deg; }
+.lp-passo h3 { margin: 18px 20px 0; font-size: 1.3rem; font-weight: 800; letter-spacing: -0.03em; line-height: 1.1; }
+.lp-passo p { margin: 8px 20px 0; font-size: 0.97rem; line-height: 1.55; color: var(--lp-ink-2); }
+.lp-passos .lp-center { margin-top: 36px; }
+
+/* 4. Nota do acervo vivo dentro do "O que é" */
+.lp-oque__nota { margin-top: 18px; font-size: 1rem; line-height: 1.6; color: rgba(255, 255, 255, 0.78); max-width: 520px; }
+
+/* 5. Toda semana + nichos */
+.lp-semana { background: var(--lp-cream); }
+.lp-semana__grid { display: grid; gap: 16px; }
+.lp-semana__card {
+  position: relative;
+  padding: 36px 24px 30px;
+  border-radius: 26px;
+  color: #fff;
+  box-shadow: 8px 8px 0 var(--lp-areia);
+}
+.lp-semana__card--terra { background: linear-gradient(145deg, var(--lp-terra), #8f4b2a); }
+.lp-semana__card--teal { background: linear-gradient(145deg, var(--teal-medio), var(--lp-teal)); }
+.lp-sticker--semana { position: absolute; top: -14px; left: 18px; rotate: -5deg; background: #fff; color: var(--lp-ink); }
+.lp-semana__card h2 { font-size: clamp(1.45rem, 5.4vw, 1.9rem); font-weight: 800; letter-spacing: -0.03em; line-height: 1.1; }
+.lp-semana__card p { margin-top: 14px; font-size: 1rem; line-height: 1.6; color: rgba(255, 255, 255, 0.86); }
+.lp-nichos { list-style: none; margin: 18px 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; }
+.lp-nichos li { padding: 8px 14px; border-radius: 100px; background: rgba(255, 255, 255, 0.14); border: 1.5px solid rgba(255, 255, 255, 0.35); font-size: 0.86rem; font-weight: 700; }
+
+/* 10. Depoimentos */
+.lp-depo { background: #fff; }
+.lp-depo__head { max-width: 640px; margin-bottom: 32px; }
+.lp-depo__head h2 { margin-top: 18px; }
+.lp-depo__grid { list-style: none; margin: 0; padding: 0; display: grid; gap: 14px; }
+.lp-depo__card {
+  padding: 24px 22px;
+  border-radius: 22px;
+  background: var(--lp-cream);
+  border: 2px solid var(--lp-ink);
+  box-shadow: 6px 6px 0 var(--lp-ink);
+  rotate: -0.6deg;
+}
+.lp-depo__card:nth-child(even) { rotate: 0.6deg; }
+.lp-depo__card p { font-family: var(--lp-serif); font-style: italic; font-size: 1.2rem; line-height: 1.35; color: var(--lp-ink); }
+.lp-depo__card footer { margin-top: 14px; font-size: 0.86rem; color: var(--lp-ink-2); }
+.lp-depo__card footer strong { color: var(--lp-ink); }
+
+@media (min-width: 720px) {
+  .lp-passos__lista { grid-template-columns: repeat(3, 1fr); gap: 22px; }
+  .lp-semana__grid { grid-template-columns: 1fr 1fr; gap: 24px; }
+  .lp-semana__card { padding: 44px 36px 38px; }
+  .lp-depo__grid { grid-template-columns: repeat(3, 1fr); gap: 18px; }
+  .lp-video__frame { max-width: 420px; }
+}
