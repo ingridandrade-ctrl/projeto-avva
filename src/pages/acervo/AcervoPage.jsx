@@ -33,6 +33,15 @@ const PASSOS_PRINTS = [
 
 const NICHOS = ['Negócio local', 'Prestação de serviço', 'Infoproduto', 'E-commerce']
 
+// Quem faz o acervo: fotos da colagem (AJUSTAR: colocar 5 fotos em public/acervo/quem/, 1.jpg a 5.jpg)
+const QUEM_FOTOS = [
+  { src: '/acervo/quem/1.jpg', alt: 'Flora e Ingrid juntas' },
+  { src: '/acervo/quem/2.jpg', alt: 'Flora Tavares' },
+  { src: '/acervo/quem/3.jpg', alt: 'Ingrid Andrade' },
+  { src: '/acervo/quem/4.jpg', alt: 'Flora e Ingrid trabalhando' },
+  { src: '/acervo/quem/5.jpg', alt: 'Flora e Ingrid' },
+]
+
 // Depoimentos de quem já comprou (AJUSTAR: colar os reais; nome e nicho). Vazio = seção não aparece.
 const DEPOIMENTOS = [
   // { nome: 'Nome', nicho: 'Clínica de estética', texto: '...' },
@@ -729,6 +738,36 @@ NÃO ESCREVA
           </div>
         </section>
       )}
+
+      {/* ── Quem faz o acervo ── */}
+      <section className="lp-section lp-quem lp-palco lp-palco--claro" id="quem">
+        <div className="lp-container lp-quem__grid">
+          <Reveal className="lp-quem__colagem" aria-hidden="true">
+            {QUEM_FOTOS.map((f, i) => (
+              <figure key={f.src} className={`lp-quem__foto lp-quem__foto--${i + 1}`}>
+                <img src={f.src} alt={f.alt} loading="lazy" onError={e => { e.currentTarget.parentElement.classList.add('is-vazia') }} />
+                <figcaption>{f.alt}</figcaption>
+              </figure>
+            ))}
+            <span className="lp-sticker lp-sticker--quem-1">amigas</span>
+            <span className="lp-sticker lp-sticker--quem-2">sócias</span>
+          </Reveal>
+          <Reveal className="lp-quem__texto" delay={100}>
+            <span className="lp-pill">Quem faz o acervo</span>
+            <h2 className="lp-titulo lp-titulo--grande">Flora Tavares <em>&amp;</em> <strong>Ingrid Andrade</strong></h2>
+            <p>
+              A gente se conheceu trabalhando, e virou amizade antes de virar parceria. A Flora é quem está todo dia no gerenciador, rodando anúncio pros clientes da agência dela e garimpando o que está vendendo de verdade. A Ingrid é quem transforma isso em produto: foi ela que construiu a área de membros e a ferramenta que escreve a sua versão.
+            </p>
+            <p>
+              O acervo nasceu de uma rotina que já existia: toda semana a Flora separa os melhores anúncios pros clientes, analisa por que funcionam e manda pra equipe. A gente só abriu essa porta pra você.
+            </p>
+            <p>
+              Somos duas mulheres fazendo isso pra outras mulheres que empreendem. Por isso a página fala com você desse jeito, e por isso o acervo tem exemplo de clínica, de loja, de consultoria, e não só de guru vendendo curso.
+            </p>
+            {/* AJUSTAR: completar com fatos reais (tempo de parceria, cidade, números) e revisar o texto com a Flora */}
+          </Reveal>
+        </div>
+      </section>
 
       {/* ── 8. Investimento ── */}
       <section className="lp-section lp-invest lp-palco lp-palco--claro" id="oferta">
