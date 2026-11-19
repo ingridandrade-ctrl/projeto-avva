@@ -70,6 +70,45 @@ const BONUS = [
   { titulo: 'Especial Páginas', texto: 'Páginas de vendas, captura, obrigado e serviço, com a análise do que faz cada uma converter. E a nossa ferramenta monta a sua, bloco por bloco.', capa: '/acervo/capa-paginas.webp' },
 ]
 
+// A ferramenta, passo a passo, do jeito que acontece lá dentro
+const FERRAMENTA_PASSOS = [
+  {
+    n: '1',
+    titulo: 'Você abre um anúncio. O botão está do lado.',
+    texto: 'Em todo anúncio e página do acervo, logo abaixo da análise, tem o botão Fazer a minha versão. Não é uma aba separada nem um prompt solto pra copiar: é ali, ao lado do anúncio que você acabou de entender.',
+  },
+  {
+    n: '2',
+    titulo: 'Preenche a sua ficha uma vez.',
+    texto: 'O que você vende, pra quem, o que muda pra ela, uma prova real, o "mas" que você mais ouve. Nada é obrigatório, e fica salvo no seu celular. Na próxima vez, está tudo lá.',
+  },
+  {
+    n: '3',
+    titulo: 'Escolhe como você escreve.',
+    texto: 'Direta, leve, acolhedora, elegante, provocadora, técnica. Cada tom vira uma regra concreta pra IA, não um adjetivo. E se você colar um texto seu, uma legenda ou um áudio transcrito, ela imita o seu ritmo e as suas palavras.',
+  },
+  {
+    n: '4',
+    titulo: 'Diz pra onde o anúncio leva.',
+    texto: 'WhatsApp, site, página de vendas, perfil, direct. E o que a pessoa ganha ao clicar. A ferramenta já sugere o destino mais comum pra aquele tipo de anúncio.',
+  },
+  {
+    n: '5',
+    titulo: 'Abre no ChatGPT ou no Claude. Pronto.',
+    texto: 'Um toque e a sua IA abre com tudo montado: a sequência do anúncio original, a análise, a sua ficha e as regras. Ela escreve a sua versão com a mesma duração, na sua voz, com a sua prova. Se faltar alguma informação, ela pergunta antes de escrever, em vez de inventar.',
+  },
+]
+
+// O que a ferramenta garante (vem das regras que o prompt carrega)
+const FERRAMENTA_REGRAS = [
+  { titulo: 'Não copia o original', texto: 'Ela repete a sequência (gancho, desenvolvimento, prova, fechamento), nunca as frases. O anúncio é seu.' },
+  { titulo: 'Não inventa número', texto: 'Prova, preço, prazo e garantia só entram se você deu. Sem prova, ela não cria uma.' },
+  { titulo: 'Pergunta antes de chutar', texto: 'Se faltar material pra algum passo, ela para e pergunta, no máximo três coisas, numa mensagem só.' },
+  { titulo: 'Sem cara de IA', texto: 'A lista do que ela não pode escrever vai junto: validação pronta, pergunta retórica, frase de efeito, jargão, emoji, exclamação.' },
+  { titulo: 'Funciona na versão gratuita', texto: 'ChatGPT ou Claude, sem plano pago. Prefere outra IA? É só copiar o prompt.' },
+  { titulo: 'Vídeo, imagem, carrossel e página', texto: 'Cada formato tem a sua entrega: a fala e as cenas no vídeo, as telas no carrossel, os blocos e os botões na página.' },
+]
+
 // O que a IA entrega em cada formato, no "Fazer a minha versão"
 const IA_SAIDAS = [
   { formato: 'Vídeo', itens: ['A fala completa, na sua voz, com a mesma duração do original', 'As cenas, uma a uma', '2 ganchos extras pra testar', 'A legenda do post'] },
@@ -556,32 +595,82 @@ export default function AcervoPage() {
         </div>
       </section>
 
-      {/* ── 4b. Fazer a minha versão (IA) ── */}
-      <section className="lp-section lp-ia">
-        <div className="lp-container lp-ia__grid">
-          <Reveal className="lp-ia__texto">
-            <span className="lp-pill">Incluso no acervo</span>
+      {/* ── 4b. Fazer a minha versão (a ferramenta) ── */}
+      <section className="lp-section lp-ia" id="ferramenta">
+        <div className="lp-container">
+          <Reveal className="lp-ia__head">
+            <span className="lp-pill">A nossa ferramenta</span>
             <h2 className="lp-titulo lp-titulo--grande">
-              Primeiro você entende.<br /><strong>Depois, a nossa ferramenta escreve a sua versão.</strong>
+              Primeiro você entende.<br /><strong>Depois, a ferramenta escreve a sua versão.</strong>
             </h2>
             <p>
-              Em todo anúncio e página do acervo tem o botão <strong>Fazer a minha versão</strong>. Você preenche a sua ficha uma vez (o que vende, pra quem, uma prova real, como a sua cliente fala) e a ferramenta escreve a sua versão daquele anúncio, na sua voz, com a sua prova, sem inventar número.
+              É o que nenhum outro acervo tem: o prompt não fica solto num documento. Ele está <strong>ao lado de cada anúncio</strong>, já montado com a análise daquele anúncio e com o seu negócio. Você preenche, toca e a sua IA abre com a sua versão quase pronta.
             </p>
-            <p>
-              Não é pra copiar o anúncio dos outros. É pra entender por que ele vende e sair com o seu pronto pra gravar, ainda hoje.
-            </p>
-            <ul className="lp-ia__pontos">
-              <li>Funciona no ChatGPT e no Claude, nas versões gratuitas</li>
-              <li>A ficha fica salva: preenche uma vez, usa em todos</li>
-              <li>Vídeo, imagem, carrossel e página, cada um no seu formato</li>
-            </ul>
           </Reveal>
+        </div>
+
+        <div className="lp-container lp-ia__grid">
+          <ol className="lp-ia__passos">
+            {FERRAMENTA_PASSOS.map((p, i) => (
+              <Reveal as="li" key={p.n} className="lp-ia__passo" delay={i * 70}>
+                <span className="lp-ia__num">{p.n}</span>
+                <div>
+                  <h3>{p.titulo}</h3>
+                  <p>{p.texto}</p>
+                </div>
+              </Reveal>
+            ))}
+          </ol>
           <Reveal className="lp-ia__painel" delay={120}>
             <div className="lp-celular">
               <span className="lp-sticker lp-sticker--celular">na sua voz</span>
               <span className="lp-celular__notch" />
               <PainelIA />
             </div>
+            <p className="lp-ia__legenda">O painel de verdade, do jeito que abre dentro de cada anúncio. Pode mexer.</p>
+          </Reveal>
+        </div>
+
+        <div className="lp-container">
+          <Reveal className="lp-ia__exemplo" delay={80}>
+            <span className="lp-sticker lp-sticker--exemplo">exemplo real</span>
+            <p className="lp-ia__exemplo-titulo">O que a sua IA recebe quando você toca em "Abrir"</p>
+            <pre className="lp-ia__prompt">{`Vou gravar um anúncio meu inspirado num anúncio que funcionou.
+Quero a fala pronta, na minha voz, seguindo a mesma sequência do original.
+
+O ANÚNCIO ORIGINAL
+Formato: vídeo · Coleção: Provar que funciona
+O que ele faz, segundo o Acervo: [a análise do anúncio, inteira]
+
+O MEU NEGÓCIO
+O que eu vendo: consultoria de imagem
+Pra quem, com detalhe: dona de clínica de estética com 2 a 5 funcionárias
+Prova real, com contexto: a Carla, salão em Campinas, saiu de 6 pra 20 agendamentos por semana em 2 meses
+Como eu escrevo: Direta. Frases curtas. Começa pelo assunto, sem rodeio...
+Pra onde o anúncio leva: WhatsApp. O que a pessoa ganha ao clicar: uma análise gratuita
+
+COMO FAZER
+1. Escreva a sequência do original em 3 a 6 passos. É ela que a minha versão repete. As frases, não.
+2. Se faltar material pra algum passo, me pergunte antes de escrever. Nunca preencha com frase genérica.
+3. Escreva a fala corrida, como eu falaria num áudio pra uma cliente...
+
+NÃO ESCREVA
+- Número, prova, preço ou garantia que eu não tenha dado.
+- Validação pronta, pergunta retórica, jargão, emoji, exclamação...`}</pre>
+            <p className="lp-ia__exemplo-nota">Trecho resumido. O prompt completo vai com a análise inteira, a sua ficha e todas as regras.</p>
+          </Reveal>
+
+          <ul className="lp-ia__regras">
+            {FERRAMENTA_REGRAS.map((r, i) => (
+              <Reveal as="li" key={r.titulo} className="lp-ia__regra" delay={i * 50}>
+                <strong>{r.titulo}</strong>
+                <span>{r.texto}</span>
+              </Reveal>
+            ))}
+          </ul>
+
+          <Reveal className="lp-center" delay={100}>
+            <Cta>Quero a ferramenta junto com o acervo</Cta>
           </Reveal>
         </div>
       </section>
