@@ -2457,3 +2457,9 @@
 }
 /* Etiqueta dos cards da espiadinha: menor, reta e só do tamanho do texto */
 .lp-espiada__tipo { rotate: 0deg; align-self: flex-start; font-size: 0.68rem; padding: 4px 10px; letter-spacing: 0.08em; text-transform: uppercase; box-shadow: 0 0 0 2px rgba(247, 244, 240, 0.9), 2px 2px 0 rgba(0, 0, 0, 0.5); margin-bottom: 14px; }
+
+/* Quem faz o acervo: os dois nomes finos, sem negrito */
+.lp-quem__nomes { font-weight: 300; }
+.lp-quem__nomes em { font-family: var(--lp-serif); font-style: italic; font-weight: 400; color: var(--lp-terra); }
+.lp-quem__texto p strong { color: var(--lp-ink); font-weight: 700; }
+.lp-quem__lead strong { color: var(--lp-ink); }
