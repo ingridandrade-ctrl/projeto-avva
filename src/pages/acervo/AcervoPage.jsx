@@ -756,13 +756,13 @@ NÃO ESCREVA
             <span className="lp-pill">Quem faz o acervo</span>
             <h2 className="lp-titulo lp-titulo--grande">Flora Tavares <em>&amp;</em> <strong>Ingrid Andrade</strong></h2>
             <p>
-              Somos gestoras de tráfego, estrategistas e gente de bastidor há anos. A Flora aparece um pouco mais. A Ingrid é beeeem bastidor: se você já viu uma área de membros bonita e pensou "quem fez isso?", tem chance de ter sido ela.
+              A gente é gestora de tráfego e estrategista, e trabalha nos bastidores há anos. A Flora aparece um pouco, porque precisa, e a Ingrid quase nunca aparece, porque prefere assim. Então, se você está lendo esta página, já conheceu as duas mais do que a maioria das pessoas conhece.
             </p>
             <p>
-              A gente se conheceu em 2024, dentro do Subido Pro, e descobriu que tinha nascido com um dia de diferença: 28 e 29 de maio de 1995. Duas geminianas na mesma sala é muita ideia por minuto. Funciona assim: a Ingrid mergulha, pensa fundo, puxa fio atrás de fio. A Flora escuta aquele barulho todo e devolve em três passos que dá pra aplicar amanhã.
+              A amizade começou em 2024, dentro do Subido Pro, e logo no começo a gente descobriu que tinha nascido com um dia de diferença, 28 e 29 de maio de 1995. Duas geminianas juntas é muita ideia saindo ao mesmo tempo, e por isso a parceria funciona: a Ingrid pensa fundo, mergulha num assunto até entender tudo que tem ali, e a Flora escuta aquele monte de ideia e transforma em algo que dá pra aplicar na semana seguinte. Uma vai fundo e a outra faz acontecer.
             </p>
             <p>
-              O acervo é uma construção nossa, feita no meio da rotina. A Flora já garimpava e analisava anúncio toda semana pros clientes da agência. A Ingrid construiu a área de membros e a ferramenta pra isso virar algo que você pode usar. Não é um produto que a gente comprou pronto pra revender. É o que a gente faz, do jeito que a gente faz, aberto pra você.
+              O acervo nasceu desse jeito. A Flora já garimpava anúncio toda semana pros clientes da agência, e analisava cada um pra equipe entender por que funcionava. A Ingrid olhou pra isso e pensou que dava pra virar um produto, aí construiu a área de membros e a ferramenta que escreve a sua versão. Ou seja, o que você vai usar aqui dentro é o que a gente usa no nosso dia a dia, construído pelas nossas mãos, pra você.
             </p>
           </Reveal>
         </div>
