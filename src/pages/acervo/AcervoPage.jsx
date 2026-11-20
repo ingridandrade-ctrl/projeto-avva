@@ -759,13 +759,13 @@ NÃO ESCREVA
               Amigas da vida, parceiras de projetos, estrategistas digitais, gestoras de tráfego, <strong>crias dos bastidores e geminianas.</strong>
             </p>
             <p>
-              Nos conhecemos em 2024, dentro do Subido Pro, e logo descobrimos que quase fomos separadas na maternidade: uma de 28, a outra de 29 de maio de 1995. Desde então, nossa amizade só cresceu, e o sonho de criar algo juntas também. E desse sonho nasceu o acervo.
+              Nós nos conhecemos em 2024, dentro do Subido Pro, e logo descobrimos que quase fomos separadas na maternidade: uma nasceu no dia 28 e a outra no dia 29 de maio de 1995. Desde então, a nossa amizade só cresceu, e o sonho de criar algo juntas também. Desse sonho nasceu o acervo.
             </p>
             <p>
-              A gente se completa: uma vai fundo em cada detalhe, a outra transforma em algo que dá pra aplicar. Por isso tudo o que fazemos juntas tem profundidade e critério.
+              Nós nos completamos: uma vai fundo em cada detalhe, a outra transforma tudo em algo que dá para aplicar. Por isso, tudo o que fazemos juntas tem profundidade e critério.
             </p>
             <p>
-              O acervo é a nossa curadoria: o processo que vivemos há anos nos bastidores dos projetos, agora disponível pra você, toda semana, e com uma ferramenta que transforma a referência que você escolher no seu anúncio.
+              O acervo é a nossa curadoria, um projeto vivo: toda semana entra o que vemos funcionar nos bastidores dos projetos. Nós acreditamos em ferramentas que facilitam, e por isso criamos uma que transforma a referência que você escolher no seu anúncio. Mas acreditamos também em desenvolver a sua leitura: queremos que você consiga interpretar um anúncio e entender por que ele funciona. Por isso, cada um vem com a análise. A ferramenta te ajuda a aplicar agora. A análise te ensina a desenvolver a sua percepção sobre os anúncios.
             </p>
           </Reveal>
         </div>
