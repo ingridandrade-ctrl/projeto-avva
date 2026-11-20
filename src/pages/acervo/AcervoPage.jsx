@@ -157,6 +157,39 @@ const INCLUSO = [
   <><strong>{OFERTA.acessoPor} de acesso</strong>, com tudo que entrar nesse período</>,
 ]
 
+const ENTREGAS = [
+  { icone: 'grid', texto: <><strong>Anúncios validados</strong> em vídeo, imagem e carrossel, todos rodando de verdade</> },
+  { icone: 'pasta', texto: <><strong>{OFERTA.totalColecoes} coleções por objetivo</strong>, de atrair seguidores até vender agora</> },
+  { icone: 'lupa', texto: <><strong>Análise de cada anúncio</strong>: por que funciona, em poucas linhas e sem jargão</> },
+  { icone: 'ia', texto: <><strong>Fazer a minha versão</strong>, a nossa ferramenta: em qualquer anúncio, ela escreve a sua versão na sua voz, a partir do que você entendeu</> },
+  { icone: 'estrela', texto: <><strong>Anúncios novos toda semana</strong>: a curadoria que a gente faz pros bastidores dos projetos, aberta pra você</> },
+  { icone: 'presente', texto: <><strong>Bônus</strong>: Especial Black Friday, Especial Mini VSL e Especial Páginas, com análise e a sua versão pela nossa ferramenta</> },
+  { icone: 'filtro', texto: <><strong>Filtro por nicho e formato</strong>: negócio local, serviço, infoproduto e e-commerce</> },
+  { icone: 'celular', texto: <><strong>Área de membros no celular</strong>, com favoritos, busca e marcação do que você já viu</> },
+  { icone: 'calendario', texto: <><strong>{OFERTA.acessoPor} de acesso</strong>, com tudo que entrar nesse período</> },
+]
+
+const CENARIOS = [
+  {
+    letra: 'A',
+    titulo: 'Sem o acervo',
+    itens: [
+      'Você continua abrindo o gerenciador sem saber o que colocar no anúncio',
+      'Posta, impulsiona, torce. A verba vai e a venda não vem',
+      'Daqui a 30 dias: o mesmo feed, o mesmo resultado',
+    ],
+  },
+  {
+    letra: 'B',
+    titulo: 'Com o acervo',
+    itens: [
+      'Você abre o celular, escolhe pelo objetivo e lê por que aquele anúncio vende',
+      'Adapta a estrutura pro seu negócio, ou usa a nossa ferramenta pra escrever a sua versão, e coloca no ar ainda essa semana',
+      'Daqui a 30 dias: anúncios com estrutura, e não com sorte',
+    ],
+  },
+]
+
 const FAQ = [
   {
     q: 'Mas o meu nicho é diferente, isso não vai funcionar pra mim…',
@@ -223,6 +256,22 @@ const FAQ = [
     a: `Tem. São ${OFERTA.garantiaDias} dias de garantia. Entra, navega, lê as análises. Se não fizer sentido pra você, pede o reembolso e recebe 100% de volta, sem precisar explicar.`,
   },
 ]
+
+function Icone({ nome }) {
+  const p = { width: 20, height: 20, viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', strokeWidth: 2, strokeLinecap: 'round', strokeLinejoin: 'round', 'aria-hidden': true }
+  switch (nome) {
+    case 'calendario': return <svg {...p}><rect x="3" y="4" width="18" height="18" rx="3"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+    case 'grid': return <svg {...p}><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
+    case 'pasta': return <svg {...p}><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+    case 'estrela': return <svg {...p}><path d="M12 2l2.9 6.3 6.9.8-5.1 4.7 1.4 6.8L12 17.3 5.9 20.6l1.4-6.8L2.2 9.1l6.9-.8z"/></svg>
+    case 'lupa': return <svg {...p}><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+    case 'filtro': return <svg {...p}><path d="M3 5h18l-7 8v6l-4 2v-8z"/></svg>
+    case 'celular': return <svg {...p}><rect x="6" y="2" width="12" height="20" rx="3"/><path d="M11 18h2"/></svg>
+    case 'ia': return <svg {...p}><path d="M12 3l1.8 4.7L18.5 9.5l-4.7 1.8L12 16l-1.8-4.7L5.5 9.5l4.7-1.8z"/><path d="M19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8z"/></svg>
+    case 'presente': return <svg {...p}><rect x="3" y="8" width="18" height="4" rx="1"/><path d="M5 12v8a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-8M12 8v13M12 8c-2-3-6-3-6 0h6zm0 0c2-3 6-3 6 0h-6z"/></svg>
+    default: return null
+  }
+}
 
 function Seta() {
   return (
@@ -513,6 +562,14 @@ export default function AcervoPage() {
         </div>
             )}
           </Reveal>
+          <ul className="lp-entregas__lista lp-entregas__lista--video">
+            {ENTREGAS.map((e, i) => (
+              <Reveal as="li" key={i} delay={i * 50}>
+                <Icone nome={e.icone} />
+                <span>{e.texto}</span>
+              </Reveal>
+            ))}
+          </ul>
         </div>
       </section>
 
@@ -738,38 +795,6 @@ NÃO ESCREVA
         </section>
       )}
 
-      {/* ── Quem faz o acervo ── */}
-      <section className="lp-section lp-quem lp-palco lp-palco--claro" id="quem">
-        <div className="lp-container lp-quem__grid">
-          <Reveal className="lp-quem__colagem" aria-hidden="true">
-            {QUEM_FOTOS.map((f, i) => (
-              <figure key={f.src} className={`lp-quem__foto lp-quem__foto--${i + 1}`}>
-                <img src={f.src} alt={f.alt} loading="lazy" onError={e => { e.currentTarget.parentElement.classList.add('is-vazia') }} />
-                <figcaption>{f.alt}</figcaption>
-              </figure>
-            ))}
-            <span className="lp-sticker lp-sticker--quem-1">amigas</span>
-            <span className="lp-sticker lp-sticker--quem-2">sócias</span>
-          </Reveal>
-          <Reveal className="lp-quem__texto" delay={100}>
-            <span className="lp-pill">Quem faz o acervo</span>
-            <h2 className="lp-titulo lp-titulo--grande">Flora Tavares <em>&amp;</em> <strong>Ingrid Andrade</strong></h2>
-            <p className="lp-quem__lead">
-              Amigas da vida, parceiras de projetos, estrategistas digitais, gestoras de tráfego, <strong>crias dos bastidores e geminianas.</strong>
-            </p>
-            <p>
-              Nós nos conhecemos em 2024, dentro do Subido Pro, e logo descobrimos que quase fomos separadas na maternidade: uma nasceu no dia 28 e a outra no dia 29 de maio de 1995. Desde então, a nossa amizade só cresceu, e o sonho de criar algo juntas também. Desse sonho nasceu o acervo.
-            </p>
-            <p>
-              Nós nos completamos: uma vai fundo em cada detalhe, a outra transforma tudo em algo que dá para aplicar. Por isso, tudo o que fazemos juntas tem profundidade e critério.
-            </p>
-            <p>
-              O acervo é a nossa curadoria, um projeto vivo: toda semana entra o que vemos funcionar nos bastidores dos projetos. Nós acreditamos em ferramentas que facilitam, e por isso criamos uma que transforma a referência que você escolher no seu anúncio. Mas acreditamos também em desenvolver a sua leitura: queremos que você consiga interpretar um anúncio e entender por que ele funciona. Por isso, cada um vem com a análise. A ferramenta te ajuda a aplicar agora. A análise te ensina a desenvolver a sua percepção sobre os anúncios.
-            </p>
-          </Reveal>
-        </div>
-      </section>
-
       {/* ── 8. Investimento ── */}
       <section className="lp-section lp-invest lp-palco lp-palco--claro" id="oferta">
         <span className="lp-estrela lp-estrela--4" aria-hidden="true">✦</span>
@@ -815,6 +840,60 @@ NÃO ESCREVA
             </div>
           </div>
         </Reveal>
+      </section>
+
+      {/* ── Quem faz o acervo ── */}
+      <section className="lp-section lp-quem lp-palco lp-palco--claro" id="quem">
+        <div className="lp-container lp-quem__grid">
+          <Reveal className="lp-quem__colagem" aria-hidden="true">
+            {QUEM_FOTOS.map((f, i) => (
+              <figure key={f.src} className={`lp-quem__foto lp-quem__foto--${i + 1}`}>
+                <img src={f.src} alt={f.alt} loading="lazy" onError={e => { e.currentTarget.parentElement.classList.add('is-vazia') }} />
+                <figcaption>{f.alt}</figcaption>
+              </figure>
+            ))}
+            <span className="lp-sticker lp-sticker--quem-1">amigas</span>
+            <span className="lp-sticker lp-sticker--quem-2">sócias</span>
+          </Reveal>
+          <Reveal className="lp-quem__texto" delay={100}>
+            <span className="lp-pill">Quem faz o acervo</span>
+            <h2 className="lp-titulo lp-titulo--grande">Flora Tavares <em>&amp;</em> <strong>Ingrid Andrade</strong></h2>
+            <p className="lp-quem__lead">
+              Amigas da vida, parceiras de projetos, estrategistas digitais, gestoras de tráfego, <strong>crias dos bastidores e geminianas.</strong>
+            </p>
+            <p>
+              Nós nos conhecemos em 2024, dentro do Subido Pro, e logo descobrimos que quase fomos separadas na maternidade: uma nasceu no dia 28 e a outra no dia 29 de maio de 1995. Desde então, a nossa amizade só cresceu, e o sonho de criar algo juntas também. Desse sonho nasceu o acervo.
+            </p>
+            <p>
+              Nós nos completamos: uma vai fundo em cada detalhe, a outra transforma tudo em algo que dá para aplicar. Por isso, tudo o que fazemos juntas tem profundidade e critério.
+            </p>
+            <p>
+              O acervo é a nossa curadoria, um projeto vivo: toda semana entra o que vemos funcionar nos bastidores dos projetos. Nós acreditamos em ferramentas que facilitam, e por isso criamos uma que transforma a referência que você escolher no seu anúncio. Mas acreditamos também em desenvolver a sua leitura: queremos que você consiga interpretar um anúncio e entender por que ele funciona. Por isso, cada um vem com a análise. A ferramenta te ajuda a aplicar agora. A análise te ensina a desenvolver a sua percepção sobre os anúncios.
+            </p>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* ── 10. Fechamento: cenário A x cenário B ── */}
+      <section className="lp-section lp-cenarios">
+        <span className="lp-estrela lp-estrela--6" aria-hidden="true">✦</span>
+        <div className="lp-container lp-container--narrow">
+          <Reveal as="h2" className="lp-titulo lp-titulo--grande lp-titulo--centro">
+            Daqui a 30 dias,<br /><strong>onde você vai estar?</strong>
+          </Reveal>
+          <div className="lp-cenarios__grid">
+            {CENARIOS.map((c, i) => (
+              <Reveal as="article" key={c.letra} className={`lp-cenario lp-cenario--${c.letra.toLowerCase()}`} delay={i * 100}>
+                <span className="lp-cenario__kicker">Cenário {c.letra}</span>
+                <h3>{c.titulo}</h3>
+                <ul>
+                  {c.itens.map((item, j) => <li key={j}>{item}</li>)}
+                </ul>
+              </Reveal>
+            ))}
+          </div>
+          <Reveal delay={120}><Cta largo>Quero anúncios que vendem 🤎</Cta></Reveal>
+        </div>
       </section>
 
       {/* ── 9. FAQ ── */}

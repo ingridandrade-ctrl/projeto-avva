@@ -2317,3 +2317,7 @@
 
 .lp-quem__lead { margin-top: 20px !important; font-size: 1.2rem !important; line-height: 1.45 !important; color: var(--lp-ink) !important; letter-spacing: -0.015em; }
 .lp-quem__lead strong { color: var(--lp-terra); }
+
+/* Lista de entregáveis embaixo do vídeo */
+.lp-entregas__lista--video { margin-top: 40px; max-width: 680px; }
+@media (min-width: 720px) { .lp-entregas__lista--video { margin: 48px auto 0; } }
