@@ -278,7 +278,7 @@ const FAQ = [
   },
   {
     q: 'Tenho reembolso?',
-    a: `Tem. São ${OFERTA.garantiaDias} dias de garantia. Entra, navega, lê as análises. Se não fizer sentido pra você, pede o reembolso e recebe 100% de volta, sem precisar explicar.`,
+    a: `Tem. São ${OFERTA.garantiaDias} dias de garantia. Você entra, navega e lê as análises com calma. Se não fizer sentido pra você, é só pedir o reembolso: você recebe 100% de volta, sem precisar explicar.`,
   },
 ]
 
@@ -918,7 +918,7 @@ NÃO ESCREVA
             </span>
             <div className="lp-garantia__texto">
               <h3>Garantia de {OFERTA.garantiaDias} dias, sem perguntas</h3>
-              <p>Entra, navega, lê as análises. Se não fizer sentido pra você, pede o reembolso e recebe 100% de volta. Sem precisar explicar.</p>
+              <p>Você entra, navega e lê as análises com calma. Se não fizer sentido pra você, é só pedir o reembolso: você recebe 100% de volta, sem precisar explicar.</p>
               <a className="lp-garantia__link" href={OFERTA.checkoutUrl} rel="noopener">Quero entrar sem risco <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg></a>
             </div>
           </div>
