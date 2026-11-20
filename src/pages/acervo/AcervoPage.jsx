@@ -765,7 +765,7 @@ NÃO ESCREVA
               A gente se completa: uma vai fundo em cada detalhe, a outra transforma em algo que dá pra aplicar. Por isso tudo o que fazemos juntas tem profundidade e critério.
             </p>
             <p>
-              O acervo é a gente abrindo o que faz há anos nos bastidores de grandes projetos: olhar anúncio o dia inteiro, separar o que vende do que só parece bonito, e entender o porquê. Agora isso está aqui, toda semana, com a nossa ferramenta pra transformar a referência que você escolher no seu anúncio.
+              O acervo é a nossa curadoria: o processo que vivemos há anos nos bastidores dos projetos, agora disponível pra você, toda semana, e com uma ferramenta que transforma a referência que você escolher no seu anúncio.
             </p>
           </Reveal>
         </div>
