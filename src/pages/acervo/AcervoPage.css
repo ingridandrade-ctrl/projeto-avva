@@ -2406,3 +2406,52 @@
 /* Pop-up da espiadinha: o modal da área de membros, fora do .lp */
 .lp-admodal { z-index: 1000; }
 .lp-admodal .ad-modal__close:focus-visible, .lp-admodal .ad-modal__arrow:focus-visible { outline: 2px solid var(--teal-medio); outline-offset: 2px; }
+
+/* ═══════════ Rodada de impacto: mesma linguagem, dose ajustada ═══════════ */
+
+/* 1. Hero no celular: a frase manda, a logo acompanha */
+.lp-logomarca { width: min(168px, 44vw); animation: none; }
+.lp-hero__sombra { display: none; }
+.lp-hero { padding: 48px 0 64px; }
+.lp-hero__frase { margin-top: 30px; font-size: clamp(2rem, 8.4vw, 2.7rem); font-weight: 800; letter-spacing: -0.045em; line-height: 1.02; }
+.lp-hero__frase em { font-family: var(--lp-serif); font-style: italic; font-weight: 400; font-size: 1.06em; letter-spacing: -0.01em; color: var(--lp-terra); }
+.lp-hero__destaque { margin-top: 18px; font-size: 1.05rem; font-weight: 500; color: var(--lp-ink-2); }
+.lp-hero__destaque strong { color: var(--lp-ink); }
+.lp-hero .lp-cta { margin-top: 28px; }
+
+/* 2. Botões recortados: retos, mais peso; o recorte (borda + sombra dura) fica */
+.lp-cta { rotate: 0deg; font-size: 1.08rem; font-weight: 700; letter-spacing: -0.02em; }
+.lp-cta:hover { rotate: 0deg; transform: translate(2px, 2px); }
+
+/* 3. Preço: carimbo parado e maior, risco firme */
+.lp-selo--preco .lp-selo__anel { animation: none; rotate: -14deg; }
+.lp-carimbo { width: min(290px, 82vw); height: min(290px, 82vw); }
+.lp-carimbo .lp-invest__preco { font-size: clamp(4.2rem, 19vw, 5.4rem); }
+.lp-invest__de s { font-family: var(--lp-serif); font-style: italic; font-weight: 400; font-size: 2rem; text-decoration-style: solid; text-decoration-thickness: 3px; }
+.lp-invest__reforco { font-size: 1.5rem; max-width: 420px; }
+.lp-incluso { background: #fff; border: 2px solid var(--lp-ink); box-shadow: 6px 6px 0 var(--lp-areia); }
+
+/* 4. Estrelas de fundo: contorno, sem brilho */
+.lp-estrela { filter: none; color: transparent; -webkit-text-stroke: 1.5px var(--lp-areia); opacity: 0.55; }
+.lp-estrela--2, .lp-estrela--5 { -webkit-text-stroke-color: var(--lp-terra); opacity: 0.35; }
+
+/* 5. Borda recortada em escala de picote */
+.lp-ondas { top: -9px; height: 10px; background: radial-gradient(circle at 8px 10px, var(--onda) 7px, transparent 8px); background-size: 16px 10px; }
+
+/* 6. Um elemento torto por tela: pílulas de seção retas, como etiqueta de catálogo */
+.lp-pill { rotate: 0deg; font-size: 0.78rem; letter-spacing: 0.08em; text-transform: uppercase; box-shadow: 0 0 0 2px #fff, 3px 3px 0 rgba(46, 33, 27, 0.9); }
+.lp-pill.lp-pill--terra { box-shadow: 0 0 0 2px #fff, 3px 3px 0 rgba(46, 33, 27, 0.9); }
+
+/* 7. Letreiro: corpo menor, espaçamento largo, movimento lento */
+.lp-letreiro { padding: 14px 0; }
+.lp-letreiro__faixa { animation-duration: 70s; }
+.lp-letreiro__faixa span { font-size: 0.86rem; font-weight: 600; letter-spacing: 0.14em; gap: 26px; padding-right: 26px; }
+.lp-letreiro__faixa em { font-size: 0.8rem; }
+@media (min-width: 720px) { .lp-letreiro__faixa span { font-size: 0.92rem; } }
+
+/* 8. Sombra preta só no botão; cards com sombra em amendoado */
+.lp-passo { border-width: 1.5px; box-shadow: 7px 7px 0 var(--lp-areia); }
+.lp-ia__regra { border-width: 1.5px; box-shadow: 5px 5px 0 var(--lp-areia); }
+.lp-depo__card { border-width: 1.5px; box-shadow: 6px 6px 0 var(--lp-areia); }
+.lp-video .lp-espiada__card { border-width: 1.5px; box-shadow: 6px 6px 0 var(--lp-areia); }
+.lp-invest__de { display: flex; align-items: baseline; justify-content: center; gap: 8px; }

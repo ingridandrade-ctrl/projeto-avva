@@ -594,7 +594,7 @@ export default function AcervoPage() {
           <p className="lp-hero__sub">
             Tudo pelo celular, com acesso imediato.
           </p>
-          <Cta>Quero o acervo 🤎</Cta>
+          <Cta>Quero o acervo</Cta>
           <p className="lp-hero__nota">{OFERTA.preco} · pagamento único · {OFERTA.garantiaDias} dias de garantia</p>
         </div>
 
@@ -672,7 +672,7 @@ export default function AcervoPage() {
               </Reveal>
             ))}
           </div>
-          <Reveal className="lp-center" delay={120}><Cta>Quero o acervo 🤎</Cta></Reveal>
+          <Reveal className="lp-center" delay={120}><Cta>Quero o acervo</Cta></Reveal>
         </div>
       </section>
 
@@ -699,7 +699,7 @@ export default function AcervoPage() {
               </Reveal>
             ))}
           </ol>
-          <Reveal className="lp-center" delay={120}><Cta>Quero o acervo 🤎</Cta></Reveal>
+          <Reveal className="lp-center" delay={120}><Cta>Quero o acervo</Cta></Reveal>
         </div>
       </section>
 
@@ -844,13 +844,13 @@ NÃO ESCREVA
           </Reveal>
           <ul className="lp-checks">
             {PRA_QUEM.map((item, i) => (
-              <Reveal as="li" key={i} className={`lp-adesivo lp-adesivo--${i % 3}`} delay={i * 50} style={{ '--giro': `${[-1.5, 1.2, -0.8, 1.6, -1.2, 0.9, -1.4][i % 7]}deg` }}>
+              <Reveal as="li" key={i} className={`lp-adesivo lp-adesivo--${i % 3}`} delay={i * 50} style={{ '--giro': i === 0 ? '-1.5deg' : '0deg' }}>
                 <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>
                 <span>{item}</span>
               </Reveal>
             ))}
           </ul>
-          <Reveal delay={120}><Cta largo>Quero o acervo 🤎</Cta></Reveal>
+          <Reveal delay={120}><Cta largo>Quero o acervo</Cta></Reveal>
         </div>
       </section>
 
@@ -971,7 +971,7 @@ NÃO ESCREVA
               </Reveal>
             ))}
           </div>
-          <Reveal delay={120}><Cta largo>Quero anúncios que vendem 🤎</Cta></Reveal>
+          <Reveal delay={120}><Cta largo>Quero anúncios que vendem</Cta></Reveal>
         </div>
       </section>
 
@@ -1082,7 +1082,7 @@ NÃO ESCREVA
       {/* ── Barra fixa (mobile) ── */}
       <div className={`lp-sticky ${stickyVisible ? 'is-visible' : ''}`} aria-hidden={!stickyVisible}>
         <span className="lp-sticky__preco">{OFERTA.preco}</span>
-        <Cta>Quero o acervo 🤎</Cta>
+        <Cta>Quero o acervo</Cta>
       </div>
     </div>
   )
