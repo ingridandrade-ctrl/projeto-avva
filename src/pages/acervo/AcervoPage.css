@@ -2458,19 +2458,8 @@
 /* Etiqueta dos cards da espiadinha: menor, reta e só do tamanho do texto */
 .lp-espiada__tipo { rotate: 0deg; align-self: flex-start; font-size: 0.68rem; padding: 4px 10px; letter-spacing: 0.08em; text-transform: uppercase; box-shadow: 0 0 0 2px rgba(247, 244, 240, 0.9), 2px 2px 0 rgba(0, 0, 0, 0.5); margin-bottom: 14px; }
 
-/* ═══════════ Quem faz o acervo: título em serifa, nomes finos, texto em card ═══════════ */
-.lp-quem__head { text-align: left; }
-.lp-quem__titulo { margin-top: 18px; font-family: var(--lp-serif); font-weight: 400; font-size: clamp(2.8rem, 12vw, 5rem); line-height: 0.95; letter-spacing: -0.02em; color: var(--lp-ink); }
-.lp-quem__nomes { margin-top: 14px; font-size: 1.12rem; font-weight: 300; letter-spacing: 0.01em; color: var(--lp-ink-2); }
-.lp-quem__nomes em { font-family: var(--lp-serif); font-style: italic; color: var(--lp-terra); }
-.lp-quem__texto { padding: 26px 22px; border-radius: 24px; background: #fff; border: 1.5px solid rgba(46, 33, 27, 0.12); box-shadow: 6px 6px 0 var(--lp-areia); }
-.lp-quem__texto p:first-of-type { margin-top: 0; }
+/* Quem faz o acervo: os dois nomes finos, sem negrito */
+.lp-quem__nomes { font-weight: 300; }
+.lp-quem__nomes em { font-family: var(--lp-serif); font-style: italic; font-weight: 400; color: var(--lp-terra); }
 .lp-quem__texto p strong { color: var(--lp-ink); font-weight: 700; }
-.lp-quem__lead { margin-top: 0 !important; }
 .lp-quem__lead strong { color: var(--lp-ink); }
-@media (min-width: 720px) {
-  .lp-quem__grid { grid-template-columns: 0.95fr 1.05fr; grid-template-rows: auto 1fr; gap: 32px 56px; align-items: start; }
-  .lp-quem__head { grid-column: 1; grid-row: 1; }
-  .lp-quem__colagem { grid-column: 1; grid-row: 2; }
-  .lp-quem__texto { grid-column: 2; grid-row: 1 / span 2; padding: 36px 36px; }
-}
