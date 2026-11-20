@@ -482,6 +482,17 @@ function Logo({ className = '' }) {
 export default function AcervoPage() {
   const [stickyVisible, setStickyVisible] = useState(false)
   const [aberta, setAberta] = useState(-1)
+  const [analiseAberta, setAnaliseAberta] = useState(null) // índice da análise no pop-up
+
+  // Pop-up: fecha no Esc e trava a rolagem da página enquanto está aberto
+  useEffect(() => {
+    if (analiseAberta === null) return
+    const onKey = e => { if (e.key === 'Escape') setAnaliseAberta(null) }
+    window.addEventListener('keydown', onKey)
+    const prev = document.body.style.overflow
+    document.body.style.overflow = 'hidden'
+    return () => { window.removeEventListener('keydown', onKey); document.body.style.overflow = prev }
+  }, [analiseAberta])
 
   useEffect(() => {
     document.title = 'Acervo de Anúncios — AVVA Hub'
@@ -641,17 +652,21 @@ export default function AcervoPage() {
         <i className="lp-ondas lp-ondas--espiada" aria-hidden="true" />
         <div className="lp-container lp-container--narrow">
           <Reveal as="h2" className="lp-titulo lp-titulo--grande lp-titulo--centro lp-titulo--claro">
-            Cada anúncio vem<br /><strong>com a análise do porquê.</strong>
+            O que você vai<br /><strong>encontrar no acervo.</strong>
           </Reveal>
-          <Reveal as="p" className="lp-espiada__sub" delay={80}>Três análises de verdade, do jeito que estão lá dentro: o que fez cada anúncio funcionar e o que importa nele. É isso que você lê antes de fazer a sua versão.</Reveal>
+          <Reveal as="p" className="lp-espiada__sub" delay={80}>Cada anúncio vem com a análise do porquê. Aqui vão três de verdade, do jeito que estão lá dentro. Toca pra dar uma espiadinha.</Reveal>
           <div className="lp-espiada__cards">
             {ESPIADINHA.map((a, i) => (
-              <Reveal as="article" key={a.marca} className={`lp-espiada__card ${i % 2 ? 'lp-espiada__card--areia' : 'lp-espiada__card--terra'}`} delay={i * 90}>
+              <Reveal as="article" key={a.marca} className={`lp-espiada__card lp-espiada__card--resumo ${i % 2 ? 'lp-espiada__card--areia' : 'lp-espiada__card--terra'}`} delay={i * 90}>
                 <span className="lp-espiada__marca" aria-hidden="true">{a.marca}</span>
                 <div>
                   <span className="lp-espiada__tipo">{a.tipo}</span>
                   <h3>{a.titulo}</h3>
-                  <p>{a.texto}</p>
+                  <p className="lp-espiada__resumo">{a.texto}</p>
+                  <button type="button" className="lp-espiada__abrir" onClick={() => setAnaliseAberta(i)}>
+                    Dar uma espiadinha
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg>
+                  </button>
                 </div>
               </Reveal>
             ))}
@@ -934,6 +949,27 @@ NÃO ESCREVA
           </div>
         </div>
       </footer>
+
+      {/* ── Pop-up da análise ── */}
+      {analiseAberta !== null && (
+        <div className="lp-modal" role="dialog" aria-modal="true" aria-labelledby="lp-modal-titulo" onClick={() => setAnaliseAberta(null)}>
+          <div className="lp-modal__card" onClick={e => e.stopPropagation()}>
+            <button type="button" className="lp-modal__fechar" onClick={() => setAnaliseAberta(null)} aria-label="Fechar">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+            </button>
+            <span className="lp-sticker lp-sticker--modal">{ESPIADINHA[analiseAberta].tipo}</span>
+            <h3 id="lp-modal-titulo">{ESPIADINHA[analiseAberta].titulo}</h3>
+            <span className="lp-modal__rotulo">Por que funciona</span>
+            <p>{ESPIADINHA[analiseAberta].texto}</p>
+            <p className="lp-modal__nota">Lá dentro, logo abaixo desta análise, está o botão Fazer a minha versão.</p>
+            <div className="lp-modal__nav">
+              <button type="button" onClick={() => setAnaliseAberta((analiseAberta + ESPIADINHA.length - 1) % ESPIADINHA.length)}>← Anterior</button>
+              <span>{analiseAberta + 1} / {ESPIADINHA.length}</span>
+              <button type="button" onClick={() => setAnaliseAberta((analiseAberta + 1) % ESPIADINHA.length)}>Próxima →</button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* ── Barra fixa (mobile) ── */}
       <div className={`lp-sticky ${stickyVisible ? 'is-visible' : ''}`} aria-hidden={!stickyVisible}>
