@@ -1,7 +1,13 @@
 import { useEffect, useRef, useState } from 'react'
+import { createPortal } from 'react-dom'
 import { Link } from 'react-router-dom'
-import { COLLECTIONS } from '../../lib/catalog'
+import { COLLECTIONS, NICHE_LABELS, itemTypeLabel } from '../../lib/catalog'
 import { TIPOS, TONS, DESTINOS } from '../../lib/adaptar'
+import DriveEmbed from '../../components/ads/DriveEmbed'
+import AdaptPanel from '../../components/ads/AdaptPanel'
+import Tag from '../../components/ui/Tag'
+import CopyButton from '../../components/ui/CopyButton'
+import '../../components/ads/AdModal.css'
 import './AcervoPage.css'
 
 // ══════════════════════════════════════════════════════════════
@@ -126,33 +132,43 @@ const IA_SAIDAS = [
 ]
 
 // Análises reais do acervo, do jeito que estão lá dentro
+// Mesmo formato dos anúncios do acervo: o pop-up da espiadinha é o modal da área de membros
 const ESPIADINHA = [
   {
+    id: 'espiada-1',
     marca: '01',
-    titulo: 'Diandra: "pega de surpresa"',
+    title: 'Diandra: "pega de surpresa"',
     tipo: 'Vídeo · Serviço e infoproduto',
     colecao: 'Melhores de Setembro 2026',
-    midia: 'video',
-    capa: 'https://drive.google.com/thumbnail?id=18USYqZIvfmPj5PC11trkP1sG-EqRc_yL&sz=w700',
-    texto: 'A sacada começa no formato: o roteiro é estruturado, mas a gravação faz parecer que a especialista foi pega de surpresa e está simplesmente respondendo uma pergunta. Enquanto ela elimina uma alternativa depois da outra (postar todo dia, carrossel, impulsionar, social media), a curiosidade aumenta: se nenhuma dessas é a resposta, qual é?',
+    media_type: 'video',
+    niches: ['servico', 'infoproduto'],
+    objectives: ['vender'],
+    drive_url: 'https://drive.google.com/file/d/18USYqZIvfmPj5PC11trkP1sG-EqRc_yL/view',
+    analysis: 'A sacada começa no formato: o roteiro é estruturado, mas a gravação faz parecer que a especialista foi pega de surpresa e está simplesmente respondendo uma pergunta. Enquanto ela elimina uma alternativa depois da outra (postar todo dia, carrossel, impulsionar, social media), a curiosidade aumenta: se nenhuma dessas é a resposta, qual é?',
   },
   {
+    id: 'espiada-2',
     marca: '02',
-    titulo: 'Letícia Vaz Store',
+    title: 'Letícia Vaz Store',
     tipo: 'Vídeo · E-commerce',
     colecao: 'Melhores de Julho 2026',
-    midia: 'video',
-    capa: 'https://drive.google.com/thumbnail?id=1BSsRMSv2EyuAF_2vtr7vArw_2-8vtY_Z&sz=w700',
-    texto: 'Ela te prende num desafio, te ensina a vender e te converte em um minuto e meio. Dá vários exemplos mostrando a calça e falando as qualidades enquanto você fica curiosa pra ver todas as formas de vendê-la. Deu uma aula de marketing enquanto fazia uma venda.',
+    media_type: 'video',
+    niches: ['ecommerce'],
+    objectives: ['vender'],
+    drive_url: 'https://drive.google.com/file/d/1BSsRMSv2EyuAF_2vtr7vArw_2-8vtY_Z/view',
+    analysis: 'Ela te prende num desafio, te ensina a vender e te converte em um minuto e meio. Dá vários exemplos mostrando a calça e falando as qualidades enquanto você fica curiosa pra ver todas as formas de vendê-la. Deu uma aula de marketing enquanto fazia uma venda.',
   },
   {
+    id: 'espiada-3',
     marca: '03',
-    titulo: 'Pedro Sobral: "Como sei que funciona pra mim?"',
+    title: 'Pedro Sobral: "Como sei que funciona pra mim?"',
     tipo: 'Imagem estática · Infoproduto',
     colecao: 'Melhores de Agosto 2026',
-    midia: 'image',
-    capa: 'https://drive.google.com/thumbnail?id=1_N96o46TeKGDO9npxoUsK80aG1UlHsbJ&sz=w700',
-    texto: 'Quebra de objeção com prova: a pergunta que a pessoa faz é respondida com um número (validado por 4.855 gestores atuantes).',
+    media_type: 'image',
+    niches: ['infoproduto'],
+    objectives: ['vender'],
+    drive_url: 'https://drive.google.com/file/d/1_N96o46TeKGDO9npxoUsK80aG1UlHsbJ/view',
+    analysis: 'Quebra de objeção com prova: a pergunta que a pessoa faz é respondida com um número (validado por 4.855 gestores atuantes).',
   },
 ]
 
@@ -500,29 +516,52 @@ export default function AcervoPage() {
     setAnaliseAberta(i)
   }
 
-  // Pop-up: foco no fechar, Esc fecha, rolagem travada sem a página pular, foco de volta ao botão que abriu
-  useEffect(() => {
-    if (analiseAberta === null) return
-    const onKey = e => { if (e.key === 'Escape') setAnaliseAberta(null) }
-    window.addEventListener('keydown', onKey)
-    const barra = window.innerWidth - document.documentElement.clientWidth
-    const prev = { overflow: document.body.style.overflow, pad: document.body.style.paddingRight }
-    document.body.style.overflow = 'hidden'
-    if (barra > 0) document.body.style.paddingRight = `${barra}px`
-    fecharRef.current?.focus()
-    return () => {
-      window.removeEventListener('keydown', onKey)
-      document.body.style.overflow = prev.overflow
-      document.body.style.paddingRight = prev.pad
-    }
-  }, [analiseAberta])
+  const [espiadaFav, setEspiadaFav] = useState({}) // favoritar / concluído só visuais, como na área de membros
+  const [espiadaVista, setEspiadaVista] = useState({})
+  const toque = useRef(null)
 
+  // Pop-up: foco no fechar, Esc fecha, setas trocam de anúncio, body fixo como no modal
+  // da área de membros (iOS ignora overflow hidden), foco de volta ao botão que abriu
   function fecharAnalise(depois) {
     setAnaliseAberta(null)
     requestAnimationFrame(() => {
       if (depois) depois()
-      else origemRef.current?.focus()
+      else origemRef.current?.focus({ preventScroll: true })
     })
+  }
+
+  const popupAberto = analiseAberta !== null
+  useEffect(() => {
+    if (!popupAberto) return
+    const onKey = e => {
+      const tag = (e.target?.tagName || '').toLowerCase()
+      if (tag === 'input' || tag === 'textarea') return
+      if (e.key === 'Escape') fecharAnalise()
+      if (e.key === 'ArrowLeft') setAnaliseAberta(i => (i + ESPIADINHA.length - 1) % ESPIADINHA.length)
+      if (e.key === 'ArrowRight') setAnaliseAberta(i => (i + 1) % ESPIADINHA.length)
+    }
+    document.addEventListener('keydown', onKey)
+    const scrollY = window.scrollY
+    const estilo = document.body.style
+    const prev = { overflow: estilo.overflow, position: estilo.position, top: estilo.top, width: estilo.width }
+    Object.assign(estilo, { overflow: 'hidden', position: 'fixed', top: `-${scrollY}px`, width: '100%' })
+    fecharRef.current?.focus()
+    return () => {
+      document.removeEventListener('keydown', onKey)
+      Object.assign(estilo, prev)
+      window.scrollTo({ top: scrollY, behavior: 'instant' })
+    }
+  }, [popupAberto])
+
+  function onTouchStart(e) { toque.current = { x: e.touches[0].clientX, y: e.touches[0].clientY } }
+  function onTouchEnd(e) {
+    if (!toque.current) return
+    const dx = e.changedTouches[0].clientX - toque.current.x
+    const dy = e.changedTouches[0].clientY - toque.current.y
+    toque.current = null
+    if (Math.abs(dx) > 60 && Math.abs(dx) > Math.abs(dy) * 1.5) {
+      setAnaliseAberta(i => (i + (dx < 0 ? 1 : ESPIADINHA.length - 1)) % ESPIADINHA.length)
+    }
   }
 
   useEffect(() => {
@@ -623,8 +662,8 @@ export default function AcervoPage() {
                 <span className="lp-espiada__marca" aria-hidden="true">{a.marca}</span>
                 <div>
                   <span className="lp-espiada__tipo">{a.tipo}</span>
-                  <h3>{a.titulo}</h3>
-                  <p className="lp-espiada__resumo">{a.texto}</p>
+                  <h3>{a.title}</h3>
+                  <p className="lp-espiada__resumo">{a.analysis}</p>
                   <button type="button" className="lp-espiada__abrir" onClick={e => abrirAnalise(i, e)}>
                     Dar uma espiadinha
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg>
@@ -982,47 +1021,61 @@ NÃO ESCREVA
       {/* ── Pop-up: prévia do anúncio aberto, como na área de membros ── */}
       {analiseAberta !== null && (() => {
         const a = ESPIADINHA[analiseAberta]
-        const paragrafos = a.texto.split(/\n\n+/)
-        return (
-          <div className="lp-modal" role="dialog" aria-modal="true" aria-labelledby="lp-modal-titulo" onPointerDown={e => { if (e.target === e.currentTarget) fecharAnalise() }}>
-            <div key={a.marca} className="lp-modal__card lp-previa">
-              <button ref={fecharRef} type="button" className="lp-modal__fechar" onClick={() => fecharAnalise()} aria-label="Fechar">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+        const paragrafos = a.analysis.split(/\n+/).map(t => t.trim()).filter(Boolean)
+        const fav = !!espiadaFav[a.id]
+        const vista = !!espiadaVista[a.id]
+        const ir = passo => setAnaliseAberta((analiseAberta + passo + ESPIADINHA.length) % ESPIADINHA.length)
+        return createPortal(
+          <div className="ad-modal lp-admodal" role="dialog" aria-modal="true" aria-label={a.title} onPointerDown={e => { if (e.target === e.currentTarget) fecharAnalise() }}>
+            <div key={a.id} className="ad-modal__panel">
+              <button ref={fecharRef} type="button" className="ad-modal__close" onClick={() => fecharAnalise()} aria-label="Fechar">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
               </button>
-
-              <div className="lp-previa__media">
-                <div className="lp-previa__phone">
-                  <img src={a.capa} alt="" loading="lazy" onError={e => { e.currentTarget.parentElement.classList.add('is-vazia') }} />
-                  {a.midia === 'video' && <span className="lp-previa__play" aria-hidden="true" />}
-                  <span className="lp-previa__badge">{a.midia === 'video' ? 'Vídeo' : 'Imagem estática'}</span>
+              <div className="ad-modal__media" data-media={a.media_type} onTouchStart={onTouchStart} onTouchEnd={onTouchEnd}>
+                <div className="ad-modal__phone">
+                  <DriveEmbed key={a.id} url={a.drive_url} title={a.title} mediaType={a.media_type} />
                 </div>
-                <span className="lp-previa__legenda">Prévia · como abre na área de membros</span>
-              </div>
-
-              <div className="lp-previa__content">
-                <span className="lp-previa__eyebrow">{a.colecao}</span>
-                <h3 id="lp-modal-titulo">{a.titulo}</h3>
-                <div className="lp-previa__tags">
-                  {a.tipo.split(' · ').map(t => <span key={t}>{t}</span>)}
-                </div>
-                <section className="lp-previa__analise">
-                  <h4><span aria-hidden="true">✦</span> Por que funciona</h4>
-                  {paragrafos.map((t, i) => <p key={i}>{t}</p>)}
-                </section>
-                <button type="button" className="lp-previa__adapt" onClick={() => fecharAnalise(() => document.getElementById('ferramenta')?.scrollIntoView({ behavior: 'smooth' }))}>
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M12 3l1.8 4.7L18.5 9.5l-4.7 1.8L12 16l-1.8-4.7L5.5 9.5l4.7-1.8z"/><path d="M19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8z"/></svg>
-                  Fazer a minha versão
-                  <small>com IA</small>
+                <button type="button" className="ad-modal__arrow ad-modal__arrow--prev" onClick={() => ir(-1)} aria-label="Anterior">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><polyline points="15 18 9 12 15 6"/></svg>
                 </button>
-                <p className="lp-previa__nota">Lá dentro, esse botão abre a ferramenta. Aqui, ele te leva pra ver como ela funciona.</p>
-                <div className="lp-modal__nav">
-                  <button type="button" onClick={() => setAnaliseAberta((analiseAberta + ESPIADINHA.length - 1) % ESPIADINHA.length)}>← Anterior</button>
-                  <span>{analiseAberta + 1} / {ESPIADINHA.length}</span>
-                  <button type="button" onClick={() => setAnaliseAberta((analiseAberta + 1) % ESPIADINHA.length)}>Próxima →</button>
+                <button type="button" className="ad-modal__arrow ad-modal__arrow--next" onClick={() => ir(1)} aria-label="Próximo">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg>
+                </button>
+              </div>
+              <div className="ad-modal__content">
+                <div className="ad-modal__handle" aria-hidden="true" />
+                <div className="ad-modal__topline">
+                  <span className="ad-modal__eyebrow">{a.colecao}</span>
+                  <span className="ad-modal__position">{analiseAberta + 1} de {ESPIADINHA.length}</span>
+                </div>
+                <h2 className="ad-modal__title">{a.title}</h2>
+                <div className="ad-modal__tags">
+                  {itemTypeLabel(a) && <Tag type="teal">{itemTypeLabel(a)}</Tag>}
+                  {a.niches.map(n => <Tag key={n}>{NICHE_LABELS[n] || n}</Tag>)}
+                </div>
+                <section className="ad-modal__analysis">
+                  <h3>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M9 18h6"/><path d="M10 22h4"/><path d="M12 2a7 7 0 0 0-4 12.7c.6.5 1 1.3 1 2.3h6c0-1 .4-1.8 1-2.3A7 7 0 0 0 12 2z"/></svg>
+                    Por que funciona
+                  </h3>
+                  {paragrafos.map((t, i) => <p key={i}>{t}</p>)}
+                  <CopyButton text={a.analysis} label="Copiar análise" />
+                </section>
+                <AdaptPanel ad={a} collectionTitle={a.colecao} collectionSlug="melhores-do-mes" />
+                <div className="ad-modal__actions">
+                  <button type="button" className={`ad-modal__pill ${vista ? 'ad-modal__pill--on' : ''}`} onClick={() => setEspiadaVista(v => ({ ...v, [a.id]: !v[a.id] }))}>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+                    {vista ? 'Concluído' : 'Marcar como concluído'}
+                  </button>
+                  <button type="button" className={`ad-modal__pill ad-modal__pill--fav ${fav ? 'ad-modal__pill--on' : ''}`} onClick={() => setEspiadaFav(v => ({ ...v, [a.id]: !v[a.id] }))}>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill={fav ? 'currentColor' : 'none'} stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                    {fav ? 'Favorito' : 'Favoritar'}
+                  </button>
                 </div>
               </div>
             </div>
-          </div>
+          </div>,
+          document.body
         )
       })()}
 
