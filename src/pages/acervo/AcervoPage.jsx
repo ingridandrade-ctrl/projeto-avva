@@ -759,7 +759,7 @@ NÃO ESCREVA
               Amigas da vida, parceiras de projetos, estrategistas digitais, gestoras de tráfego, <strong>crias dos bastidores e geminianas.</strong>
             </p>
             <p>
-              Nos conhecemos em 2024, dentro do Subido Pro, e logo descobrimos que quase fomos separadas na maternidade: uma de 28, a outra de 29 de maio de 1995. Desde então, a gente não parou de fazer coisa junto.
+              Nos conhecemos em 2024, dentro do Subido Pro, e logo descobrimos que quase fomos separadas na maternidade: uma de 28, a outra de 29 de maio de 1995. Desde então, nossa amizade só cresceu, e o sonho de criar algo juntas enfim saiu do papel aqui no acervo.
             </p>
             <p>
               A gente se completa: uma vai fundo em cada detalhe, a outra transforma em algo que dá pra aplicar. Por isso tudo o que fazemos juntas tem profundidade e critério.
