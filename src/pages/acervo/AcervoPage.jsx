@@ -492,16 +492,38 @@ export default function AcervoPage() {
   const [stickyVisible, setStickyVisible] = useState(false)
   const [aberta, setAberta] = useState(-1)
   const [analiseAberta, setAnaliseAberta] = useState(null) // índice da análise no pop-up
+  const fecharRef = useRef(null)
+  const origemRef = useRef(null)
 
-  // Pop-up: fecha no Esc e trava a rolagem da página enquanto está aberto
+  function abrirAnalise(i, e) {
+    origemRef.current = e?.currentTarget || null
+    setAnaliseAberta(i)
+  }
+
+  // Pop-up: foco no fechar, Esc fecha, rolagem travada sem a página pular, foco de volta ao botão que abriu
   useEffect(() => {
     if (analiseAberta === null) return
     const onKey = e => { if (e.key === 'Escape') setAnaliseAberta(null) }
     window.addEventListener('keydown', onKey)
-    const prev = document.body.style.overflow
+    const barra = window.innerWidth - document.documentElement.clientWidth
+    const prev = { overflow: document.body.style.overflow, pad: document.body.style.paddingRight }
     document.body.style.overflow = 'hidden'
-    return () => { window.removeEventListener('keydown', onKey); document.body.style.overflow = prev }
+    if (barra > 0) document.body.style.paddingRight = `${barra}px`
+    fecharRef.current?.focus()
+    return () => {
+      window.removeEventListener('keydown', onKey)
+      document.body.style.overflow = prev.overflow
+      document.body.style.paddingRight = prev.pad
+    }
   }, [analiseAberta])
+
+  function fecharAnalise(depois) {
+    setAnaliseAberta(null)
+    requestAnimationFrame(() => {
+      if (depois) depois()
+      else origemRef.current?.focus()
+    })
+  }
 
   useEffect(() => {
     document.title = 'Acervo de Anúncios — AVVA Hub'
@@ -603,7 +625,7 @@ export default function AcervoPage() {
                   <span className="lp-espiada__tipo">{a.tipo}</span>
                   <h3>{a.titulo}</h3>
                   <p className="lp-espiada__resumo">{a.texto}</p>
-                  <button type="button" className="lp-espiada__abrir" onClick={() => setAnaliseAberta(i)}>
+                  <button type="button" className="lp-espiada__abrir" onClick={e => abrirAnalise(i, e)}>
                     Dar uma espiadinha
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg>
                   </button>
@@ -917,6 +939,10 @@ NÃO ESCREVA
       {/* ── 9. FAQ ── */}
       <section className="lp-section lp-escuro lp-palco lp-faq">
         <div className="lp-container lp-container--narrow">
+          <Reveal className="lp-faq__head">
+            <span className="lp-pill lp-pill--terra">Dúvidas</span>
+            <h2 className="lp-titulo lp-titulo--grande lp-titulo--claro">O que mais perguntam antes de entrar</h2>
+          </Reveal>
           <Reveal className="lp-faq__lista">
             {FAQ.map((item, i) => {
               const open = aberta === i
@@ -958,9 +984,9 @@ NÃO ESCREVA
         const a = ESPIADINHA[analiseAberta]
         const paragrafos = a.texto.split(/\n\n+/)
         return (
-          <div className="lp-modal" role="dialog" aria-modal="true" aria-labelledby="lp-modal-titulo" onClick={() => setAnaliseAberta(null)}>
-            <div className="lp-modal__card lp-previa" onClick={e => e.stopPropagation()}>
-              <button type="button" className="lp-modal__fechar" onClick={() => setAnaliseAberta(null)} aria-label="Fechar">
+          <div className="lp-modal" role="dialog" aria-modal="true" aria-labelledby="lp-modal-titulo" onPointerDown={e => { if (e.target === e.currentTarget) fecharAnalise() }}>
+            <div key={a.marca} className="lp-modal__card lp-previa">
+              <button ref={fecharRef} type="button" className="lp-modal__fechar" onClick={() => fecharAnalise()} aria-label="Fechar">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
               </button>
 
@@ -983,7 +1009,7 @@ NÃO ESCREVA
                   <h4><span aria-hidden="true">✦</span> Por que funciona</h4>
                   {paragrafos.map((t, i) => <p key={i}>{t}</p>)}
                 </section>
-                <button type="button" className="lp-previa__adapt" onClick={() => { setAnaliseAberta(null); document.getElementById('ferramenta')?.scrollIntoView({ behavior: 'smooth' }) }}>
+                <button type="button" className="lp-previa__adapt" onClick={() => fecharAnalise(() => document.getElementById('ferramenta')?.scrollIntoView({ behavior: 'smooth' }))}>
                   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M12 3l1.8 4.7L18.5 9.5l-4.7 1.8L12 16l-1.8-4.7L5.5 9.5l4.7-1.8z"/><path d="M19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8z"/></svg>
                   Fazer a minha versão
                   <small>com IA</small>
