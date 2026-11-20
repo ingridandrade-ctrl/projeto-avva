@@ -35,11 +35,11 @@ const NICHOS = ['Negócio local', 'Prestação de serviço', 'Infoproduto', 'E-c
 
 // Quem faz o acervo: fotos da colagem (AJUSTAR: colocar 5 fotos em public/acervo/quem/, 1.jpg a 5.jpg)
 const QUEM_FOTOS = [
-  { src: '/acervo/quem/1.jpg', alt: 'Flora e Ingrid juntas' },
-  { src: '/acervo/quem/2.jpg', alt: 'Flora Tavares' },
-  { src: '/acervo/quem/3.jpg', alt: 'Ingrid Andrade' },
+  { src: '/acervo/quem/1.jpg', alt: 'Flora e Ingrid num mirante' },
+  { src: '/acervo/quem/2.jpg', alt: 'Flora e Ingrid no Rio' },
+  { src: '/acervo/quem/3.jpg', alt: 'Flora e Ingrid se abraçando' },
   { src: '/acervo/quem/4.jpg', alt: 'Flora e Ingrid trabalhando' },
-  { src: '/acervo/quem/5.jpg', alt: 'Flora e Ingrid' },
+  { src: '/acervo/quem/5.jpg', alt: 'Quinta foto' }, // AJUSTAR: ainda não chegou
 ]
 
 // Depoimentos de quem já comprou (AJUSTAR: colar os reais; nome e nicho). Vazio = seção não aparece.
