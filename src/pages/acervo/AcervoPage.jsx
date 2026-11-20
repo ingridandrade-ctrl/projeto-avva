@@ -93,22 +93,22 @@ const FERRAMENTA_PASSOS = [
   },
   {
     n: '2',
-    titulo: 'Preenche a sua ficha uma vez.',
+    titulo: 'Você preenche a sua ficha uma vez.',
     texto: 'O que você vende, pra quem, o que muda pra ela, uma prova real, o "mas" que você mais ouve. Nada é obrigatório, e fica salvo no seu celular. Na próxima vez, está tudo lá.',
   },
   {
     n: '3',
-    titulo: 'Escolhe como você escreve.',
+    titulo: 'Você escolhe como escreve.',
     texto: 'Direta, leve, acolhedora, elegante, provocadora, técnica. Cada tom vira uma regra concreta pra IA, não um adjetivo. E se você colar um texto seu, uma legenda ou um áudio transcrito, ela imita o seu ritmo e as suas palavras.',
   },
   {
     n: '4',
-    titulo: 'Diz pra onde o anúncio leva.',
+    titulo: 'Você diz pra onde o anúncio leva.',
     texto: 'WhatsApp, site, página de vendas, perfil, direct. E o que a pessoa ganha ao clicar. A ferramenta já sugere o destino mais comum pra aquele tipo de anúncio.',
   },
   {
     n: '5',
-    titulo: 'Abre no ChatGPT ou no Claude. Pronto.',
+    titulo: 'Você abre no ChatGPT ou no Claude. Pronto.',
     texto: 'Um toque e a sua IA abre com tudo montado: a sequência do anúncio original, a análise, a sua ficha e as regras. Ela escreve a sua versão com a mesma duração, na sua voz, com a sua prova. Se faltar alguma informação, ela pergunta antes de escrever, em vez de inventar.',
   },
 ]
@@ -586,7 +586,7 @@ export default function AcervoPage() {
             A biblioteca de anúncios das empreendedoras que <em>cansaram de começar do zero.</em>
           </h1>
           <p className="lp-hero__destaque">
-            Entenda a lógica de quem vende e transforme as suas referências favoritas em anúncios, <strong>com a nossa ferramenta.</strong>
+            Você entende a lógica de quem vende e transforma as suas referências favoritas em anúncios, <strong>com a nossa ferramenta.</strong>
           </p>
           <p className="lp-hero__sub">
             Tudo pelo celular, com acesso imediato.
