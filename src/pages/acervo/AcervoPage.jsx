@@ -756,13 +756,13 @@ NÃO ESCREVA
             <span className="lp-pill">Quem faz o acervo</span>
             <h2 className="lp-titulo lp-titulo--grande">Flora Tavares <em>&amp;</em> <strong>Ingrid Andrade</strong></h2>
             <p>
-              Somos gestoras de tráfego. A nossa amizade começou em 2024, dentro do Subido Pro, e desde então a gente não se desgrudou. Geminianas as duas, quase separadas na maternidade: uma nasceu no dia 28, a outra no dia 29 de maio de 1995.
+              Somos gestoras de tráfego, estrategistas e gente de bastidor há anos. A Flora aparece um pouco mais. A Ingrid é beeeem bastidor: se você já viu uma área de membros bonita e pensou "quem fez isso?", tem chance de ter sido ela.
             </p>
             <p>
-              A gente funciona assim: a Ingrid mergulha fundo, tem as ideias que não param, e a Flora pega esse barulho todo e transforma em coisa prática, que dá pra aplicar amanhã. Profundidade e praticidade, na mesma mesa.
+              A gente se conheceu em 2024, dentro do Subido Pro, e descobriu que tinha nascido com um dia de diferença: 28 e 29 de maio de 1995. Duas geminianas na mesma sala é muita ideia por minuto. Funciona assim: a Ingrid mergulha, pensa fundo, puxa fio atrás de fio. A Flora escuta aquele barulho todo e devolve em três passos que dá pra aplicar amanhã.
             </p>
             <p>
-              O acervo é isso em produto. A Flora garimpa e analisa toda semana o que está vendendo de verdade pros clientes da agência. A Ingrid construiu a área de membros e a ferramenta que escreve a sua versão. E a gente abriu essa porta pra você.
+              O acervo é uma construção nossa, feita no meio da rotina. A Flora já garimpava e analisava anúncio toda semana pros clientes da agência. A Ingrid construiu a área de membros e a ferramenta pra isso virar algo que você pode usar. Não é um produto que a gente comprou pronto pra revender. É o que a gente faz, do jeito que a gente faz, aberto pra você.
             </p>
           </Reveal>
         </div>
