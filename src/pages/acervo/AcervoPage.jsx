@@ -39,7 +39,6 @@ const QUEM_FOTOS = [
   { src: '/acervo/quem/2.jpg', alt: 'Flora e Ingrid no Rio' },
   { src: '/acervo/quem/3.jpg', alt: 'Flora e Ingrid se abraçando' },
   { src: '/acervo/quem/4.jpg', alt: 'Flora e Ingrid trabalhando' },
-  // { src: '/acervo/quem/5.jpg', alt: 'Quinta foto' }, // quando chegar, é só descomentar
 ]
 
 // Depoimentos de quem já comprou (AJUSTAR: colar os reais; nome e nicho). Vazio = seção não aparece.

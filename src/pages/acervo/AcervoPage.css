@@ -2304,7 +2304,6 @@
 .lp-quem__foto--2 { width: 44%; right: 2%; top: 5%; transform: rotate(4deg); z-index: 1; }
 .lp-quem__foto--3 { width: 42%; right: 0; bottom: 3%; transform: rotate(-3deg); z-index: 3; }
 .lp-quem__foto--4 { width: 50%; left: 3%; bottom: 0; transform: rotate(3deg); z-index: 4; }
-.lp-quem__foto--5 { width: 34%; left: 33%; top: 34%; transform: rotate(-7deg); z-index: 5; }
 .lp-sticker--quem-1 { position: absolute; left: 44%; top: 46%; rotate: -8deg; z-index: 6; }
 .lp-sticker--quem-2 { position: absolute; left: 40%; bottom: 4%; rotate: 6deg; z-index: 6; background: var(--lp-teal); }
 .lp-quem__texto h2 { margin-top: 18px; }
