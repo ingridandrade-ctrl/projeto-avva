@@ -577,8 +577,6 @@ export default function AcervoPage() {
       {/* ── 1. Hero ── */}
       <div className="lp-moldura">
       <section className="lp-hero lp-palco lp-palco--claro" id="topo">
-        <span className="lp-estrela lp-estrela--1" aria-hidden="true">✦</span>
-        <span className="lp-estrela lp-estrela--2" aria-hidden="true">✦</span>
         <div className="lp-hero__inner">
           <div className="lp-palco-logo">
             <div className="lp-orbita" aria-hidden="true"><span className="lp-orbita__anel"><i>✦</i></span></div>
@@ -595,7 +593,7 @@ export default function AcervoPage() {
             Tudo pelo celular, com acesso imediato.
           </p>
           <Cta>Quero o acervo</Cta>
-          <p className="lp-hero__nota">{OFERTA.preco} · pagamento único · {OFERTA.garantiaDias} dias de garantia</p>
+          <p className="lp-hero__nota">Pagamento único · {OFERTA.garantiaDias} dias de garantia</p>
         </div>
 
       </section>

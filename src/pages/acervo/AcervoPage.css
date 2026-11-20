@@ -2455,3 +2455,6 @@
 .lp-depo__card { border-width: 1.5px; box-shadow: 6px 6px 0 var(--lp-areia); }
 .lp-video .lp-espiada__card { border-width: 1.5px; box-shadow: 6px 6px 0 var(--lp-areia); }
 .lp-invest__de { display: flex; align-items: baseline; justify-content: center; gap: 8px; }
+
+/* Hero: o itálico serifado mais encorpado (a Instrument Serif só tem um peso) */
+.lp-hero__frase em { -webkit-text-stroke: 0.85px var(--lp-terra); paint-order: stroke fill; }
