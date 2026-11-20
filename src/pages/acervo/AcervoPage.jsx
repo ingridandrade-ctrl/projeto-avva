@@ -579,7 +579,6 @@ export default function AcervoPage() {
       <section className="lp-hero lp-palco lp-palco--claro" id="topo">
         <div className="lp-hero__inner">
           <div className="lp-palco-logo">
-            <div className="lp-orbita" aria-hidden="true"><span className="lp-orbita__anel"><i>✦</i></span></div>
             <img className="lp-logomarca" src="/acervo/logo.webp" alt="acervo de anúncios" width="1140" height="970" fetchPriority="high" />
             <span className="lp-hero__sombra" aria-hidden="true" />
           </div>
@@ -650,9 +649,16 @@ export default function AcervoPage() {
             ))}
           </ul>
 
-          <Reveal className="lp-video__espiada">
+          <Reveal className="lp-center" delay={120}><Cta>Quero o acervo</Cta></Reveal>
+        </div>
+      </section>
+
+      {/* ── 2b. Dar uma espiadinha (seção própria, marrom) ── */}
+      <section className="lp-section lp-escuro lp-escuro--umber lp-palco lp-espiada" id="espiadinha">
+        <div className="lp-container">
+          <Reveal className="lp-espiada__head">
             <span className="lp-pill lp-pill--terra">Dar uma espiadinha</span>
-            <h3>Cada anúncio vem com a análise do porquê. Aqui vão três, do jeito que estão lá dentro.</h3>
+            <h2 className="lp-titulo lp-titulo--grande lp-titulo--claro">Cada anúncio vem com a análise do porquê. <strong>Aqui vão três, do jeito que estão lá dentro.</strong></h2>
           </Reveal>
           <div className="lp-espiada__cards">
             {ESPIADINHA.map((a, i) => (
