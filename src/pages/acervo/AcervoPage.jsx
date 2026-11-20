@@ -16,7 +16,7 @@ const OFERTA = {
   parcelas: '',        // AJUSTAR: parcelamento do checkout, ex.: 'ou 9x de R$ 11,38' ('' esconde)
   reforco: 'Dá menos de R$ 0,20 por dia. Um anúncio que não vende custa mais que isso.',
   garantiaDias: 7,
-  acessoPor: '1 ano',           // AJUSTAR: tempo de acesso prometido
+  acessoPor: '1 ano',
   totalColecoes: 6,
   // Julia sugeriu R$ 97 (confirmar com a Flora antes de publicar): troque preco e precoDe
   // Vídeo do acervo por dentro (gravação de tela do celular). Vazio = mostra o mockup no lugar.
