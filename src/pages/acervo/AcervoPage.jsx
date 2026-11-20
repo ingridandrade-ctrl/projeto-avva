@@ -658,7 +658,7 @@ export default function AcervoPage() {
         <div className="lp-container">
           <Reveal className="lp-espiada__head">
             <span className="lp-pill lp-pill--terra">Dar uma espiadinha</span>
-            <h2 className="lp-titulo lp-titulo--grande lp-titulo--claro">Quer ver como é lá dentro? <strong>Abre um desses e lê por que ele funciona.</strong></h2>
+            <h2 className="lp-titulo lp-titulo--grande lp-titulo--claro">Separamos três anúncios do acervo <strong>pra você ver como é a análise de cada um.</strong></h2>
           </Reveal>
           <div className="lp-espiada__cards">
             {ESPIADINHA.map((a, i) => (
