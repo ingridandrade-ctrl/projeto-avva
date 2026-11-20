@@ -2315,3 +2315,6 @@
   .lp-quem__grid { grid-template-columns: 0.95fr 1.05fr; gap: 56px; align-items: center; }
   .lp-quem__colagem { width: 100%; max-width: 480px; }
 }
+
+.lp-quem__lead { margin-top: 20px !important; font-size: 1.2rem !important; line-height: 1.45 !important; color: var(--lp-ink) !important; letter-spacing: -0.015em; }
+.lp-quem__lead strong { color: var(--lp-terra); }

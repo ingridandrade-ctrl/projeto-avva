@@ -755,8 +755,8 @@ NÃO ESCREVA
           <Reveal className="lp-quem__texto" delay={100}>
             <span className="lp-pill">Quem faz o acervo</span>
             <h2 className="lp-titulo lp-titulo--grande">Flora Tavares <em>&amp;</em> <strong>Ingrid Andrade</strong></h2>
-            <p>
-              A gente é gestora de tráfego e estrategista, e trabalha nos bastidores há anos. A Flora aparece um pouco, porque precisa, e a Ingrid quase nunca aparece, porque prefere assim. Então, se você está lendo esta página, já conheceu as duas mais do que a maioria das pessoas conhece.
+            <p className="lp-quem__lead">
+              Amigas da vida, parceiras de projetos, duas estrategistas digitais e gestoras de tráfego. <strong>Dos bastidores há anos.</strong>
             </p>
             <p>
               A amizade começou em 2024, dentro do Subido Pro, e logo no começo a gente descobriu que tinha nascido com um dia de diferença, 28 e 29 de maio de 1995. Duas geminianas juntas é muita ideia saindo ao mesmo tempo, e por isso a parceria funciona: a Ingrid pensa fundo, mergulha num assunto até entender tudo que tem ali, e a Flora escuta aquele monte de ideia e transforma em algo que dá pra aplicar na semana seguinte. Uma vai fundo e a outra faz acontecer.
