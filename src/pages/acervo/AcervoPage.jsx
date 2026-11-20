@@ -93,22 +93,22 @@ const FERRAMENTA_PASSOS = [
   },
   {
     n: '2',
-    titulo: 'Preenche a sua ficha uma vez.',
+    titulo: 'Você preenche a sua ficha uma vez.',
     texto: 'O que você vende, pra quem, o que muda pra ela, uma prova real, o "mas" que você mais ouve. Nada é obrigatório, e fica salvo no seu celular. Na próxima vez, está tudo lá.',
   },
   {
     n: '3',
-    titulo: 'Escolhe como você escreve.',
+    titulo: 'Você escolhe como escreve.',
     texto: 'Direta, leve, acolhedora, elegante, provocadora, técnica. Cada tom vira uma regra concreta pra IA, não um adjetivo. E se você colar um texto seu, uma legenda ou um áudio transcrito, ela imita o seu ritmo e as suas palavras.',
   },
   {
     n: '4',
-    titulo: 'Diz pra onde o anúncio leva.',
+    titulo: 'Você diz pra onde o anúncio leva.',
     texto: 'WhatsApp, site, página de vendas, perfil, direct. E o que a pessoa ganha ao clicar. A ferramenta já sugere o destino mais comum pra aquele tipo de anúncio.',
   },
   {
     n: '5',
-    titulo: 'Abre no ChatGPT ou no Claude. Pronto.',
+    titulo: 'Você abre no ChatGPT ou no Claude. Pronto.',
     texto: 'Um toque e a sua IA abre com tudo montado: a sequência do anúncio original, a análise, a sua ficha e as regras. Ela escreve a sua versão com a mesma duração, na sua voz, com a sua prova. Se faltar alguma informação, ela pergunta antes de escrever, em vez de inventar.',
   },
 ]
@@ -278,7 +278,7 @@ const FAQ = [
   },
   {
     q: 'Tenho reembolso?',
-    a: `Tem. São ${OFERTA.garantiaDias} dias de garantia. Entra, navega, lê as análises. Se não fizer sentido pra você, pede o reembolso e recebe 100% de volta, sem precisar explicar.`,
+    a: `Tem. São ${OFERTA.garantiaDias} dias de garantia. Você entra, navega e lê as análises com calma. Se não fizer sentido pra você, é só pedir o reembolso: você recebe 100% de volta, sem precisar explicar.`,
   },
 ]
 
@@ -577,11 +577,8 @@ export default function AcervoPage() {
       {/* ── 1. Hero ── */}
       <div className="lp-moldura">
       <section className="lp-hero lp-palco lp-palco--claro" id="topo">
-        <span className="lp-estrela lp-estrela--1" aria-hidden="true">✦</span>
-        <span className="lp-estrela lp-estrela--2" aria-hidden="true">✦</span>
         <div className="lp-hero__inner">
           <div className="lp-palco-logo">
-            <div className="lp-orbita" aria-hidden="true"><span className="lp-orbita__anel"><i>✦</i></span></div>
             <img className="lp-logomarca" src="/acervo/logo.webp" alt="acervo de anúncios" width="1140" height="970" fetchPriority="high" />
             <span className="lp-hero__sombra" aria-hidden="true" />
           </div>
@@ -589,13 +586,13 @@ export default function AcervoPage() {
             A biblioteca de anúncios das empreendedoras que <em>cansaram de começar do zero.</em>
           </h1>
           <p className="lp-hero__destaque">
-            Entenda a lógica de quem vende e transforme as suas referências favoritas em anúncios, <strong>com a nossa ferramenta.</strong>
+            Você entende a lógica de quem vende e transforma as suas referências favoritas em anúncios, <strong>com a nossa ferramenta.</strong>
           </p>
           <p className="lp-hero__sub">
             Tudo pelo celular, com acesso imediato.
           </p>
           <Cta>Quero o acervo</Cta>
-          <p className="lp-hero__nota">{OFERTA.preco} · pagamento único · {OFERTA.garantiaDias} dias de garantia</p>
+          <p className="lp-hero__nota">Pagamento único · {OFERTA.garantiaDias} dias de garantia</p>
         </div>
 
       </section>
@@ -652,9 +649,16 @@ export default function AcervoPage() {
             ))}
           </ul>
 
-          <Reveal className="lp-video__espiada">
+          <Reveal className="lp-center" delay={120}><Cta>Quero o acervo</Cta></Reveal>
+        </div>
+      </section>
+
+      {/* ── 2b. Dar uma espiadinha (seção própria, marrom) ── */}
+      <section className="lp-section lp-escuro lp-escuro--umber lp-palco lp-espiada" id="espiadinha">
+        <div className="lp-container">
+          <Reveal className="lp-espiada__head">
             <span className="lp-pill lp-pill--terra">Dar uma espiadinha</span>
-            <h3>Cada anúncio vem com a análise do porquê. Aqui vão três, do jeito que estão lá dentro.</h3>
+            <h2 className="lp-titulo lp-titulo--grande lp-titulo--claro">Separamos três anúncios do acervo <strong>pra você ver como é a análise de cada um.</strong></h2>
           </Reveal>
           <div className="lp-espiada__cards">
             {ESPIADINHA.map((a, i) => (
@@ -914,7 +918,7 @@ NÃO ESCREVA
             </span>
             <div className="lp-garantia__texto">
               <h3>Garantia de {OFERTA.garantiaDias} dias, sem perguntas</h3>
-              <p>Entra, navega, lê as análises. Se não fizer sentido pra você, pede o reembolso e recebe 100% de volta. Sem precisar explicar.</p>
+              <p>Você entra, navega e lê as análises com calma. Se não fizer sentido pra você, é só pedir o reembolso: você recebe 100% de volta, sem precisar explicar.</p>
               <a className="lp-garantia__link" href={OFERTA.checkoutUrl} rel="noopener">Quero entrar sem risco <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg></a>
             </div>
           </div>
