@@ -131,18 +131,27 @@ const ESPIADINHA = [
     marca: '01',
     titulo: 'Diandra: "pega de surpresa"',
     tipo: 'Vídeo · Serviço e infoproduto',
+    colecao: 'Melhores de Setembro 2026',
+    midia: 'video',
+    capa: 'https://drive.google.com/thumbnail?id=18USYqZIvfmPj5PC11trkP1sG-EqRc_yL&sz=w700',
     texto: 'A sacada começa no formato: o roteiro é estruturado, mas a gravação faz parecer que a especialista foi pega de surpresa e está simplesmente respondendo uma pergunta. Enquanto ela elimina uma alternativa depois da outra (postar todo dia, carrossel, impulsionar, social media), a curiosidade aumenta: se nenhuma dessas é a resposta, qual é?',
   },
   {
     marca: '02',
     titulo: 'Letícia Vaz Store',
     tipo: 'Vídeo · E-commerce',
+    colecao: 'Melhores de Julho 2026',
+    midia: 'video',
+    capa: 'https://drive.google.com/thumbnail?id=1BSsRMSv2EyuAF_2vtr7vArw_2-8vtY_Z&sz=w700',
     texto: 'Ela te prende num desafio, te ensina a vender e te converte em um minuto e meio. Dá vários exemplos mostrando a calça e falando as qualidades enquanto você fica curiosa pra ver todas as formas de vendê-la. Deu uma aula de marketing enquanto fazia uma venda.',
   },
   {
     marca: '03',
     titulo: 'Pedro Sobral: "Como sei que funciona pra mim?"',
     tipo: 'Imagem estática · Infoproduto',
+    colecao: 'Melhores de Agosto 2026',
+    midia: 'image',
+    capa: 'https://drive.google.com/thumbnail?id=1_N96o46TeKGDO9npxoUsK80aG1UlHsbJ&sz=w700',
     texto: 'Quebra de objeção com prova: a pergunta que a pessoa faz é respondida com um número (validado por 4.855 gestores atuantes).',
   },
 ]
@@ -539,9 +548,9 @@ export default function AcervoPage() {
           <Reveal className="lp-video__head">
             <span className="lp-pill">Veja por dentro</span>
             <h2 className="lp-titulo lp-titulo--grande">
-              {OFERTA.videoUrl ? <>Clique no vídeo e <strong>veja o acervo funcionando.</strong></> : <>É assim que o acervo é <strong>por dentro.</strong></>}
+              O que você vai<br /><strong>encontrar no acervo.</strong>
             </h2>
-            <p>Você abre as coleções, escolhe um anúncio, lê por que ele vende e faz a sua versão com a nossa ferramenta. Tudo pelo celular.</p>
+            <p>{OFERTA.videoUrl ? 'Clique no vídeo e veja o acervo funcionando: ' : ''}Você abre as coleções, escolhe um anúncio, lê por que ele vende e faz a sua versão com a nossa ferramenta. Tudo pelo celular.</p>
           </Reveal>
           <Reveal delay={100}>
             {OFERTA.videoUrl ? (
@@ -581,6 +590,28 @@ export default function AcervoPage() {
               </Reveal>
             ))}
           </ul>
+
+          <Reveal className="lp-video__espiada">
+            <span className="lp-pill lp-pill--terra">Dar uma espiadinha</span>
+            <h3>Cada anúncio vem com a análise do porquê. Aqui vão três, do jeito que estão lá dentro.</h3>
+          </Reveal>
+          <div className="lp-espiada__cards">
+            {ESPIADINHA.map((a, i) => (
+              <Reveal as="article" key={a.marca} className={`lp-espiada__card lp-espiada__card--resumo ${i % 2 ? 'lp-espiada__card--areia' : 'lp-espiada__card--terra'}`} delay={i * 90}>
+                <span className="lp-espiada__marca" aria-hidden="true">{a.marca}</span>
+                <div>
+                  <span className="lp-espiada__tipo">{a.tipo}</span>
+                  <h3>{a.titulo}</h3>
+                  <p className="lp-espiada__resumo">{a.texto}</p>
+                  <button type="button" className="lp-espiada__abrir" onClick={() => setAnaliseAberta(i)}>
+                    Dar uma espiadinha
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg>
+                  </button>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+          <Reveal className="lp-center" delay={120}><Cta>Quero o acervo 🤎</Cta></Reveal>
         </div>
       </section>
 
@@ -644,34 +675,6 @@ export default function AcervoPage() {
               {NICHOS.map(n => <li key={n}>{n}</li>)}
             </ul>
           </Reveal>
-        </div>
-      </section>
-
-      {/* ── 6. Espiadinha ── */}
-      <section className="lp-section lp-escuro lp-escuro--umber lp-palco lp-espiada">
-        <i className="lp-ondas lp-ondas--espiada" aria-hidden="true" />
-        <div className="lp-container lp-container--narrow">
-          <Reveal as="h2" className="lp-titulo lp-titulo--grande lp-titulo--centro lp-titulo--claro">
-            O que você vai<br /><strong>encontrar no acervo.</strong>
-          </Reveal>
-          <Reveal as="p" className="lp-espiada__sub" delay={80}>Cada anúncio vem com a análise do porquê. Aqui vão três de verdade, do jeito que estão lá dentro. Toca pra dar uma espiadinha.</Reveal>
-          <div className="lp-espiada__cards">
-            {ESPIADINHA.map((a, i) => (
-              <Reveal as="article" key={a.marca} className={`lp-espiada__card lp-espiada__card--resumo ${i % 2 ? 'lp-espiada__card--areia' : 'lp-espiada__card--terra'}`} delay={i * 90}>
-                <span className="lp-espiada__marca" aria-hidden="true">{a.marca}</span>
-                <div>
-                  <span className="lp-espiada__tipo">{a.tipo}</span>
-                  <h3>{a.titulo}</h3>
-                  <p className="lp-espiada__resumo">{a.texto}</p>
-                  <button type="button" className="lp-espiada__abrir" onClick={() => setAnaliseAberta(i)}>
-                    Dar uma espiadinha
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg>
-                  </button>
-                </div>
-              </Reveal>
-            ))}
-          </div>
-          <Reveal delay={120}><Cta variante="gradiente" largo>Quero começar 🤎</Cta></Reveal>
         </div>
       </section>
 
@@ -950,26 +953,52 @@ NÃO ESCREVA
         </div>
       </footer>
 
-      {/* ── Pop-up da análise ── */}
-      {analiseAberta !== null && (
-        <div className="lp-modal" role="dialog" aria-modal="true" aria-labelledby="lp-modal-titulo" onClick={() => setAnaliseAberta(null)}>
-          <div className="lp-modal__card" onClick={e => e.stopPropagation()}>
-            <button type="button" className="lp-modal__fechar" onClick={() => setAnaliseAberta(null)} aria-label="Fechar">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
-            </button>
-            <span className="lp-sticker lp-sticker--modal">{ESPIADINHA[analiseAberta].tipo}</span>
-            <h3 id="lp-modal-titulo">{ESPIADINHA[analiseAberta].titulo}</h3>
-            <span className="lp-modal__rotulo">Por que funciona</span>
-            <p>{ESPIADINHA[analiseAberta].texto}</p>
-            <p className="lp-modal__nota">Lá dentro, logo abaixo desta análise, está o botão Fazer a minha versão.</p>
-            <div className="lp-modal__nav">
-              <button type="button" onClick={() => setAnaliseAberta((analiseAberta + ESPIADINHA.length - 1) % ESPIADINHA.length)}>← Anterior</button>
-              <span>{analiseAberta + 1} / {ESPIADINHA.length}</span>
-              <button type="button" onClick={() => setAnaliseAberta((analiseAberta + 1) % ESPIADINHA.length)}>Próxima →</button>
+      {/* ── Pop-up: prévia do anúncio aberto, como na área de membros ── */}
+      {analiseAberta !== null && (() => {
+        const a = ESPIADINHA[analiseAberta]
+        const paragrafos = a.texto.split(/\n\n+/)
+        return (
+          <div className="lp-modal" role="dialog" aria-modal="true" aria-labelledby="lp-modal-titulo" onClick={() => setAnaliseAberta(null)}>
+            <div className="lp-modal__card lp-previa" onClick={e => e.stopPropagation()}>
+              <button type="button" className="lp-modal__fechar" onClick={() => setAnaliseAberta(null)} aria-label="Fechar">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+              </button>
+
+              <div className="lp-previa__media">
+                <div className="lp-previa__phone">
+                  <img src={a.capa} alt="" loading="lazy" onError={e => { e.currentTarget.parentElement.classList.add('is-vazia') }} />
+                  {a.midia === 'video' && <span className="lp-previa__play" aria-hidden="true" />}
+                  <span className="lp-previa__badge">{a.midia === 'video' ? 'Vídeo' : 'Imagem estática'}</span>
+                </div>
+                <span className="lp-previa__legenda">Prévia · como abre na área de membros</span>
+              </div>
+
+              <div className="lp-previa__content">
+                <span className="lp-previa__eyebrow">{a.colecao}</span>
+                <h3 id="lp-modal-titulo">{a.titulo}</h3>
+                <div className="lp-previa__tags">
+                  {a.tipo.split(' · ').map(t => <span key={t}>{t}</span>)}
+                </div>
+                <section className="lp-previa__analise">
+                  <h4><span aria-hidden="true">✦</span> Por que funciona</h4>
+                  {paragrafos.map((t, i) => <p key={i}>{t}</p>)}
+                </section>
+                <button type="button" className="lp-previa__adapt" onClick={() => { setAnaliseAberta(null); document.getElementById('ferramenta')?.scrollIntoView({ behavior: 'smooth' }) }}>
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M12 3l1.8 4.7L18.5 9.5l-4.7 1.8L12 16l-1.8-4.7L5.5 9.5l4.7-1.8z"/><path d="M19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8z"/></svg>
+                  Fazer a minha versão
+                  <small>com IA</small>
+                </button>
+                <p className="lp-previa__nota">Lá dentro, esse botão abre a ferramenta. Aqui, ele te leva pra ver como ela funciona.</p>
+                <div className="lp-modal__nav">
+                  <button type="button" onClick={() => setAnaliseAberta((analiseAberta + ESPIADINHA.length - 1) % ESPIADINHA.length)}>← Anterior</button>
+                  <span>{analiseAberta + 1} / {ESPIADINHA.length}</span>
+                  <button type="button" onClick={() => setAnaliseAberta((analiseAberta + 1) % ESPIADINHA.length)}>Próxima →</button>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-      )}
+        )
+      })()}
 
       {/* ── Barra fixa (mobile) ── */}
       <div className={`lp-sticky ${stickyVisible ? 'is-visible' : ''}`} aria-hidden={!stickyVisible}>
