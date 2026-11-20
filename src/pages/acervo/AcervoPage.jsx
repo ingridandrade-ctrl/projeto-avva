@@ -756,15 +756,14 @@ NÃO ESCREVA
             <span className="lp-pill">Quem faz o acervo</span>
             <h2 className="lp-titulo lp-titulo--grande">Flora Tavares <em>&amp;</em> <strong>Ingrid Andrade</strong></h2>
             <p>
-              A gente se conheceu trabalhando, e virou amizade antes de virar parceria. A Flora é quem está todo dia no gerenciador, rodando anúncio pros clientes da agência dela e garimpando o que está vendendo de verdade. A Ingrid é quem transforma isso em produto: foi ela que construiu a área de membros e a ferramenta que escreve a sua versão.
+              Somos gestoras de tráfego. A nossa amizade começou em 2024, dentro do Subido Pro, e desde então a gente não se desgrudou. Geminianas as duas, quase separadas na maternidade: uma nasceu no dia 28, a outra no dia 29 de maio de 1995.
             </p>
             <p>
-              O acervo nasceu de uma rotina que já existia: toda semana a Flora separa os melhores anúncios pros clientes, analisa por que funcionam e manda pra equipe. A gente só abriu essa porta pra você.
+              A gente funciona assim: a Ingrid mergulha fundo, tem as ideias que não param, e a Flora pega esse barulho todo e transforma em coisa prática, que dá pra aplicar amanhã. Profundidade e praticidade, na mesma mesa.
             </p>
             <p>
-              Somos duas mulheres fazendo isso pra outras mulheres que empreendem. Por isso a página fala com você desse jeito, e por isso o acervo tem exemplo de clínica, de loja, de consultoria, e não só de guru vendendo curso.
+              O acervo é isso em produto. A Flora garimpa e analisa toda semana o que está vendendo de verdade pros clientes da agência. A Ingrid construiu a área de membros e a ferramenta que escreve a sua versão. E a gente abriu essa porta pra você.
             </p>
-            {/* AJUSTAR: completar com fatos reais (tempo de parceria, cidade, números) e revisar o texto com a Flora */}
           </Reveal>
         </div>
       </section>
