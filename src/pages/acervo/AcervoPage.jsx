@@ -759,7 +759,7 @@ NÃO ESCREVA
               Amigas da vida, parceiras de projetos, estrategistas digitais, gestoras de tráfego, <strong>crias dos bastidores e geminianas.</strong>
             </p>
             <p>
-              A amizade começou em 2024, dentro do Subido Pro, e logo no começo a gente descobriu que tinha nascido com um dia de diferença, 28 e 29 de maio de 1995. Duas assim juntas é muita ideia saindo ao mesmo tempo, e por isso a parceria funciona: a Ingrid pensa fundo, mergulha num assunto até entender tudo que tem ali, e a Flora escuta aquele monte de ideia e transforma em algo que dá pra aplicar na semana seguinte. Uma vai fundo e a outra faz acontecer.
+              Nossa história começou em 2024, dentro do Subido Pro, e logo de início descobrimos que quase fomos separadas na maternidade: uma nasceu no dia 28 e a outra no dia 29 de maio de 1995. Duas assim juntas é muita ideia saindo ao mesmo tempo, e por isso a parceria funciona: a Ingrid pensa fundo, mergulha num assunto até entender tudo que tem ali, e a Flora escuta aquele monte de ideia e transforma em algo que dá pra aplicar na semana seguinte. Uma vai fundo e a outra faz acontecer.
             </p>
             <p>
               O acervo nasceu desse jeito. A Flora já garimpava anúncio toda semana pros clientes da agência, e analisava cada um pra equipe entender por que funcionava. A Ingrid olhou pra isso e pensou que dava pra virar um produto, aí construiu a área de membros e a ferramenta que escreve a sua versão. Ou seja, o que você vai usar aqui dentro é o que a gente usa no nosso dia a dia, construído pelas nossas mãos, pra você.
