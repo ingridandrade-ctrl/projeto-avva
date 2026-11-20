@@ -16,23 +16,41 @@ const OFERTA = {
   parcelas: '',        // AJUSTAR: parcelamento do checkout, ex.: 'ou 9x de R$ 11,38' ('' esconde)
   reforco: 'Dá menos de R$ 0,20 por dia. Um anúncio que não vende custa mais que isso.',
   garantiaDias: 7,
-  acessoPor: '1 ano',           // AJUSTAR: tempo de acesso prometido
+  acessoPor: '1 ano',
   totalColecoes: 6,
+  // Julia sugeriu R$ 97 (confirmar com a Flora antes de publicar): troque preco e precoDe
+  // Vídeo do acervo por dentro (gravação de tela do celular). Vazio = mostra o mockup no lugar.
+  videoUrl: '',                 // AJUSTAR: link do YouTube/Vimeo ou arquivo .mp4 em public/acervo/
+  videoPoster: '/acervo/tela-acervo.webp',
 }
+
+// Prints do passo a passo (AJUSTAR: trocar pelos prints reais da área de membros no celular)
+const PASSOS_PRINTS = [
+  { n: '1', titulo: 'Você entra e escolhe o objetivo', texto: 'Atrair seguidores, captar leads, provar que funciona, vender agora. Cada coleção é um momento do funil, e você entra pela porta que precisa hoje.', src: '/acervo/tela-acervo.webp', alt: 'Tela das coleções na área de membros' },
+  { n: '2', titulo: 'Filtra pelo seu nicho', texto: 'Negócio local, prestação de serviço, infoproduto ou e-commerce. Você vê só o que serve pro seu caso.', src: '', alt: 'Print: filtro por nicho dentro de uma coleção' },
+  { n: '3', titulo: 'Abre o anúncio, lê a análise e faz a sua versão', texto: 'A análise explica por que ele vende. Do lado, o botão Fazer a minha versão: você preenche nicho e tom de voz e abre direto na sua IA.', src: '', alt: 'Print: anúncio aberto com a análise e o botão Fazer a minha versão' },
+]
+
+const NICHOS = ['Negócio local', 'Prestação de serviço', 'Infoproduto', 'E-commerce']
+
+// Quem faz o acervo: fotos da colagem (AJUSTAR: colocar 5 fotos em public/acervo/quem/, 1.jpg a 5.jpg)
+const QUEM_FOTOS = [
+  { src: '/acervo/quem/1.jpg', alt: 'Flora e Ingrid num mirante' },
+  { src: '/acervo/quem/2.jpg', alt: 'Flora e Ingrid no Rio' },
+  { src: '/acervo/quem/3.jpg', alt: 'Flora e Ingrid se abraçando' },
+  { src: '/acervo/quem/4.jpg', alt: 'Flora e Ingrid trabalhando' },
+]
+
+// Depoimentos de quem já comprou (AJUSTAR: colar os reais; nome e nicho). Vazio = seção não aparece.
+const DEPOIMENTOS = [
+  // { nome: 'Nome', nicho: 'Clínica de estética', texto: '...' },
+]
 
 const PRA_QUEM = [
   <><strong>Tem um negócio local, presta serviço, vende infoproduto ou tem e-commerce</strong> e roda (ou quer rodar) os próprios anúncios</>,
-  <><strong>Posta, posta,</strong> e ninguém compra</>,
-  <><strong>Abre o gerenciador,</strong> trava na hora de criar e fecha de novo</>,
-  <><strong>Vê o anúncio da concorrente</strong> e pensa: por que eu não pensei nisso?</>,
-  <><strong>Não sabe editar vídeo</strong> e acha que, por isso, não pode anunciar</>,
+  <><strong>Acabou de colocar um produto no mundo</strong> e está sem ideia de anúncio</>,
+  <><strong>Cansou de garimpar referência sozinha</strong> e quer entender por que cada uma funciona</>,
   <><strong>Prefere ver o que já funciona</strong> antes de inventar o seu</>,
-  <><strong>Quer colocar um anúncio no ar</strong> ainda essa semana</>,
-]
-
-const AFIRMACOES = [
-  <>Os anúncios que te fazem parar o dedo não chamam atenção por acaso: <strong>eles têm uma estrutura que funciona.</strong> E essa estrutura pode ser a sua.</>,
-  <><strong>Você não precisa criar do zero.</strong> Precisa ver o que já está validado, entender por que funciona e adaptar a lógica pro seu negócio. É assim que você para de torcer <strong>e começa a vender.</strong></>,
 ]
 
 // Coleções mostradas nos cards (as 6 por objetivo + a curadoria mensal)
@@ -60,24 +78,51 @@ const BONUS = [
   { titulo: 'Especial Páginas', texto: 'Páginas de vendas, captura, obrigado e serviço, com a análise do que faz cada uma converter. E a nossa ferramenta monta a sua, bloco por bloco.', capa: '/acervo/capa-paginas.webp' },
 ]
 
+// A ferramenta, passo a passo, do jeito que acontece lá dentro
+const FERRAMENTA_PASSOS = [
+  {
+    n: '1',
+    titulo: 'Você abre um anúncio. O botão está do lado.',
+    texto: 'Em todo anúncio e página do acervo, logo abaixo da análise, tem o botão Fazer a minha versão. Não é uma aba separada nem um prompt solto pra copiar: é ali, ao lado do anúncio que você acabou de entender.',
+  },
+  {
+    n: '2',
+    titulo: 'Preenche a sua ficha uma vez.',
+    texto: 'O que você vende, pra quem, o que muda pra ela, uma prova real, o "mas" que você mais ouve. Nada é obrigatório, e fica salvo no seu celular. Na próxima vez, está tudo lá.',
+  },
+  {
+    n: '3',
+    titulo: 'Escolhe como você escreve.',
+    texto: 'Direta, leve, acolhedora, elegante, provocadora, técnica. Cada tom vira uma regra concreta pra IA, não um adjetivo. E se você colar um texto seu, uma legenda ou um áudio transcrito, ela imita o seu ritmo e as suas palavras.',
+  },
+  {
+    n: '4',
+    titulo: 'Diz pra onde o anúncio leva.',
+    texto: 'WhatsApp, site, página de vendas, perfil, direct. E o que a pessoa ganha ao clicar. A ferramenta já sugere o destino mais comum pra aquele tipo de anúncio.',
+  },
+  {
+    n: '5',
+    titulo: 'Abre no ChatGPT ou no Claude. Pronto.',
+    texto: 'Um toque e a sua IA abre com tudo montado: a sequência do anúncio original, a análise, a sua ficha e as regras. Ela escreve a sua versão com a mesma duração, na sua voz, com a sua prova. Se faltar alguma informação, ela pergunta antes de escrever, em vez de inventar.',
+  },
+]
+
+// O que a ferramenta garante (vem das regras que o prompt carrega)
+const FERRAMENTA_REGRAS = [
+  { titulo: 'Não copia o original', texto: 'Ela repete a sequência (gancho, desenvolvimento, prova, fechamento), nunca as frases. O anúncio é seu.' },
+  { titulo: 'Não inventa número', texto: 'Prova, preço, prazo e garantia só entram se você deu. Sem prova, ela não cria uma.' },
+  { titulo: 'Pergunta antes de chutar', texto: 'Se faltar material pra algum passo, ela para e pergunta, no máximo três coisas, numa mensagem só.' },
+  { titulo: 'Sem cara de IA', texto: 'A lista do que ela não pode escrever vai junto: validação pronta, pergunta retórica, frase de efeito, jargão, emoji, exclamação.' },
+  { titulo: 'Funciona na versão gratuita', texto: 'ChatGPT ou Claude, sem plano pago. Prefere outra IA? É só copiar o prompt.' },
+  { titulo: 'Vídeo, imagem, carrossel e página', texto: 'Cada formato tem a sua entrega: a fala e as cenas no vídeo, as telas no carrossel, os blocos e os botões na página.' },
+]
+
 // O que a IA entrega em cada formato, no "Fazer a minha versão"
 const IA_SAIDAS = [
   { formato: 'Vídeo', itens: ['A fala completa, na sua voz, com a mesma duração do original', 'As cenas, uma a uma', '2 ganchos extras pra testar', 'A legenda do post'] },
   { formato: 'Imagem', itens: ['A frase da imagem', 'A descrição do visual pra você montar', 'A legenda do post'] },
   { formato: 'Carrossel', itens: ['De 4 a 7 telas, com o texto de cada uma', '2 opções de capa'] },
   { formato: 'Página', itens: ['Os blocos da página, na ordem', 'O texto de cada botão', '2 títulos de primeira dobra'] },
-]
-
-const ENTREGAS = [
-  { icone: 'grid', texto: <><strong>Anúncios validados</strong> em vídeo, imagem e carrossel, todos rodando de verdade</> },
-  { icone: 'pasta', texto: <><strong>{OFERTA.totalColecoes} coleções por objetivo</strong>, de atrair seguidores até vender agora</> },
-  { icone: 'lupa', texto: <><strong>Análise de cada anúncio</strong>: por que funciona, em poucas linhas e sem jargão</> },
-  { icone: 'ia', texto: <><strong>Fazer a minha versão</strong>, a nossa ferramenta: em qualquer anúncio, ela escreve a sua versão na sua voz, a partir do que você entendeu</> },
-  { icone: 'estrela', texto: <><strong>Melhores do mês</strong>: uma curadoria nova todo mês, garimpada pela Flora</> },
-  { icone: 'presente', texto: <><strong>Bônus</strong>: Especial Black Friday, Especial Mini VSL e Especial Páginas, com análise e a sua versão pela nossa ferramenta</> },
-  { icone: 'filtro', texto: <><strong>Filtro por nicho e formato</strong>: negócio local, serviço, infoproduto e e-commerce</> },
-  { icone: 'celular', texto: <><strong>Área de membros no celular</strong>, com favoritos, busca e marcação do que você já viu</> },
-  { icone: 'calendario', texto: <><strong>{OFERTA.acessoPor} de acesso</strong>, com tudo que entrar nesse período</> },
 ]
 
 // Análises reais do acervo, do jeito que estão lá dentro
@@ -102,60 +147,29 @@ const ESPIADINHA = [
   },
 ]
 
-// Objeções na fala da cliente, cada uma com resposta curta
-const OBJECOES = [
-  {
-    fala: 'Mas o meu nicho é diferente, isso não vai funcionar pra mim…',
-    resposta: <>O acervo é organizado por <strong>objetivo do anúncio</strong>, não por nicho. A estrutura que faz uma loja de roupa vender é a mesma que faz uma nutricionista fechar agenda. E você ainda filtra por negócio local, serviço, infoproduto e e‑commerce.</>,
-  },
-  {
-    fala: 'Mas eu não sei editar vídeo nem tenho designer…',
-    resposta: <>Boa parte dos anúncios que mais vendem lá dentro foi <strong>gravada no celular, sem edição</strong>. O que faz a pessoa parar não é o acabamento. É a estrutura, e é isso que a análise te entrega.</>,
-  },
-  {
-    fala: 'Mas eu já comprei curso de anúncio e não saí do lugar…',
-    resposta: <>Isso não é curso. É <strong>referência pronta</strong>: você abre, escolhe pelo objetivo, lê por que funciona, adapta e coloca no ar. Dá pra publicar o primeiro ainda hoje.</>,
-  },
-  {
-    fala: 'Mas eu nem sei se vou ter tempo de usar…',
-    resposta: <>Cada análise tem <strong>poucas linhas</strong>. Em dez minutos no celular você escolhe um anúncio e sai com a estrutura pronta pra gravar o seu.</>,
-  },
-]
-
 // Checklist do que está incluído, dentro da oferta
 const INCLUSO = [
-  <><strong>{OFERTA.totalColecoes} coleções</strong> organizadas por objetivo</>,
-  <><strong>Análise de cada anúncio</strong>: por que funciona</>,
-  <><strong>Fazer a minha versão</strong>, a nossa ferramenta, em todo anúncio e página</>,
-  <><strong>Melhores do mês</strong>: curadoria nova todo mês</>,
-  <><strong>Bônus:</strong> Especial Black Friday, Especial Mini VSL e Especial Páginas</>,
-  <><strong>Filtro por nicho e formato</strong>, busca e favoritos</>,
+  <><strong>Acervo vivo</strong>: anúncios novos toda semana, com a curadoria que a Flora faz pros clientes da agência</>,
+  <><strong>Análise em cada anúncio</strong>: por que funciona e o que importa nele</>,
+  <><strong>Fazer a minha versão</strong>, a nossa ferramenta, ao lado de todo anúncio e página</>,
+  <><strong>{OFERTA.totalColecoes} coleções por objetivo</strong> e filtro por nicho: negócio local, serviço, infoproduto e e-commerce</>,
+  <><strong>Melhores do mês</strong> e os três especiais: Black Friday, Mini VSL e Páginas</>,
   <><strong>{OFERTA.acessoPor} de acesso</strong>, com tudo que entrar nesse período</>,
 ]
 
-// Fechamento: cenário A (sem o acervo) x cenário B (com o acervo)
-const CENARIOS = [
-  {
-    letra: 'A',
-    titulo: 'Sem o acervo',
-    itens: [
-      'Você continua abrindo o gerenciador sem saber o que colocar no anúncio',
-      'Posta, impulsiona, torce. A verba vai e a venda não vem',
-      'Daqui a 30 dias: o mesmo feed, o mesmo resultado',
-    ],
-  },
-  {
-    letra: 'B',
-    titulo: 'Com o acervo',
-    itens: [
-      'Você abre o celular, escolhe pelo objetivo e lê por que aquele anúncio vende',
-      'Adapta a estrutura pro seu negócio, ou usa a nossa ferramenta pra escrever a sua versão, e coloca no ar ainda essa semana',
-      'Daqui a 30 dias: anúncios com estrutura, e não com sorte',
-    ],
-  },
-]
-
 const FAQ = [
+  {
+    q: 'Mas o meu nicho é diferente, isso não vai funcionar pra mim…',
+    a: 'O acervo é organizado por objetivo do anúncio, não por nicho, e você ainda filtra por negócio local, serviço, infoproduto e e-commerce. A estrutura que faz uma loja de roupa vender é a mesma que faz uma nutricionista fechar agenda.',
+  },
+  {
+    q: 'Mas eu já comprei curso de anúncio e não saí do lugar…',
+    a: 'Isso não é curso. É referência pronta, com a análise do lado: você abre, escolhe pelo objetivo, lê por que funciona, faz a sua versão e coloca no ar. Dá pra publicar o primeiro ainda hoje.',
+  },
+  {
+    q: 'Mas eu nem sei se vou ter tempo de usar…',
+    a: 'Cada análise tem poucas linhas. Em dez minutos no celular você escolhe um anúncio, lê por que ele vende e sai com a sua versão pronta pra gravar.',
+  },
   {
     q: 'O acesso é imediato?',
     a: 'Sim. Assim que o pagamento é aprovado, você recebe um e-mail e entra na área de membros com o mesmo e-mail da compra. No Pix e no cartão, leva minutos.',
@@ -202,29 +216,13 @@ const FAQ = [
   },
   {
     q: `Depois de ${OFERTA.acessoPor} de acesso, o que acontece?`,
-    a: 'Durante esse período você tem tudo: as coleções, as curadorias novas de cada mês e as análises. Perto do fim, a gente te avisa e você decide se quer renovar.',
+    a: 'Durante esse período você tem tudo: as coleções, os anúncios novos que entram toda semana, as análises e a ferramenta. Perto do fim, a gente te avisa e você decide se quer renovar.',
   },
   {
     q: 'Tenho reembolso?',
     a: `Tem. São ${OFERTA.garantiaDias} dias de garantia. Entra, navega, lê as análises. Se não fizer sentido pra você, pede o reembolso e recebe 100% de volta, sem precisar explicar.`,
   },
 ]
-
-function Icone({ nome }) {
-  const p = { width: 20, height: 20, viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', strokeWidth: 2, strokeLinecap: 'round', strokeLinejoin: 'round', 'aria-hidden': true }
-  switch (nome) {
-    case 'calendario': return <svg {...p}><rect x="3" y="4" width="18" height="18" rx="3"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
-    case 'grid': return <svg {...p}><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
-    case 'pasta': return <svg {...p}><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
-    case 'estrela': return <svg {...p}><path d="M12 2l2.9 6.3 6.9.8-5.1 4.7 1.4 6.8L12 17.3 5.9 20.6l1.4-6.8L2.2 9.1l6.9-.8z"/></svg>
-    case 'lupa': return <svg {...p}><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
-    case 'filtro': return <svg {...p}><path d="M3 5h18l-7 8v6l-4 2v-8z"/></svg>
-    case 'celular': return <svg {...p}><rect x="6" y="2" width="12" height="20" rx="3"/><path d="M11 18h2"/></svg>
-    case 'ia': return <svg {...p}><path d="M12 3l1.8 4.7L18.5 9.5l-4.7 1.8L12 16l-1.8-4.7L5.5 9.5l4.7-1.8z"/><path d="M19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8z"/></svg>
-    case 'presente': return <svg {...p}><rect x="3" y="8" width="18" height="4" rx="1"/><path d="M5 12v8a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-8M12 8v13M12 8c-2-3-6-3-6 0h6zm0 0c2-3 6-3 6 0h-6z"/></svg>
-    default: return null
-  }
-}
 
 function Seta() {
   return (
@@ -475,43 +473,73 @@ export default function AcervoPage() {
 
       <Letreiro />
 
-      {/* ── 2. Pra quem é ── */}
-      <section className="lp-section lp-praquem">
-        <i className="lp-ondas lp-ondas--praquem" aria-hidden="true" />
-        <div className="lp-container">
-          <Reveal as="h2" className="lp-titulo lp-titulo--colchete">Pra quem é</Reveal>
-          <Reveal as="p" className="lp-praquem__intro" delay={80}>
-            O feed virou um loop de criativo igual. Anúncio bonito que não vende, dancinha que não converte, verba indo embora.
-            <em>O acervo nasce pra você que:</em>
+      {/* ── 2. Veja por dentro (vídeo ou mockup) ── */}
+      <section className="lp-section lp-video" id="por-dentro">
+        <div className="lp-container lp-container--narrow">
+          <Reveal className="lp-video__head">
+            <span className="lp-pill">Veja por dentro</span>
+            <h2 className="lp-titulo lp-titulo--grande">
+              {OFERTA.videoUrl ? <>Clique no vídeo e <strong>veja o acervo funcionando.</strong></> : <>É assim que o acervo é <strong>por dentro.</strong></>}
+            </h2>
+            <p>Você abre as coleções, escolhe um anúncio, lê por que ele vende e faz a sua versão com a nossa ferramenta. Tudo pelo celular.</p>
           </Reveal>
-          <ul className="lp-checks">
-            {PRA_QUEM.map((item, i) => (
-              <Reveal as="li" key={i} className={`lp-adesivo lp-adesivo--${i % 3}`} delay={i * 50} style={{ '--giro': `${[-1.5, 1.2, -0.8, 1.6, -1.2, 0.9, -1.4][i % 7]}deg` }}>
-                <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>
-                <span>{item}</span>
-              </Reveal>
-            ))}
-          </ul>
-          <Reveal delay={120}><Cta largo>Ok, me mostra esse acervo</Cta></Reveal>
+          <Reveal delay={100}>
+            {OFERTA.videoUrl ? (
+              <div className="lp-video__frame">
+                {/^https?:\/\/(www\.)?(youtube\.com|youtu\.be|vimeo\.com)/.test(OFERTA.videoUrl) ? (
+                  <iframe src={OFERTA.videoUrl} title="O acervo por dentro" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen loading="lazy" />
+                ) : (
+                  <video src={OFERTA.videoUrl} poster={OFERTA.videoPoster} controls playsInline preload="metadata" />
+                )}
+              </div>
+            ) : (
+        <div className="lp-mock" aria-hidden="true">
+          <div className="lp-laptop">
+            <div className="lp-laptop__screen">
+              <img src="/acervo/tela-acervo.webp" alt="" width="1400" height="742" loading="lazy" />
+            </div>
+            <div className="lp-laptop__base" />
+          </div>
+          <div className="lp-mockphone">
+            <span className="lp-mockphone__notch" />
+            <div className="lp-mockphone__screen">
+              <div className="lp-mockphone__bar"><b>A</b><span>AVVA Hub</span></div>
+              <img src="/acervo/card-melhores.webp" alt="" width="720" height="1158" loading="lazy" />
+            </div>
+          </div>
+          <span className="lp-sticker lp-sticker--1">anúncios novos toda semana</span>
+          <span className="lp-sticker lp-sticker--2">ferramenta inclusa</span>
+          <Selo id="selo-hero" texto={`acesso imediato ✦ ${OFERTA.garantiaDias} dias de garantia ✦ `} className="lp-selo--hero" />
+        </div>
+            )}
+          </Reveal>
         </div>
       </section>
 
-      {/* ── 3. Afirmação ── */}
-      <section className="lp-section lp-afirma">
-        <span className="lp-estrela lp-estrela--3" aria-hidden="true">✦</span>
-        <div className="lp-container lp-container--narrow">
-          <Reveal as="h2" className="lp-titulo lp-titulo--grande">
-            Muita gente diz que o problema é a verba, é o público.<br />
-            Mas quase sempre <strong>o problema está no criativo.</strong>
+      {/* ── 3. Como funciona, em 3 prints ── */}
+      <section className="lp-section lp-passos lp-palco lp-palco--claro">
+        <div className="lp-container">
+          <Reveal className="lp-passos__head">
+            <span className="lp-pill">Como funciona</span>
+            <h2 className="lp-titulo lp-titulo--grande">Três toques e o seu anúncio <strong>sai pronto pra gravar.</strong></h2>
           </Reveal>
-          <div className="lp-afirma__caixas">
-            {AFIRMACOES.map((a, i) => (
-              <Reveal key={i} className={`lp-caixa ${i % 2 ? 'lp-caixa--teal' : 'lp-caixa--terra'}`} delay={100 + i * 100}>
-                <Seta />
-                <p>{a}</p>
+          <ol className="lp-passos__lista">
+            {PASSOS_PRINTS.map((p, i) => (
+              <Reveal as="li" key={p.n} className="lp-passo" delay={i * 90}>
+                <div className="lp-passo__print">
+                  {p.src ? (
+                    <img src={p.src} alt={p.alt} loading="lazy" />
+                  ) : (
+                    <span className="lp-passo__vazio">{p.alt}</span>
+                  )}
+                </div>
+                <span className="lp-sticker lp-sticker--passo">Passo {p.n}</span>
+                <h3>{p.titulo}</h3>
+                <p>{p.texto}</p>
               </Reveal>
             ))}
-          </div>
+          </ol>
+          <Reveal className="lp-center" delay={120}><Cta>Quero o acervo 🤎</Cta></Reveal>
         </div>
       </section>
 
@@ -524,6 +552,7 @@ export default function AcervoPage() {
               O acervo é uma <span className="lp-cor-areia">estante de anúncios</span> que estão vendendo agora, organizada pelo que você precisa <span className="lp-cor-areia">hoje</span>, com a análise do porquê cada um funciona, pra te ajudar <em>a ter anúncios mais <span className="lp-cor-terra">simples, honestos e que vendem.</span></em>
             </p>
             <span className="lp-oque__legenda">As 6 coleções por objetivo, mais a curadoria do mês</span>
+            <p className="lp-oque__nota">Não é um pacote fixo de anúncios. É um acervo vivo: toda semana entra anúncio novo, com a curadoria que a Flora faz pros clientes da agência dela.</p>
           </Reveal>
           <ol className="lp-cards">
             {COLECOES.map((c, i) => <CardColecao key={c.slug} c={c} index={i} />)}
@@ -531,32 +560,125 @@ export default function AcervoPage() {
         </div>
       </section>
 
-      {/* ── 4b. Fazer a minha versão (IA) ── */}
-      <section className="lp-section lp-ia">
-        <div className="lp-container lp-ia__grid">
-          <Reveal className="lp-ia__texto">
-            <span className="lp-pill">Incluso no acervo</span>
-            <h2 className="lp-titulo lp-titulo--grande">
-              Primeiro você entende.<br /><strong>Depois, a nossa ferramenta escreve a sua versão.</strong>
-            </h2>
-            <p>
-              Em todo anúncio e página do acervo tem o botão <strong>Fazer a minha versão</strong>. Você preenche a sua ficha uma vez (o que vende, pra quem, uma prova real, como a sua cliente fala) e a ferramenta escreve a sua versão daquele anúncio, na sua voz, com a sua prova, sem inventar número.
-            </p>
-            <p>
-              Não é pra copiar o anúncio dos outros. É pra entender por que ele vende e sair com o seu pronto pra gravar, ainda hoje.
-            </p>
-            <ul className="lp-ia__pontos">
-              <li>Funciona no ChatGPT e no Claude, nas versões gratuitas</li>
-              <li>A ficha fica salva: preenche uma vez, usa em todos</li>
-              <li>Vídeo, imagem, carrossel e página, cada um no seu formato</li>
+      {/* ── 5. Toda semana + nichos ── */}
+      <section className="lp-section lp-semana">
+        <div className="lp-container lp-semana__grid">
+          <Reveal className="lp-semana__card lp-semana__card--terra">
+            <span className="lp-sticker lp-sticker--semana">toda semana</span>
+            <h2>Anúncios novos toda semana. Você não precisa mais fazer a curadoria sozinha.</h2>
+            <p>A Flora garimpa e analisa anúncios o tempo todo pros clientes da agência dela, porque eles precisam vender. O que entra no acervo é essa mesma curadoria. Não é um pacote fechado que você compra e pronto: é um acervo que cresce, pega sazonalidade e acompanha o que está rodando agora.</p>
+          </Reveal>
+          <Reveal className="lp-semana__card lp-semana__card--teal" delay={100}>
+            <span className="lp-sticker lp-sticker--semana">pro seu nicho</span>
+            <h2>Separado por nicho. Você vê só o que serve pro seu negócio.</h2>
+            <p>Dentro de cada coleção, você filtra pelo seu tipo de negócio. A estrutura é a mesma, mas o exemplo é do seu mundo.</p>
+            <ul className="lp-nichos">
+              {NICHOS.map(n => <li key={n}>{n}</li>)}
             </ul>
           </Reveal>
+        </div>
+      </section>
+
+      {/* ── 6. Espiadinha ── */}
+      <section className="lp-section lp-escuro lp-escuro--umber lp-palco lp-espiada">
+        <i className="lp-ondas lp-ondas--espiada" aria-hidden="true" />
+        <div className="lp-container lp-container--narrow">
+          <Reveal as="h2" className="lp-titulo lp-titulo--grande lp-titulo--centro lp-titulo--claro">
+            Cada anúncio vem<br /><strong>com a análise do porquê.</strong>
+          </Reveal>
+          <Reveal as="p" className="lp-espiada__sub" delay={80}>Três análises de verdade, do jeito que estão lá dentro: o que fez cada anúncio funcionar e o que importa nele. É isso que você lê antes de fazer a sua versão.</Reveal>
+          <div className="lp-espiada__cards">
+            {ESPIADINHA.map((a, i) => (
+              <Reveal as="article" key={a.marca} className={`lp-espiada__card ${i % 2 ? 'lp-espiada__card--areia' : 'lp-espiada__card--terra'}`} delay={i * 90}>
+                <span className="lp-espiada__marca" aria-hidden="true">{a.marca}</span>
+                <div>
+                  <span className="lp-espiada__tipo">{a.tipo}</span>
+                  <h3>{a.titulo}</h3>
+                  <p>{a.texto}</p>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+          <Reveal delay={120}><Cta variante="gradiente" largo>Quero começar 🤎</Cta></Reveal>
+        </div>
+      </section>
+
+      {/* ── 4b. Fazer a minha versão (a ferramenta) ── */}
+      <section className="lp-section lp-ia" id="ferramenta">
+        <div className="lp-container">
+          <Reveal className="lp-ia__head">
+            <span className="lp-pill">A nossa ferramenta</span>
+            <h2 className="lp-titulo lp-titulo--grande">
+              Primeiro você entende.<br /><strong>Depois, a ferramenta escreve a sua versão.</strong>
+            </h2>
+            <p>
+              É o que nenhum outro acervo tem: o prompt não fica solto num documento. Ele está <strong>ao lado de cada anúncio</strong>, já montado com a análise daquele anúncio e com o seu negócio. Você preenche, toca e a sua IA abre com a sua versão quase pronta.
+            </p>
+          </Reveal>
+        </div>
+
+        <div className="lp-container lp-ia__grid">
+          <ol className="lp-ia__passos">
+            {FERRAMENTA_PASSOS.map((p, i) => (
+              <Reveal as="li" key={p.n} className="lp-ia__passo" delay={i * 70}>
+                <span className="lp-ia__num">{p.n}</span>
+                <div>
+                  <h3>{p.titulo}</h3>
+                  <p>{p.texto}</p>
+                </div>
+              </Reveal>
+            ))}
+          </ol>
           <Reveal className="lp-ia__painel" delay={120}>
             <div className="lp-celular">
               <span className="lp-sticker lp-sticker--celular">na sua voz</span>
               <span className="lp-celular__notch" />
               <PainelIA />
             </div>
+            <p className="lp-ia__legenda">O painel de verdade, do jeito que abre dentro de cada anúncio. Pode mexer.</p>
+          </Reveal>
+        </div>
+
+        <div className="lp-container">
+          <Reveal className="lp-ia__exemplo" delay={80}>
+            <span className="lp-sticker lp-sticker--exemplo">exemplo real</span>
+            <p className="lp-ia__exemplo-titulo">O que a sua IA recebe quando você toca em "Abrir"</p>
+            <pre className="lp-ia__prompt">{`Vou gravar um anúncio meu inspirado num anúncio que funcionou.
+Quero a fala pronta, na minha voz, seguindo a mesma sequência do original.
+
+O ANÚNCIO ORIGINAL
+Formato: vídeo · Coleção: Provar que funciona
+O que ele faz, segundo o Acervo: [a análise do anúncio, inteira]
+
+O MEU NEGÓCIO
+O que eu vendo: consultoria de imagem
+Pra quem, com detalhe: dona de clínica de estética com 2 a 5 funcionárias
+Prova real, com contexto: a Carla, salão em Campinas, saiu de 6 pra 20 agendamentos por semana em 2 meses
+Como eu escrevo: Direta. Frases curtas. Começa pelo assunto, sem rodeio...
+Pra onde o anúncio leva: WhatsApp. O que a pessoa ganha ao clicar: uma análise gratuita
+
+COMO FAZER
+1. Escreva a sequência do original em 3 a 6 passos. É ela que a minha versão repete. As frases, não.
+2. Se faltar material pra algum passo, me pergunte antes de escrever. Nunca preencha com frase genérica.
+3. Escreva a fala corrida, como eu falaria num áudio pra uma cliente...
+
+NÃO ESCREVA
+- Número, prova, preço ou garantia que eu não tenha dado.
+- Validação pronta, pergunta retórica, jargão, emoji, exclamação...`}</pre>
+            <p className="lp-ia__exemplo-nota">Trecho resumido. O prompt completo vai com a análise inteira, a sua ficha e todas as regras.</p>
+          </Reveal>
+
+          <ul className="lp-ia__regras">
+            {FERRAMENTA_REGRAS.map((r, i) => (
+              <Reveal as="li" key={r.titulo} className="lp-ia__regra" delay={i * 50}>
+                <strong>{r.titulo}</strong>
+                <span>{r.texto}</span>
+              </Reveal>
+            ))}
+          </ul>
+
+          <Reveal className="lp-center" delay={100}>
+            <Cta>Quero a ferramenta junto com o acervo</Cta>
           </Reveal>
         </div>
       </section>
@@ -576,83 +698,75 @@ export default function AcervoPage() {
         </div>
       </section>
 
-      {/* ── 5. Entregas ── */}
-      <section className="lp-section lp-entregas">
-        <div className="lp-container lp-entregas__grid">
-          <Reveal as="h2" className="lp-titulo lp-titulo--grande lp-entregas__titulo">
-            É aqui que você<br /><strong>para de adivinhar.</strong>
+      {/* ── 2. Pra quem é ── */}
+      <section className="lp-section lp-praquem">
+        <i className="lp-ondas lp-ondas--praquem" aria-hidden="true" />
+        <div className="lp-container">
+          <Reveal as="h2" className="lp-titulo lp-titulo--colchete">Pra quem é</Reveal>
+          <Reveal as="p" className="lp-praquem__intro" delay={80}>
+            <em>O acervo é pra você que:</em>
           </Reveal>
-          <Reveal className="lp-entregas__phone" delay={100}>
-        <div className="lp-mock" aria-hidden="true">
-          <div className="lp-laptop">
-            <div className="lp-laptop__screen">
-              <img src="/acervo/tela-acervo.webp" alt="" width="1400" height="742" loading="lazy" />
-            </div>
-            <div className="lp-laptop__base" />
-          </div>
-          <div className="lp-mockphone">
-            <span className="lp-mockphone__notch" />
-            <div className="lp-mockphone__screen">
-              <div className="lp-mockphone__bar"><b>A</b><span>AVVA Hub</span></div>
-              <img src="/acervo/card-melhores.webp" alt="" width="720" height="1158" loading="lazy" />
-            </div>
-          </div>
-          <span className="lp-sticker lp-sticker--1">curadoria mensal</span>
-          <span className="lp-sticker lp-sticker--2">ferramenta inclusa</span>
-          <Selo id="selo-hero" texto={`acesso imediato ✦ ${OFERTA.garantiaDias} dias de garantia ✦ `} className="lp-selo--hero" />
-        </div>
-            <p className="lp-pilha__legenda">A área de membros, de verdade: no computador e no celular</p>
-          </Reveal>
-          <ul className="lp-entregas__lista">
-            {ENTREGAS.map((e, i) => (
-              <Reveal as="li" key={i} delay={i * 50}>
-                <Icone nome={e.icone} />
-                <span>{e.texto}</span>
+          <ul className="lp-checks">
+            {PRA_QUEM.map((item, i) => (
+              <Reveal as="li" key={i} className={`lp-adesivo lp-adesivo--${i % 3}`} delay={i * 50} style={{ '--giro': `${[-1.5, 1.2, -0.8, 1.6, -1.2, 0.9, -1.4][i % 7]}deg` }}>
+                <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>
+                <span>{item}</span>
               </Reveal>
             ))}
           </ul>
+          <Reveal delay={120}><Cta largo>Quero o acervo 🤎</Cta></Reveal>
         </div>
       </section>
 
-      {/* ── 6. Espiadinha ── */}
-      <section className="lp-section lp-escuro lp-escuro--umber lp-palco lp-espiada">
-        <i className="lp-ondas lp-ondas--espiada" aria-hidden="true" />
-        <div className="lp-container lp-container--narrow">
-          <Reveal as="h2" className="lp-titulo lp-titulo--grande lp-titulo--centro lp-titulo--claro">
-            Pra você dar uma<br /><strong>espiadinha…</strong>
-          </Reveal>
-          <Reveal as="p" className="lp-espiada__sub" delay={80}>Três análises de verdade, do jeito que estão no acervo. Entender a estratégia vale mais do que copiar o formato. Qual dessas sacadas você testaria primeiro?</Reveal>
-          <div className="lp-espiada__cards">
-            {ESPIADINHA.map((a, i) => (
-              <Reveal as="article" key={a.marca} className={`lp-espiada__card ${i % 2 ? 'lp-espiada__card--areia' : 'lp-espiada__card--terra'}`} delay={i * 90}>
-                <span className="lp-espiada__marca" aria-hidden="true">{a.marca}</span>
-                <div>
-                  <span className="lp-espiada__tipo">{a.tipo}</span>
-                  <h3>{a.titulo}</h3>
-                  <p>{a.texto}</p>
-                </div>
-              </Reveal>
-            ))}
+      {/* ── 10. Depoimentos ── */}
+      {DEPOIMENTOS.length > 0 && (
+        <section className="lp-section lp-depo">
+          <div className="lp-container">
+            <Reveal className="lp-depo__head">
+              <span className="lp-pill">Quem já entrou</span>
+              <h2 className="lp-titulo lp-titulo--grande">O que elas estão <strong>falando do acervo.</strong></h2>
+            </Reveal>
+            <ul className="lp-depo__grid">
+              {DEPOIMENTOS.map((d, i) => (
+                <Reveal as="li" key={i} className="lp-depo__card" delay={i * 70}>
+                  <p>“{d.texto}”</p>
+                  <footer><strong>{d.nome}</strong>{d.nicho && <span> · {d.nicho}</span>}</footer>
+                </Reveal>
+              ))}
+            </ul>
           </div>
-          <Reveal delay={120}><Cta variante="gradiente" largo>Quero começar 🤎</Cta></Reveal>
-        </div>
-      </section>
+        </section>
+      )}
 
-      {/* ── 7. Objeções ── */}
-      <section className="lp-section lp-objecoes">
-        <div className="lp-container lp-container--narrow">
-          <Reveal as="h2" className="lp-titulo lp-titulo--grande lp-titulo--centro">
-            Até quando você vai<br /><strong>torcer pra anúncio dar certo?</strong>
-          </Reveal>
-          <Reveal as="p" className="lp-objecoes__sub" delay={80}>Se ainda está na dúvida, talvez seja por um desses motivos:</Reveal>
-          <div className="lp-objecoes__lista">
-            {OBJECOES.map((o, i) => (
-              <Reveal as="article" key={i} className="lp-objecao" delay={i * 70}>
-                <p className="lp-objecao__fala">“{o.fala}”</p>
-                <p className="lp-objecao__resposta">{o.resposta}</p>
-              </Reveal>
+      {/* ── Quem faz o acervo ── */}
+      <section className="lp-section lp-quem lp-palco lp-palco--claro" id="quem">
+        <div className="lp-container lp-quem__grid">
+          <Reveal className="lp-quem__colagem" aria-hidden="true">
+            {QUEM_FOTOS.map((f, i) => (
+              <figure key={f.src} className={`lp-quem__foto lp-quem__foto--${i + 1}`}>
+                <img src={f.src} alt={f.alt} loading="lazy" onError={e => { e.currentTarget.parentElement.classList.add('is-vazia') }} />
+                <figcaption>{f.alt}</figcaption>
+              </figure>
             ))}
-          </div>
+            <span className="lp-sticker lp-sticker--quem-1">amigas</span>
+            <span className="lp-sticker lp-sticker--quem-2">sócias</span>
+          </Reveal>
+          <Reveal className="lp-quem__texto" delay={100}>
+            <span className="lp-pill">Quem faz o acervo</span>
+            <h2 className="lp-titulo lp-titulo--grande">Flora Tavares <em>&amp;</em> <strong>Ingrid Andrade</strong></h2>
+            <p className="lp-quem__lead">
+              Amigas da vida, parceiras de projetos, estrategistas digitais, gestoras de tráfego, <strong>crias dos bastidores e geminianas.</strong>
+            </p>
+            <p>
+              Nós nos conhecemos em 2024, dentro do Subido Pro, e logo descobrimos que quase fomos separadas na maternidade: uma nasceu no dia 28 e a outra no dia 29 de maio de 1995. Desde então, a nossa amizade só cresceu, e o sonho de criar algo juntas também. Desse sonho nasceu o acervo.
+            </p>
+            <p>
+              Nós nos completamos: uma vai fundo em cada detalhe, a outra transforma tudo em algo que dá para aplicar. Por isso, tudo o que fazemos juntas tem profundidade e critério.
+            </p>
+            <p>
+              O acervo é a nossa curadoria, um projeto vivo: toda semana entra o que vemos funcionar nos bastidores dos projetos. Nós acreditamos em ferramentas que facilitam, e por isso criamos uma que transforma a referência que você escolher no seu anúncio. Mas acreditamos também em desenvolver a sua leitura: queremos que você consiga interpretar um anúncio e entender por que ele funciona. Por isso, cada um vem com a análise. A ferramenta te ajuda a aplicar agora. A análise te ensina a desenvolver a sua percepção sobre os anúncios.
+            </p>
+          </Reveal>
         </div>
       </section>
 
@@ -728,28 +842,6 @@ export default function AcervoPage() {
               )
             })}
           </Reveal>
-        </div>
-      </section>
-
-      {/* ── 10. Fechamento: cenário A x cenário B ── */}
-      <section className="lp-section lp-cenarios">
-        <span className="lp-estrela lp-estrela--6" aria-hidden="true">✦</span>
-        <div className="lp-container lp-container--narrow">
-          <Reveal as="h2" className="lp-titulo lp-titulo--grande lp-titulo--centro">
-            Daqui a 30 dias,<br /><strong>onde você vai estar?</strong>
-          </Reveal>
-          <div className="lp-cenarios__grid">
-            {CENARIOS.map((c, i) => (
-              <Reveal as="article" key={c.letra} className={`lp-cenario lp-cenario--${c.letra.toLowerCase()}`} delay={i * 100}>
-                <span className="lp-cenario__kicker">Cenário {c.letra}</span>
-                <h3>{c.titulo}</h3>
-                <ul>
-                  {c.itens.map((item, j) => <li key={j}>{item}</li>)}
-                </ul>
-              </Reveal>
-            ))}
-          </div>
-          <Reveal delay={120}><Cta largo>Quero anúncios que vendem 🤎</Cta></Reveal>
         </div>
       </section>
 
