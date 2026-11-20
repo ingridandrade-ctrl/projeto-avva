@@ -945,7 +945,7 @@ NÃO ESCREVA
               Amigas da vida, parceiras de projetos, <strong>estrategistas digitais, gestoras de tráfego, crias dos bastidores</strong> e geminianas.
             </p>
             <p>
-              Antes do acervo existir, a gente já passava os dias nos bastidores de projetos grandes: anúncio, página, verba, lançamento. Foi ali que a gente aprendeu a <strong>ler um anúncio de verdade</strong>, porque todo dia tem um que vende e outro que passa batido, e o nosso trabalho é entender por quê.
+              Somos donas de agência e passamos o dia nos bastidores de projetos grandes: anúncio, página, verba, lançamento. É ali que a gente aprende a <strong>ler um anúncio de verdade</strong>, porque todo dia tem um que vende e outro que passa batido, e o nosso trabalho é entender por quê.
             </p>
             <p>
               Nós nos conhecemos em 2024, dentro do Subido Pro, e logo descobrimos que <strong>quase fomos separadas na maternidade</strong>: uma nasceu no dia 28 e a outra no dia 29 de maio de 1995. Desde então, a nossa amizade só cresceu, e o sonho de criar algo juntas também. Desse sonho nasceu o acervo.
