@@ -1,7 +1,13 @@
 import { useEffect, useRef, useState } from 'react'
+import { createPortal } from 'react-dom'
 import { Link } from 'react-router-dom'
-import { COLLECTIONS } from '../../lib/catalog'
+import { COLLECTIONS, NICHE_LABELS, itemTypeLabel } from '../../lib/catalog'
 import { TIPOS, TONS, DESTINOS } from '../../lib/adaptar'
+import DriveEmbed from '../../components/ads/DriveEmbed'
+import AdaptPanel from '../../components/ads/AdaptPanel'
+import Tag from '../../components/ui/Tag'
+import CopyButton from '../../components/ui/CopyButton'
+import '../../components/ads/AdModal.css'
 import './AcervoPage.css'
 
 // ══════════════════════════════════════════════════════════════
@@ -126,24 +132,43 @@ const IA_SAIDAS = [
 ]
 
 // Análises reais do acervo, do jeito que estão lá dentro
+// Mesmo formato dos anúncios do acervo: o pop-up da espiadinha é o modal da área de membros
 const ESPIADINHA = [
   {
+    id: 'espiada-1',
     marca: '01',
-    titulo: 'Diandra: "pega de surpresa"',
+    title: 'Diandra: "pega de surpresa"',
     tipo: 'Vídeo · Serviço e infoproduto',
-    texto: 'A sacada começa no formato: o roteiro é estruturado, mas a gravação faz parecer que a especialista foi pega de surpresa e está simplesmente respondendo uma pergunta. Enquanto ela elimina uma alternativa depois da outra (postar todo dia, carrossel, impulsionar, social media), a curiosidade aumenta: se nenhuma dessas é a resposta, qual é?',
+    colecao: 'Melhores de Setembro 2026',
+    media_type: 'video',
+    niches: ['servico', 'infoproduto'],
+    objectives: ['vender'],
+    drive_url: 'https://drive.google.com/file/d/18USYqZIvfmPj5PC11trkP1sG-EqRc_yL/view',
+    analysis: 'A sacada começa no formato: o roteiro é estruturado, mas a gravação faz parecer que a especialista foi pega de surpresa e está simplesmente respondendo uma pergunta. Enquanto ela elimina uma alternativa depois da outra (postar todo dia, carrossel, impulsionar, social media), a curiosidade aumenta: se nenhuma dessas é a resposta, qual é?',
   },
   {
+    id: 'espiada-2',
     marca: '02',
-    titulo: 'Letícia Vaz Store',
+    title: 'Letícia Vaz Store',
     tipo: 'Vídeo · E-commerce',
-    texto: 'Ela te prende num desafio, te ensina a vender e te converte em um minuto e meio. Dá vários exemplos mostrando a calça e falando as qualidades enquanto você fica curiosa pra ver todas as formas de vendê-la. Deu uma aula de marketing enquanto fazia uma venda.',
+    colecao: 'Melhores de Julho 2026',
+    media_type: 'video',
+    niches: ['ecommerce'],
+    objectives: ['vender'],
+    drive_url: 'https://drive.google.com/file/d/1BSsRMSv2EyuAF_2vtr7vArw_2-8vtY_Z/view',
+    analysis: 'Ela te prende num desafio, te ensina a vender e te converte em um minuto e meio. Dá vários exemplos mostrando a calça e falando as qualidades enquanto você fica curiosa pra ver todas as formas de vendê-la. Deu uma aula de marketing enquanto fazia uma venda.',
   },
   {
+    id: 'espiada-3',
     marca: '03',
-    titulo: 'Pedro Sobral: "Como sei que funciona pra mim?"',
+    title: 'Pedro Sobral: "Como sei que funciona pra mim?"',
     tipo: 'Imagem estática · Infoproduto',
-    texto: 'Quebra de objeção com prova: a pergunta que a pessoa faz é respondida com um número (validado por 4.855 gestores atuantes).',
+    colecao: 'Melhores de Agosto 2026',
+    media_type: 'image',
+    niches: ['infoproduto'],
+    objectives: ['vender'],
+    drive_url: 'https://drive.google.com/file/d/1_N96o46TeKGDO9npxoUsK80aG1UlHsbJ/view',
+    analysis: 'Quebra de objeção com prova: a pergunta que a pessoa faz é respondida com um número (validado por 4.855 gestores atuantes).',
   },
 ]
 
@@ -155,6 +180,39 @@ const INCLUSO = [
   <><strong>{OFERTA.totalColecoes} coleções por objetivo</strong> e filtro por nicho: negócio local, serviço, infoproduto e e-commerce</>,
   <><strong>Melhores do mês</strong> e os três especiais: Black Friday, Mini VSL e Páginas</>,
   <><strong>{OFERTA.acessoPor} de acesso</strong>, com tudo que entrar nesse período</>,
+]
+
+const ENTREGAS = [
+  { icone: 'grid', texto: <><strong>Anúncios validados</strong> em vídeo, imagem e carrossel, todos rodando de verdade</> },
+  { icone: 'pasta', texto: <><strong>{OFERTA.totalColecoes} coleções por objetivo</strong>, de atrair seguidores até vender agora</> },
+  { icone: 'lupa', texto: <><strong>Análise de cada anúncio</strong>: por que funciona, em poucas linhas e sem jargão</> },
+  { icone: 'ia', texto: <><strong>Fazer a minha versão</strong>, a nossa ferramenta: em qualquer anúncio, ela escreve a sua versão na sua voz, a partir do que você entendeu</> },
+  { icone: 'estrela', texto: <><strong>Anúncios novos toda semana</strong>: a curadoria que a gente faz pros bastidores dos projetos, aberta pra você</> },
+  { icone: 'presente', texto: <><strong>Bônus</strong>: Especial Black Friday, Especial Mini VSL e Especial Páginas, com análise e a sua versão pela nossa ferramenta</> },
+  { icone: 'filtro', texto: <><strong>Filtro por nicho e formato</strong>: negócio local, serviço, infoproduto e e-commerce</> },
+  { icone: 'celular', texto: <><strong>Área de membros no celular</strong>, com favoritos, busca e marcação do que você já viu</> },
+  { icone: 'calendario', texto: <><strong>{OFERTA.acessoPor} de acesso</strong>, com tudo que entrar nesse período</> },
+]
+
+const CENARIOS = [
+  {
+    letra: 'A',
+    titulo: 'Sem o acervo',
+    itens: [
+      'Você continua abrindo o gerenciador sem saber o que colocar no anúncio',
+      'Posta, impulsiona, torce. A verba vai e a venda não vem',
+      'Daqui a 30 dias: o mesmo feed, o mesmo resultado',
+    ],
+  },
+  {
+    letra: 'B',
+    titulo: 'Com o acervo',
+    itens: [
+      'Você abre o celular, escolhe pelo objetivo e lê por que aquele anúncio vende',
+      'Adapta a estrutura pro seu negócio, ou usa a nossa ferramenta pra escrever a sua versão, e coloca no ar ainda essa semana',
+      'Daqui a 30 dias: anúncios com estrutura, e não com sorte',
+    ],
+  },
 ]
 
 const FAQ = [
@@ -223,6 +281,22 @@ const FAQ = [
     a: `Tem. São ${OFERTA.garantiaDias} dias de garantia. Entra, navega, lê as análises. Se não fizer sentido pra você, pede o reembolso e recebe 100% de volta, sem precisar explicar.`,
   },
 ]
+
+function Icone({ nome }) {
+  const p = { width: 20, height: 20, viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', strokeWidth: 2, strokeLinecap: 'round', strokeLinejoin: 'round', 'aria-hidden': true }
+  switch (nome) {
+    case 'calendario': return <svg {...p}><rect x="3" y="4" width="18" height="18" rx="3"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+    case 'grid': return <svg {...p}><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
+    case 'pasta': return <svg {...p}><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+    case 'estrela': return <svg {...p}><path d="M12 2l2.9 6.3 6.9.8-5.1 4.7 1.4 6.8L12 17.3 5.9 20.6l1.4-6.8L2.2 9.1l6.9-.8z"/></svg>
+    case 'lupa': return <svg {...p}><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+    case 'filtro': return <svg {...p}><path d="M3 5h18l-7 8v6l-4 2v-8z"/></svg>
+    case 'celular': return <svg {...p}><rect x="6" y="2" width="12" height="20" rx="3"/><path d="M11 18h2"/></svg>
+    case 'ia': return <svg {...p}><path d="M12 3l1.8 4.7L18.5 9.5l-4.7 1.8L12 16l-1.8-4.7L5.5 9.5l4.7-1.8z"/><path d="M19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8z"/></svg>
+    case 'presente': return <svg {...p}><rect x="3" y="8" width="18" height="4" rx="1"/><path d="M5 12v8a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-8M12 8v13M12 8c-2-3-6-3-6 0h6zm0 0c2-3 6-3 6 0h-6z"/></svg>
+    default: return null
+  }
+}
 
 function Seta() {
   return (
@@ -433,6 +507,62 @@ function Logo({ className = '' }) {
 export default function AcervoPage() {
   const [stickyVisible, setStickyVisible] = useState(false)
   const [aberta, setAberta] = useState(-1)
+  const [analiseAberta, setAnaliseAberta] = useState(null) // índice da análise no pop-up
+  const fecharRef = useRef(null)
+  const origemRef = useRef(null)
+
+  function abrirAnalise(i, e) {
+    origemRef.current = e?.currentTarget || null
+    setAnaliseAberta(i)
+  }
+
+  const [espiadaFav, setEspiadaFav] = useState({}) // favoritar / concluído só visuais, como na área de membros
+  const [espiadaVista, setEspiadaVista] = useState({})
+  const toque = useRef(null)
+
+  // Pop-up: foco no fechar, Esc fecha, setas trocam de anúncio, body fixo como no modal
+  // da área de membros (iOS ignora overflow hidden), foco de volta ao botão que abriu
+  function fecharAnalise(depois) {
+    setAnaliseAberta(null)
+    requestAnimationFrame(() => {
+      if (depois) depois()
+      else origemRef.current?.focus({ preventScroll: true })
+    })
+  }
+
+  const popupAberto = analiseAberta !== null
+  useEffect(() => {
+    if (!popupAberto) return
+    const onKey = e => {
+      const tag = (e.target?.tagName || '').toLowerCase()
+      if (tag === 'input' || tag === 'textarea') return
+      if (e.key === 'Escape') fecharAnalise()
+      if (e.key === 'ArrowLeft') setAnaliseAberta(i => (i + ESPIADINHA.length - 1) % ESPIADINHA.length)
+      if (e.key === 'ArrowRight') setAnaliseAberta(i => (i + 1) % ESPIADINHA.length)
+    }
+    document.addEventListener('keydown', onKey)
+    const scrollY = window.scrollY
+    const estilo = document.body.style
+    const prev = { overflow: estilo.overflow, position: estilo.position, top: estilo.top, width: estilo.width }
+    Object.assign(estilo, { overflow: 'hidden', position: 'fixed', top: `-${scrollY}px`, width: '100%' })
+    fecharRef.current?.focus()
+    return () => {
+      document.removeEventListener('keydown', onKey)
+      Object.assign(estilo, prev)
+      window.scrollTo({ top: scrollY, behavior: 'instant' })
+    }
+  }, [popupAberto])
+
+  function onTouchStart(e) { toque.current = { x: e.touches[0].clientX, y: e.touches[0].clientY } }
+  function onTouchEnd(e) {
+    if (!toque.current) return
+    const dx = e.changedTouches[0].clientX - toque.current.x
+    const dy = e.changedTouches[0].clientY - toque.current.y
+    toque.current = null
+    if (Math.abs(dx) > 60 && Math.abs(dx) > Math.abs(dy) * 1.5) {
+      setAnaliseAberta(i => (i + (dx < 0 ? 1 : ESPIADINHA.length - 1)) % ESPIADINHA.length)
+    }
+  }
 
   useEffect(() => {
     document.title = 'Acervo de Anúncios — AVVA Hub'
@@ -464,7 +594,7 @@ export default function AcervoPage() {
           <p className="lp-hero__sub">
             Tudo pelo celular, com acesso imediato.
           </p>
-          <Cta>Quero o acervo 🤎</Cta>
+          <Cta>Quero o acervo</Cta>
           <p className="lp-hero__nota">{OFERTA.preco} · pagamento único · {OFERTA.garantiaDias} dias de garantia</p>
         </div>
 
@@ -479,9 +609,9 @@ export default function AcervoPage() {
           <Reveal className="lp-video__head">
             <span className="lp-pill">Veja por dentro</span>
             <h2 className="lp-titulo lp-titulo--grande">
-              {OFERTA.videoUrl ? <>Clique no vídeo e <strong>veja o acervo funcionando.</strong></> : <>É assim que o acervo é <strong>por dentro.</strong></>}
+              O que você vai<br /><strong>encontrar no acervo.</strong>
             </h2>
-            <p>Você abre as coleções, escolhe um anúncio, lê por que ele vende e faz a sua versão com a nossa ferramenta. Tudo pelo celular.</p>
+            <p>{OFERTA.videoUrl ? 'Clique no vídeo e veja o acervo funcionando: ' : ''}Você abre as coleções, escolhe um anúncio, lê por que ele vende e faz a sua versão com a nossa ferramenta. Tudo pelo celular.</p>
           </Reveal>
           <Reveal delay={100}>
             {OFERTA.videoUrl ? (
@@ -513,6 +643,36 @@ export default function AcervoPage() {
         </div>
             )}
           </Reveal>
+          <ul className="lp-entregas__lista lp-entregas__lista--video">
+            {ENTREGAS.map((e, i) => (
+              <Reveal as="li" key={i} delay={i * 50}>
+                <Icone nome={e.icone} />
+                <span>{e.texto}</span>
+              </Reveal>
+            ))}
+          </ul>
+
+          <Reveal className="lp-video__espiada">
+            <span className="lp-pill lp-pill--terra">Dar uma espiadinha</span>
+            <h3>Cada anúncio vem com a análise do porquê. Aqui vão três, do jeito que estão lá dentro.</h3>
+          </Reveal>
+          <div className="lp-espiada__cards">
+            {ESPIADINHA.map((a, i) => (
+              <Reveal as="article" key={a.marca} className={`lp-espiada__card lp-espiada__card--resumo ${i % 2 ? 'lp-espiada__card--areia' : 'lp-espiada__card--terra'}`} delay={i * 90}>
+                <span className="lp-espiada__marca" aria-hidden="true">{a.marca}</span>
+                <div>
+                  <span className="lp-espiada__tipo">{a.tipo}</span>
+                  <h3>{a.title}</h3>
+                  <p className="lp-espiada__resumo">{a.analysis}</p>
+                  <button type="button" className="lp-espiada__abrir" onClick={e => abrirAnalise(i, e)}>
+                    Dar uma espiadinha
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg>
+                  </button>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+          <Reveal className="lp-center" delay={120}><Cta>Quero o acervo</Cta></Reveal>
         </div>
       </section>
 
@@ -539,7 +699,7 @@ export default function AcervoPage() {
               </Reveal>
             ))}
           </ol>
-          <Reveal className="lp-center" delay={120}><Cta>Quero o acervo 🤎</Cta></Reveal>
+          <Reveal className="lp-center" delay={120}><Cta>Quero o acervo</Cta></Reveal>
         </div>
       </section>
 
@@ -576,30 +736,6 @@ export default function AcervoPage() {
               {NICHOS.map(n => <li key={n}>{n}</li>)}
             </ul>
           </Reveal>
-        </div>
-      </section>
-
-      {/* ── 6. Espiadinha ── */}
-      <section className="lp-section lp-escuro lp-escuro--umber lp-palco lp-espiada">
-        <i className="lp-ondas lp-ondas--espiada" aria-hidden="true" />
-        <div className="lp-container lp-container--narrow">
-          <Reveal as="h2" className="lp-titulo lp-titulo--grande lp-titulo--centro lp-titulo--claro">
-            Cada anúncio vem<br /><strong>com a análise do porquê.</strong>
-          </Reveal>
-          <Reveal as="p" className="lp-espiada__sub" delay={80}>Três análises de verdade, do jeito que estão lá dentro: o que fez cada anúncio funcionar e o que importa nele. É isso que você lê antes de fazer a sua versão.</Reveal>
-          <div className="lp-espiada__cards">
-            {ESPIADINHA.map((a, i) => (
-              <Reveal as="article" key={a.marca} className={`lp-espiada__card ${i % 2 ? 'lp-espiada__card--areia' : 'lp-espiada__card--terra'}`} delay={i * 90}>
-                <span className="lp-espiada__marca" aria-hidden="true">{a.marca}</span>
-                <div>
-                  <span className="lp-espiada__tipo">{a.tipo}</span>
-                  <h3>{a.titulo}</h3>
-                  <p>{a.texto}</p>
-                </div>
-              </Reveal>
-            ))}
-          </div>
-          <Reveal delay={120}><Cta variante="gradiente" largo>Quero começar 🤎</Cta></Reveal>
         </div>
       </section>
 
@@ -708,13 +844,13 @@ NÃO ESCREVA
           </Reveal>
           <ul className="lp-checks">
             {PRA_QUEM.map((item, i) => (
-              <Reveal as="li" key={i} className={`lp-adesivo lp-adesivo--${i % 3}`} delay={i * 50} style={{ '--giro': `${[-1.5, 1.2, -0.8, 1.6, -1.2, 0.9, -1.4][i % 7]}deg` }}>
+              <Reveal as="li" key={i} className={`lp-adesivo lp-adesivo--${i % 3}`} delay={i * 50} style={{ '--giro': i === 0 ? '-1.5deg' : '0deg' }}>
                 <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>
                 <span>{item}</span>
               </Reveal>
             ))}
           </ul>
-          <Reveal delay={120}><Cta largo>Quero o acervo 🤎</Cta></Reveal>
+          <Reveal delay={120}><Cta largo>Quero o acervo</Cta></Reveal>
         </div>
       </section>
 
@@ -737,38 +873,6 @@ NÃO ESCREVA
           </div>
         </section>
       )}
-
-      {/* ── Quem faz o acervo ── */}
-      <section className="lp-section lp-quem lp-palco lp-palco--claro" id="quem">
-        <div className="lp-container lp-quem__grid">
-          <Reveal className="lp-quem__colagem" aria-hidden="true">
-            {QUEM_FOTOS.map((f, i) => (
-              <figure key={f.src} className={`lp-quem__foto lp-quem__foto--${i + 1}`}>
-                <img src={f.src} alt={f.alt} loading="lazy" onError={e => { e.currentTarget.parentElement.classList.add('is-vazia') }} />
-                <figcaption>{f.alt}</figcaption>
-              </figure>
-            ))}
-            <span className="lp-sticker lp-sticker--quem-1">amigas</span>
-            <span className="lp-sticker lp-sticker--quem-2">sócias</span>
-          </Reveal>
-          <Reveal className="lp-quem__texto" delay={100}>
-            <span className="lp-pill">Quem faz o acervo</span>
-            <h2 className="lp-titulo lp-titulo--grande">Flora Tavares <em>&amp;</em> <strong>Ingrid Andrade</strong></h2>
-            <p className="lp-quem__lead">
-              Amigas da vida, parceiras de projetos, estrategistas digitais, gestoras de tráfego, <strong>crias dos bastidores e geminianas.</strong>
-            </p>
-            <p>
-              Nós nos conhecemos em 2024, dentro do Subido Pro, e logo descobrimos que quase fomos separadas na maternidade: uma nasceu no dia 28 e a outra no dia 29 de maio de 1995. Desde então, a nossa amizade só cresceu, e o sonho de criar algo juntas também. Desse sonho nasceu o acervo.
-            </p>
-            <p>
-              Nós nos completamos: uma vai fundo em cada detalhe, a outra transforma tudo em algo que dá para aplicar. Por isso, tudo o que fazemos juntas tem profundidade e critério.
-            </p>
-            <p>
-              O acervo é a nossa curadoria, um projeto vivo: toda semana entra o que vemos funcionar nos bastidores dos projetos. Nós acreditamos em ferramentas que facilitam, e por isso criamos uma que transforma a referência que você escolher no seu anúncio. Mas acreditamos também em desenvolver a sua leitura: queremos que você consiga interpretar um anúncio e entender por que ele funciona. Por isso, cada um vem com a análise. A ferramenta te ajuda a aplicar agora. A análise te ensina a desenvolver a sua percepção sobre os anúncios.
-            </p>
-          </Reveal>
-        </div>
-      </section>
 
       {/* ── 8. Investimento ── */}
       <section className="lp-section lp-invest lp-palco lp-palco--claro" id="oferta">
@@ -817,9 +921,67 @@ NÃO ESCREVA
         </Reveal>
       </section>
 
+      {/* ── Quem faz o acervo ── */}
+      <section className="lp-section lp-quem lp-palco lp-palco--claro" id="quem">
+        <div className="lp-container lp-quem__grid">
+          <Reveal className="lp-quem__colagem" aria-hidden="true">
+            {QUEM_FOTOS.map((f, i) => (
+              <figure key={f.src} className={`lp-quem__foto lp-quem__foto--${i + 1}`}>
+                <img src={f.src} alt={f.alt} loading="lazy" onError={e => { e.currentTarget.parentElement.classList.add('is-vazia') }} />
+                <figcaption>{f.alt}</figcaption>
+              </figure>
+            ))}
+            <span className="lp-sticker lp-sticker--quem-1">amigas</span>
+            <span className="lp-sticker lp-sticker--quem-2">sócias</span>
+          </Reveal>
+          <Reveal className="lp-quem__texto" delay={100}>
+            <span className="lp-pill">Quem faz o acervo</span>
+            <h2 className="lp-titulo lp-titulo--grande">Flora Tavares <em>&amp;</em> <strong>Ingrid Andrade</strong></h2>
+            <p className="lp-quem__lead">
+              Amigas da vida, parceiras de projetos, estrategistas digitais, gestoras de tráfego, <strong>crias dos bastidores e geminianas.</strong>
+            </p>
+            <p>
+              Nós nos conhecemos em 2024, dentro do Subido Pro, e logo descobrimos que quase fomos separadas na maternidade: uma nasceu no dia 28 e a outra no dia 29 de maio de 1995. Desde então, a nossa amizade só cresceu, e o sonho de criar algo juntas também. Desse sonho nasceu o acervo.
+            </p>
+            <p>
+              Nós nos completamos: uma vai fundo em cada detalhe, a outra transforma tudo em algo que dá para aplicar. Por isso, tudo o que fazemos juntas tem profundidade e critério.
+            </p>
+            <p>
+              O acervo é a nossa curadoria, um projeto vivo: toda semana entra o que vemos funcionar nos bastidores dos projetos. Nós acreditamos em ferramentas que facilitam, e por isso criamos uma que transforma a referência que você escolher no seu anúncio. Mas acreditamos também em desenvolver a sua leitura: queremos que você consiga interpretar um anúncio e entender por que ele funciona. Por isso, cada um vem com a análise. A ferramenta te ajuda a aplicar agora. A análise te ensina a desenvolver a sua percepção sobre os anúncios.
+            </p>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* ── 10. Fechamento: cenário A x cenário B ── */}
+      <section className="lp-section lp-cenarios">
+        <span className="lp-estrela lp-estrela--6" aria-hidden="true">✦</span>
+        <div className="lp-container lp-container--narrow">
+          <Reveal as="h2" className="lp-titulo lp-titulo--grande lp-titulo--centro">
+            Daqui a 30 dias,<br /><strong>onde você vai estar?</strong>
+          </Reveal>
+          <div className="lp-cenarios__grid">
+            {CENARIOS.map((c, i) => (
+              <Reveal as="article" key={c.letra} className={`lp-cenario lp-cenario--${c.letra.toLowerCase()}`} delay={i * 100}>
+                <span className="lp-cenario__kicker">Cenário {c.letra}</span>
+                <h3>{c.titulo}</h3>
+                <ul>
+                  {c.itens.map((item, j) => <li key={j}>{item}</li>)}
+                </ul>
+              </Reveal>
+            ))}
+          </div>
+          <Reveal delay={120}><Cta largo>Quero anúncios que vendem</Cta></Reveal>
+        </div>
+      </section>
+
       {/* ── 9. FAQ ── */}
       <section className="lp-section lp-escuro lp-palco lp-faq">
         <div className="lp-container lp-container--narrow">
+          <Reveal className="lp-faq__head">
+            <span className="lp-pill lp-pill--terra">Dúvidas</span>
+            <h2 className="lp-titulo lp-titulo--grande lp-titulo--claro">O que mais perguntam antes de entrar</h2>
+          </Reveal>
           <Reveal className="lp-faq__lista">
             {FAQ.map((item, i) => {
               const open = aberta === i
@@ -856,10 +1018,71 @@ NÃO ESCREVA
         </div>
       </footer>
 
+      {/* ── Pop-up: prévia do anúncio aberto, como na área de membros ── */}
+      {analiseAberta !== null && (() => {
+        const a = ESPIADINHA[analiseAberta]
+        const paragrafos = a.analysis.split(/\n+/).map(t => t.trim()).filter(Boolean)
+        const fav = !!espiadaFav[a.id]
+        const vista = !!espiadaVista[a.id]
+        const ir = passo => setAnaliseAberta((analiseAberta + passo + ESPIADINHA.length) % ESPIADINHA.length)
+        return createPortal(
+          <div className="ad-modal lp-admodal" role="dialog" aria-modal="true" aria-label={a.title} onPointerDown={e => { if (e.target === e.currentTarget) fecharAnalise() }}>
+            <div key={a.id} className="ad-modal__panel">
+              <button ref={fecharRef} type="button" className="ad-modal__close" onClick={() => fecharAnalise()} aria-label="Fechar">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+              </button>
+              <div className="ad-modal__media" data-media={a.media_type} onTouchStart={onTouchStart} onTouchEnd={onTouchEnd}>
+                <div className="ad-modal__phone">
+                  <DriveEmbed key={a.id} url={a.drive_url} title={a.title} mediaType={a.media_type} />
+                </div>
+                <button type="button" className="ad-modal__arrow ad-modal__arrow--prev" onClick={() => ir(-1)} aria-label="Anterior">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><polyline points="15 18 9 12 15 6"/></svg>
+                </button>
+                <button type="button" className="ad-modal__arrow ad-modal__arrow--next" onClick={() => ir(1)} aria-label="Próximo">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg>
+                </button>
+              </div>
+              <div className="ad-modal__content">
+                <div className="ad-modal__handle" aria-hidden="true" />
+                <div className="ad-modal__topline">
+                  <span className="ad-modal__eyebrow">{a.colecao}</span>
+                  <span className="ad-modal__position">{analiseAberta + 1} de {ESPIADINHA.length}</span>
+                </div>
+                <h2 className="ad-modal__title">{a.title}</h2>
+                <div className="ad-modal__tags">
+                  {itemTypeLabel(a) && <Tag type="teal">{itemTypeLabel(a)}</Tag>}
+                  {a.niches.map(n => <Tag key={n}>{NICHE_LABELS[n] || n}</Tag>)}
+                </div>
+                <section className="ad-modal__analysis">
+                  <h3>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M9 18h6"/><path d="M10 22h4"/><path d="M12 2a7 7 0 0 0-4 12.7c.6.5 1 1.3 1 2.3h6c0-1 .4-1.8 1-2.3A7 7 0 0 0 12 2z"/></svg>
+                    Por que funciona
+                  </h3>
+                  {paragrafos.map((t, i) => <p key={i}>{t}</p>)}
+                  <CopyButton text={a.analysis} label="Copiar análise" />
+                </section>
+                <AdaptPanel ad={a} collectionTitle={a.colecao} collectionSlug="melhores-do-mes" />
+                <div className="ad-modal__actions">
+                  <button type="button" className={`ad-modal__pill ${vista ? 'ad-modal__pill--on' : ''}`} onClick={() => setEspiadaVista(v => ({ ...v, [a.id]: !v[a.id] }))}>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+                    {vista ? 'Concluído' : 'Marcar como concluído'}
+                  </button>
+                  <button type="button" className={`ad-modal__pill ad-modal__pill--fav ${fav ? 'ad-modal__pill--on' : ''}`} onClick={() => setEspiadaFav(v => ({ ...v, [a.id]: !v[a.id] }))}>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill={fav ? 'currentColor' : 'none'} stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                    {fav ? 'Favorito' : 'Favoritar'}
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>,
+          document.body
+        )
+      })()}
+
       {/* ── Barra fixa (mobile) ── */}
       <div className={`lp-sticky ${stickyVisible ? 'is-visible' : ''}`} aria-hidden={!stickyVisible}>
         <span className="lp-sticky__preco">{OFERTA.preco}</span>
-        <Cta>Quero o acervo 🤎</Cta>
+        <Cta>Quero o acervo</Cta>
       </div>
     </div>
   )
