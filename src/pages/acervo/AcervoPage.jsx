@@ -945,7 +945,7 @@ NÃO ESCREVA
               Amigas da vida, parceiras de projetos, <strong>estrategistas digitais, gestoras de tráfego, crias dos bastidores</strong> e geminianas.
             </p>
             <p>
-              Somos donas de agência e passamos o dia nos bastidores de projetos grandes: anúncio, página, verba, lançamento. É ali que a gente aprende a <strong>ler um anúncio de verdade</strong>, porque todo dia tem um que vende e outro que passa batido, e o nosso trabalho é entender por quê.
+              Cada uma de nós tem a sua agência, e o nosso dia a dia são os bastidores de projetos grandes: anúncio, página, verba, lançamento. Foi esse dia a dia que nos ensinou a <strong>ler um anúncio e entender por que um vende e o outro passa batido.</strong>
             </p>
             <p>
               Nós nos conhecemos em 2024, dentro do Subido Pro, e logo descobrimos que <strong>quase fomos separadas na maternidade</strong>: uma nasceu no dia 28 e a outra no dia 29 de maio de 1995. Desde então, a nossa amizade só cresceu, e o sonho de criar algo juntas também. Desse sonho nasceu o acervo.
@@ -954,7 +954,7 @@ NÃO ESCREVA
               Nós nos completamos: uma vai fundo em cada detalhe, a outra transforma tudo em algo que dá para aplicar. Por isso, <strong>tudo o que fazemos juntas tem profundidade e critério.</strong>
             </p>
             <p>
-              O acervo é essa leitura que a gente faz nos bastidores, aberta pra você. Um projeto vivo: <strong>toda semana entra o que vemos funcionar nos projetos.</strong> Nós acreditamos em ferramentas que facilitam, e por isso criamos uma que transforma a referência que você escolher no seu anúncio. Mas acreditamos também em desenvolver a sua leitura: queremos que você consiga interpretar um anúncio e entender por que ele funciona. Por isso, cada um vem com a análise.
+              O acervo é a nossa curadoria, um projeto vivo: <strong>toda semana entra o que vemos funcionar nos bastidores dos projetos.</strong> Nós acreditamos em ferramentas que facilitam, e por isso criamos uma que transforma a referência que você escolher no seu anúncio. Mas acreditamos também em desenvolver a sua leitura: queremos que você consiga interpretar um anúncio e entender por que ele funciona. Por isso, cada um vem com a análise.
             </p>
             <p>
               <strong>A ferramenta te ajuda a aplicar agora. A análise te ensina a desenvolver a sua percepção sobre os anúncios.</strong>
