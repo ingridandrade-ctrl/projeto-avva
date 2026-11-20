@@ -928,6 +928,11 @@ NÃO ESCREVA
       {/* ── Quem faz o acervo ── */}
       <section className="lp-section lp-quem lp-palco lp-palco--claro" id="quem">
         <div className="lp-container lp-quem__grid">
+          <Reveal className="lp-quem__head">
+            <span className="lp-pill">Quem faz o acervo</span>
+            <h2 className="lp-quem__titulo">E quem faz<br />o acervo?</h2>
+            <p className="lp-quem__nomes">Flora Tavares <em>&amp;</em> Ingrid Andrade</p>
+          </Reveal>
           <Reveal className="lp-quem__colagem" aria-hidden="true">
             {QUEM_FOTOS.map((f, i) => (
               <figure key={f.src} className={`lp-quem__foto lp-quem__foto--${i + 1}`}>
@@ -939,19 +944,20 @@ NÃO ESCREVA
             <span className="lp-sticker lp-sticker--quem-2">sócias</span>
           </Reveal>
           <Reveal className="lp-quem__texto" delay={100}>
-            <span className="lp-pill">Quem faz o acervo</span>
-            <h2 className="lp-titulo lp-titulo--grande">Flora Tavares <em>&amp;</em> <strong>Ingrid Andrade</strong></h2>
             <p className="lp-quem__lead">
-              Amigas da vida, parceiras de projetos, estrategistas digitais, gestoras de tráfego, <strong>crias dos bastidores e geminianas.</strong>
+              Amigas da vida, parceiras de projetos, <strong>estrategistas digitais, gestoras de tráfego, crias dos bastidores</strong> e geminianas.
             </p>
             <p>
-              Nós nos conhecemos em 2024, dentro do Subido Pro, e logo descobrimos que quase fomos separadas na maternidade: uma nasceu no dia 28 e a outra no dia 29 de maio de 1995. Desde então, a nossa amizade só cresceu, e o sonho de criar algo juntas também. Desse sonho nasceu o acervo.
+              Nós nos conhecemos em 2024, dentro do Subido Pro, e logo descobrimos que <strong>quase fomos separadas na maternidade</strong>: uma nasceu no dia 28 e a outra no dia 29 de maio de 1995. Desde então, a nossa amizade só cresceu, e o sonho de criar algo juntas também. Desse sonho nasceu o acervo.
             </p>
             <p>
-              Nós nos completamos: uma vai fundo em cada detalhe, a outra transforma tudo em algo que dá para aplicar. Por isso, tudo o que fazemos juntas tem profundidade e critério.
+              Nós nos completamos: uma vai fundo em cada detalhe, a outra transforma tudo em algo que dá para aplicar. Por isso, <strong>tudo o que fazemos juntas tem profundidade e critério.</strong>
             </p>
             <p>
-              O acervo é a nossa curadoria, um projeto vivo: toda semana entra o que vemos funcionar nos bastidores dos projetos. Nós acreditamos em ferramentas que facilitam, e por isso criamos uma que transforma a referência que você escolher no seu anúncio. Mas acreditamos também em desenvolver a sua leitura: queremos que você consiga interpretar um anúncio e entender por que ele funciona. Por isso, cada um vem com a análise. A ferramenta te ajuda a aplicar agora. A análise te ensina a desenvolver a sua percepção sobre os anúncios.
+              O acervo é a nossa curadoria, um projeto vivo: <strong>toda semana entra o que vemos funcionar nos bastidores dos projetos.</strong> Nós acreditamos em ferramentas que facilitam, e por isso criamos uma que transforma a referência que você escolher no seu anúncio. Mas acreditamos também em desenvolver a sua leitura: queremos que você consiga interpretar um anúncio e entender por que ele funciona. Por isso, cada um vem com a análise.
+            </p>
+            <p>
+              <strong>A ferramenta te ajuda a aplicar agora. A análise te ensina a desenvolver a sua percepção sobre os anúncios.</strong>
             </p>
           </Reveal>
         </div>
