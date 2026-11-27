@@ -613,7 +613,7 @@ export default function AcervoPage() {
             <Reveal as="li" className="lp-pilar" delay={60}>
               <span className="lp-pilar__icone"><Icone nome="pasta" /></span>
               <h3>Coleções</h3>
-              <p>Anúncios <strong>divididos por coleções</strong> para facilitar a sua busca.</p>
+              <p>Anúncios divididos em <strong>{OFERTA.totalColecoes} coleções por objetivo</strong>, de atrair seguidores a vender agora, para facilitar a sua busca.</p>
             </Reveal>
             <Reveal as="li" className="lp-pilar" delay={120}>
               <span className="lp-pilar__icone"><Icone nome="filtro" /></span>
