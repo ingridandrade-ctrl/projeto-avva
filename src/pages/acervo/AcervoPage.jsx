@@ -630,9 +630,9 @@ export default function AcervoPage() {
             <Reveal className="lp-filtro lp-filtro--novos" delay={80} aria-hidden="true">
               <span className="lp-filtro__rotulo">Novos no acervo · esta semana</span>
               <ul className="lp-filtro__lista">
-                <li><i /><span>Mitos do Instagram para aula gravada</span><em>Novo</em></li>
-                <li><i /><span>Desafio de 100 calças para vender jeans</span><em>Novo</em></li>
-                <li><i /><span>Caixinha de pergunta respondida com número</span><em>Novo</em></li>
+                <li><span>Mitos do Instagram para aula gravada</span><em>Novo</em></li>
+                <li><span>Desafio de 100 calças para vender jeans</span><em>Novo</em></li>
+                <li><span>Caixinha de pergunta respondida com número</span><em>Novo</em></li>
               </ul>
               <p className="lp-filtro__resultado">Anúncios novos toda semana, analisados um por um</p>
             </Reveal>
