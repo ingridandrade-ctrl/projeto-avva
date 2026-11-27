@@ -20,7 +20,7 @@ const OFERTA = {
   preco: 'R$ 67',
   precoNota: 'Preço de lançamento', // etiqueta ao lado do preço ('' esconde)
   parcelas: '',        // AJUSTAR: parcelamento do checkout, ex.: 'ou 9x de R$ 11,38' ('' esconde)
-  reforco: 'Dá menos de R$ 0,20 por dia. Um anúncio que não vende custa beeeem mais que isso.',
+  reforco: 'Dá menos de R$ 0,20 por dia. Um criativo que não converte queima isso em um minuto de impulsionamento.',
   garantiaDias: 7,
   acessoPor: '1 ano',
   totalColecoes: 6,
@@ -33,7 +33,7 @@ const OFERTA = {
 // Prints do passo a passo (AJUSTAR: trocar pelos prints reais da área de membros no celular)
 const PASSOS_PRINTS = [
   { n: '1', titulo: 'Você entra e escolhe o objetivo', texto: 'Atrair seguidores, captar leads, provar que funciona, vender agora. Cada coleção é um momento do funil, e você entra pela porta que precisa hoje.', src: '/acervo/passo-1.webp', alt: 'As seis coleções por objetivo na área de membros' },
-  { n: '2', titulo: 'Você filtra pelo seu nicho', texto: 'Dentro da coleção, você marca o seu tipo de negócio e vê só o que serve pro seu caso.', src: '', alt: 'Print: filtro por nicho dentro de uma coleção' },
+  { n: '2', titulo: 'Você filtra pelo seu nicho', texto: 'Dentro da coleção, você marca o seu tipo de negócio e vê só o que serve pro seu caso.', src: '', alt: '' },
   { n: '3', titulo: 'Você abre o anúncio, lê a análise e faz a sua versão', texto: 'A análise explica por que ele vende. Do lado, o botão Fazer a minha versão: você preenche a sua ficha e abre direto na sua IA.', src: '/acervo/passo-3.webp', alt: 'Anúncio aberto na área de membros, com a análise do lado' },
 ]
 
@@ -189,7 +189,7 @@ const ESPIADINHA = [
 
 // Checklist do que está incluído, dentro da oferta
 const INCLUSO = [
-  <><strong>Acervo vivo</strong>: anúncios novos toda semana, com a curadoria que a gente faz pros nossos clientes</>,
+  <><strong>Acervo vivo</strong>: anúncios novos toda semana, garimpados e analisados pela gente</>,
   <><strong>Análise em cada anúncio</strong>: por que funciona e o que importa nele</>,
   <><strong>Fazer a minha versão</strong>, a nossa ferramenta, ao lado de todo anúncio e página</>,
   <><strong>{OFERTA.totalColecoes} coleções por objetivo</strong> e filtro por tipo de negócio</>,
@@ -214,7 +214,7 @@ const CENARIOS = [
     titulo: 'Com o acervo',
     itens: [
       'Você abre o celular, entra na coleção do que precisa hoje e encontra um anúncio que já funcionou pra um negócio como o seu',
-      'Você lê a análise, entende por que ele vende, e a ferramenta escreve a sua versão. Em dez minutos o anúncio está pronto pra gravar',
+      'Você lê a análise, entende por que ele vende, e a ferramenta escreve a sua versão. Em poucos minutos o anúncio está pronto pra gravar',
       'Você já tem anúncios rodando com estrutura, a sua ficha pronta pra fazer o próximo, e olha pra qualquer anúncio sabendo o que faz ele vender',
     ],
   },
@@ -224,6 +224,14 @@ const FAQ = [
   {
     q: 'Mas o meu nicho é diferente, isso não vai funcionar pra mim…',
     a: 'O acervo é organizado pelo objetivo do anúncio (atrair seguidores, captar leads, mostrar que você entende, provar que funciona, quebrar o "mas...", vender agora), e dentro de cada coleção você filtra pelo seu tipo de negócio. A estrutura que faz uma loja de roupa vender é a mesma que faz uma nutricionista fechar agenda.',
+  },
+  {
+    q: 'De onde vêm os anúncios?',
+    a: 'A gente garimpa o mercado toda semana: anúncios que estão rodando e vendendo, de negócios de todo tipo. Cada um entra no acervo com a análise de por que funciona.',
+  },
+  {
+    q: 'Tenho serviço e infoproduto. Filtro por qual?',
+    a: 'Você filtra um de cada vez, e vale olhar os dois: muitos anúncios estão marcados nos dois tipos, porque a estrutura que fecha agenda é parecida com a que vende um curso.',
   },
   {
     q: 'Mas eu já comprei curso de anúncio e não saí do lugar…',
@@ -563,7 +571,7 @@ export default function AcervoPage() {
             <h2 className="lp-titulo lp-titulo--grande">
               O que você vai<br /><strong>encontrar no acervo.</strong>
             </h2>
-            <p>O acervo é uma plataforma que reúne os anúncios que funcionam, organizados por objetivo e com filtro por tipo de negócio, pra você que quer escalar o seu negócio no digital, mas está cansada de perder horas tentando acertar o criativo.</p>
+            <p>O acervo é uma plataforma com os melhores anúncios do mercado, organizados por objetivo e com filtro por tipo de negócio. Pra você que já anuncia ou quer começar a anunciar.</p>
           </Reveal>
 
           <Reveal className="lp-dentro__mock" delay={100}>
@@ -619,15 +627,6 @@ export default function AcervoPage() {
             </ul>
           </div>
 
-          {/* 3. Análise + ferramenta, com o mockup ou o vídeo */}
-          <div className="lp-dentro__bloco">
-            <Reveal className="lp-dentro__texto">
-              <span className="lp-dentro__num">03</span>
-              <h3>Cada anúncio vem com a análise e com a <strong>nossa ferramenta.</strong></h3>
-              <p>A análise explica por que ele vende, em poucas linhas e sem jargão. Do lado, o botão Fazer a minha versão escreve a sua, com a mesma estrutura e na voz do seu negócio.</p>
-            </Reveal>
-          </div>
-
         </div>
       </section>
 
@@ -674,7 +673,7 @@ export default function AcervoPage() {
                   {p.src ? (
                     <img src={p.src} alt={p.alt} loading="lazy" />
                   ) : (
-                    <span className="lp-passo__vazio">{p.alt}</span>
+                    <span className="lp-passo__vazio" />
                   )}
                 </div>
                 <span className="lp-sticker lp-sticker--passo">Passo {p.n}</span>
@@ -892,7 +891,7 @@ export default function AcervoPage() {
               Nós nos conhecemos em 2024, dentro do Subido Pro, e logo descobrimos que <strong>quase fomos separadas na maternidade</strong>: uma nasceu no dia 28 e a outra no dia 29 de maio de 1995. Desde então, a amizade só cresceu, e o sonho de criar algo juntas também. Desse sonho nasceu o acervo.
             </p>
             <p>
-              O acervo é a nossa curadoria de anúncios, um projeto vivo, feito pra você ter <strong>referências novas toda semana</strong>, selecionadas por quem entende do assunto. A gente acredita em entregar pronto, mas também em desenvolver a sua leitura, por isso analisamos cada anúncio, pra você aprender junto com a gente. E como no digital o tempo é rei, criamos uma ferramenta exclusiva que transforma as suas referências favoritas em anúncios feitos pro seu negócio.
+              O acervo é a nossa curadoria: a gente garimpa o mercado toda semana, separa o que está vendendo de verdade e analisa por que vende. Você recebe pronto, com <strong>referências novas toda semana</strong>, selecionadas por quem passa o dia olhando anúncio. A gente acredita em entregar pronto, mas também em desenvolver a sua leitura, por isso cada anúncio vem com a análise, pra você aprender junto com a gente. E como no digital o tempo é rei, criamos uma ferramenta que transforma as suas referências favoritas em anúncios feitos pro seu negócio.
             </p>
           </Reveal>
         </div>
