@@ -257,9 +257,16 @@ const FAQ = [
 ]
 
 
-function Cta({ children, variante = 'terracotta', largo = false }) {
+// Os botões levam pra seção do preço; só o botão de dentro do preço vai pro checkout
+function Cta({ children, variante = 'terracotta', largo = false, checkout = false }) {
+  function irParaOferta(e) {
+    const alvo = document.getElementById('oferta')
+    if (!alvo) return
+    e.preventDefault()
+    alvo.scrollIntoView({ behavior: 'smooth', block: 'start' })
+  }
   return (
-    <a className={`lp-cta lp-cta--${variante} ${largo ? 'lp-cta--largo' : ''}`} href={OFERTA.checkoutUrl} rel="noopener">
+    <a className={`lp-cta lp-cta--${variante} ${largo ? 'lp-cta--largo' : ''}`} href={checkout ? OFERTA.checkoutUrl : '#oferta'} rel={checkout ? 'noopener' : undefined} onClick={checkout ? undefined : irParaOferta}>
       <i aria-hidden="true">✦</i>
       <span>{children}</span>
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg>
@@ -796,7 +803,7 @@ export default function AcervoPage() {
         <Reveal className="lp-container lp-container--narrow lp-invest__inner">
           <Reveal className="lp-head">
             <span className="lp-pill">Investimento</span>
-            <h2 className="lp-titulo lp-titulo--grande">Quanto custa <strong>entrar no acervo?</strong></h2>
+            <h2 className="lp-titulo lp-titulo--grande">O seu investimento <br className="lp-br-m" /><strong>pra entrar no acervo.</strong></h2>
           </Reveal>
           <div className="lp-ticket">
           <div className="lp-ticket__topo">
@@ -823,7 +830,7 @@ export default function AcervoPage() {
               </li>
             ))}
           </ul>
-          <Cta variante="teal" largo>Quero o acervo</Cta>
+          <Cta variante="teal" largo checkout>Quero o acervo</Cta>
           <ul className="lp-selos" aria-label="Garantias">
             <li>Acesso imediato</li>
             <li>Pix ou cartão</li>
