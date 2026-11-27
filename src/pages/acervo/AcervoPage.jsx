@@ -183,10 +183,10 @@ const INCLUSO = [
 ]
 
 const ENTREGAS = [
-  { icone: 'grid', texto: <><strong>Anúncios validados</strong> em vídeo, imagem e carrossel, todos rodando de verdade</> },
+  { icone: 'grid', texto: <><strong>Anúncios escolhidos a dedo</strong> em vídeo, imagem e carrossel: a gente garimpa o que vê funcionar nos bastidores dos projetos, de atrair seguidores a vender</> },
   { icone: 'pasta', texto: <><strong>{OFERTA.totalColecoes} coleções por objetivo</strong>, de atrair seguidores até vender agora</> },
   { icone: 'lupa', texto: <><strong>Análise de cada anúncio</strong>: por que funciona, em poucas linhas e sem jargão</> },
-  { icone: 'ia', texto: <><strong>Fazer a minha versão</strong>, a nossa ferramenta: em qualquer anúncio, ela escreve a sua versão na sua voz, a partir do que você entendeu</> },
+  { icone: 'ia', texto: <><strong>Fazer a minha versão</strong>, a nossa ferramenta: ao lado de cada anúncio, ela junta a análise com a ficha do seu negócio e manda pro ChatGPT ou pro Claude escrever a sua versão, com a mesma estrutura do original, mas na voz do seu negócio</> },
   { icone: 'estrela', texto: <><strong>Anúncios novos toda semana</strong>: a curadoria que a gente faz pros bastidores dos projetos, aberta pra você</> },
   { icone: 'presente', texto: <><strong>Bônus</strong>: Especial Black Friday, Especial Mini VSL e Especial Páginas, com análise e a sua versão pela nossa ferramenta</> },
   { icone: 'filtro', texto: <><strong>Filtro por nicho e formato</strong>: negócio local, serviço, infoproduto e e-commerce</> },
@@ -940,18 +940,24 @@ NÃO ESCREVA
           </Reveal>
           <Reveal className="lp-quem__texto" delay={100}>
             <span className="lp-pill">Quem faz o acervo</span>
-            <h2 className="lp-titulo lp-titulo--grande">Flora Tavares <em>&amp;</em> <strong>Ingrid Andrade</strong></h2>
+            <h2 className="lp-titulo lp-titulo--grande lp-quem__nomes">Flora Tavares <em>&amp;</em> Ingrid Andrade</h2>
             <p className="lp-quem__lead">
-              Amigas da vida, parceiras de projetos, estrategistas digitais, gestoras de tráfego, <strong>crias dos bastidores e geminianas.</strong>
+              Amigas da vida, parceiras de projetos, <strong>estrategistas digitais, gestoras de tráfego, crias dos bastidores</strong> e geminianas.
             </p>
             <p>
-              Nós nos conhecemos em 2024, dentro do Subido Pro, e logo descobrimos que quase fomos separadas na maternidade: uma nasceu no dia 28 e a outra no dia 29 de maio de 1995. Desde então, a nossa amizade só cresceu, e o sonho de criar algo juntas também. Desse sonho nasceu o acervo.
+              Cada uma de nós tem a sua agência, e o nosso dia a dia são os bastidores de projetos grandes: anúncio, página, verba, lançamento. Foi esse dia a dia que nos ensinou a <strong>ler um anúncio e entender por que um vende e o outro passa batido.</strong>
             </p>
             <p>
-              Nós nos completamos: uma vai fundo em cada detalhe, a outra transforma tudo em algo que dá para aplicar. Por isso, tudo o que fazemos juntas tem profundidade e critério.
+              Nós nos conhecemos em 2024, dentro do Subido Pro, e logo descobrimos que <strong>quase fomos separadas na maternidade</strong>: uma nasceu no dia 28 e a outra no dia 29 de maio de 1995. Desde então, a nossa amizade só cresceu, e o sonho de criar algo juntas também. Desse sonho nasceu o acervo.
             </p>
             <p>
-              O acervo é a nossa curadoria, um projeto vivo: toda semana entra o que vemos funcionar nos bastidores dos projetos. Nós acreditamos em ferramentas que facilitam, e por isso criamos uma que transforma a referência que você escolher no seu anúncio. Mas acreditamos também em desenvolver a sua leitura: queremos que você consiga interpretar um anúncio e entender por que ele funciona. Por isso, cada um vem com a análise. A ferramenta te ajuda a aplicar agora. A análise te ensina a desenvolver a sua percepção sobre os anúncios.
+              Nós nos completamos: uma vai fundo em cada detalhe, a outra transforma tudo em algo que dá para aplicar. Por isso, <strong>tudo o que fazemos juntas tem profundidade e critério.</strong>
+            </p>
+            <p>
+              O acervo é a nossa curadoria, um projeto vivo: <strong>toda semana entra o que vemos funcionar nos bastidores dos projetos.</strong> Nós acreditamos em ferramentas que facilitam, e por isso criamos uma que transforma a referência que você escolher no seu anúncio. Mas acreditamos também em desenvolver a sua leitura: queremos que você consiga interpretar um anúncio e entender por que ele funciona. Por isso, cada um vem com a análise.
+            </p>
+            <p>
+              <strong>A ferramenta te ajuda a aplicar agora. A análise te ensina a desenvolver a sua percepção sobre os anúncios.</strong>
             </p>
           </Reveal>
         </div>
