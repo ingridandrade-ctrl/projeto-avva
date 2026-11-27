@@ -51,13 +51,6 @@ const DEPOIMENTOS = [
   // { nome: 'Nome', nicho: 'Clínica de estética', texto: '...' },
 ]
 
-// Os quatro tipos de negócio do filtro, com o que a pessoa encontra em cada um
-const TIPOS_NEGOCIO = [
-  { nome: 'Negócio local', icone: 'pino', texto: 'Clínica, salão, loja de rua, restaurante: anúncios que trazem gente até o seu endereço' },
-  { nome: 'Prestação de serviço', icone: 'agenda', texto: 'Consultoria, estética, nutrição, advocacia: anúncios que fecham agenda e orçamento' },
-  { nome: 'Infoproduto', icone: 'play', texto: 'Curso, mentoria, comunidade: anúncios que captam, provam e vendem no digital' },
-  { nome: 'E-commerce', icone: 'sacola', texto: 'Loja online e produto físico: anúncios que mostram, convencem e levam pro carrinho' },
-]
 
 const PRA_QUEM = [
   <><strong>Tem um negócio local, presta serviço, vende infoproduto ou tem e-commerce</strong> e roda (ou quer rodar) os próprios anúncios</>,
@@ -106,36 +99,20 @@ const BONUS = [
 
 // A ferramenta, passo a passo, do jeito que acontece lá dentro
 const FERRAMENTA_PASSOS = [
-  {
-    n: '1',
-    titulo: 'Você preenche a sua ficha uma vez.',
-    texto: 'O que você vende, pra quem, o que muda pra ela, uma prova real, o "mas" que você mais ouve. Nada é obrigatório, e fica salvo no seu celular. Na próxima vez, está tudo lá.',
-  },
-  {
-    n: '2',
-    titulo: 'Você escolhe como escreve.',
-    texto: 'Direta, leve, acolhedora, elegante, provocadora, técnica. Cada tom vira uma regra concreta pra IA. E se você colar um texto seu, uma legenda ou um áudio transcrito, ela imita o seu ritmo e as suas palavras.',
-  },
-  {
-    n: '3',
-    titulo: 'Você diz pra onde o anúncio leva.',
-    texto: 'WhatsApp, site, página de vendas, perfil, direct. E o que a pessoa ganha ao clicar. A ferramenta já sugere o destino mais comum pra aquele tipo de anúncio.',
-  },
-  {
-    n: '4',
-    titulo: 'Você abre no ChatGPT ou no Claude.',
-    texto: 'Um toque e a sua IA abre com tudo montado: a sequência do anúncio original, a análise, a sua ficha e as regras. Ela escreve a sua versão com a mesma duração, na sua voz, com a sua prova. Se faltar alguma informação, ela pergunta antes de escrever, em vez de inventar.',
-  },
+  { n: '1', titulo: 'Você preenche a sua ficha uma vez.', texto: 'O que você vende, pra quem e uma prova real. Fica salvo no seu celular.' },
+  { n: '2', titulo: 'Você escolhe como escreve.', texto: 'Direta, leve, acolhedora, elegante. Se colar um texto seu, ela imita o seu jeito.' },
+  { n: '3', titulo: 'Você diz pra onde o anúncio leva.', texto: 'WhatsApp, site, página de vendas ou direct.' },
+  { n: '4', titulo: 'Você abre no ChatGPT ou no Claude.', texto: 'Um toque e a sua versão aparece: a mesma estrutura do original, na sua voz, com a sua prova.' },
 ]
 
 // O que a ferramenta garante (vem das regras que o prompt carrega)
 const FERRAMENTA_REGRAS = [
-  { titulo: 'Não copia o original', texto: 'Ela repete a sequência (gancho, desenvolvimento, prova, fechamento), nunca as frases.' },
-  { titulo: 'Não inventa número', texto: 'Prova, preço, prazo e garantia só entram se você deu. Sem prova, ela não cria uma.' },
-  { titulo: 'Pergunta antes de chutar', texto: 'Se faltar material pra algum passo, ela para e pergunta, no máximo três coisas, numa mensagem só.' },
-  { titulo: 'Sem cara de IA', texto: 'A lista do que ela não pode escrever vai junto: validação pronta, pergunta retórica, frase de efeito, jargão, emoji, exclamação.' },
-  { titulo: 'Funciona na versão gratuita', texto: 'ChatGPT ou Claude, sem plano pago. Se você usa outra IA, copia o prompt e cola lá.' },
-  { titulo: 'Vídeo, imagem, carrossel e página', texto: 'Cada formato tem a sua entrega: a fala e as cenas no vídeo, as telas no carrossel, os blocos e os botões na página.' },
+  { titulo: 'Não copia o original', texto: 'Repete a estrutura, nunca as frases.' },
+  { titulo: 'Não inventa número', texto: 'Prova e preço só entram se você deu.' },
+  { titulo: 'Pergunta antes de chutar', texto: 'Se faltar algo, ela pergunta primeiro.' },
+  { titulo: 'Sem cara de IA', texto: 'Sem frase de efeito, jargão ou emoji.' },
+  { titulo: 'Funciona na versão gratuita', texto: 'ChatGPT ou Claude, sem plano pago.' },
+  { titulo: 'Vídeo, imagem, carrossel e página', texto: 'Cada formato com a sua entrega.' },
 ]
 
 // O que a IA entrega em cada formato, no "Fazer a minha versão"
@@ -152,38 +129,58 @@ const ESPIADINHA = [
   {
     id: 'espiada-1',
     marca: '01',
-    title: 'Diandra: "pega de surpresa"',
-    tipo: 'Vídeo · Serviço e infoproduto',
+    title: 'Especialista em posicionamento: mitos do Instagram para aula gravada',
+    tipo: 'Vídeo · Infoproduto',
     colecao: 'Melhores de Setembro 2026',
     media_type: 'video',
-    niches: ['servico', 'infoproduto'],
+    niches: ['infoproduto'],
     objectives: ['vender'],
     drive_url: 'https://drive.google.com/file/d/18USYqZIvfmPj5PC11trkP1sG-EqRc_yL/view',
-    analysis: 'Começa no formato: o roteiro é estruturado, mas a gravação faz parecer que a especialista foi pega de surpresa e está simplesmente respondendo uma pergunta. Enquanto ela elimina uma alternativa depois da outra (postar todo dia, carrossel, impulsionar, social media), a curiosidade aumenta: se nenhuma dessas é a resposta, qual é?',
+    analysis: `A especialista em comunicação e posicionamento derruba uma por uma as saídas que todo mundo tenta para crescer no Instagram, postar todo dia, fazer carrossel, impulsionar e contratar social media, com o nome de cada uma escrito grande na tela, antes de convidar para uma aula gravada.
+
+Cada uma cai com uma imagem fácil de lembrar. Postar todo dia sem um formato que funcione é repetir o mesmo erro 30 vezes no mês, e impulsionar conteúdo que não foi validado é jogar gasolina numa casa que já está pegando fogo. Para quem já tentou tudo isso e não cresceu, o que fica aos poucos é a sensação de que o problema nunca foi falta de esforço, e isso deixa a pessoa aberta para o que vem depois.
+
+O que vem é um nome, cotas de alcance, uma entrega extra que, segundo ela, o Instagram reserva para perfis pequenos e que ninguém conta que existe. Esse nome soa como uma regra escondida, então explica por que o perfil travou e ainda desperta curiosidade. A aula promete mostrar um vídeo indo de zero a 500 mil views, montado com uma amiga, e como adaptar o formato mesmo para nicho pequeno. Para dar peso, ela conta que empresas pagam caro pelas palestras fechadas dela, e pede em troca só que a pessoa aplique e mande o print.
+
+Pra aplicar: liste as soluções que a sua cliente já tentou e explique com uma imagem simples por que cada uma não funciona. Tire a culpa dela, dê um nome ao caminho que você ensina e convide para a aula ou para onde você for enviar ela.`,
   },
   {
     id: 'espiada-2',
     marca: '02',
-    title: 'Letícia Vaz Store',
+    title: 'Letícia Vaz Store: desafio de 100 calças para vender a calça jeans',
     tipo: 'Vídeo · E-commerce',
     colecao: 'Melhores de Julho 2026',
     media_type: 'video',
     niches: ['ecommerce'],
     objectives: ['vender'],
     drive_url: 'https://drive.google.com/file/d/1BSsRMSv2EyuAF_2vtr7vArw_2-8vtY_Z/view',
-    analysis: 'Ela te prende num desafio, te ensina a vender e te converte em um minuto e meio. Dá vários exemplos mostrando a calça e falando as qualidades enquanto você fica curiosa pra ver todas as formas de vendê-la. Deu uma aula de marketing enquanto fazia uma venda.',
+    analysis: `Nesse vídeo, a Letícia Vaz transforma a venda de uma calça jeans num desafio: ela diz que precisa vender 100 calças naquele dia e, enquanto vende, mostra cinco formas diferentes de divulgar a peça.
+
+O desafio prende porque cria uma história com final aberto, e quem assiste quer saber se ela vai conseguir. As cinco formas fazem o vídeo servir para dois públicos ao mesmo tempo: a cliente que quer a calça e quem também vende e quer aprender a divulgar.
+
+O mais interessante é que cada forma de divulgar também funciona como argumento de venda. Quando ela usa a calça numa reunião, num show e em casa, a cliente imagina a peça na própria rotina. Quando responde quem tem cintura fina e quadril largo, quem é muito alta e quem é baixinha, mostrando que a barra dá para cortar na tesoura, ela tira a dúvida de cada tipo de corpo. O bastidor mostra quantas vezes a calça foi pedida e os detalhes de acabamento, e os prints de clientes elogiando deixam outras mulheres convencerem por ela.
+
+O próprio desafio é a quinta forma e amarra as outras, porque quem acompanhou acaba torcendo pela meta. No fim, ela mostra mais uma calça e pede para comentar calça para receber o link, um pedido pequeno que coloca a pessoa dentro do desafio.
+
+Pra aplicar: crie uma meta pública de vendas e conte para a sua cliente, para ela acompanhar e torcer. Mostre o produto na rotina, responda as dúvidas de cada tipo de cliente, mostre o bastidor e deixe as clientes falarem por você. Feche com um pedido simples, ligado à meta que você anunciou.`,
   },
   {
     id: 'espiada-3',
     marca: '03',
-    title: 'Pedro Sobral: "Como sei que funciona pra mim?"',
+    title: 'Pedro Sobral: caixinha de pergunta respondida com número',
     tipo: 'Imagem estática · Infoproduto',
     colecao: 'Melhores de Agosto 2026',
     media_type: 'image',
     niches: ['infoproduto'],
     objectives: ['vender'],
     drive_url: 'https://drive.google.com/file/d/1_N96o46TeKGDO9npxoUsK80aG1UlHsbJ/view',
-    analysis: 'Quebra de objeção com prova: a pergunta que a pessoa faz é respondida com um número (validado por 4.855 gestores atuantes).',
+    analysis: `O Pedro Sobral usa uma caixinha de pergunta para responder a dúvida de quem está quase entrando no Protocolo 30k e ainda hesita: como eu sei que o Protocolo 30k vai funcionar pra mim.
+
+Como a pergunta parece ter vindo de um seguidor, o tom muda. A pessoa que tem a mesma dúvida lê a resposta como uma conversa entre o Pedro e alguém igual a ela, bem longe de um argumento de venda.
+
+A resposta vem com um número exato, 4.855 gestores de tráfego atuantes que validaram o protocolo. Um número quebrado assim parece contado um por um, e o atuantes diz que são pessoas que trabalham com isso de verdade, como quem perguntou. Depois ele diz que é altamente improvável que pro SEU caso não funcione, com o seu em letra maiúscula, como quem olha nos olhos da pessoa. A foto dele de perto, olhando de lado com um meio sorriso, completa com a segurança de quem não se preocupa com essa dúvida.
+
+Pra aplicar: pegue a pergunta que mais aparece antes da compra, aquela de será que funciona para mim, e responda com o número mais concreto que você tiver sobre quem já usou o seu método. Mostre que essas pessoas estão no mesmo lugar que a sua cliente.`,
   },
 ]
 
@@ -259,16 +256,6 @@ const FAQ = [
   },
 ]
 
-function IconeTipo({ nome }) {
-  const p = { width: 22, height: 22, viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', strokeWidth: 2, strokeLinecap: 'round', strokeLinejoin: 'round' }
-  switch (nome) {
-    case 'pino': return <svg {...p}><path d="M12 21s7-6.2 7-11a7 7 0 0 0-14 0c0 4.8 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>
-    case 'agenda': return <svg {...p}><rect x="3" y="4" width="18" height="17" rx="3"/><path d="M8 2v4M16 2v4M3 10h18M8 15l2.5 2.5L16 12"/></svg>
-    case 'play': return <svg {...p}><rect x="3" y="4" width="18" height="16" rx="3"/><path d="M10 9l5 3-5 3z" fill="currentColor"/></svg>
-    case 'sacola': return <svg {...p}><path d="M5 8h14l-1 12H6z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg>
-    default: return null
-  }
-}
 
 function Cta({ children, variante = 'terracotta', largo = false }) {
   return (
@@ -480,8 +467,6 @@ export default function AcervoPage() {
     setAnaliseAberta(i)
   }
 
-  const [espiadaFav, setEspiadaFav] = useState({}) // favoritar / concluído só visuais, como na área de membros
-  const [espiadaVista, setEspiadaVista] = useState({})
   const toque = useRef(null)
 
   // Pop-up: foco no fechar, Esc fecha, setas trocam de anúncio, body fixo como no modal
@@ -547,16 +532,13 @@ export default function AcervoPage() {
             <img className="lp-logomarca" src="/acervo/logo.webp" alt="acervo de anúncios" width="1140" height="970" fetchPriority="high" />
           </div>
           <h1 className="lp-hero__frase">
-            A biblioteca de anúncios <br className="lp-br-d" />das empreendedoras <br className="lp-br-m" />que <em>cansaram de começar do&nbsp;zero.</em>
+            A biblioteca de anúncios <br className="lp-br-d" />das empreendedoras <br />que <em>cansaram de começar do&nbsp;zero.</em>
           </h1>
           <p className="lp-hero__destaque">
             No acervo você entende a lógica dos anúncios que vendem e transforma as suas referências favoritas em anúncios pro seu negócio, com uma ferramenta que escreve a sua versão <strong>em&nbsp;poucos&nbsp;cliques.</strong>
           </p>
-          <p className="lp-hero__sub">
-            Tudo pelo celular, com acesso imediato.
-          </p>
           <Cta>Quero o acervo</Cta>
-          <p className="lp-hero__nota">Pagamento único · {OFERTA.garantiaDias} dias de garantia</p>
+          <p className="lp-hero__nota">Tudo pelo celular, com acesso imediato <br className="lp-br-m" />· Pagamento único · {OFERTA.garantiaDias} dias de garantia</p>
         </div>
 
       </section>
@@ -616,44 +598,50 @@ export default function AcervoPage() {
               <h3>Dentro de cada coleção, <br className="lp-br-d" />você filtra pelo <strong>seu tipo de&nbsp;negócio.</strong></h3>
               <p>Você acessa a coleção, filtra pelo seu tipo de negócio e já cai nos melhores anúncios voltados pro que você vende. Sem precisar ficar garimpando na sua pasta de salvos do&nbsp;Instagram.</p>
             </Reveal>
-            <ul className="lp-tipos">
-              {TIPOS_NEGOCIO.map((t, i) => (
-                <Reveal as="li" key={t.nome} delay={i * 60}>
-                  <span className="lp-tipos__icone" aria-hidden="true"><IconeTipo nome={t.icone} /></span>
-                  <strong>{t.nome}</strong>
-                  <span>{t.texto}</span>
-                </Reveal>
-              ))}
-            </ul>
+            <Reveal className="lp-filtro" delay={80} aria-hidden="true">
+              <span className="lp-filtro__rotulo">Filtrar por</span>
+              <div className="lp-filtro__chips">
+                <span>Todos</span><span className="is-on">O seu tipo de negócio ✓</span><span>Vídeo</span><span>Imagem</span><span>Carrossel</span>
+              </div>
+              <p className="lp-filtro__resultado">Mostrando só o que serve pro seu caso</p>
+            </Reveal>
           </div>
 
-        </div>
-      </section>
-
-      {/* ── 2b. Dar uma espiadinha (seção própria, marrom) ── */}
-      <section className="lp-section lp-espiada" id="espiadinha">
-        <div className="lp-container">
-          <Reveal className="lp-espiada__head">
-            <span className="lp-pill lp-pill--terra">Dar uma espiadinha</span>
-            <h2 className="lp-titulo lp-titulo--grande lp-titulo--claro">Separamos três anúncios <br className="lp-br-m" />do&nbsp;acervo <strong>pra você ver como é a análise de&nbsp;cada&nbsp;um.</strong></h2>
-          </Reveal>
-          <div className="lp-espiada__cards">
-            {ESPIADINHA.map((a, i) => (
-              <Reveal as="article" key={a.marca} className={`lp-espiada__card lp-espiada__card--resumo ${i % 2 ? 'lp-espiada__card--areia' : 'lp-espiada__card--terra'}`} delay={i * 90}>
-                <span className="lp-espiada__marca" aria-hidden="true">{a.marca}</span>
-                <div>
-                  <span className="lp-espiada__tipo">{a.tipo}</span>
-                  <h3>{a.title}</h3>
-                  <p className="lp-espiada__resumo">{a.analysis}</p>
-                  <button type="button" className="lp-espiada__abrir" onClick={e => abrirAnalise(i, e)}>
-                    Abrir o anúncio
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg>
-                  </button>
-                </div>
-              </Reveal>
-            ))}
+          {/* 3. A ferramenta, embaixo de cada anúncio */}
+          <div className="lp-dentro__bloco lp-dentro__bloco--filtro">
+            <Reveal className="lp-dentro__texto">
+              <span className="lp-dentro__num">03</span>
+              <h3>Em cada anúncio, a nossa ferramenta <br className="lp-br-d" /><strong>prepara o&nbsp;prompt pra&nbsp;você.</strong></h3>
+              <p>Embaixo de cada análise tem o botão Fazer a minha versão. Você preenche a sua ficha uma vez e a ferramenta junta a análise daquele anúncio com o seu negócio num prompt pronto pra abrir no ChatGPT ou no&nbsp;Claude.</p>
+            </Reveal>
+            <Reveal className="lp-filtro lp-filtro--ferramenta" delay={80} aria-hidden="true">
+              <span className="lp-filtro__rotulo">Embaixo da análise</span>
+              <span className="lp-filtro__botao">✦ Fazer a minha versão <small>com IA</small></span>
+              <ul className="lp-filtro__passos">
+                <li>A análise desse anúncio</li>
+                <li>A sua ficha, preenchida uma vez</li>
+                <li>Prompt pronto pra copiar</li>
+              </ul>
+            </Reveal>
           </div>
-          <Reveal className="lp-center" delay={120}><Cta>Quero o acervo</Cta></Reveal>
+
+          {/* 4. Plataforma viva, no celular */}
+          <div className="lp-dentro__bloco lp-dentro__bloco--filtro">
+            <Reveal className="lp-dentro__texto">
+              <span className="lp-dentro__num">04</span>
+              <h3>Uma plataforma viva, <br className="lp-br-d" /><strong>aberta no seu&nbsp;celular.</strong></h3>
+              <p>Toda semana entram anúncios novos, garimpados e analisados pela gente. Você abre o acervo no celular, a qualquer hora, com favoritos, busca e a marcação do que você já&nbsp;viu.</p>
+            </Reveal>
+            <Reveal className="lp-filtro lp-filtro--novos" delay={80} aria-hidden="true">
+              <span className="lp-filtro__rotulo">Novos no acervo · esta semana</span>
+              <ul className="lp-filtro__lista">
+                <li><i /><span>Mitos do Instagram para aula gravada</span><em>Novo</em></li>
+                <li><i /><span>Desafio de 100 calças para vender jeans</span><em>Novo</em></li>
+                <li><i /><span>Caixinha de pergunta respondida com número</span><em>Novo</em></li>
+              </ul>
+              <p className="lp-filtro__resultado">Anúncios novos toda semana, analisados um por um</p>
+            </Reveal>
+          </div>
         </div>
       </section>
 
@@ -688,8 +676,15 @@ export default function AcervoPage() {
               Primeiro você entende. <strong>Depois, a&nbsp;ferramenta <br className="lp-br-m" />escreve a&nbsp;sua&nbsp;versão.</strong>
             </h2>
             <p>
-              O botão Fazer a minha versão fica <strong>logo abaixo da análise</strong> de cada anúncio e de cada página, já montado com aquela análise e com o seu negócio. Você preenche a sua ficha, toca, e a sua IA abre com a sua versão quase&nbsp;pronta.
+              O botão Fazer a minha versão fica <strong>logo abaixo da análise</strong> de cada anúncio. Você preenche a sua ficha uma vez e a sua IA abre com a sua versão quase&nbsp;pronta.
             </p>
+          </Reveal>
+          <Reveal className="lp-formula" delay={60} aria-hidden="true">
+            <span className="lp-formula__item"><b>A análise</b>do anúncio que você escolheu</span>
+            <i>+</i>
+            <span className="lp-formula__item"><b>A sua ficha</b>o seu negócio, na sua voz</span>
+            <i>=</i>
+            <span className="lp-formula__item lp-formula__item--fim"><b>A sua versão</b>pronta pra gravar</span>
           </Reveal>
         </div>
 
@@ -730,18 +725,37 @@ export default function AcervoPage() {
         </div>
       </section>
 
-      {/* ── 4c. Bônus ── */}
-      <section className="lp-section lp-bonus">
+      {/* ── 5. Dar uma espiadinha + bônus (marrom) ── */}
+      <section className="lp-section lp-espiada" id="espiadinha">
         <div className="lp-container">
-          <Reveal className="lp-head">
+          <Reveal className="lp-espiada__head">
+            <span className="lp-pill lp-pill--terra">Dar uma espiadinha</span>
+            <h2 className="lp-titulo lp-titulo--grande lp-titulo--claro">Separamos três anúncios <br className="lp-br-m" />do&nbsp;acervo <strong>pra você ver como&nbsp;funciona.</strong></h2>
+          </Reveal>
+          <div className="lp-espiada__cards">
+            {ESPIADINHA.map((a, i) => (
+              <Reveal as="article" key={a.marca} className={`lp-espiada__card lp-espiada__card--resumo ${i % 2 ? 'lp-espiada__card--areia' : 'lp-espiada__card--terra'}`} delay={i * 90}>
+                <span className="lp-espiada__marca" aria-hidden="true">{a.marca}</span>
+                <div>
+                  <span className="lp-espiada__tipo">{a.tipo}</span>
+                  <h3>{a.title}</h3>
+                  <p className="lp-espiada__resumo">{a.analysis}</p>
+                  <button type="button" className="lp-espiada__abrir" onClick={e => abrirAnalise(i, e)}>
+                    Abrir o anúncio
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg>
+                  </button>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+          <Reveal className="lp-espiada__bonus-head" delay={60}>
             <span className="lp-pill lp-pill--terra">Bônus</span>
-            <h2 className="lp-titulo lp-titulo--grande">
-              E ainda entra junto,<br /><strong>sem custo:</strong>
-            </h2>
+            <h2 className="lp-titulo lp-titulo--grande lp-titulo--claro">E você ainda leva <br className="lp-br-m" /><strong>de bônus:</strong></h2>
           </Reveal>
           <ul className="lp-bonus__grid">
             {BONUS.map((b, i) => <CardBonus key={b.titulo} b={b} index={i} />)}
           </ul>
+          <Reveal className="lp-center" delay={120}><Cta>Quero o acervo</Cta></Reveal>
         </div>
       </section>
 
@@ -770,7 +784,7 @@ export default function AcervoPage() {
         <Reveal className="lp-container lp-container--narrow lp-invest__inner">
           <Reveal className="lp-head">
             <span className="lp-pill">Investimento</span>
-            <h2 className="lp-titulo lp-titulo--grande">Tudo isso <strong>por menos de um lanche.</strong></h2>
+            <h2 className="lp-titulo lp-titulo--grande">Quanto custa <strong>entrar no acervo?</strong></h2>
           </Reveal>
           <div className="lp-ticket">
           <div className="lp-ticket__topo">
@@ -819,7 +833,6 @@ export default function AcervoPage() {
           <ul className="lp-checks">
             {PRA_QUEM.map((item, i) => (
               <Reveal as="li" key={i} className={`lp-adesivo lp-adesivo--${i % 3}`} delay={i * 50}>
-                <span className="lp-adesivo__num" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
                 <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>
                 <span>{item}</span>
               </Reveal>
@@ -902,7 +915,7 @@ export default function AcervoPage() {
         <div className="lp-container lp-container--narrow">
           <Reveal className="lp-faq__head">
             <span className="lp-pill lp-pill--terra">Dúvidas</span>
-            <h2 className="lp-titulo lp-titulo--grande lp-titulo--claro">O que mais perguntam antes de entrar</h2>
+            <h2 className="lp-titulo lp-titulo--grande lp-titulo--claro">Perguntas <strong>frequentes</strong></h2>
           </Reveal>
           <Reveal className="lp-faq__lista">
             {FAQ.map((item, i) => {
@@ -946,8 +959,6 @@ export default function AcervoPage() {
       {analiseAberta !== null && (() => {
         const a = ESPIADINHA[analiseAberta]
         const paragrafos = a.analysis.split(/\n+/).map(t => t.trim()).filter(Boolean)
-        const fav = !!espiadaFav[a.id]
-        const vista = !!espiadaVista[a.id]
         const ir = passo => setAnaliseAberta((analiseAberta + passo + ESPIADINHA.length) % ESPIADINHA.length)
         return createPortal(
           <div className="ad-modal lp-admodal" role="dialog" aria-modal="true" aria-label={a.title} onPointerDown={e => { if (e.target === e.currentTarget) fecharAnalise() }}>
@@ -992,16 +1003,6 @@ export default function AcervoPage() {
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>
                   Aqui é só uma prévia. Dentro do acervo, você preenche a ficha e esse painel monta o prompt com a análise e abre na sua IA.
                 </p>
-                <div className="ad-modal__actions">
-                  <button type="button" className={`ad-modal__pill ${vista ? 'ad-modal__pill--on' : ''}`} onClick={() => setEspiadaVista(v => ({ ...v, [a.id]: !v[a.id] }))}>
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
-                    {vista ? 'Concluído' : 'Marcar como concluído'}
-                  </button>
-                  <button type="button" className={`ad-modal__pill ad-modal__pill--fav ${fav ? 'ad-modal__pill--on' : ''}`} onClick={() => setEspiadaFav(v => ({ ...v, [a.id]: !v[a.id] }))}>
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill={fav ? 'currentColor' : 'none'} stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
-                    {fav ? 'Favorito' : 'Favoritar'}
-                  </button>
-                </div>
               </div>
             </div>
           </div>,
