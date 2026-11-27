@@ -20,7 +20,7 @@ const OFERTA = {
   preco: 'R$ 67',
   precoNota: 'Preço de lançamento', // etiqueta ao lado do preço ('' esconde)
   parcelas: '',        // AJUSTAR: parcelamento do checkout, ex.: 'ou 9x de R$ 11,38' ('' esconde)
-  reforco: 'Dá menos de R$ 0,20 por dia. Um anúncio que não vende custa mais que isso.',
+  reforco: 'Dá menos de R$ 0,20 por dia. Um anúncio que não vende custa beeeem mais que isso.',
   garantiaDias: 7,
   acessoPor: '1 ano',
   totalColecoes: 6,
@@ -593,7 +593,7 @@ export default function AcervoPage() {
           <div className="lp-dentro__bloco">
             <Reveal className="lp-dentro__texto">
               <span className="lp-dentro__num">01</span>
-              <h3>{OFERTA.totalColecoes} coleções, uma pra cada <em>momento da venda.</em></h3>
+              <h3>{OFERTA.totalColecoes} coleções, uma pra cada <strong>momento da venda.</strong></h3>
               <p>De atrair seguidores a vender agora, em vídeo, imagem e carrossel. Você escolhe o seu objetivo e acessa uma curadoria feita pro seu negócio. Além disso, todo mês os melhores anúncios do momento viram parte da coleção Melhores do mês.</p>
             </Reveal>
             <ol className="lp-cards">
@@ -605,7 +605,7 @@ export default function AcervoPage() {
           <div className="lp-dentro__bloco lp-dentro__bloco--filtro">
             <Reveal className="lp-dentro__texto">
               <span className="lp-dentro__num">02</span>
-              <h3>Dentro de cada coleção, você filtra pelo <em>seu tipo de negócio.</em></h3>
+              <h3>Dentro de cada coleção, você filtra pelo <strong>seu tipo de negócio.</strong></h3>
               <p>Você acessa a coleção, filtra pelo seu tipo de negócio e já cai nos melhores anúncios voltados pro que você vende. Sem precisar ficar garimpando na sua pasta de salvos do Instagram.</p>
             </Reveal>
             <ul className="lp-tipos">
@@ -623,7 +623,7 @@ export default function AcervoPage() {
           <div className="lp-dentro__bloco">
             <Reveal className="lp-dentro__texto">
               <span className="lp-dentro__num">03</span>
-              <h3>Cada anúncio vem com a análise e com a <em>nossa ferramenta.</em></h3>
+              <h3>Cada anúncio vem com a análise e com a <strong>nossa ferramenta.</strong></h3>
               <p>A análise explica por que ele vende, em poucas linhas e sem jargão. Do lado, o botão Fazer a minha versão escreve a sua, com a mesma estrutura e na voz do seu negócio.</p>
             </Reveal>
           </div>
@@ -786,7 +786,7 @@ export default function AcervoPage() {
           </div>
           <div className="lp-ticket__corte" aria-hidden="true" />
           <div className="lp-ticket__base">
-          <span className="lp-ticket__rotulo">O que entra junto</span>
+          <span className="lp-ticket__rotulo">O que você recebe</span>
           <ul className="lp-incluso" aria-label="O que está incluído">
             {INCLUSO.map((item, i) => (
               <li key={i}>
@@ -810,13 +810,14 @@ export default function AcervoPage() {
       <section className="lp-section lp-praquem">
         <i className="lp-ondas lp-ondas--praquem" aria-hidden="true" />
         <div className="lp-container">
-          <Reveal as="h2" className="lp-titulo lp-titulo--grande lp-titulo--centro">Pra quem <strong>é.</strong></Reveal>
-          <Reveal as="p" className="lp-praquem__intro" delay={80}>
-            <em>O acervo é pra você que:</em>
+          <Reveal className="lp-head">
+            <span className="lp-pill lp-pill--terra">Pra quem é</span>
+            <h2 className="lp-titulo lp-titulo--grande">O acervo é pra você que<strong>…</strong></h2>
           </Reveal>
           <ul className="lp-checks">
             {PRA_QUEM.map((item, i) => (
-              <Reveal as="li" key={i} className={`lp-adesivo lp-adesivo--${i % 3}`} delay={i * 50} style={{ '--giro': i === 0 ? '-1.5deg' : '0deg' }}>
+              <Reveal as="li" key={i} className={`lp-adesivo lp-adesivo--${i % 3}`} delay={i * 50}>
+                <span className="lp-adesivo__num" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
                 <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>
                 <span>{item}</span>
               </Reveal>
@@ -882,16 +883,13 @@ export default function AcervoPage() {
               Amigas da vida, parceiras de projetos, <strong>estrategistas digitais, gestoras de tráfego, crias dos bastidores</strong> e geminianas.
             </p>
             <p>
-              Cada uma de nós tem a sua agência, e o nosso dia a dia é dentro de projetos grandes: anúncio, página, verba, lançamento. Foi esse dia a dia que nos ensinou a <strong>ler um anúncio e entender por que um vende e o outro passa batido.</strong>
+              Cada uma tem a sua agência, e procurar os melhores anúncios faz parte da nossa rotina. Estamos há anos de olho em anúncios, páginas e estratégias, e foi essa experiência que nos ensinou a <strong>entender por que alguns anúncios vendem e outros não.</strong>
             </p>
             <p>
               Nós nos conhecemos em 2024, dentro do Subido Pro, e logo descobrimos que <strong>quase fomos separadas na maternidade</strong>: uma nasceu no dia 28 e a outra no dia 29 de maio de 1995. Desde então, a amizade só cresceu, e o sonho de criar algo juntas também. Desse sonho nasceu o acervo.
             </p>
             <p>
-              Nós nos completamos: uma vai fundo em cada detalhe, a outra transforma tudo em algo que dá para aplicar. Por isso, <strong>tudo o que fazemos juntas tem profundidade e critério.</strong>
-            </p>
-            <p>
-              O acervo é a nossa curadoria, um projeto vivo: <strong>toda semana entra o que vemos funcionar nos bastidores dos projetos.</strong> A gente acredita em ferramenta que facilita, por isso criamos uma que transforma a referência que você escolher no seu anúncio. E acredita também em desenvolver a sua leitura, por isso cada anúncio vem com a análise. <strong>A ferramenta te ajuda a aplicar agora. A análise te ensina a enxergar o que faz um anúncio vender.</strong>
+              O acervo é a nossa curadoria de anúncios, um projeto vivo, feito pra você ter <strong>referências novas toda semana, selecionadas por quem entende do assunto.</strong> A gente acredita em entregar pronto, mas também em desenvolver a sua leitura, por isso analisamos cada anúncio, pra você aprender junto com a gente. E como no digital o tempo é rei, criamos uma ferramenta exclusiva que transforma as suas referências favoritas em anúncios feitos pro seu negócio.
             </p>
           </Reveal>
         </div>
