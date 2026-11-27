@@ -542,7 +542,7 @@ export default function AcervoPage() {
             A biblioteca de anúncios das empreendedoras que <em>cansaram de começar do zero.</em>
           </h1>
           <p className="lp-hero__destaque">
-            No acervo você entende a lógica dos anúncios que vendem e transforma as suas referências favoritas em anúncios pro seu negócio, <strong>com uma ferramenta que escreve a sua versão em poucos cliques.</strong>
+            No acervo você entende a lógica dos anúncios que vendem e transforma as suas referências favoritas em anúncios pro seu negócio, com uma ferramenta que escreve a sua versão <strong>em poucos cliques.</strong>
           </p>
           <p className="lp-hero__sub">
             Tudo pelo celular, com acesso imediato.
@@ -689,7 +689,7 @@ export default function AcervoPage() {
               Primeiro você entende.<br /><strong>Depois, a ferramenta escreve a sua versão.</strong>
             </h2>
             <p>
-              O botão Fazer a minha versão fica <strong>logo abaixo da análise de cada anúncio e de cada página</strong>, já montado com aquela análise e com o seu negócio. Você preenche a sua ficha, toca, e a sua IA abre com a sua versão quase pronta.
+              O botão Fazer a minha versão fica <strong>logo abaixo da análise</strong> de cada anúncio e de cada página, já montado com aquela análise e com o seu negócio. Você preenche a sua ficha, toca, e a sua IA abre com a sua versão quase pronta.
             </p>
           </Reveal>
         </div>
