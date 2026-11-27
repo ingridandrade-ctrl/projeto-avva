@@ -586,7 +586,7 @@ export default function AcervoPage() {
             A biblioteca de anúncios das empreendedoras que <em>cansaram de começar do zero.</em>
           </h1>
           <p className="lp-hero__destaque">
-            Você entende a lógica de quem vende e transforma as suas referências favoritas em anúncios, <strong>com a nossa ferramenta.</strong>
+            No acervo você entende a lógica dos anúncios que vendem e transforma as suas referências favoritas em anúncios pro seu negócio, <strong>com uma ferramenta que escreve a sua versão em poucos cliques.</strong>
           </p>
           <p className="lp-hero__sub">
             Tudo pelo celular, com acesso imediato.
@@ -608,7 +608,28 @@ export default function AcervoPage() {
             <h2 className="lp-titulo lp-titulo--grande">
               O que você vai<br /><strong>encontrar no acervo.</strong>
             </h2>
-            <p>{OFERTA.videoUrl ? 'Clique no vídeo e veja o acervo funcionando: ' : ''}Você abre as coleções, escolhe um anúncio, lê por que ele vende e faz a sua versão com a nossa ferramenta. Tudo pelo celular.</p>
+          </Reveal>
+          <ul className="lp-pilares">
+            <Reveal as="li" className="lp-pilar" delay={60}>
+              <span className="lp-pilar__icone"><Icone nome="pasta" /></span>
+              <h3>Coleções</h3>
+              <p>Anúncios <strong>divididos por coleções</strong> para facilitar a sua busca.</p>
+            </Reveal>
+            <Reveal as="li" className="lp-pilar" delay={120}>
+              <span className="lp-pilar__icone"><Icone nome="filtro" /></span>
+              <h3>Filtro por tipo de negócio</h3>
+              <ul className="lp-pilar__tipos" aria-label="Tipos de negócio">
+                <li>Negócio local</li><li>Prestação de serviço</li><li>Infoproduto</li><li>E-commerce</li>
+              </ul>
+            </Reveal>
+            <Reveal as="li" className="lp-pilar lp-pilar--ia" delay={180}>
+              <span className="lp-pilar__icone"><Icone nome="ia" /></span>
+              <h3>Ferramenta de IA</h3>
+              <p>Transforma as referências em <strong>prompts prontos</strong> para criar anúncios pro seu negócio.</p>
+            </Reveal>
+          </ul>
+          <Reveal as="p" className="lp-video__como" delay={120}>
+            {OFERTA.videoUrl ? 'Clique no vídeo e veja o acervo funcionando: ' : ''}Você abre as coleções, escolhe um anúncio, <strong>entende por que ele vende</strong> e <strong>faz a sua versão com a nossa ferramenta.</strong> Tudo pelo celular.
           </Reveal>
           <Reveal delay={100}>
             {OFERTA.videoUrl ? (

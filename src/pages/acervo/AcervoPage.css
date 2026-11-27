@@ -2463,3 +2463,30 @@
 .lp-quem__nomes em { font-family: var(--lp-serif); font-style: italic; font-weight: 400; color: var(--lp-terra); }
 .lp-quem__texto p strong { color: var(--lp-ink); font-weight: 700; }
 .lp-quem__lead strong { color: var(--lp-ink); }
+
+/* ═══════════ Seção 2: os três pilares (coleções, filtro, ferramenta) ═══════════ */
+.lp-video__head { margin-bottom: 24px; }
+.lp-pilares { list-style: none; margin: 0 auto; padding: 0; max-width: 680px; display: grid; gap: 12px; }
+.lp-pilar { position: relative; padding: 18px 18px 18px 64px; border-radius: 20px; background: #fff; border: 1.5px solid rgba(46, 33, 27, 0.14); box-shadow: 5px 5px 0 var(--lp-areia); text-align: left; }
+.lp-pilar__icone { position: absolute; left: 16px; top: 16px; width: 36px; height: 36px; display: grid; place-items: center; border-radius: 12px; background: var(--lp-cream); color: var(--lp-terra); }
+.lp-pilar__icone svg { width: 20px; height: 20px; }
+.lp-pilar h3 { margin: 0; font-size: 1.05rem; font-weight: 800; letter-spacing: -0.02em; line-height: 1.2; }
+.lp-pilar p { margin-top: 6px; font-size: 0.98rem; line-height: 1.5; color: var(--lp-ink-2); }
+.lp-pilar p strong { color: var(--lp-ink); }
+.lp-pilar__tipos { list-style: none; margin: 10px 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 6px; }
+.lp-pilar__tipos li { padding: 6px 11px; border-radius: 100px; background: var(--lp-cream); border: 1.5px solid rgba(46, 33, 27, 0.14); font-size: 0.8rem; font-weight: 700; color: var(--lp-ink); }
+.lp-pilar--ia { background: var(--lp-teal-ink); border-color: var(--lp-teal-ink); color: #fff; box-shadow: 5px 5px 0 var(--lp-areia); }
+.lp-pilar--ia .lp-pilar__icone { background: rgba(255, 255, 255, 0.12); color: var(--lp-areia); }
+.lp-pilar--ia p { color: rgba(255, 255, 255, 0.8); }
+.lp-pilar--ia p strong { color: #fff; }
+.lp-video__como { margin: 26px auto 0; max-width: 640px; text-align: center; font-size: 1.1rem; line-height: 1.55; color: var(--lp-ink-2); }
+.lp-video__como strong { color: var(--lp-ink); }
+@media (min-width: 720px) {
+  .lp-pilares { max-width: 1040px; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .lp-pilar { padding: 22px 22px 22px 70px; }
+  .lp-pilar__icone { left: 18px; top: 20px; }
+  .lp-video__como { margin-top: 34px; font-size: 1.15rem; }
+}
+.lp-video__como { margin-bottom: 44px; }
+.lp-video .lp-mock { margin-top: 24px; }
+@media (min-width: 720px) { .lp-video .lp-mock { margin-top: 36px; } }
