@@ -856,8 +856,8 @@ export default function AcervoPage() {
               <small>dias</small>
             </span>
             <div className="lp-garantia__texto">
-              <h2>Garantia de {OFERTA.garantiaDias} dias, <em>sem perguntas.</em></h2>
-              <p>Você entra, navega e lê as análises no seu tempo. Se não fizer sentido pra você, é só pedir o reembolso dentro de {OFERTA.garantiaDias} dias: você recebe 100% de volta, sem precisar explicar.</p>
+              <h2>Garantia de <em>{OFERTA.garantiaDias} dias.</em></h2>
+              <p>Se o acervo não fizer sentido pra você, é só pedir o reembolso dentro de {OFERTA.garantiaDias} dias. Você recebe 100% do seu investimento de volta.</p>
             </div>
           </Reveal>
         </div>
