@@ -571,6 +571,7 @@ export default function AcervoPage() {
     <div className="lp">
       {/* ── 1. Hero ── */}
       <div className="lp-moldura">
+      <div className="lp-moldura__inner">
       <section className="lp-hero lp-palco lp-palco--claro" id="topo">
         <div className="lp-hero__inner">
           <div className="lp-palco-logo">
@@ -1035,6 +1036,7 @@ NÃO ESCREVA
           </div>
         </div>
       </footer>
+      </div>
       </div>
 
       {/* ── Pop-up: prévia do anúncio aberto, como na área de membros ── */}
