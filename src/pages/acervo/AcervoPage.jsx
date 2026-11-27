@@ -33,8 +33,8 @@ const OFERTA = {
 // Prints do passo a passo (AJUSTAR: trocar pelos prints reais da área de membros no celular)
 const PASSOS_PRINTS = [
   { n: '1', titulo: 'Você entra e escolhe o objetivo', texto: 'Atrair seguidores, captar leads, provar que funciona, vender agora. Cada coleção é um momento do funil, e você entra pela porta que precisa hoje.', src: '/acervo/tela-acervo.webp', alt: 'Tela das coleções na área de membros' },
-  { n: '2', titulo: 'Filtra pelo seu nicho', texto: 'Negócio local, prestação de serviço, infoproduto ou e-commerce. Você vê só o que serve pro seu caso.', src: '', alt: 'Print: filtro por nicho dentro de uma coleção' },
-  { n: '3', titulo: 'Abre o anúncio, lê a análise e faz a sua versão', texto: 'A análise explica por que ele vende. Do lado, o botão Fazer a minha versão: você preenche nicho e tom de voz e abre direto na sua IA.', src: '/acervo/passo-3.webp', alt: 'Anúncio aberto na área de membros, com a análise do lado' },
+  { n: '2', titulo: 'Você filtra pelo seu nicho', texto: 'Dentro da coleção, você marca o seu tipo de negócio e vê só o que serve pro seu caso.', src: '', alt: 'Print: filtro por nicho dentro de uma coleção' },
+  { n: '3', titulo: 'Você abre o anúncio, lê a análise e faz a sua versão', texto: 'A análise explica por que ele vende. Do lado, o botão Fazer a minha versão: você preenche a sua ficha e abre direto na sua IA.', src: '/acervo/passo-3.webp', alt: 'Anúncio aberto na área de membros, com a análise do lado' },
 ]
 
 const NICHOS = ['Negócio local', 'Prestação de serviço', 'Infoproduto', 'E-commerce']
@@ -100,38 +100,33 @@ const BONUS = [
 const FERRAMENTA_PASSOS = [
   {
     n: '1',
-    titulo: 'Você abre um anúncio. O botão está do lado.',
-    texto: 'Em todo anúncio e página do acervo, logo abaixo da análise, tem o botão Fazer a minha versão. Não é uma aba separada nem um prompt solto pra copiar: é ali, ao lado do anúncio que você acabou de entender.',
-  },
-  {
-    n: '2',
     titulo: 'Você preenche a sua ficha uma vez.',
     texto: 'O que você vende, pra quem, o que muda pra ela, uma prova real, o "mas" que você mais ouve. Nada é obrigatório, e fica salvo no seu celular. Na próxima vez, está tudo lá.',
   },
   {
-    n: '3',
+    n: '2',
     titulo: 'Você escolhe como escreve.',
-    texto: 'Direta, leve, acolhedora, elegante, provocadora, técnica. Cada tom vira uma regra concreta pra IA, não um adjetivo. E se você colar um texto seu, uma legenda ou um áudio transcrito, ela imita o seu ritmo e as suas palavras.',
+    texto: 'Direta, leve, acolhedora, elegante, provocadora, técnica. Cada tom vira uma regra concreta pra IA. E se você colar um texto seu, uma legenda ou um áudio transcrito, ela imita o seu ritmo e as suas palavras.',
   },
   {
-    n: '4',
+    n: '3',
     titulo: 'Você diz pra onde o anúncio leva.',
     texto: 'WhatsApp, site, página de vendas, perfil, direct. E o que a pessoa ganha ao clicar. A ferramenta já sugere o destino mais comum pra aquele tipo de anúncio.',
   },
   {
-    n: '5',
-    titulo: 'Você abre no ChatGPT ou no Claude. Pronto.',
+    n: '4',
+    titulo: 'Você abre no ChatGPT ou no Claude.',
     texto: 'Um toque e a sua IA abre com tudo montado: a sequência do anúncio original, a análise, a sua ficha e as regras. Ela escreve a sua versão com a mesma duração, na sua voz, com a sua prova. Se faltar alguma informação, ela pergunta antes de escrever, em vez de inventar.',
   },
 ]
 
 // O que a ferramenta garante (vem das regras que o prompt carrega)
 const FERRAMENTA_REGRAS = [
-  { titulo: 'Não copia o original', texto: 'Ela repete a sequência (gancho, desenvolvimento, prova, fechamento), nunca as frases. O anúncio é seu.' },
+  { titulo: 'Não copia o original', texto: 'Ela repete a sequência (gancho, desenvolvimento, prova, fechamento), nunca as frases.' },
   { titulo: 'Não inventa número', texto: 'Prova, preço, prazo e garantia só entram se você deu. Sem prova, ela não cria uma.' },
   { titulo: 'Pergunta antes de chutar', texto: 'Se faltar material pra algum passo, ela para e pergunta, no máximo três coisas, numa mensagem só.' },
   { titulo: 'Sem cara de IA', texto: 'A lista do que ela não pode escrever vai junto: validação pronta, pergunta retórica, frase de efeito, jargão, emoji, exclamação.' },
-  { titulo: 'Funciona na versão gratuita', texto: 'ChatGPT ou Claude, sem plano pago. Prefere outra IA? É só copiar o prompt.' },
+  { titulo: 'Funciona na versão gratuita', texto: 'ChatGPT ou Claude, sem plano pago. Se você usa outra IA, copia o prompt e cola lá.' },
   { titulo: 'Vídeo, imagem, carrossel e página', texto: 'Cada formato tem a sua entrega: a fala e as cenas no vídeo, as telas no carrossel, os blocos e os botões na página.' },
 ]
 
@@ -156,7 +151,7 @@ const ESPIADINHA = [
     niches: ['servico', 'infoproduto'],
     objectives: ['vender'],
     drive_url: 'https://drive.google.com/file/d/18USYqZIvfmPj5PC11trkP1sG-EqRc_yL/view',
-    analysis: 'A sacada começa no formato: o roteiro é estruturado, mas a gravação faz parecer que a especialista foi pega de surpresa e está simplesmente respondendo uma pergunta. Enquanto ela elimina uma alternativa depois da outra (postar todo dia, carrossel, impulsionar, social media), a curiosidade aumenta: se nenhuma dessas é a resposta, qual é?',
+    analysis: 'Começa no formato: o roteiro é estruturado, mas a gravação faz parecer que a especialista foi pega de surpresa e está simplesmente respondendo uma pergunta. Enquanto ela elimina uma alternativa depois da outra (postar todo dia, carrossel, impulsionar, social media), a curiosidade aumenta: se nenhuma dessas é a resposta, qual é?',
   },
   {
     id: 'espiada-2',
@@ -186,22 +181,20 @@ const ESPIADINHA = [
 
 // Checklist do que está incluído, dentro da oferta
 const INCLUSO = [
-  <><strong>Acervo vivo</strong>: anúncios novos toda semana, com a curadoria que a Flora faz pros clientes da agência</>,
+  <><strong>Acervo vivo</strong>: anúncios novos toda semana, com a curadoria que a gente faz pros nossos clientes</>,
   <><strong>Análise em cada anúncio</strong>: por que funciona e o que importa nele</>,
   <><strong>Fazer a minha versão</strong>, a nossa ferramenta, ao lado de todo anúncio e página</>,
-  <><strong>{OFERTA.totalColecoes} coleções por objetivo</strong> e filtro por nicho: negócio local, serviço, infoproduto e e-commerce</>,
+  <><strong>{OFERTA.totalColecoes} coleções por objetivo</strong> e filtro por tipo de negócio</>,
   <><strong>Melhores do mês</strong> e os três especiais: Black Friday, Mini VSL e Páginas</>,
   <><strong>{OFERTA.acessoPor} de acesso</strong>, com tudo que entrar nesse período</>,
 ]
 
 const ENTREGAS = [
   { icone: 'grid', texto: <><strong>Anúncios escolhidos a dedo</strong> em vídeo, imagem e carrossel: a gente garimpa o que vê funcionar nos bastidores dos projetos, de atrair seguidores a vender</> },
-  { icone: 'pasta', texto: <><strong>{OFERTA.totalColecoes} coleções por objetivo</strong>, de atrair seguidores até vender agora</> },
   { icone: 'lupa', texto: <><strong>Análise de cada anúncio</strong>: por que funciona, em poucas linhas e sem jargão</> },
   { icone: 'ia', texto: <><strong>Fazer a minha versão</strong>, a nossa ferramenta: ao lado de cada anúncio, ela junta a análise com a ficha do seu negócio e manda pro ChatGPT ou pro Claude escrever a sua versão, com a mesma estrutura do original, mas na voz do seu negócio</> },
-  { icone: 'estrela', texto: <><strong>Anúncios novos toda semana</strong>: a curadoria que a gente faz pros bastidores dos projetos, aberta pra você</> },
+  { icone: 'estrela', texto: <><strong>Anúncios novos toda semana</strong>: a mesma curadoria que a gente já faz pros nossos clientes</> },
   { icone: 'presente', texto: <><strong>Bônus</strong>: Especial Black Friday, Especial Mini VSL e Especial Páginas, com análise e a sua versão pela nossa ferramenta</> },
-  { icone: 'filtro', texto: <><strong>Filtro por nicho e formato</strong>: negócio local, serviço, infoproduto e e-commerce</> },
   { icone: 'celular', texto: <><strong>Área de membros no celular</strong>, com favoritos, busca e marcação do que você já viu</> },
   { icone: 'calendario', texto: <><strong>{OFERTA.acessoPor} de acesso</strong>, com tudo que entrar nesse período</> },
 ]
@@ -212,8 +205,8 @@ const CENARIOS = [
     titulo: 'Sem o acervo',
     itens: [
       'Você continua abrindo o gerenciador sem saber o que colocar no anúncio',
-      'Posta, impulsiona, torce. A verba vai e a venda não vem',
-      'Daqui a 30 dias: o mesmo feed, o mesmo resultado',
+      'Você posta, impulsiona e torce. A verba vai e a venda não vem',
+      'O mesmo feed, o mesmo resultado',
     ],
   },
   {
@@ -221,8 +214,8 @@ const CENARIOS = [
     titulo: 'Com o acervo',
     itens: [
       'Você abre o celular, escolhe pelo objetivo e lê por que aquele anúncio vende',
-      'Adapta a estrutura pro seu negócio, ou usa a nossa ferramenta pra escrever a sua versão, e coloca no ar ainda essa semana',
-      'Daqui a 30 dias: anúncios com estrutura, e não com sorte',
+      'Você adapta a estrutura pro seu negócio, ou usa a nossa ferramenta pra escrever a sua versão, e coloca no ar ainda essa semana',
+      'Os primeiros anúncios com estrutura já publicados, e você sabendo fazer o próximo',
     ],
   },
 ]
@@ -230,11 +223,11 @@ const CENARIOS = [
 const FAQ = [
   {
     q: 'Mas o meu nicho é diferente, isso não vai funcionar pra mim…',
-    a: 'O acervo é organizado por objetivo do anúncio, não por nicho, e você ainda filtra por negócio local, serviço, infoproduto e e-commerce. A estrutura que faz uma loja de roupa vender é a mesma que faz uma nutricionista fechar agenda.',
+    a: 'O acervo é organizado pelo objetivo do anúncio (atrair seguidores, captar leads, mostrar que você entende, provar que funciona, quebrar o "mas...", vender agora), e dentro de cada coleção você filtra pelo seu tipo de negócio. A estrutura que faz uma loja de roupa vender é a mesma que faz uma nutricionista fechar agenda.',
   },
   {
     q: 'Mas eu já comprei curso de anúncio e não saí do lugar…',
-    a: 'Isso não é curso. É referência pronta, com a análise do lado: você abre, escolhe pelo objetivo, lê por que funciona, faz a sua versão e coloca no ar. Dá pra publicar o primeiro ainda hoje.',
+    a: 'Aqui você recebe a referência pronta, com a análise do lado: você abre, escolhe pelo objetivo, lê por que funciona, faz a sua versão e coloca no ar. Dá pra publicar o primeiro ainda hoje.',
   },
   {
     q: 'Mas eu nem sei se vou ter tempo de usar…',
@@ -245,24 +238,20 @@ const FAQ = [
     a: 'Sim. Assim que o pagamento é aprovado, você recebe um e-mail e entra na área de membros com o mesmo e-mail da compra. No Pix e no cartão, leva minutos.',
   },
   {
-    q: 'Funciona pro meu nicho?',
-    a: 'O acervo é organizado por objetivo do anúncio (atrair seguidores, captar leads, mostrar que você entende, provar que funciona, quebrar o "mas...", vender agora), e não por nicho. A estrutura que faz uma loja de roupa vender é a mesma que faz uma nutricionista fechar agenda. E dá pra filtrar por negócio local, serviço, infoproduto e e-commerce.',
-  },
-  {
     q: 'A ferramenta vai fazer o anúncio por mim?',
     a: 'Ela escreve a sua versão, mas a partir do que você entendeu. Primeiro você lê a análise e vê por que aquele anúncio funciona. Depois preenche a sua ficha (o que vende, pra quem, uma prova real, como a sua cliente fala) e a ferramenta escreve na sua voz, com a sua prova, sem inventar número. O objetivo é você ganhar autonomia, e a ferramenta encurtar o caminho.',
   },
   {
-    q: 'Preciso pagar ChatGPT ou Claude pra usar o gerador?',
+    q: 'Preciso pagar ChatGPT ou Claude pra usar a ferramenta?',
     a: 'Não. A nossa ferramenta monta tudo pronto e abre na IA que você preferir, ChatGPT ou Claude, e funciona nas versões gratuitas. Se quiser usar outra, é só copiar.',
   },
   {
     q: 'O que são os bônus?',
-    a: 'Três blocos que entram junto com o acervo, sem custo: o Especial Black Friday, com páginas e criativos que venderam na Black; o Especial Mini VSL, com anúncios de 1 a 3 minutos que vendem sozinhos; e o Especial Páginas, de vendas, captura, obrigado e serviço, com análise e a sua versão pela nossa ferramenta.',
+    a: 'Três especiais que entram junto, sem custo: Black Friday, Mini VSL e Páginas. Cada um vem com análise e com a nossa ferramenta, igual ao resto do acervo.',
   },
   {
     q: 'É só pra Instagram e Facebook ou serve pra outras plataformas?',
-    a: 'Os anúncios do acervo rodam no Instagram e no Facebook. Em breve, também no TikTok. E a estrutura que a análise te mostra (gancho, prova, oferta) vale pra qualquer canal.',
+    a: 'Os anúncios do acervo são do Instagram e do Facebook, e a estrutura que a análise te mostra (gancho, prova, oferta) vale pra qualquer canal.',
   },
   {
     q: 'Preciso saber editar vídeo ou ter designer?',
@@ -270,15 +259,15 @@ const FAQ = [
   },
   {
     q: 'Posso copiar os anúncios?',
-    a: 'A melhor referência não é a que você copia. É a que te faz entender por que funciona e adaptar a lógica pra sua comunicação. Gancho, sequência, prova e fechamento são a referência. O produto, a fala e o visual são seus.',
+    a: 'A referência serve pra você entender por que funciona e adaptar a lógica pra sua comunicação. Gancho, sequência, prova e fechamento são a referência. O produto, a fala e o visual são seus.',
   },
   {
     q: 'Nunca rodei um anúncio. É pra mim?',
-    a: 'É, se você quer começar pelo caminho mais curto: ver o que já dá certo antes de criar o seu. Aqui você não aprende a configurar campanha. Aprende o que colocar dentro dela.',
+    a: 'É, se você quer começar pelo caminho mais curto: ver o que já dá certo antes de criar o seu. Aqui você vê o que colocar dentro do anúncio. Configurar a campanha é outra etapa, e o acervo não cobre essa parte.',
   },
   {
     q: 'Preciso de verba mínima pra usar o acervo?',
-    a: 'Não. O acervo não é sobre quanto investir, e sim sobre o que colocar dentro do anúncio. Com verba pequena ou grande, criativo com estrutura rende mais.',
+    a: 'Não. O acervo trata do criativo, e criativo com estrutura rende mais com verba pequena ou grande.',
   },
   {
     q: 'Eu só impulsiono pelo Instagram. Serve pra mim?',
@@ -290,7 +279,7 @@ const FAQ = [
   },
   {
     q: 'Tenho reembolso?',
-    a: `Tem. São ${OFERTA.garantiaDias} dias de garantia. Você entra, navega e lê as análises com calma. Se não fizer sentido pra você, é só pedir o reembolso: você recebe 100% de volta, sem precisar explicar.`,
+    a: `Tem. São ${OFERTA.garantiaDias} dias de garantia. Se você entrar e não fizer sentido pra você, é só pedir e você recebe 100% de volta.`,
   },
 ]
 
@@ -582,6 +571,7 @@ export default function AcervoPage() {
     <div className="lp">
       {/* ── 1. Hero ── */}
       <div className="lp-moldura">
+      <div className="lp-moldura__inner">
       <section className="lp-hero lp-palco lp-palco--claro" id="topo">
         <div className="lp-hero__inner">
           <div className="lp-palco-logo">
@@ -634,7 +624,7 @@ export default function AcervoPage() {
             </Reveal>
           </ul>
           <Reveal as="p" className="lp-video__como" delay={120}>
-            {OFERTA.videoUrl ? 'Clique no vídeo e veja o acervo funcionando: ' : ''}Você abre as coleções, escolhe um anúncio, <strong>entende por que ele vende</strong> e <strong>faz a sua versão com a nossa ferramenta.</strong> Tudo pelo celular.
+            {OFERTA.videoUrl ? 'Toque no vídeo e veja o acervo funcionando: ' : ''}Você abre as coleções, escolhe um anúncio, <strong>entende por que ele vende</strong> e <strong>faz a sua versão com a nossa ferramenta.</strong> Tudo pelo celular.
           </Reveal>
           <Reveal delay={100}>
             {OFERTA.videoUrl ? (
@@ -675,7 +665,6 @@ export default function AcervoPage() {
             ))}
           </ul>
 
-          <Reveal className="lp-center" delay={120}><Cta>Quero o acervo</Cta></Reveal>
         </div>
       </section>
 
@@ -695,7 +684,7 @@ export default function AcervoPage() {
                   <h3>{a.title}</h3>
                   <p className="lp-espiada__resumo">{a.analysis}</p>
                   <button type="button" className="lp-espiada__abrir" onClick={e => abrirAnalise(i, e)}>
-                    Dar uma espiadinha
+                    Abrir o anúncio
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg>
                   </button>
                 </div>
@@ -729,7 +718,6 @@ export default function AcervoPage() {
               </Reveal>
             ))}
           </ol>
-          <Reveal className="lp-center" delay={120}><Cta>Quero o acervo</Cta></Reveal>
         </div>
       </section>
 
@@ -739,10 +727,10 @@ export default function AcervoPage() {
         <div className="lp-container lp-oque__grid">
           <Reveal className="lp-oque__texto">
             <p className="lp-oque__frase">
-              O acervo é uma <span className="lp-cor-areia">estante de anúncios</span> que estão vendendo agora, organizada pelo que você precisa <span className="lp-cor-areia">hoje</span>, com a análise do porquê cada um funciona, pra te ajudar <em>a ter anúncios mais <span className="lp-cor-terra">simples, honestos e que vendem.</span></em>
+              O acervo é uma <span className="lp-cor-areia">estante de anúncios</span> que funcionam, organizada pelo que você precisa <span className="lp-cor-areia">hoje</span>, com a análise de por que cada um funciona, pra te ajudar <em>a ter anúncios mais <span className="lp-cor-terra">simples, honestos e que vendem.</span></em>
             </p>
             <span className="lp-oque__legenda">As 6 coleções por objetivo, mais a curadoria do mês</span>
-            <p className="lp-oque__nota">Não é um pacote fixo de anúncios. É um acervo vivo: toda semana entra anúncio novo, com a curadoria que a Flora faz pros clientes da agência dela.</p>
+            <p className="lp-oque__nota">Toda semana entra anúncio novo, e no fim do mês os melhores viram a coleção Melhores do mês.</p>
           </Reveal>
           <ol className="lp-cards">
             {COLECOES.map((c, i) => <CardColecao key={c.slug} c={c} index={i} />)}
@@ -756,7 +744,7 @@ export default function AcervoPage() {
           <Reveal className="lp-semana__card lp-semana__card--terra">
             <span className="lp-sticker lp-sticker--semana">toda semana</span>
             <h2>Anúncios novos toda semana. Você não precisa mais fazer a curadoria sozinha.</h2>
-            <p>A Flora garimpa e analisa anúncios o tempo todo pros clientes da agência dela, porque eles precisam vender. O que entra no acervo é essa mesma curadoria. Não é um pacote fechado que você compra e pronto: é um acervo que cresce, pega sazonalidade e acompanha o que está rodando agora.</p>
+            <p>A gente garimpa e analisa anúncios o tempo todo pros clientes das nossas agências, porque eles precisam vender. O que entra no acervo é essa mesma curadoria, então ele cresce, acompanha a época do ano e o que a gente vê funcionar agora.</p>
           </Reveal>
           <Reveal className="lp-semana__card lp-semana__card--teal" delay={100}>
             <span className="lp-sticker lp-sticker--semana">pro seu nicho</span>
@@ -778,7 +766,7 @@ export default function AcervoPage() {
               Primeiro você entende.<br /><strong>Depois, a ferramenta escreve a sua versão.</strong>
             </h2>
             <p>
-              É o que nenhum outro acervo tem: o prompt não fica solto num documento. Ele está <strong>ao lado de cada anúncio</strong>, já montado com a análise daquele anúncio e com o seu negócio. Você preenche, toca e a sua IA abre com a sua versão quase pronta.
+              O botão Fazer a minha versão fica <strong>logo abaixo da análise de cada anúncio e de cada página</strong>, já montado com aquela análise e com o seu negócio. Você preenche a sua ficha, toca, e a sua IA abre com a sua versão quase pronta.
             </p>
           </Reveal>
         </div>
@@ -918,8 +906,7 @@ NÃO ESCREVA
             <p className="lp-invest__preco">{OFERTA.preco}</p>
           </div>
           <p className="lp-invest__detalhe">
-            {OFERTA.parcelas && <><strong>{OFERTA.parcelas}</strong><br /></>}
-            (pagamento único, sem mensalidade)
+            {OFERTA.parcelas ? <strong>{OFERTA.parcelas}</strong> : `${OFERTA.acessoPor} de acesso, pagamento único`}
           </p>
           {OFERTA.reforco && <p className="lp-invest__reforco">{OFERTA.reforco}</p>}
           <ul className="lp-incluso" aria-label="O que está incluído">
@@ -930,10 +917,9 @@ NÃO ESCREVA
               </li>
             ))}
           </ul>
-          <Cta variante="teal" largo>Quero ver os anúncios que vendem</Cta>
+          <Cta variante="teal" largo>Quero o acervo</Cta>
           <ul className="lp-selos" aria-label="Garantias">
             <li>Acesso imediato</li>
-            <li>{OFERTA.garantiaDias} dias de garantia</li>
             <li>Pix ou cartão</li>
             <li>Pagamento seguro</li>
           </ul>
@@ -943,9 +929,8 @@ NÃO ESCREVA
               <small>dias</small>
             </span>
             <div className="lp-garantia__texto">
-              <h3>Garantia de {OFERTA.garantiaDias} dias, sem perguntas</h3>
+              <h3>Garantia de {OFERTA.garantiaDias} dias</h3>
               <p>Você entra, navega e lê as análises com calma. Se não fizer sentido pra você, é só pedir o reembolso: você recebe 100% de volta, sem precisar explicar.</p>
-              <a className="lp-garantia__link" href={OFERTA.checkoutUrl} rel="noopener">Quero entrar sem risco <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg></a>
             </div>
           </div>
         </Reveal>
@@ -961,8 +946,6 @@ NÃO ESCREVA
                 <figcaption>{f.alt}</figcaption>
               </figure>
             ))}
-            <span className="lp-sticker lp-sticker--quem-1">amigas</span>
-            <span className="lp-sticker lp-sticker--quem-2">sócias</span>
           </Reveal>
           <Reveal className="lp-quem__texto" delay={100}>
             <span className="lp-pill">Quem faz o acervo</span>
@@ -971,7 +954,7 @@ NÃO ESCREVA
               Amigas da vida, parceiras de projetos, <strong>estrategistas digitais, gestoras de tráfego, crias dos bastidores</strong> e geminianas.
             </p>
             <p>
-              Cada uma de nós tem a sua agência, e o nosso dia a dia são os bastidores de projetos grandes: anúncio, página, verba, lançamento. Foi esse dia a dia que nos ensinou a <strong>ler um anúncio e entender por que um vende e o outro passa batido.</strong>
+              Cada uma de nós tem a sua agência, e o nosso dia a dia é dentro de projetos grandes: anúncio, página, verba, lançamento. Foi esse dia a dia que nos ensinou a <strong>ler um anúncio e entender por que um vende e o outro passa batido.</strong>
             </p>
             <p>
               Nós nos conhecemos em 2024, dentro do Subido Pro, e logo descobrimos que <strong>quase fomos separadas na maternidade</strong>: uma nasceu no dia 28 e a outra no dia 29 de maio de 1995. Desde então, a nossa amizade só cresceu, e o sonho de criar algo juntas também. Desse sonho nasceu o acervo.
@@ -1054,6 +1037,7 @@ NÃO ESCREVA
         </div>
       </footer>
       </div>
+      </div>
 
       {/* ── Pop-up: prévia do anúncio aberto, como na área de membros ── */}
       {analiseAberta !== null && (() => {
@@ -1098,7 +1082,13 @@ NÃO ESCREVA
                   {paragrafos.map((t, i) => <p key={i}>{t}</p>)}
                   <CopyButton text={a.analysis} label="Copiar análise" />
                 </section>
-                <AdaptPanel ad={a} collectionTitle={a.colecao} collectionSlug="melhores-do-mes" />
+                <div className="lp-previa__adapt">
+                  <AdaptPanel ad={a} collectionTitle={a.colecao} collectionSlug="melhores-do-mes" previa />
+                </div>
+                <p className="lp-previa__adapt-nota">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>
+                  Aqui é só uma prévia. Dentro do acervo, você preenche a ficha e esse painel monta o prompt com a análise e abre na sua IA.
+                </p>
                 <div className="ad-modal__actions">
                   <button type="button" className={`ad-modal__pill ${vista ? 'ad-modal__pill--on' : ''}`} onClick={() => setEspiadaVista(v => ({ ...v, [a.id]: !v[a.id] }))}>
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>

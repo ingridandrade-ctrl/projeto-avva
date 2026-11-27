@@ -2520,3 +2520,13 @@
   .lp-moldura > .lp-fim { border-radius: 0 0 32px 32px; }
   .lp-letreiro__faixa span { font-size: 0.78rem; }
 }
+
+/* Pop-up da espiadinha: a ferramenta aparece, mas só pra ver */
+.lp-previa__adapt .adapt__toggle { pointer-events: none; }
+.lp-previa__adapt .adapt__body { opacity: 0.55; user-select: none; }
+.lp-previa__adapt-nota { display: flex; align-items: flex-start; gap: 8px; margin: 10px 0 18px; font-size: 0.82rem; line-height: 1.45; color: var(--umber); }
+.lp-previa__adapt-nota svg { flex-shrink: 0; margin-top: 2px; color: var(--terracotta); }
+
+/* Dentro da moldura, o fundo padrão é o creme da página (seções sem fundo próprio) */
+.lp-moldura__inner { background: var(--lp-cream); border-radius: 26px; overflow: hidden; }
+@media (min-width: 720px) { .lp-moldura__inner { border-radius: 32px; } }

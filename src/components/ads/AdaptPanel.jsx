@@ -8,8 +8,10 @@ import './AdaptPanel.css'
 // a aluna deu material pra cada passo, escreve a fala na voz dela e só então
 // corta em cenas. Campos opcionais, salvos no aparelho; o que faltar, a IA
 // pergunta antes de escrever.
-export default function AdaptPanel({ ad, collectionTitle, collectionSlug }) {
-  const [open, setOpen] = useState(false)
+// previa: o painel abre e mostra tudo, mas nada dentro dele pode ser preenchido
+// ou clicado (usado na página de vendas, pra quem ainda não comprou).
+export default function AdaptPanel({ ad, collectionTitle, collectionSlug, previa = false }) {
+  const [open, setOpen] = useState(previa)
   const [ficha, setFicha] = useState(() => loadFicha())
   const [verPrompt, setVerPrompt] = useState(false)
 
@@ -50,7 +52,7 @@ export default function AdaptPanel({ ad, collectionTitle, collectionSlug }) {
       </button>
 
       {open && (
-        <div className="adapt__body">
+        <div className="adapt__body" inert={previa || undefined}>
           <p className="adapt__intro">
             <strong>{pagina ? 'A IA entende a sequência dessa página e escreve a sua, bloco por bloco, na sua voz.' : 'A IA entende a sequência desse anúncio e escreve a sua versão na sua voz, com a mesma duração.'}</strong>{' '}
             Nenhum campo é obrigatório. O que você preencher fica salvo no seu aparelho, e o que faltar ela pergunta antes de escrever.
