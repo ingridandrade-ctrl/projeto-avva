@@ -51,6 +51,14 @@ const DEPOIMENTOS = [
   // { nome: 'Nome', nicho: 'Clínica de estética', texto: '...' },
 ]
 
+// Os quatro tipos de negócio do filtro, com o que a pessoa encontra em cada um
+const TIPOS_NEGOCIO = [
+  { nome: 'Negócio local', icone: 'pino', texto: 'Clínica, salão, loja de rua, restaurante: anúncios que trazem gente até o seu endereço' },
+  { nome: 'Prestação de serviço', icone: 'agenda', texto: 'Consultoria, estética, nutrição, advocacia: anúncios que fecham agenda e orçamento' },
+  { nome: 'Infoproduto', icone: 'play', texto: 'Curso, mentoria, comunidade: anúncios que captam, provam e vendem no digital' },
+  { nome: 'E-commerce', icone: 'sacola', texto: 'Loja online e produto físico: anúncios que mostram, convencem e levam pro carrinho' },
+]
+
 const PRA_QUEM = [
   <><strong>Tem um negócio local, presta serviço, vende infoproduto ou tem e-commerce</strong> e roda (ou quer rodar) os próprios anúncios</>,
   <><strong>Acabou de colocar um produto no mundo</strong> e está sem ideia de anúncio</>,
@@ -242,6 +250,17 @@ const FAQ = [
     a: `Tem. São ${OFERTA.garantiaDias} dias de garantia. Se você entrar e não fizer sentido pra você, é só pedir e você recebe 100% de volta.`,
   },
 ]
+
+function IconeTipo({ nome }) {
+  const p = { width: 22, height: 22, viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', strokeWidth: 2, strokeLinecap: 'round', strokeLinejoin: 'round' }
+  switch (nome) {
+    case 'pino': return <svg {...p}><path d="M12 21s7-6.2 7-11a7 7 0 0 0-14 0c0 4.8 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>
+    case 'agenda': return <svg {...p}><rect x="3" y="4" width="18" height="17" rx="3"/><path d="M8 2v4M16 2v4M3 10h18M8 15l2.5 2.5L16 12"/></svg>
+    case 'play': return <svg {...p}><rect x="3" y="4" width="18" height="16" rx="3"/><path d="M10 9l5 3-5 3z" fill="currentColor"/></svg>
+    case 'sacola': return <svg {...p}><path d="M5 8h14l-1 12H6z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg>
+    default: return null
+  }
+}
 
 function Cta({ children, variante = 'terracotta', largo = false }) {
   return (
@@ -544,7 +563,7 @@ export default function AcervoPage() {
             <h2 className="lp-titulo lp-titulo--grande">
               O que você vai<br /><strong>encontrar no acervo.</strong>
             </h2>
-            <p>O acervo é uma plataforma com os anúncios que a gente vê funcionar nos bastidores dos nossos projetos, organizados pelo que você precisa hoje, cada um com a análise de por que vende e com a ferramenta que escreve a sua versão. Você entra pelo celular e sai com o anúncio pronto.</p>
+            <p>O acervo é uma plataforma que reúne os anúncios que funcionam, organizados por objetivo e com filtro por tipo de negócio, pra você que quer escalar o seu negócio no digital, mas está cansada de perder horas tentando acertar o criativo.</p>
           </Reveal>
 
           <Reveal className="lp-dentro__mock" delay={100}>
@@ -575,7 +594,7 @@ export default function AcervoPage() {
             <Reveal className="lp-dentro__texto">
               <span className="lp-dentro__num">01</span>
               <h3>{OFERTA.totalColecoes} coleções, uma pra cada <em>momento da venda.</em></h3>
-              <p>De atrair seguidores a vender agora, em vídeo, imagem e carrossel. Você entra pela porta que precisa hoje, e no fim do mês os melhores anúncios viram a coleção Melhores do mês.</p>
+              <p>De atrair seguidores a vender agora, em vídeo, imagem e carrossel. Você escolhe o seu objetivo e acessa uma curadoria feita pro seu negócio. Além disso, todo mês os melhores anúncios do momento viram parte da coleção Melhores do mês.</p>
             </Reveal>
             <ol className="lp-cards">
               {COLECOES.map((c, i) => <CardColecao key={c.slug} c={c} index={i} />)}
@@ -587,11 +606,17 @@ export default function AcervoPage() {
             <Reveal className="lp-dentro__texto">
               <span className="lp-dentro__num">02</span>
               <h3>Dentro de cada coleção, você filtra pelo <em>seu tipo de negócio.</em></h3>
-              <p>A estrutura que faz uma loja de roupa vender é a mesma que faz uma nutricionista fechar agenda. Você vê só o exemplo do seu mundo.</p>
-              <ul className="lp-tipos" aria-label="Tipos de negócio">
-                <li>Negócio local</li><li>Prestação de serviço</li><li>Infoproduto</li><li>E-commerce</li>
-              </ul>
+              <p>Você acessa a coleção, filtra pelo seu tipo de negócio e já cai nos melhores anúncios voltados pro que você vende. Sem precisar ficar garimpando na sua pasta de salvos do Instagram.</p>
             </Reveal>
+            <ul className="lp-tipos">
+              {TIPOS_NEGOCIO.map((t, i) => (
+                <Reveal as="li" key={t.nome} delay={i * 60}>
+                  <span className="lp-tipos__icone" aria-hidden="true"><IconeTipo nome={t.icone} /></span>
+                  <strong>{t.nome}</strong>
+                  <span>{t.texto}</span>
+                </Reveal>
+              ))}
+            </ul>
           </div>
 
           {/* 3. Análise + ferramenta, com o mockup ou o vídeo */}
@@ -721,26 +746,6 @@ export default function AcervoPage() {
         </div>
       </section>
 
-      {/* ── 2. Pra quem é ── */}
-      <section className="lp-section lp-praquem">
-        <i className="lp-ondas lp-ondas--praquem" aria-hidden="true" />
-        <div className="lp-container">
-          <Reveal as="h2" className="lp-titulo lp-titulo--grande lp-titulo--centro">Pra quem <strong>é.</strong></Reveal>
-          <Reveal as="p" className="lp-praquem__intro" delay={80}>
-            <em>O acervo é pra você que:</em>
-          </Reveal>
-          <ul className="lp-checks">
-            {PRA_QUEM.map((item, i) => (
-              <Reveal as="li" key={i} className={`lp-adesivo lp-adesivo--${i % 3}`} delay={i * 50} style={{ '--giro': i === 0 ? '-1.5deg' : '0deg' }}>
-                <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>
-                <span>{item}</span>
-              </Reveal>
-            ))}
-          </ul>
-          <Reveal delay={120}><Cta largo>Quero o acervo</Cta></Reveal>
-        </div>
-      </section>
-
       {/* ── 10. Depoimentos ── */}
       {DEPOIMENTOS.length > 0 && (
         <section className="lp-section lp-depo">
@@ -798,17 +803,64 @@ export default function AcervoPage() {
           </ul>
           </div>
           </div>
-          <div className="lp-garantia">
+        </Reveal>
+      </section>
+
+      {/* ── 2. Pra quem é ── */}
+      <section className="lp-section lp-praquem">
+        <i className="lp-ondas lp-ondas--praquem" aria-hidden="true" />
+        <div className="lp-container">
+          <Reveal as="h2" className="lp-titulo lp-titulo--grande lp-titulo--centro">Pra quem <strong>é.</strong></Reveal>
+          <Reveal as="p" className="lp-praquem__intro" delay={80}>
+            <em>O acervo é pra você que:</em>
+          </Reveal>
+          <ul className="lp-checks">
+            {PRA_QUEM.map((item, i) => (
+              <Reveal as="li" key={i} className={`lp-adesivo lp-adesivo--${i % 3}`} delay={i * 50} style={{ '--giro': i === 0 ? '-1.5deg' : '0deg' }}>
+                <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>
+                <span>{item}</span>
+              </Reveal>
+            ))}
+          </ul>
+          <Reveal delay={120}><Cta largo>Quero o acervo</Cta></Reveal>
+        </div>
+      </section>
+
+      {/* ── 10. Fechamento: cenário A x cenário B ── */}
+      <section className="lp-section lp-cenarios">
+        <div className="lp-container lp-container--narrow">
+          <Reveal as="h2" className="lp-titulo lp-titulo--grande lp-titulo--centro">
+            Daqui a 30 dias,<br /><strong>onde você vai estar?</strong>
+          </Reveal>
+          <div className="lp-cenarios__grid">
+            {CENARIOS.map((c, i) => (
+              <Reveal as="article" key={c.letra} className={`lp-cenario lp-cenario--${c.letra.toLowerCase()}`} delay={i * 100}>
+                <span className="lp-cenario__kicker">Cenário {c.letra}</span>
+                <h3>{c.titulo}</h3>
+                <ul>
+                  {c.itens.map((item, j) => <li key={j}>{item}</li>)}
+                </ul>
+              </Reveal>
+            ))}
+          </div>
+          <Reveal delay={120}><Cta largo>Quero anúncios que vendem</Cta></Reveal>
+        </div>
+      </section>
+
+      {/* ── Garantia ── */}
+      <section className="lp-section lp-garantia-sec">
+        <div className="lp-container lp-container--narrow">
+          <Reveal className="lp-garantia">
             <span className="lp-garantia__selo" aria-hidden="true">
               <strong>{OFERTA.garantiaDias}</strong>
               <small>dias</small>
             </span>
             <div className="lp-garantia__texto">
-              <h3>Garantia de {OFERTA.garantiaDias} dias</h3>
-              <p>Você entra, navega e lê as análises com calma. Se não fizer sentido pra você, é só pedir o reembolso: você recebe 100% de volta, sem precisar explicar.</p>
+              <h2>Garantia de <em>{OFERTA.garantiaDias} dias.</em></h2>
+              <p>Se o acervo não fizer sentido pra você, é só pedir o reembolso dentro de {OFERTA.garantiaDias} dias. Você recebe 100% do seu investimento de volta.</p>
             </div>
-          </div>
-        </Reveal>
+          </Reveal>
+        </div>
       </section>
 
       {/* ── Quem faz o acervo ── */}
@@ -833,39 +885,15 @@ export default function AcervoPage() {
               Cada uma de nós tem a sua agência, e o nosso dia a dia é dentro de projetos grandes: anúncio, página, verba, lançamento. Foi esse dia a dia que nos ensinou a <strong>ler um anúncio e entender por que um vende e o outro passa batido.</strong>
             </p>
             <p>
-              Nós nos conhecemos em 2024, dentro do Subido Pro, e logo descobrimos que <strong>quase fomos separadas na maternidade</strong>: uma nasceu no dia 28 e a outra no dia 29 de maio de 1995. Desde então, a nossa amizade só cresceu, e o sonho de criar algo juntas também. Desse sonho nasceu o acervo.
+              Nós nos conhecemos em 2024, dentro do Subido Pro, e logo descobrimos que <strong>quase fomos separadas na maternidade</strong>: uma nasceu no dia 28 e a outra no dia 29 de maio de 1995. Desde então, a amizade só cresceu, e o sonho de criar algo juntas também. Desse sonho nasceu o acervo.
             </p>
             <p>
               Nós nos completamos: uma vai fundo em cada detalhe, a outra transforma tudo em algo que dá para aplicar. Por isso, <strong>tudo o que fazemos juntas tem profundidade e critério.</strong>
             </p>
             <p>
-              O acervo é a nossa curadoria, um projeto vivo: <strong>toda semana entra o que vemos funcionar nos bastidores dos projetos.</strong> Nós acreditamos em ferramentas que facilitam, e por isso criamos uma que transforma a referência que você escolher no seu anúncio. Mas acreditamos também em desenvolver a sua leitura: queremos que você consiga interpretar um anúncio e entender por que ele funciona. Por isso, cada um vem com a análise.
-            </p>
-            <p>
-              <strong>A ferramenta te ajuda a aplicar agora. A análise te ensina a desenvolver a sua percepção sobre os anúncios.</strong>
+              O acervo é a nossa curadoria, um projeto vivo: <strong>toda semana entra o que vemos funcionar nos bastidores dos projetos.</strong> A gente acredita em ferramenta que facilita, por isso criamos uma que transforma a referência que você escolher no seu anúncio. E acredita também em desenvolver a sua leitura, por isso cada anúncio vem com a análise. <strong>A ferramenta te ajuda a aplicar agora. A análise te ensina a enxergar o que faz um anúncio vender.</strong>
             </p>
           </Reveal>
-        </div>
-      </section>
-
-      {/* ── 10. Fechamento: cenário A x cenário B ── */}
-      <section className="lp-section lp-cenarios">
-        <div className="lp-container lp-container--narrow">
-          <Reveal as="h2" className="lp-titulo lp-titulo--grande lp-titulo--centro">
-            Daqui a 30 dias,<br /><strong>onde você vai estar?</strong>
-          </Reveal>
-          <div className="lp-cenarios__grid">
-            {CENARIOS.map((c, i) => (
-              <Reveal as="article" key={c.letra} className={`lp-cenario lp-cenario--${c.letra.toLowerCase()}`} delay={i * 100}>
-                <span className="lp-cenario__kicker">Cenário {c.letra}</span>
-                <h3>{c.titulo}</h3>
-                <ul>
-                  {c.itens.map((item, j) => <li key={j}>{item}</li>)}
-                </ul>
-              </Reveal>
-            ))}
-          </div>
-          <Reveal delay={120}><Cta largo>Quero anúncios que vendem</Cta></Reveal>
         </div>
       </section>
 
