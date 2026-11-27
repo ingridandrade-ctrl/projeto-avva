@@ -883,13 +883,13 @@ export default function AcervoPage() {
               Amigas da vida, parceiras de projetos, <strong>estrategistas digitais, gestoras de tráfego, crias dos bastidores</strong> e geminianas.
             </p>
             <p>
-              Cada uma tem a sua agência, e procurar os melhores anúncios faz parte da nossa rotina. Estamos há anos de olho em anúncios, páginas e estratégias, e foi essa experiência que nos ensinou a <strong>entender por que alguns anúncios vendem e outros não.</strong>
+              Cada uma tem a sua agência, e procurar os melhores anúncios faz parte da nossa rotina. Estamos há anos de olho em anúncios, páginas e estratégias, e foi essa experiência que nos ensinou a entender <strong>por que alguns anúncios vendem e outros não.</strong>
             </p>
             <p>
               Nós nos conhecemos em 2024, dentro do Subido Pro, e logo descobrimos que <strong>quase fomos separadas na maternidade</strong>: uma nasceu no dia 28 e a outra no dia 29 de maio de 1995. Desde então, a amizade só cresceu, e o sonho de criar algo juntas também. Desse sonho nasceu o acervo.
             </p>
             <p>
-              O acervo é a nossa curadoria de anúncios, um projeto vivo, feito pra você ter <strong>referências novas toda semana, selecionadas por quem entende do assunto.</strong> A gente acredita em entregar pronto, mas também em desenvolver a sua leitura, por isso analisamos cada anúncio, pra você aprender junto com a gente. E como no digital o tempo é rei, criamos uma ferramenta exclusiva que transforma as suas referências favoritas em anúncios feitos pro seu negócio.
+              O acervo é a nossa curadoria de anúncios, um projeto vivo, feito pra você ter <strong>referências novas toda semana</strong>, selecionadas por quem entende do assunto. A gente acredita em entregar pronto, mas também em desenvolver a sua leitura, por isso analisamos cada anúncio, pra você aprender junto com a gente. E como no digital o tempo é rei, criamos uma ferramenta exclusiva que transforma as suas referências favoritas em anúncios feitos pro seu negócio.
             </p>
           </Reveal>
         </div>
