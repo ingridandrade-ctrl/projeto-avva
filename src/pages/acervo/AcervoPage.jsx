@@ -622,7 +622,7 @@ export default function AcervoPage() {
                 <li>Negócio local</li><li>Prestação de serviço</li><li>Infoproduto</li><li>E-commerce</li>
               </ul>
             </Reveal>
-            <Reveal as="li" className="lp-pilar lp-pilar--ia" delay={180}>
+            <Reveal as="li" className="lp-pilar" delay={180}>
               <span className="lp-pilar__icone"><Icone nome="ia" /></span>
               <h3>Ferramenta de IA</h3>
               <p>Transforma as referências em <strong>prompts prontos</strong> para criar anúncios pro seu negócio.</p>
