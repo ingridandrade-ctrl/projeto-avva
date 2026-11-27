@@ -606,7 +606,7 @@ export default function AcervoPage() {
             <Reveal className="lp-dentro__texto">
               <span className="lp-dentro__num">02</span>
               <h3>Dentro de cada coleção, você filtra pelo <em>seu tipo de negócio.</em></h3>
-              <p>Você entra na coleção que precisa, marca o seu tipo de negócio e aparecem só os anúncios de quem vende como você. A loja de roupa vê exemplo de loja, a nutricionista vê exemplo de consultório, e a estrutura que funciona pra uma funciona pra outra.</p>
+              <p>Você acessa a coleção, filtra pelo seu tipo de negócio e já cai nos melhores anúncios voltados pro que você vende. Sem precisar garimpar no meio de coisa que não tem nada a ver com você.</p>
             </Reveal>
             <ul className="lp-tipos">
               {TIPOS_NEGOCIO.map((t, i) => (
