@@ -60,6 +60,16 @@ const PRA_QUEM = [
 ]
 
 // Coleções mostradas nos cards (as 6 por objetivo + a curadoria mensal)
+// Capas reais das coleções, as mesmas da área de membros (cadastradas no admin)
+const CAPAS_COLECOES = {
+  'ser-descoberta': 'https://ufprndosuvqbrqlvndry.supabase.co/storage/v1/object/public/covers/ser-descoberta-1793649588587.webp',
+  'captar-leads': 'https://ufprndosuvqbrqlvndry.supabase.co/storage/v1/object/public/covers/captar-leads-1793653459281.webp',
+  'mostrar-que-voce-entende': 'https://ufprndosuvqbrqlvndry.supabase.co/storage/v1/object/public/covers/mostrar-que-voce-entende-1793654306990.webp',
+  'provar-que-funciona': 'https://ufprndosuvqbrqlvndry.supabase.co/storage/v1/object/public/covers/provar-que-funciona-1793650114882.webp',
+  'quebrar-o-mas': 'https://ufprndosuvqbrqlvndry.supabase.co/storage/v1/object/public/covers/quebrar-o-mas-1793654125233.webp',
+  'vender-agora': 'https://ufprndosuvqbrqlvndry.supabase.co/storage/v1/object/public/covers/vender-agora-1793653833845.webp',
+}
+
 const COLECOES = [
   ...COLLECTIONS.filter(c => !c.retired && !c.isBonus).sort((a, b) => a.order - b.order).map(c => ({
     slug: c.slug,
@@ -67,6 +77,7 @@ const COLECOES = [
     subtitulo: c.subtitle,
     kicker: c.isBonus ? 'Bônus' : `Coleção ${String(c.order).padStart(2, '0')}`,
     gradient: c.gradient,
+    capa: CAPAS_COLECOES[c.slug] || '',
   })),
   {
     slug: 'melhores-do-mes',
@@ -74,6 +85,7 @@ const COLECOES = [
     subtitulo: 'Curadoria nova todo mês',
     kicker: 'Todo mês',
     gradient: 'linear-gradient(135deg, #3F7A66 0%, #8A5C3F 55%, #D4B99A 100%)',
+    capa: '/acervo/card-melhores.webp',
   },
 ]
 
@@ -298,14 +310,6 @@ function Icone({ nome }) {
   }
 }
 
-function Seta() {
-  return (
-    <span className="lp-seta" aria-hidden="true">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 5v14"/><path d="m6 13 6 6 6-6"/></svg>
-    </span>
-  )
-}
-
 function Cta({ children, variante = 'terracotta', largo = false }) {
   return (
     <a className={`lp-cta lp-cta--${variante} ${largo ? 'lp-cta--largo' : ''}`} href={OFERTA.checkoutUrl} rel="noopener">
@@ -430,9 +434,11 @@ function CardColecao({ c, index }) {
   }
   return (
     <Reveal as="li" className={`lp-card ${index % 2 ? 'lp-card--areia' : 'lp-card--terra'}`} delay={index * 60}>
-      <div ref={ref} className="lp-card__tilt" onMouseMove={move} onMouseLeave={leave}>
-        <span className="lp-sticker lp-sticker--card">{c.kicker}</span>
-        <Seta />
+      <div ref={ref} className="lp-card__tilt" onMouseMove={move} onMouseLeave={leave} style={{ backgroundImage: c.gradient }}>
+        {c.capa && <img src={c.capa} alt="" loading="lazy" onError={e => { e.currentTarget.remove() }} />}
+      </div>
+      <div className="lp-card__info">
+        <span className="lp-card__kicker">{c.kicker}</span>
         <h3>{c.titulo}</h3>
         <p>{c.subtitulo}</p>
       </div>
@@ -613,7 +619,7 @@ export default function AcervoPage() {
             <Reveal as="li" className="lp-pilar" delay={60}>
               <span className="lp-pilar__icone"><Icone nome="pasta" /></span>
               <h3>Coleções</h3>
-              <p>Anúncios <strong>divididos por coleções</strong> para facilitar a sua busca.</p>
+              <p>Anúncios divididos em <strong>{OFERTA.totalColecoes} coleções por objetivo</strong>, de atrair seguidores a vender agora, para facilitar a sua busca.</p>
             </Reveal>
             <Reveal as="li" className="lp-pilar" delay={120}>
               <span className="lp-pilar__icone"><Icone nome="filtro" /></span>
@@ -622,7 +628,7 @@ export default function AcervoPage() {
                 <li>Negócio local</li><li>Prestação de serviço</li><li>Infoproduto</li><li>E-commerce</li>
               </ul>
             </Reveal>
-            <Reveal as="li" className="lp-pilar lp-pilar--ia" delay={180}>
+            <Reveal as="li" className="lp-pilar" delay={180}>
               <span className="lp-pilar__icone"><Icone nome="ia" /></span>
               <h3>Ferramenta de IA</h3>
               <p>Transforma as referências em <strong>prompts prontos</strong> para criar anúncios pro seu negócio.</p>
