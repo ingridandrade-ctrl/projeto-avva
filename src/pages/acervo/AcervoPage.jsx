@@ -593,10 +593,10 @@ export default function AcervoPage() {
               <h3>Dentro de cada coleção, <br className="lp-br-d" />você filtra pelo <strong>seu tipo de&nbsp;negócio.</strong></h3>
               <p>Você acessa a coleção, filtra pelo seu tipo de negócio e já cai nos melhores anúncios voltados pro que você vende. Sem precisar ficar garimpando na sua pasta de salvos do&nbsp;Instagram.</p>
             </Reveal>
-            <Reveal className="lp-filtro" delay={80} aria-hidden="true">
-              <span className="lp-filtro__rotulo">Filtrar por</span>
+            <Reveal className="lp-filtro lp-filtro--tipos" delay={80} aria-hidden="true">
+              <span className="lp-filtro__rotulo">Filtrar por tipo de negócio</span>
               <div className="lp-filtro__chips">
-                <span>Todos</span><span>Infoproduto</span><span className="is-on">E-commerce ✓</span><span>Negócio local</span><span>Serviço</span>
+                <span>Infoproduto</span><span className="is-on">E-commerce</span><span>Negócio local</span><span>Serviço</span>
               </div>
               <p className="lp-filtro__resultado">Mostrando só o que serve pro seu caso</p>
             </Reveal>
