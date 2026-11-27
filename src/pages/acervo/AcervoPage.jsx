@@ -189,13 +189,6 @@ const INCLUSO = [
   <><strong>{OFERTA.acessoPor} de acesso</strong>, com tudo que entrar nesse período</>,
 ]
 
-const ENTREGAS = [
-  { icone: 'grid', texto: <><strong>Anúncios escolhidos a dedo</strong> em vídeo, imagem e carrossel: a gente garimpa o que vê funcionar nos bastidores dos projetos</> },
-  { icone: 'estrela', texto: <><strong>Anúncios novos toda semana</strong>: a mesma curadoria que a gente faz pros clientes das nossas agências, então o acervo cresce e acompanha a época do ano</> },
-  { icone: 'presente', texto: <><strong>Bônus</strong>: Especial Mini VSL e Especial Páginas, com análise e a sua versão pela nossa ferramenta</> },
-  { icone: 'celular', texto: <><strong>Área de membros no celular</strong>, com favoritos, busca e marcação do que você já viu</> },
-  { icone: 'calendario', texto: <><strong>{OFERTA.acessoPor} de acesso</strong>, com tudo que entrar nesse período</> },
-]
 
 const CENARIOS = [
   {
@@ -248,22 +241,6 @@ const FAQ = [
     a: `Tem. São ${OFERTA.garantiaDias} dias de garantia. Se você entrar e não fizer sentido pra você, é só pedir e você recebe 100% de volta.`,
   },
 ]
-
-function Icone({ nome }) {
-  const p = { width: 20, height: 20, viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', strokeWidth: 2, strokeLinecap: 'round', strokeLinejoin: 'round', 'aria-hidden': true }
-  switch (nome) {
-    case 'calendario': return <svg {...p}><rect x="3" y="4" width="18" height="18" rx="3"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
-    case 'grid': return <svg {...p}><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
-    case 'pasta': return <svg {...p}><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
-    case 'estrela': return <svg {...p}><path d="M12 2l2.9 6.3 6.9.8-5.1 4.7 1.4 6.8L12 17.3 5.9 20.6l1.4-6.8L2.2 9.1l6.9-.8z"/></svg>
-    case 'lupa': return <svg {...p}><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
-    case 'filtro': return <svg {...p}><path d="M3 5h18l-7 8v6l-4 2v-8z"/></svg>
-    case 'celular': return <svg {...p}><rect x="6" y="2" width="12" height="20" rx="3"/><path d="M11 18h2"/></svg>
-    case 'ia': return <svg {...p}><path d="M12 3l1.8 4.7L18.5 9.5l-4.7 1.8L12 16l-1.8-4.7L5.5 9.5l4.7-1.8z"/><path d="M19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8z"/></svg>
-    case 'presente': return <svg {...p}><rect x="3" y="8" width="18" height="4" rx="1"/><path d="M5 12v8a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-8M12 8v13M12 8c-2-3-6-3-6 0h6zm0 0c2-3 6-3 6 0h-6z"/></svg>
-    default: return null
-  }
-}
 
 function Cta({ children, variante = 'terracotta', largo = false }) {
   return (
@@ -634,19 +611,6 @@ export default function AcervoPage() {
             </Reveal>
           </div>
 
-          {/* 4. Tudo que entra */}
-          <Reveal className="lp-dentro__texto lp-dentro__texto--lista">
-            <span className="lp-dentro__num">04</span>
-            <h3>E tudo isso <em>já vem junto:</em></h3>
-          </Reveal>
-          <ul className="lp-entregas__lista">
-            {ENTREGAS.map((e, i) => (
-              <Reveal as="li" key={i} delay={i * 50}>
-                <Icone nome={e.icone} />
-                <span>{e.texto}</span>
-              </Reveal>
-            ))}
-          </ul>
         </div>
       </section>
 
