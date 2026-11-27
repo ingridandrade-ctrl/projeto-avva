@@ -55,8 +55,13 @@
 .lp-center { text-align: center; }
 
 /* ── 3. Tipografia ── */
+/* Quebras: títulos equilibrados, parágrafos sem viúva; quebra manual só no computador */
+.lp :where(h1, h2, h3) { text-wrap: balance; }
+.lp :where(p, li) { text-wrap: pretty; }
+.lp-br-d { display: none; }
+.lp-br-m { display: inline; }
 .lp-titulo { font-size: clamp(2rem, 8vw, 3.2rem); font-weight: 800; letter-spacing: -0.045em; line-height: 0.98; text-wrap: balance; }
-.lp-titulo--grande { font-size: clamp(1.9rem, 7.4vw, 3.2rem); font-weight: 300; letter-spacing: -0.04em; line-height: 1.02; }
+.lp-titulo--grande { font-size: clamp(1.75rem, 7vw, 3.2rem); font-weight: 300; letter-spacing: -0.04em; line-height: 1.02; }
 .lp-titulo--grande strong { font-weight: 800; }
 .lp-titulo--claro { color: #fff; }
 .lp-titulo--centro { text-align: center; }
@@ -127,7 +132,7 @@
 .lp-hero__inner { position: relative; max-width: 720px; margin: 0 auto; padding: 0 var(--gutter); display: flex; flex-direction: column; align-items: center; }
 .lp-hero__logo { display: grid; justify-items: center; }
 .lp-logomarca { width: min(168px, 44vw); height: auto; }
-.lp-hero__frase { margin-top: 30px; max-width: 640px; font-size: clamp(2rem, 8.4vw, 2.7rem); font-weight: 800; letter-spacing: -0.045em; line-height: 1.02; text-wrap: balance; }
+.lp-hero__frase { margin-top: 30px; max-width: 640px; font-size: clamp(1.9rem, 8vw, 2.7rem); font-weight: 800; letter-spacing: -0.045em; line-height: 1.02; text-wrap: balance; }
 .lp-hero__frase em { font-family: var(--lp-serif); font-style: italic; font-weight: 400; font-size: 1.06em; letter-spacing: -0.01em; color: var(--lp-terra); -webkit-text-stroke: 0.85px var(--lp-terra); paint-order: stroke fill; }
 .lp-hero__destaque { margin-top: 18px; max-width: 560px; font-size: 1.05rem; font-weight: 500; line-height: 1.45; color: var(--lp-ink-2); text-wrap: balance; }
 .lp-hero__destaque strong { color: var(--lp-ink); font-weight: 700; }
@@ -147,10 +152,10 @@
 .lp-dentro__head { max-width: 640px; margin: 0 auto var(--s-5); text-align: center; }
 .lp-dentro__mock { margin-bottom: var(--s-8); }
 .lp-dentro__head h2 { margin-top: var(--s-3); }
-.lp-dentro__head p { margin: 20px auto 0; max-width: 560px; font-size: 1.08rem; line-height: 1.55; color: var(--lp-ink-2); }
+.lp-dentro__head p { margin: 20px auto 0; max-width: 600px; font-size: 1.08rem; line-height: 1.55; color: var(--lp-ink-2); }
 .lp-dentro__bloco { margin-top: 64px; }
 .lp-dentro__bloco:first-of-type { margin-top: 0; }
-.lp-dentro__texto { max-width: 560px; margin: 0 auto 28px; text-align: center; }
+.lp-dentro__texto { max-width: 600px; margin: 0 auto 28px; text-align: center; }
 .lp-dentro__num { display: inline-grid; place-items: center; width: 44px; height: 44px; border-radius: 50%; background: var(--lp-terra); color: #fff; font-family: var(--lp-serif); font-style: italic; font-size: 1.15rem; box-shadow: 0 0 0 3px #fff, 4px 4px 0 var(--lp-ink); margin-bottom: 18px; }
 .lp-dentro__texto h3 { font-size: clamp(1.6rem, 6.4vw, 2.3rem); font-weight: 800; letter-spacing: -0.035em; line-height: 1.05; }
 .lp-dentro__texto h3 strong { font-weight: 800; color: var(--lp-terra); }
@@ -437,7 +442,10 @@
   .lp-cta--largo i { display: inline; }
 
   .lp-hero { padding: 72px 0 88px; }
-  .lp-hero__frase { font-size: 3.4rem; }
+  .lp-hero__frase { font-size: 3.4rem; max-width: 760px; }
+  .lp-br-d { display: inline; }
+  .lp-br-m { display: none; }
+  .lp-espiada__head { max-width: 760px; }
   .lp-hero__destaque { font-size: 1.18rem; }
   .lp-letreiro__faixa span { font-size: 0.78rem; }
 

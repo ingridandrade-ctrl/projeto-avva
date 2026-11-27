@@ -547,10 +547,10 @@ export default function AcervoPage() {
             <img className="lp-logomarca" src="/acervo/logo.webp" alt="acervo de anúncios" width="1140" height="970" fetchPriority="high" />
           </div>
           <h1 className="lp-hero__frase">
-            A biblioteca de anúncios das empreendedoras que <em>cansaram de começar do zero.</em>
+            A biblioteca de anúncios <br className="lp-br-d" />das empreendedoras <br className="lp-br-m" />que <em>cansaram de começar do&nbsp;zero.</em>
           </h1>
           <p className="lp-hero__destaque">
-            No acervo você entende a lógica dos anúncios que vendem e transforma as suas referências favoritas em anúncios pro seu negócio, com uma ferramenta que escreve a sua versão <strong>em poucos cliques.</strong>
+            No acervo você entende a lógica dos anúncios que vendem e transforma as suas referências favoritas em anúncios pro seu negócio, com uma ferramenta que escreve a sua versão <strong>em&nbsp;poucos&nbsp;cliques.</strong>
           </p>
           <p className="lp-hero__sub">
             Tudo pelo celular, com acesso imediato.
@@ -571,7 +571,7 @@ export default function AcervoPage() {
             <h2 className="lp-titulo lp-titulo--grande">
               O que você vai<br /><strong>encontrar no acervo.</strong>
             </h2>
-            <p>O acervo é uma plataforma com os melhores anúncios do mercado, organizados por objetivo e com filtro por tipo de negócio. Pra você que já anuncia ou quer começar a anunciar.</p>
+            <p>O acervo é uma plataforma com os melhores anúncios do mercado, organizados por objetivo e com filtro por tipo de negócio. Pra você que já anuncia ou quer começar a&nbsp;anunciar.</p>
           </Reveal>
 
           <Reveal className="lp-dentro__mock" delay={100}>
@@ -602,7 +602,7 @@ export default function AcervoPage() {
             <Reveal className="lp-dentro__texto">
               <span className="lp-dentro__num">01</span>
               <h3>{OFERTA.totalColecoes} coleções, uma pra cada <strong>momento da venda.</strong></h3>
-              <p>De atrair seguidores a vender agora, em vídeo, imagem e carrossel. Você escolhe o seu objetivo e acessa uma curadoria feita pro seu negócio. Além disso, todo mês os melhores anúncios do momento viram parte da coleção Melhores do mês.</p>
+              <p>De atrair seguidores a vender agora, em vídeo, imagem e carrossel. Você escolhe o seu objetivo e acessa uma curadoria feita pro seu negócio. Além disso, todo mês os melhores anúncios do momento viram parte da coleção Melhores&nbsp;do&nbsp;mês.</p>
             </Reveal>
             <ol className="lp-cards">
               {COLECOES.map((c, i) => <CardColecao key={c.slug} c={c} index={i} />)}
@@ -613,8 +613,8 @@ export default function AcervoPage() {
           <div className="lp-dentro__bloco lp-dentro__bloco--filtro">
             <Reveal className="lp-dentro__texto">
               <span className="lp-dentro__num">02</span>
-              <h3>Dentro de cada coleção, você filtra pelo <strong>seu tipo de negócio.</strong></h3>
-              <p>Você acessa a coleção, filtra pelo seu tipo de negócio e já cai nos melhores anúncios voltados pro que você vende. Sem precisar ficar garimpando na sua pasta de salvos do Instagram.</p>
+              <h3>Dentro de cada coleção, <br className="lp-br-d" />você filtra pelo <strong>seu tipo de&nbsp;negócio.</strong></h3>
+              <p>Você acessa a coleção, filtra pelo seu tipo de negócio e já cai nos melhores anúncios voltados pro que você vende. Sem precisar ficar garimpando na sua pasta de salvos do&nbsp;Instagram.</p>
             </Reveal>
             <ul className="lp-tipos">
               {TIPOS_NEGOCIO.map((t, i) => (
@@ -635,7 +635,7 @@ export default function AcervoPage() {
         <div className="lp-container">
           <Reveal className="lp-espiada__head">
             <span className="lp-pill lp-pill--terra">Dar uma espiadinha</span>
-            <h2 className="lp-titulo lp-titulo--grande lp-titulo--claro">Separamos três anúncios do acervo <strong>pra você ver como é a análise de cada um.</strong></h2>
+            <h2 className="lp-titulo lp-titulo--grande lp-titulo--claro">Separamos três anúncios <br className="lp-br-m" />do&nbsp;acervo <strong>pra você ver como é a análise de&nbsp;cada&nbsp;um.</strong></h2>
           </Reveal>
           <div className="lp-espiada__cards">
             {ESPIADINHA.map((a, i) => (
@@ -685,10 +685,10 @@ export default function AcervoPage() {
           <Reveal className="lp-ia__head lp-ia__head--ferramenta">
             <span className="lp-pill">A nossa ferramenta</span>
             <h2 className="lp-titulo lp-titulo--grande">
-              Primeiro você entende.<br /><strong>Depois, a ferramenta escreve a sua versão.</strong>
+              Primeiro você entende. <strong>Depois, a&nbsp;ferramenta <br className="lp-br-m" />escreve a&nbsp;sua&nbsp;versão.</strong>
             </h2>
             <p>
-              O botão Fazer a minha versão fica <strong>logo abaixo da análise</strong> de cada anúncio e de cada página, já montado com aquela análise e com o seu negócio. Você preenche a sua ficha, toca, e a sua IA abre com a sua versão quase pronta.
+              O botão Fazer a minha versão fica <strong>logo abaixo da análise</strong> de cada anúncio e de cada página, já montado com aquela análise e com o seu negócio. Você preenche a sua ficha, toca, e a sua IA abre com a sua versão quase&nbsp;pronta.
             </p>
           </Reveal>
         </div>
@@ -882,7 +882,7 @@ export default function AcervoPage() {
             <span className="lp-pill">Quem faz o acervo</span>
             <h2 className="lp-titulo lp-titulo--grande lp-quem__nomes">Flora Tavares <em>&amp;</em> Ingrid Andrade</h2>
             <p className="lp-quem__lead">
-              Amigas da vida, parceiras de projetos, <strong>estrategistas digitais, gestoras de tráfego, crias dos bastidores</strong> e geminianas.
+              Amigas da vida, parceiras de projetos, <strong>estrategistas digitais, gestoras de tráfego, crias dos bastidores</strong> e&nbsp;geminianas.
             </p>
             <p>
               Cada uma tem a sua agência, e procurar os melhores anúncios faz parte da nossa rotina. Estamos há anos de olho em anúncios, páginas e estratégias, e foi essa experiência que nos ensinou a entender <strong>por que alguns anúncios vendem e outros não.</strong>
