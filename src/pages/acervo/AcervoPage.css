@@ -2580,3 +2580,10 @@
 /* Quem faz: fundo rosé chapado, picote em cima; cenários e investimento no creme */
 .lp-quem { position: relative; background: #f1dfd3; }
 .lp-ondas--quem { --onda: #f1dfd3; }
+
+/* Toda semana: um card só, largo */
+.lp-semana__card--unica { max-width: 880px; margin: 0 auto; }
+/* Como funciona + ferramenta na mesma seção */
+.lp-ia .lp-passos__lista { margin-bottom: 64px; }
+.lp-ia__head--ferramenta { margin-top: 8px; }
+@media (min-width: 720px) { .lp-ia .lp-passos__lista { margin-bottom: 96px; } .lp-ia__head--ferramenta { margin-top: 16px; } }
