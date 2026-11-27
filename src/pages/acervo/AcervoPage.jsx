@@ -85,7 +85,6 @@ const COLECOES = [
     kicker: 'Todo mês',
     gradient: 'linear-gradient(135deg, #3F7A66 0%, #8A5C3F 55%, #D4B99A 100%)',
     capa: 'https://ufprndosuvqbrqlvndry.supabase.co/storage/v1/object/public/covers/melhores-de-novembro-2026-1793916891065.webp',
-    larga: true,
   },
 ]
 
@@ -189,10 +188,8 @@ const INCLUSO = [
 ]
 
 const ENTREGAS = [
-  { icone: 'grid', texto: <><strong>Anúncios escolhidos a dedo</strong> em vídeo, imagem e carrossel: a gente garimpa o que vê funcionar nos bastidores dos projetos, de atrair seguidores a vender</> },
-  { icone: 'lupa', texto: <><strong>Análise de cada anúncio</strong>: por que funciona, em poucas linhas e sem jargão</> },
-  { icone: 'ia', texto: <><strong>Fazer a minha versão</strong>, a nossa ferramenta: ao lado de cada anúncio, ela escreve a sua versão com a mesma estrutura do original, na voz do seu negócio</> },
-  { icone: 'estrela', texto: <><strong>Anúncios novos toda semana</strong>: a mesma curadoria que a gente já faz pros nossos clientes</> },
+  { icone: 'grid', texto: <><strong>Anúncios escolhidos a dedo</strong> em vídeo, imagem e carrossel: a gente garimpa o que vê funcionar nos bastidores dos projetos</> },
+  { icone: 'estrela', texto: <><strong>Anúncios novos toda semana</strong>: a mesma curadoria que a gente faz pros clientes das nossas agências, então o acervo cresce e acompanha a época do ano</> },
   { icone: 'presente', texto: <><strong>Bônus</strong>: Especial Mini VSL e Especial Páginas, com análise e a sua versão pela nossa ferramenta</> },
   { icone: 'celular', texto: <><strong>Área de membros no celular</strong>, com favoritos, busca e marcação do que você já viu</> },
   { icone: 'calendario', texto: <><strong>{OFERTA.acessoPor} de acesso</strong>, com tudo que entrar nesse período</> },
@@ -575,67 +572,84 @@ export default function AcervoPage() {
       <Letreiro />
 
       {/* ── 2. Veja por dentro (vídeo ou mockup) ── */}
-      <section className="lp-section lp-video" id="por-dentro">
-        <div className="lp-container lp-container--narrow">
-          <Reveal className="lp-video__head">
+      <section className="lp-section lp-dentro" id="por-dentro">
+        <div className="lp-container">
+          <Reveal className="lp-dentro__head">
             <span className="lp-pill">Veja por dentro</span>
             <h2 className="lp-titulo lp-titulo--grande">
               O que você vai<br /><strong>encontrar no acervo.</strong>
             </h2>
+            <p>Você abre uma coleção, escolhe um anúncio, lê por que ele vende e faz a sua versão com a nossa ferramenta. Tudo pelo celular, em poucos minutos.</p>
           </Reveal>
-          <ul className="lp-pilares">
-            <Reveal as="li" className="lp-pilar" delay={60}>
-              <span className="lp-pilar__icone"><Icone nome="pasta" /></span>
-              <h3>Coleções</h3>
-              <p>Anúncios divididos em <strong>{OFERTA.totalColecoes} coleções por objetivo</strong>, de atrair seguidores a vender agora, para facilitar a sua busca.</p>
+
+          {/* 1. Coleções: a frase + as capas reais */}
+          <div className="lp-dentro__bloco">
+            <Reveal className="lp-dentro__texto">
+              <span className="lp-dentro__num">01</span>
+              <h3>{OFERTA.totalColecoes} coleções, uma pra cada <em>momento da venda.</em></h3>
+              <p>De atrair seguidores a vender agora. Você entra pela porta que precisa hoje, e no fim do mês os melhores anúncios viram a coleção Melhores do mês.</p>
             </Reveal>
-            <Reveal as="li" className="lp-pilar" delay={120}>
-              <span className="lp-pilar__icone"><Icone nome="filtro" /></span>
-              <h3>Filtro por tipo de negócio</h3>
-              <ul className="lp-pilar__tipos" aria-label="Tipos de negócio">
+            <ol className="lp-cards">
+              {COLECOES.map((c, i) => <CardColecao key={c.slug} c={c} index={i} />)}
+            </ol>
+          </div>
+
+          {/* 2. Filtro por tipo de negócio */}
+          <div className="lp-dentro__bloco lp-dentro__bloco--filtro">
+            <Reveal className="lp-dentro__texto">
+              <span className="lp-dentro__num">02</span>
+              <h3>Dentro de cada coleção, você filtra pelo <em>seu tipo de negócio.</em></h3>
+              <p>A estrutura que faz uma loja de roupa vender é a mesma que faz uma nutricionista fechar agenda. Você vê só o exemplo do seu mundo.</p>
+              <ul className="lp-tipos" aria-label="Tipos de negócio">
                 <li>Negócio local</li><li>Prestação de serviço</li><li>Infoproduto</li><li>E-commerce</li>
               </ul>
             </Reveal>
-            <Reveal as="li" className="lp-pilar" delay={180}>
-              <span className="lp-pilar__icone"><Icone nome="ia" /></span>
-              <h3>Ferramenta de IA</h3>
-              <p>Transforma as referências em <strong>prompts prontos</strong> para criar anúncios pro seu negócio.</p>
+          </div>
+
+          {/* 3. Análise + ferramenta, com o mockup ou o vídeo */}
+          <div className="lp-dentro__bloco lp-dentro__bloco--mock">
+            <Reveal className="lp-dentro__texto">
+              <span className="lp-dentro__num">03</span>
+              <h3>Cada anúncio vem com a análise e com a <em>nossa ferramenta.</em></h3>
+              <p>A análise explica por que ele vende, em poucas linhas e sem jargão. Do lado, o botão Fazer a minha versão escreve a sua, com a mesma estrutura e na voz do seu negócio.</p>
             </Reveal>
-          </ul>
-          <Reveal as="p" className="lp-video__como" delay={120}>
-            {OFERTA.videoUrl ? 'Toque no vídeo e veja o acervo funcionando: ' : ''}Você abre as coleções, escolhe um anúncio, <strong>entende por que ele vende</strong> e <strong>faz a sua versão com a nossa ferramenta.</strong> Tudo pelo celular.
-          </Reveal>
-          <Reveal delay={100}>
-            {OFERTA.videoUrl ? (
-              <div className="lp-video__frame">
-                {/^https?:\/\/(www\.)?(youtube\.com|youtu\.be|vimeo\.com)/.test(OFERTA.videoUrl) ? (
-                  <iframe src={OFERTA.videoUrl} title="O acervo por dentro" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen loading="lazy" />
-                ) : (
-                  <video src={OFERTA.videoUrl} poster={OFERTA.videoPoster} controls playsInline preload="metadata" />
-                )}
-              </div>
-            ) : (
-        <div className="lp-mock" aria-hidden="true">
-          <div className="lp-laptop">
-            <div className="lp-laptop__screen">
-              <img src="/acervo/tela-acervo.webp" alt="" width="1400" height="742" loading="lazy" />
-            </div>
-            <div className="lp-laptop__base" />
+            <Reveal delay={100}>
+              {OFERTA.videoUrl ? (
+                <div className="lp-video__frame">
+                  {/^https?:\/\/(www\.)?(youtube\.com|youtu\.be|vimeo\.com)/.test(OFERTA.videoUrl) ? (
+                    <iframe src={OFERTA.videoUrl} title="O acervo por dentro" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen loading="lazy" />
+                  ) : (
+                    <video src={OFERTA.videoUrl} poster={OFERTA.videoPoster} controls playsInline preload="metadata" />
+                  )}
+                </div>
+              ) : (
+                <div className="lp-mock" aria-hidden="true">
+                  <div className="lp-laptop">
+                    <div className="lp-laptop__screen">
+                      <img src="/acervo/tela-acervo.webp" alt="" width="1400" height="742" loading="lazy" />
+                    </div>
+                    <div className="lp-laptop__base" />
+                  </div>
+                  <div className="lp-mockphone">
+                    <span className="lp-mockphone__notch" />
+                    <div className="lp-mockphone__screen">
+                      <div className="lp-mockphone__bar"><b>A</b><span>AVVA Hub</span></div>
+                      <img src="/acervo/card-melhores.webp" alt="" width="720" height="1158" loading="lazy" />
+                    </div>
+                  </div>
+                  <span className="lp-sticker lp-sticker--1">anúncios novos toda semana</span>
+                  <span className="lp-sticker lp-sticker--2">ferramenta inclusa</span>
+                </div>
+              )}
+            </Reveal>
           </div>
-          <div className="lp-mockphone">
-            <span className="lp-mockphone__notch" />
-            <div className="lp-mockphone__screen">
-              <div className="lp-mockphone__bar"><b>A</b><span>AVVA Hub</span></div>
-              <img src="/acervo/card-melhores.webp" alt="" width="720" height="1158" loading="lazy" />
-            </div>
-          </div>
-          <span className="lp-sticker lp-sticker--1">anúncios novos toda semana</span>
-          <span className="lp-sticker lp-sticker--2">ferramenta inclusa</span>
-          <Selo id="selo-hero" texto={`acesso imediato ✦ ${OFERTA.garantiaDias} dias de garantia ✦ `} className="lp-selo--hero" />
-        </div>
-            )}
+
+          {/* 4. Tudo que entra */}
+          <Reveal className="lp-dentro__texto lp-dentro__texto--lista">
+            <span className="lp-dentro__num">04</span>
+            <h3>E tudo isso <em>já vem junto:</em></h3>
           </Reveal>
-          <ul className="lp-entregas__lista lp-entregas__lista--video">
+          <ul className="lp-entregas__lista">
             {ENTREGAS.map((e, i) => (
               <Reveal as="li" key={i} delay={i * 50}>
                 <Icone nome={e.icone} />
@@ -643,7 +657,6 @@ export default function AcervoPage() {
               </Reveal>
             ))}
           </ul>
-
         </div>
       </section>
 
@@ -676,33 +689,6 @@ export default function AcervoPage() {
 
       {/* ── 3. Como funciona, em 3 prints ── */}
       {/* ── 4. O que é + coleções ── */}
-      <section className="lp-section lp-escuro lp-palco lp-oque">
-        <span className="lp-gigante" aria-hidden="true">acervo</span>
-        <div className="lp-container lp-oque__grid">
-          <Reveal className="lp-oque__texto">
-            <p className="lp-oque__frase">
-              O acervo é uma <span className="lp-cor-areia">estante de anúncios</span> que funcionam, organizada pelo que você precisa <span className="lp-cor-areia">hoje</span>, com a análise de por que cada um funciona, pra te ajudar <em>a ter anúncios mais <span className="lp-cor-terra">simples, honestos e que vendem.</span></em>
-            </p>
-            <span className="lp-oque__legenda">As 6 coleções por objetivo, mais a curadoria do mês</span>
-            <p className="lp-oque__nota">Toda semana entra anúncio novo, e no fim do mês os melhores viram a coleção Melhores do mês.</p>
-          </Reveal>
-          <ol className="lp-cards">
-            {COLECOES.map((c, i) => <CardColecao key={c.slug} c={c} index={i} />)}
-          </ol>
-        </div>
-      </section>
-
-      {/* ── 5. Toda semana + nichos ── */}
-      <section className="lp-section lp-semana">
-        <div className="lp-container">
-          <Reveal className="lp-semana__card lp-semana__card--terra lp-semana__card--unica">
-            <span className="lp-sticker lp-sticker--semana">toda semana</span>
-            <h2>Anúncios novos toda semana, separados pelo seu tipo de negócio.</h2>
-            <p>A gente garimpa e analisa anúncios o tempo todo pros clientes das nossas agências, porque eles precisam vender. O que entra no acervo é essa mesma curadoria, então ele cresce, acompanha a época do ano e o que a gente vê funcionar agora. E dentro de cada coleção você filtra pelo seu tipo de negócio: a estrutura é a mesma, e o exemplo é do seu mundo.</p>
-          </Reveal>
-        </div>
-      </section>
-
       {/* ── 4b. Fazer a minha versão (a ferramenta) ── */}
       <section className="lp-section lp-ia" id="ferramenta">
         <div className="lp-container">

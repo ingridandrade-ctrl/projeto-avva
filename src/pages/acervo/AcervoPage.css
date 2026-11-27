@@ -2587,3 +2587,51 @@
 .lp-ia .lp-passos__lista { margin-bottom: 64px; }
 .lp-ia__head--ferramenta { margin-top: 8px; }
 @media (min-width: 720px) { .lp-ia .lp-passos__lista { margin-bottom: 96px; } .lp-ia__head--ferramenta { margin-top: 16px; } }
+
+/* ═══════════ Seção "O que você vai encontrar no acervo" (refeita do zero) ═══════════ */
+.lp-dentro { background: #fff; }
+.lp-dentro__head { max-width: 640px; margin: 0 auto 56px; text-align: center; }
+.lp-dentro__head h2 { margin-top: 18px; }
+.lp-dentro__head p { margin: 20px auto 0; max-width: 520px; font-size: 1.08rem; line-height: 1.55; color: var(--lp-ink-2); }
+
+.lp-dentro__bloco { margin-top: 64px; }
+.lp-dentro__bloco:first-of-type { margin-top: 0; }
+.lp-dentro__texto { max-width: 560px; margin: 0 auto 28px; text-align: center; }
+.lp-dentro__num {
+  display: inline-grid; place-items: center; width: 44px; height: 44px; border-radius: 50%;
+  background: var(--lp-terra); color: #fff; font-family: var(--lp-serif); font-style: italic; font-size: 1.15rem;
+  box-shadow: 0 0 0 3px #fff, 4px 4px 0 var(--lp-ink); margin-bottom: 18px;
+}
+.lp-dentro__texto h3 { font-size: clamp(1.6rem, 6.4vw, 2.3rem); font-weight: 800; letter-spacing: -0.035em; line-height: 1.05; color: var(--lp-ink); }
+.lp-dentro__texto h3 em { font-family: var(--lp-serif); font-style: italic; font-weight: 400; font-size: 1.08em; color: var(--lp-terra); }
+.lp-dentro__texto p { margin-top: 14px; font-size: 1.02rem; line-height: 1.55; color: var(--lp-ink-2); }
+
+/* Capas das coleções dentro da seção clara */
+.lp-dentro .lp-cards { max-width: 720px; margin: 0 auto; }
+.lp-dentro .lp-card { box-shadow: 6px 6px 0 var(--lp-areia); border: 1.5px solid rgba(46, 33, 27, 0.14); }
+
+/* Etiquetas dos tipos de negócio */
+.lp-tipos { list-style: none; margin: 20px 0 0; padding: 0; display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; }
+.lp-tipos li { padding: 8px 14px; border-radius: 100px; background: var(--lp-cream); border: 1.5px solid var(--lp-ink); font-size: 0.86rem; font-weight: 700; color: var(--lp-ink); box-shadow: 3px 3px 0 var(--lp-areia); }
+
+/* Mockup e lista */
+.lp-dentro .lp-mock { margin-top: 8px; }
+.lp-dentro__texto--lista { margin-bottom: 8px; margin-top: 56px; }
+.lp-dentro .lp-entregas__lista { max-width: 640px; margin: 0 auto; }
+
+@media (min-width: 720px) {
+  .lp-dentro__head { margin-bottom: 80px; }
+  .lp-dentro__bloco { margin-top: 112px; }
+  .lp-dentro__bloco--filtro .lp-dentro__texto, .lp-dentro__texto--lista { max-width: 640px; }
+  .lp-dentro__bloco--mock { display: grid; grid-template-columns: 0.9fr 1.1fr; gap: 56px; align-items: center; }
+  .lp-dentro__bloco--mock .lp-dentro__texto { text-align: left; margin: 0; }
+  .lp-dentro__bloco--mock .lp-mock { margin: 0; }
+  .lp-dentro .lp-cards { max-width: 1040px; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+  .lp-dentro .lp-card__info { padding: 12px 14px 14px; }
+  .lp-dentro .lp-card__info h3 { font-size: 0.95rem; }
+  .lp-dentro .lp-card__info p { font-size: 0.78rem; }
+  .lp-dentro__texto--lista { margin-top: 96px; }
+}
+
+/* Melhores do mês: igual aos outros, mas só ele no celular ocupa a linha inteira centralizado */
+@media (max-width: 719px) { .lp-dentro .lp-card:last-child { grid-column: 1 / -1; width: calc(50% - 6px); margin: 0 auto; } }
