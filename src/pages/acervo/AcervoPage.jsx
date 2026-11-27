@@ -568,41 +568,10 @@ export default function AcervoPage() {
             <h2 className="lp-titulo lp-titulo--grande">
               O que você vai<br /><strong>encontrar no acervo.</strong>
             </h2>
-            <p>Você abre uma coleção, escolhe um anúncio, lê por que ele vende e faz a sua versão com a nossa ferramenta. Tudo pelo celular, em poucos minutos.</p>
+            <p>O acervo é uma plataforma com os anúncios que a gente vê funcionar nos bastidores dos nossos projetos, organizados pelo que você precisa hoje, cada um com a análise de por que vende e com a ferramenta que escreve a sua versão. Você entra pelo celular e sai com o anúncio pronto.</p>
           </Reveal>
 
-          {/* 1. Coleções: a frase + as capas reais */}
-          <div className="lp-dentro__bloco">
-            <Reveal className="lp-dentro__texto">
-              <span className="lp-dentro__num">01</span>
-              <h3>{OFERTA.totalColecoes} coleções, uma pra cada <em>momento da venda.</em></h3>
-              <p>De atrair seguidores a vender agora. Você entra pela porta que precisa hoje, e no fim do mês os melhores anúncios viram a coleção Melhores do mês.</p>
-            </Reveal>
-            <ol className="lp-cards">
-              {COLECOES.map((c, i) => <CardColecao key={c.slug} c={c} index={i} />)}
-            </ol>
-          </div>
-
-          {/* 2. Filtro por tipo de negócio */}
-          <div className="lp-dentro__bloco lp-dentro__bloco--filtro">
-            <Reveal className="lp-dentro__texto">
-              <span className="lp-dentro__num">02</span>
-              <h3>Dentro de cada coleção, você filtra pelo <em>seu tipo de negócio.</em></h3>
-              <p>A estrutura que faz uma loja de roupa vender é a mesma que faz uma nutricionista fechar agenda. Você vê só o exemplo do seu mundo.</p>
-              <ul className="lp-tipos" aria-label="Tipos de negócio">
-                <li>Negócio local</li><li>Prestação de serviço</li><li>Infoproduto</li><li>E-commerce</li>
-              </ul>
-            </Reveal>
-          </div>
-
-          {/* 3. Análise + ferramenta, com o mockup ou o vídeo */}
-          <div className="lp-dentro__bloco lp-dentro__bloco--mock">
-            <Reveal className="lp-dentro__texto">
-              <span className="lp-dentro__num">03</span>
-              <h3>Cada anúncio vem com a análise e com a <em>nossa ferramenta.</em></h3>
-              <p>A análise explica por que ele vende, em poucas linhas e sem jargão. Do lado, o botão Fazer a minha versão escreve a sua, com a mesma estrutura e na voz do seu negócio.</p>
-            </Reveal>
-            <Reveal delay={100}>
+          <Reveal className="lp-dentro__mock" delay={100}>
               {OFERTA.videoUrl ? (
                 <div className="lp-video__frame">
                   {/^https?:\/\/(www\.)?(youtube\.com|youtu\.be|vimeo\.com)/.test(OFERTA.videoUrl) ? (
@@ -630,6 +599,38 @@ export default function AcervoPage() {
                   <span className="lp-sticker lp-sticker--2">ferramenta inclusa</span>
                 </div>
               )}
+          </Reveal>
+
+          {/* 1. Coleções: a frase + as capas reais */}
+          <div className="lp-dentro__bloco">
+            <Reveal className="lp-dentro__texto">
+              <span className="lp-dentro__num">01</span>
+              <h3>{OFERTA.totalColecoes} coleções, uma pra cada <em>momento da venda.</em></h3>
+              <p>De atrair seguidores a vender agora. Você entra pela porta que precisa hoje, e no fim do mês os melhores anúncios viram a coleção Melhores do mês.</p>
+            </Reveal>
+            <ol className="lp-cards">
+              {COLECOES.map((c, i) => <CardColecao key={c.slug} c={c} index={i} />)}
+            </ol>
+          </div>
+
+          {/* 2. Filtro por tipo de negócio */}
+          <div className="lp-dentro__bloco lp-dentro__bloco--filtro">
+            <Reveal className="lp-dentro__texto">
+              <span className="lp-dentro__num">02</span>
+              <h3>Dentro de cada coleção, você filtra pelo <em>seu tipo de negócio.</em></h3>
+              <p>A estrutura que faz uma loja de roupa vender é a mesma que faz uma nutricionista fechar agenda. Você vê só o exemplo do seu mundo.</p>
+              <ul className="lp-tipos" aria-label="Tipos de negócio">
+                <li>Negócio local</li><li>Prestação de serviço</li><li>Infoproduto</li><li>E-commerce</li>
+              </ul>
+            </Reveal>
+          </div>
+
+          {/* 3. Análise + ferramenta, com o mockup ou o vídeo */}
+          <div className="lp-dentro__bloco">
+            <Reveal className="lp-dentro__texto">
+              <span className="lp-dentro__num">03</span>
+              <h3>Cada anúncio vem com a análise e com a <em>nossa ferramenta.</em></h3>
+              <p>A análise explica por que ele vende, em poucas linhas e sem jargão. Do lado, o botão Fazer a minha versão escreve a sua, com a mesma estrutura e na voz do seu negócio.</p>
             </Reveal>
           </div>
 
