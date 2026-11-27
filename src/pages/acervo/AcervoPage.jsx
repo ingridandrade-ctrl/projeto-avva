@@ -586,7 +586,7 @@ export default function AcervoPage() {
             A biblioteca de anúncios das empreendedoras que <em>cansaram de começar do zero.</em>
           </h1>
           <p className="lp-hero__destaque">
-            Você entende a lógica de quem vende e transforma as suas referências favoritas em anúncios, <strong>com a nossa ferramenta.</strong>
+            No acervo você entende a lógica dos anúncios que vendem e transforma as suas referências favoritas em anúncios pro seu negócio, <strong>com uma ferramenta que escreve a sua versão em poucos toques.</strong>
           </p>
           <p className="lp-hero__sub">
             Tudo pelo celular, com acesso imediato.
