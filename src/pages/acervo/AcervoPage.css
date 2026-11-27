@@ -2464,24 +2464,25 @@
 .lp-quem__texto p strong { color: var(--lp-ink); font-weight: 700; }
 .lp-quem__lead strong { color: var(--lp-ink); }
 
-/* ═══════════ Seção 2: os três pilares (coleções, filtro, ferramenta) ═══════════ */
-.lp-video__head { margin-bottom: 24px; }
-.lp-pilares { list-style: none; margin: 0 auto; padding: 0; max-width: 680px; display: grid; gap: 12px; }
-.lp-pilar { position: relative; padding: 18px 18px 18px 64px; border-radius: 20px; background: #fff; border: 1.5px solid rgba(46, 33, 27, 0.14); box-shadow: 5px 5px 0 var(--lp-areia); text-align: left; }
-.lp-pilar__icone { position: absolute; left: 16px; top: 16px; width: 36px; height: 36px; display: grid; place-items: center; border-radius: 12px; background: var(--lp-cream); color: var(--lp-terra); }
-.lp-pilar__icone svg { width: 20px; height: 20px; }
-.lp-pilar h3 { margin: 0; font-size: 1.05rem; font-weight: 800; letter-spacing: -0.02em; line-height: 1.2; }
-.lp-pilar p { margin-top: 6px; font-size: 0.98rem; line-height: 1.5; color: var(--lp-ink-2); }
+/* ═══════════ Seção 2: os três pilares (coleções, filtro, ferramenta), sem caixas ═══════════ */
+.lp-video__head { margin-bottom: 8px; }
+.lp-pilares { list-style: none; margin: 0 auto; padding: 0; max-width: 680px; display: grid; }
+.lp-pilar { padding: 26px 12px; text-align: center; }
+.lp-pilar + .lp-pilar { border-top: 1px solid rgba(46, 33, 27, 0.14); }
+.lp-pilar__icone { display: grid; place-items: center; width: 52px; height: 52px; margin: 0 auto 14px; border-radius: 50%; background: var(--lp-terra); color: var(--lp-areia); box-shadow: 0 0 0 3px #fff, 4px 4px 0 rgba(46, 33, 27, 0.9); }
+.lp-pilar__icone svg { width: 24px; height: 24px; }
+.lp-pilar h3 { margin: 0; font-size: 1.15rem; font-weight: 800; letter-spacing: -0.02em; line-height: 1.15; }
+.lp-pilar p { margin: 8px auto 0; max-width: 300px; font-size: 1rem; line-height: 1.5; color: var(--lp-ink-2); }
 .lp-pilar p strong { color: var(--lp-ink); }
-.lp-pilar__tipos { list-style: none; margin: 10px 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 6px; }
-.lp-pilar__tipos li { padding: 6px 11px; border-radius: 100px; background: var(--lp-cream); border: 1.5px solid rgba(46, 33, 27, 0.14); font-size: 0.8rem; font-weight: 700; color: var(--lp-ink); }
-.lp-video__como { margin: 26px auto 0; max-width: 640px; text-align: center; font-size: 1.1rem; line-height: 1.55; color: var(--lp-ink-2); }
+.lp-pilar__tipos { list-style: none; margin: 12px 0 0; padding: 0; display: flex; flex-wrap: wrap; justify-content: center; gap: 6px; }
+.lp-pilar__tipos li { padding: 6px 12px; border-radius: 100px; background: #fff; border: 1.5px solid var(--lp-ink); font-size: 0.8rem; font-weight: 700; color: var(--lp-ink); box-shadow: 2px 2px 0 var(--lp-areia); }
+.lp-video__como { margin: 10px auto 0; max-width: 640px; text-align: center; font-size: 1.1rem; line-height: 1.55; color: var(--lp-ink-2); }
 .lp-video__como strong { color: var(--lp-ink); }
 @media (min-width: 720px) {
-  .lp-pilares { max-width: 1040px; grid-template-columns: repeat(3, 1fr); gap: 16px; }
-  .lp-pilar { padding: 22px 22px 22px 70px; }
-  .lp-pilar__icone { left: 18px; top: 20px; }
-  .lp-video__como { margin-top: 34px; font-size: 1.15rem; }
+  .lp-pilares { max-width: 1040px; grid-template-columns: repeat(3, 1fr); margin-top: 16px; }
+  .lp-pilar { padding: 18px 28px 22px; }
+  .lp-pilar + .lp-pilar { border-top: 0; border-left: 1px solid rgba(46, 33, 27, 0.14); }
+  .lp-video__como { margin-top: 30px; font-size: 1.15rem; }
 }
 .lp-video__como { margin-bottom: 44px; }
 .lp-video .lp-mock { margin-top: 24px; }
