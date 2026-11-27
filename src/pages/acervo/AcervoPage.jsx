@@ -533,7 +533,7 @@ export default function AcervoPage() {
             No acervo você entende a lógica dos anúncios que vendem e transforma as suas referências favoritas em anúncios pro seu negócio, com uma ferramenta que escreve a sua versão <strong>em&nbsp;poucos&nbsp;cliques.</strong>
           </p>
           <Cta>Quero o acervo</Cta>
-          <p className="lp-hero__nota">Tudo pelo celular, com acesso imediato <br className="lp-br-m" />· Pagamento único · {OFERTA.garantiaDias} dias de garantia</p>
+          <p className="lp-hero__nota">Tudo pelo celular, com acesso imediato<span className="lp-so-d"> · </span><br className="lp-br-m" />Pagamento único · {OFERTA.garantiaDias} dias de garantia</p>
         </div>
 
       </section>
