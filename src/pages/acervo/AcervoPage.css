@@ -2544,3 +2544,13 @@
 }
 /* Botão do "Pra quem é" centralizado no computador */
 .lp-praquem .lp-cta--largo { display: flex; }
+
+/* Cenários: etiqueta do cenário B com contraste; botão centralizado */
+.lp-cenario--b .lp-cenario__kicker { background: var(--lp-terra); color: #fff; box-shadow: 0 0 0 3px #fff, 4px 4px 0 rgba(0, 0, 0, 0.45); }
+.lp-cenarios .lp-cta--largo { display: flex; }
+
+/* Emendas entre seções: investimento, quem faz e cenários no mesmo creme, sem brilho no pé */
+.lp-invest, .lp-quem, .lp-cenarios { background: var(--lp-cream); }
+.lp-palco--claro:not(.lp-hero)::after { display: none; }
+.lp-cenarios .lp-cta--largo { display: flex; width: 100%; max-width: 560px; margin-inline: auto; }
+.lp-cenarios .lp-cenario--b .lp-cenario__kicker { background: var(--lp-terra); color: #fff; }

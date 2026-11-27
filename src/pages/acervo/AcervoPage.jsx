@@ -205,18 +205,18 @@ const CENARIOS = [
     letra: 'A',
     titulo: 'Sem o acervo',
     itens: [
-      'Você continua abrindo o gerenciador sem saber o que colocar no anúncio',
-      'Você posta, impulsiona e torce. A verba vai e a venda não vem',
-      'O mesmo feed, o mesmo resultado',
+      'Você abre o gerenciador e trava na hora de escrever o anúncio',
+      'Você posta, impulsiona e torce. A verba vai embora e a venda não vem',
+      'Mais um mês olhando o anúncio dos outros, sem saber por que o seu não vende',
     ],
   },
   {
     letra: 'B',
     titulo: 'Com o acervo',
     itens: [
-      'Você abre o celular, escolhe pelo objetivo e lê por que aquele anúncio vende',
-      'Você adapta a estrutura pro seu negócio, ou usa a nossa ferramenta pra escrever a sua versão, e coloca no ar ainda essa semana',
-      'Os primeiros anúncios com estrutura já publicados, e você sabendo fazer o próximo',
+      'Você abre o celular, entra na coleção do que precisa hoje e encontra um anúncio que já funcionou pra um negócio como o seu',
+      'Você lê a análise, entende por que ele vende, e a ferramenta escreve a sua versão. Em dez minutos o anúncio está pronto pra gravar',
+      'Você já tem anúncios rodando com estrutura, a sua ficha pronta pra fazer o próximo, e olha pra qualquer anúncio sabendo o que faz ele vender',
     ],
   },
 ]
@@ -874,9 +874,7 @@ NÃO ESCREVA
       )}
 
       {/* ── 8. Investimento ── */}
-      <section className="lp-section lp-invest lp-palco lp-palco--claro" id="oferta">
-        <span className="lp-estrela lp-estrela--4" aria-hidden="true">✦</span>
-        <span className="lp-estrela lp-estrela--5" aria-hidden="true">✦</span>
+      <section className="lp-section lp-invest" id="oferta">
         <Reveal className="lp-container lp-container--narrow lp-invest__inner">
           <span className="lp-pill">Investimento</span>
           {OFERTA.precoDe && (
@@ -918,7 +916,7 @@ NÃO ESCREVA
       </section>
 
       {/* ── Quem faz o acervo ── */}
-      <section className="lp-section lp-quem lp-palco lp-palco--claro" id="quem">
+      <section className="lp-section lp-quem" id="quem">
         <div className="lp-container lp-quem__grid">
           <Reveal className="lp-quem__colagem" aria-hidden="true">
             {QUEM_FOTOS.map((f, i) => (
@@ -955,7 +953,6 @@ NÃO ESCREVA
 
       {/* ── 10. Fechamento: cenário A x cenário B ── */}
       <section className="lp-section lp-cenarios">
-        <span className="lp-estrela lp-estrela--6" aria-hidden="true">✦</span>
         <div className="lp-container lp-container--narrow">
           <Reveal as="h2" className="lp-titulo lp-titulo--grande lp-titulo--centro">
             Daqui a 30 dias,<br /><strong>onde você vai estar?</strong>
