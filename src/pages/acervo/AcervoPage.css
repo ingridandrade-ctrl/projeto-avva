@@ -442,7 +442,12 @@
   .lp-cards { max-width: 960px; grid-template-columns: repeat(3, 1fr); gap: 16px; }
   .lp-card__tilt { padding: 52px 18px 28px; }
   .lp-card h3 { font-size: 1.3rem; }
-  .lp-cards .lp-card:last-child { grid-column: auto; }
+  /* Melhores do mês: faixa horizontal fechando a grade */
+  .lp-cards .lp-card:last-child { grid-column: 1 / -1; }
+  .lp-cards .lp-card:last-child .lp-card__tilt { display: grid; grid-template-columns: auto auto 1fr; align-items: center; column-gap: 20px; text-align: left; padding: 26px 28px 26px 150px; }
+  .lp-cards .lp-card:last-child .lp-card__orbita { margin: 0; }
+  .lp-cards .lp-card:last-child h3 { font-size: 1.4rem; }
+  .lp-cards .lp-card:last-child p { margin: 0; grid-column: 3; justify-self: start; }
 
   .lp-espiada__cards { grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: var(--s-6); }
   .lp-espiada__card { padding: 26px 24px; }
