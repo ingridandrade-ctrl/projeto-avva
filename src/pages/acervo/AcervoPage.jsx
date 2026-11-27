@@ -877,6 +877,8 @@ NÃO ESCREVA
       <section className="lp-section lp-invest" id="oferta">
         <Reveal className="lp-container lp-container--narrow lp-invest__inner">
           <span className="lp-pill">Investimento</span>
+          <div className="lp-ticket">
+          <div className="lp-ticket__topo">
           {OFERTA.precoDe && (
             <p className="lp-invest__de">de <s>{OFERTA.precoDe}</s> por</p>
           )}
@@ -888,6 +890,10 @@ NÃO ESCREVA
             {OFERTA.parcelas ? <strong>{OFERTA.parcelas}</strong> : `${OFERTA.acessoPor} de acesso, pagamento único`}
           </p>
           {OFERTA.reforco && <p className="lp-invest__reforco">{OFERTA.reforco}</p>}
+          </div>
+          <div className="lp-ticket__corte" aria-hidden="true" />
+          <div className="lp-ticket__base">
+          <span className="lp-ticket__rotulo">O que entra junto</span>
           <ul className="lp-incluso" aria-label="O que está incluído">
             {INCLUSO.map((item, i) => (
               <li key={i}>
@@ -902,6 +908,8 @@ NÃO ESCREVA
             <li>Pix ou cartão</li>
             <li>Pagamento seguro</li>
           </ul>
+          </div>
+          </div>
           <div className="lp-garantia">
             <span className="lp-garantia__selo" aria-hidden="true">
               <strong>{OFERTA.garantiaDias}</strong>
@@ -917,6 +925,7 @@ NÃO ESCREVA
 
       {/* ── Quem faz o acervo ── */}
       <section className="lp-section lp-quem" id="quem">
+        <i className="lp-ondas lp-ondas--quem" aria-hidden="true" />
         <div className="lp-container lp-quem__grid">
           <Reveal className="lp-quem__colagem" aria-hidden="true">
             {QUEM_FOTOS.map((f, i) => (
