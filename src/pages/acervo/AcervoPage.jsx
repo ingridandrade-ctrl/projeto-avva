@@ -564,14 +564,17 @@ export default function AcervoPage() {
                     </div>
                     <div className="lp-laptop__base" />
                   </div>
-                  <div className="lp-mockphone">
-                    <span className="lp-mockphone__notch" />
-                    <div className="lp-mockphone__screen">
+                  <div className="lp-iphone">
+                    <span className="lp-iphone__botao lp-iphone__botao--mudo" />
+                    <span className="lp-iphone__botao lp-iphone__botao--vol1" />
+                    <span className="lp-iphone__botao lp-iphone__botao--vol2" />
+                    <span className="lp-iphone__botao lp-iphone__botao--power" />
+                    <div className="lp-iphone__tela">
+                      <span className="lp-iphone__ilha" />
                       <img src="/acervo/card-melhores.webp" alt="" width="720" height="1233" loading="lazy" />
                     </div>
                   </div>
                   <span className="lp-sticker lp-sticker--1">anúncios novos toda semana</span>
-                  <span className="lp-sticker lp-sticker--2">ferramenta inclusa</span>
                 </div>
               )}
           </Reveal>
