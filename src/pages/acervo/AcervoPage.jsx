@@ -32,7 +32,7 @@ const OFERTA = {
 
 // Prints do passo a passo (AJUSTAR: trocar pelos prints reais da área de membros no celular)
 const PASSOS_PRINTS = [
-  { n: '1', titulo: 'Você entra e escolhe o objetivo', texto: 'Atrair seguidores, captar leads, provar que funciona, vender agora. Cada coleção é um momento do funil, e você entra pela porta que precisa hoje.', src: '/acervo/tela-acervo.webp', alt: 'Tela das coleções na área de membros' },
+  { n: '1', titulo: 'Você entra e escolhe o objetivo', texto: 'Atrair seguidores, captar leads, provar que funciona, vender agora. Cada coleção é um momento do funil, e você entra pela porta que precisa hoje.', src: '/acervo/passo-1.webp', alt: 'As seis coleções por objetivo na área de membros' },
   { n: '2', titulo: 'Você filtra pelo seu nicho', texto: 'Dentro da coleção, você marca o seu tipo de negócio e vê só o que serve pro seu caso.', src: '', alt: 'Print: filtro por nicho dentro de uma coleção' },
   { n: '3', titulo: 'Você abre o anúncio, lê a análise e faz a sua versão', texto: 'A análise explica por que ele vende. Do lado, o botão Fazer a minha versão: você preenche a sua ficha e abre direto na sua IA.', src: '/acervo/passo-3.webp', alt: 'Anúncio aberto na área de membros, com a análise do lado' },
 ]
@@ -564,16 +564,7 @@ export default function AcervoPage() {
                     </div>
                     <div className="lp-laptop__base" />
                   </div>
-                  <div className="lp-iphone">
-                    <span className="lp-iphone__botao lp-iphone__botao--mudo" />
-                    <span className="lp-iphone__botao lp-iphone__botao--vol1" />
-                    <span className="lp-iphone__botao lp-iphone__botao--vol2" />
-                    <span className="lp-iphone__botao lp-iphone__botao--power" />
-                    <div className="lp-iphone__tela">
-                      <span className="lp-iphone__ilha" />
-                      <img src="/acervo/card-melhores.webp" alt="" width="720" height="1233" loading="lazy" />
-                    </div>
-                  </div>
+                  <img className="lp-mock__celular" src="/acervo/mock-celular.png" alt="" width="1060" height="2150" loading="lazy" />
                   <span className="lp-sticker lp-sticker--1">anúncios novos toda semana</span>
                 </div>
               )}
