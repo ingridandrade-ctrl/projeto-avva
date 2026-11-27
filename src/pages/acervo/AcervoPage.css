@@ -2530,3 +2530,17 @@
 /* Dentro da moldura, o fundo padrão é o creme da página (seções sem fundo próprio) */
 .lp-moldura__inner { background: var(--lp-cream); border-radius: 26px; overflow: hidden; }
 @media (min-width: 720px) { .lp-moldura__inner { border-radius: 32px; } }
+
+/* Melhores do mês: card largo, capa à esquerda e texto à direita, fechando a grade */
+.lp-card--larga { grid-column: 1 / -1; display: grid; grid-template-columns: 38% 1fr; align-items: center; }
+.lp-card--larga .lp-card__tilt { aspect-ratio: 4 / 5; }
+.lp-card--larga .lp-card__info { padding: 16px 18px; }
+.lp-card--larga .lp-card__info h3 { font-size: 1.15rem; }
+.lp-card--larga .lp-card__info p { font-size: 0.88rem; }
+@media (min-width: 720px) {
+  .lp-card--larga { grid-template-columns: 34% 1fr; }
+  .lp-card--larga .lp-card__info { padding: 20px 24px; }
+  .lp-card--larga .lp-card__info h3 { font-size: 1.3rem; }
+}
+/* Botão do "Pra quem é" centralizado no computador */
+.lp-praquem .lp-cta--largo { display: flex; }

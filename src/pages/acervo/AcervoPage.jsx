@@ -85,7 +85,8 @@ const COLECOES = [
     subtitulo: 'Curadoria nova todo mês',
     kicker: 'Todo mês',
     gradient: 'linear-gradient(135deg, #3F7A66 0%, #8A5C3F 55%, #D4B99A 100%)',
-    capa: '/acervo/card-melhores.webp',
+    capa: 'https://ufprndosuvqbrqlvndry.supabase.co/storage/v1/object/public/covers/melhores-de-novembro-2026-1793916891065.webp',
+    larga: true,
   },
 ]
 
@@ -192,7 +193,7 @@ const INCLUSO = [
 const ENTREGAS = [
   { icone: 'grid', texto: <><strong>Anúncios escolhidos a dedo</strong> em vídeo, imagem e carrossel: a gente garimpa o que vê funcionar nos bastidores dos projetos, de atrair seguidores a vender</> },
   { icone: 'lupa', texto: <><strong>Análise de cada anúncio</strong>: por que funciona, em poucas linhas e sem jargão</> },
-  { icone: 'ia', texto: <><strong>Fazer a minha versão</strong>, a nossa ferramenta: ao lado de cada anúncio, ela junta a análise com a ficha do seu negócio e manda pro ChatGPT ou pro Claude escrever a sua versão, com a mesma estrutura do original, mas na voz do seu negócio</> },
+  { icone: 'ia', texto: <><strong>Fazer a minha versão</strong>, a nossa ferramenta: ao lado de cada anúncio, ela escreve a sua versão com a mesma estrutura do original, na voz do seu negócio</> },
   { icone: 'estrela', texto: <><strong>Anúncios novos toda semana</strong>: a mesma curadoria que a gente já faz pros nossos clientes</> },
   { icone: 'presente', texto: <><strong>Bônus</strong>: Especial Black Friday, Especial Mini VSL e Especial Páginas, com análise e a sua versão pela nossa ferramenta</> },
   { icone: 'celular', texto: <><strong>Área de membros no celular</strong>, com favoritos, busca e marcação do que você já viu</> },
@@ -422,7 +423,7 @@ function CardColecao({ c, index }) {
     el.style.setProperty('--ry', '0deg')
   }
   return (
-    <Reveal as="li" className={`lp-card ${index % 2 ? 'lp-card--areia' : 'lp-card--terra'}`} delay={index * 60}>
+    <Reveal as="li" className={`lp-card ${index % 2 ? 'lp-card--areia' : 'lp-card--terra'} ${c.larga ? 'lp-card--larga' : ''}`} delay={index * 60}>
       <div ref={ref} className="lp-card__tilt" onMouseMove={move} onMouseLeave={leave} style={{ backgroundImage: c.gradient }}>
         {c.capa && <img src={c.capa} alt="" loading="lazy" onError={e => { e.currentTarget.remove() }} />}
       </div>
