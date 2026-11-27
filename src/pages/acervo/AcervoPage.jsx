@@ -734,7 +734,7 @@ export default function AcervoPage() {
       {/* ── 4c. Bônus ── */}
       <section className="lp-section lp-bonus">
         <div className="lp-container">
-          <Reveal className="lp-bonus__head">
+          <Reveal className="lp-head">
             <span className="lp-pill lp-pill--terra">Bônus</span>
             <h2 className="lp-titulo lp-titulo--grande">
               E ainda entra junto,<br /><strong>sem custo:</strong>
@@ -769,7 +769,10 @@ export default function AcervoPage() {
       {/* ── 8. Investimento ── */}
       <section className="lp-section lp-invest" id="oferta">
         <Reveal className="lp-container lp-container--narrow lp-invest__inner">
-          <span className="lp-pill">Investimento</span>
+          <Reveal className="lp-head">
+            <span className="lp-pill">Investimento</span>
+            <h2 className="lp-titulo lp-titulo--grande">Tudo isso <strong>por menos de um lanche.</strong></h2>
+          </Reveal>
           <div className="lp-ticket">
           <div className="lp-ticket__topo">
           {OFERTA.precoDe && (
@@ -857,7 +860,7 @@ export default function AcervoPage() {
               <small>dias</small>
             </span>
             <div className="lp-garantia__texto">
-              <h2>Garantia de <em>{OFERTA.garantiaDias} dias.</em></h2>
+              <h3>Garantia de <em>{OFERTA.garantiaDias} dias.</em></h3>
               <p>Se o acervo não fizer sentido pra você, é só pedir o reembolso dentro de {OFERTA.garantiaDias} dias. Você recebe 100% do seu investimento de volta.</p>
             </div>
           </Reveal>
