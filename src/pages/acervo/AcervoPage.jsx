@@ -560,19 +560,21 @@ export default function AcervoPage() {
                 <div className="lp-mock" aria-hidden="true">
                   <div className="lp-laptop">
                     <div className="lp-laptop__screen">
-                      <img src="/acervo/tela-acervo.webp" alt="" width="1400" height="742" loading="lazy" />
+                      <img src="/acervo/tela-acervo.webp" alt="" width="1400" height="897" loading="lazy" />
                     </div>
                     <div className="lp-laptop__base" />
                   </div>
-                  <div className="lp-mockphone">
-                    <span className="lp-mockphone__notch" />
-                    <div className="lp-mockphone__screen">
-                      <div className="lp-mockphone__bar"><b>A</b><span>AVVA Hub</span></div>
-                      <img src="/acervo/card-melhores.webp" alt="" width="720" height="1158" loading="lazy" />
+                  <div className="lp-iphone">
+                    <span className="lp-iphone__botao lp-iphone__botao--mudo" />
+                    <span className="lp-iphone__botao lp-iphone__botao--vol1" />
+                    <span className="lp-iphone__botao lp-iphone__botao--vol2" />
+                    <span className="lp-iphone__botao lp-iphone__botao--power" />
+                    <div className="lp-iphone__tela">
+                      <span className="lp-iphone__ilha" />
+                      <img src="/acervo/card-melhores.webp" alt="" width="720" height="1233" loading="lazy" />
                     </div>
                   </div>
                   <span className="lp-sticker lp-sticker--1">anúncios novos toda semana</span>
-                  <span className="lp-sticker lp-sticker--2">ferramenta inclusa</span>
                 </div>
               )}
           </Reveal>
