@@ -34,7 +34,7 @@ const OFERTA = {
 const PASSOS_PRINTS = [
   { n: '1', titulo: 'Você entra e escolhe o objetivo', texto: 'Atrair seguidores, captar leads, provar que funciona, vender agora. Cada coleção é um momento do funil, e você entra pela porta que precisa hoje.', src: '/acervo/tela-acervo.webp', alt: 'Tela das coleções na área de membros' },
   { n: '2', titulo: 'Filtra pelo seu nicho', texto: 'Negócio local, prestação de serviço, infoproduto ou e-commerce. Você vê só o que serve pro seu caso.', src: '', alt: 'Print: filtro por nicho dentro de uma coleção' },
-  { n: '3', titulo: 'Abre o anúncio, lê a análise e faz a sua versão', texto: 'A análise explica por que ele vende. Do lado, o botão Fazer a minha versão: você preenche nicho e tom de voz e abre direto na sua IA.', src: '', alt: 'Print: anúncio aberto com a análise e o botão Fazer a minha versão' },
+  { n: '3', titulo: 'Abre o anúncio, lê a análise e faz a sua versão', texto: 'A análise explica por que ele vende. Do lado, o botão Fazer a minha versão: você preenche nicho e tom de voz e abre direto na sua IA.', src: '/acervo/passo-3.webp', alt: 'Anúncio aberto na área de membros, com a análise do lado' },
 ]
 
 const NICHOS = ['Negócio local', 'Prestação de serviço', 'Infoproduto', 'E-commerce']
@@ -602,7 +602,6 @@ export default function AcervoPage() {
         </div>
 
       </section>
-      </div>
 
       <Letreiro />
 
@@ -1054,6 +1053,7 @@ NÃO ESCREVA
           </div>
         </div>
       </footer>
+      </div>
 
       {/* ── Pop-up: prévia do anúncio aberto, como na área de membros ── */}
       {analiseAberta !== null && (() => {
