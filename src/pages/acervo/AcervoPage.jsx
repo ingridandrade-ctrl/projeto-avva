@@ -33,7 +33,7 @@ const OFERTA = {
 // Prints do passo a passo (AJUSTAR: trocar pelos prints reais da área de membros no celular)
 const PASSOS_PRINTS = [
   { n: '1', titulo: 'Você entra e escolhe o objetivo', texto: 'Atrair seguidores, captar leads, provar que funciona, vender agora. Cada coleção é um momento da venda. Você escolhe pelo objetivo do anúncio que quer fazer.', src: '/acervo/passo-1.webp', alt: 'As seis coleções por objetivo na área de membros' },
-  { n: '2', titulo: 'Você filtra pelo seu tipo de negócio', texto: 'Dentro da coleção, você marca o seu tipo de negócio e vê só os anúncios voltados pro que você vende.', src: '', alt: '' },
+  { n: '2', titulo: 'Você filtra pelo seu tipo de negócio', texto: 'Dentro da coleção, você marca o seu tipo de negócio e vê só os anúncios voltados pro que você vende.', src: '/acervo/passo-2.webp', alt: 'Coleção aberta na área de membros, com o filtro por tipo de negócio' },
   { n: '3', titulo: 'Você abre o anúncio, lê a análise e faz a sua versão', texto: 'A análise explica por que ele vende. Do lado, o botão Fazer a minha versão: você preenche a sua ficha e abre direto na sua IA.', src: '/acervo/passo-3.webp', alt: 'Anúncio aberto na área de membros, com a análise do lado' },
 ]
 
@@ -675,11 +675,20 @@ export default function AcervoPage() {
             </p>
           </Reveal>
           <Reveal className="lp-formula" delay={60} aria-hidden="true">
-            <span className="lp-formula__item"><b>A análise</b>do anúncio que você escolheu</span>
+            <span className="lp-formula__item lp-formula__item--a">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/><path d="M8 11h6M11 8v6"/></svg>
+              <b>A análise</b>do anúncio que você escolheu
+            </span>
             <i>+</i>
-            <span className="lp-formula__item"><b>A sua ficha</b>o seu negócio, na sua voz</span>
+            <span className="lp-formula__item lp-formula__item--b">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 20h16"/><path d="M14 4l6 6-9 9H5v-6z"/></svg>
+              <b>A sua ficha</b>o seu negócio, na sua voz
+            </span>
             <i>=</i>
-            <span className="lp-formula__item lp-formula__item--fim"><b>A sua versão</b>pronta pra gravar</span>
+            <span className="lp-formula__item lp-formula__item--fim">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l1.8 5.6L19.5 9l-5.7 1.4L12 16l-1.8-5.6L4.5 9l5.7-1.4z"/><path d="M19 14l.9 2.6 2.6.9-2.6.9L19 21l-.9-2.6-2.6-.9 2.6-.9z"/></svg>
+              <b>A sua versão</b>pronta pra gravar
+            </span>
           </Reveal>
         </div>
 
@@ -908,7 +917,10 @@ export default function AcervoPage() {
               Nós nos conhecemos em 2024, dentro do Subido Pro, e logo descobrimos que <strong>quase fomos separadas na maternidade</strong>: uma nasceu no dia 28 e a outra no dia 29 de maio de 1995. Desde então, a amizade só cresceu, e o sonho de criar algo juntas também. Desse sonho nasceu o acervo.
             </p>
             <p>
-              O acervo é a nossa curadoria de anúncios, um projeto vivo, feito pra você ter <strong>referências novas toda semana</strong>, garimpadas e selecionadas por quem entende do assunto. A gente acredita em entregar pronto, mas também em desenvolver a sua leitura, por isso analisamos cada anúncio, pra você aprender junto com a gente. E como no digital o tempo é rei, criamos uma ferramenta exclusiva que transforma as suas referências favoritas em anúncios feitos pro seu negócio.
+              O acervo é a nossa curadoria de anúncios, <strong>um projeto vivo</strong>, feito pra você ter <strong>referências novas toda semana</strong>, garimpadas e selecionadas por quem entende do assunto.
+            </p>
+            <p>
+              A gente acredita em entregar pronto, mas também em desenvolver a sua leitura, por isso <strong>analisamos cada anúncio</strong>, pra você aprender junto com a gente. E como no digital o tempo é rei, criamos uma <strong>ferramenta exclusiva</strong> que transforma as suas referências favoritas em anúncios feitos pro seu negócio.
             </p>
           </Reveal>
         </div>
