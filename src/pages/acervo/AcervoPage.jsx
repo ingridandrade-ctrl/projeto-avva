@@ -803,16 +803,6 @@ export default function AcervoPage() {
           </ul>
           </div>
           </div>
-          <div className="lp-garantia">
-            <span className="lp-garantia__selo" aria-hidden="true">
-              <strong>{OFERTA.garantiaDias}</strong>
-              <small>dias</small>
-            </span>
-            <div className="lp-garantia__texto">
-              <h3>Garantia de {OFERTA.garantiaDias} dias</h3>
-              <p>Você entra, navega e lê as análises com calma. Se não fizer sentido pra você, é só pedir o reembolso: você recebe 100% de volta, sem precisar explicar.</p>
-            </div>
-          </div>
         </Reveal>
       </section>
 
@@ -854,6 +844,20 @@ export default function AcervoPage() {
             ))}
           </div>
           <Reveal delay={120}><Cta largo>Quero anúncios que vendem</Cta></Reveal>
+        </div>
+      </section>
+
+      {/* ── Garantia ── */}
+      <section className="lp-section lp-garantia-sec">
+        <div className="lp-container lp-container--narrow">
+          <Reveal className="lp-garantia">
+            <Selo id="selo-garantia" texto={`${OFERTA.garantiaDias} dias de garantia ✦ sem perguntas ✦ `} className="lp-garantia__selo" />
+            <div className="lp-garantia__texto">
+              <span className="lp-garantia__dias"><strong>{OFERTA.garantiaDias}</strong> dias</span>
+              <h2>Você entra, usa com calma e, <em>se não fizer sentido, a gente devolve.</em></h2>
+              <p>Você entra, navega e lê as análises no seu tempo. Se não fizer sentido pra você, é só pedir o reembolso dentro de {OFERTA.garantiaDias} dias: você recebe 100% de volta, sem precisar explicar.</p>
+            </div>
+          </Reveal>
         </div>
       </section>
 
