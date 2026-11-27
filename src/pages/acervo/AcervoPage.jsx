@@ -428,12 +428,12 @@ function CardBonus({ b, index }) {
 }
 
 // Selo redondo com texto girando em volta (adesivo)
-function Selo({ id, texto, className = '' }) {
+function Selo({ id, texto, className = '', justa = false }) {
   return (
     <span className={`lp-selo ${className}`} aria-hidden="true">
       <svg viewBox="0 0 120 120" className="lp-selo__anel">
         <defs><path id={id} d="M60,60 m-44,0 a44,44 0 1,1 88,0 a44,44 0 1,1 -88,0" /></defs>
-        <text><textPath href={`#${id}`}>{texto}</textPath></text>
+        <text><textPath href={`#${id}`} textLength={justa ? 276 : undefined} lengthAdjust={justa ? 'spacing' : undefined}>{texto}</textPath></text>
       </svg>
       <i>✦</i>
     </span>
@@ -811,8 +811,8 @@ export default function AcervoPage() {
             <p className="lp-invest__de">de <s>{OFERTA.precoDe}</s> por</p>
           )}
           <div className="lp-carimbo">
-            <Selo id="selo-preco" texto={`${(OFERTA.precoNota || 'oferta').toLowerCase()} ✦ pagamento único ✦ `} className="lp-selo--preco" />
-            <p className="lp-invest__preco">{OFERTA.preco}</p>
+            <Selo id="selo-preco" texto={`${(OFERTA.precoNota || 'oferta').toLowerCase()} ✦ ${(OFERTA.precoNota || 'oferta').toLowerCase()} ✦ `} className="lp-selo--preco" justa />
+            <p className="lp-invest__preco"><small>{OFERTA.preco.replace(/[\d.,]+$/, '').trim()}</small>{OFERTA.preco.match(/[\d.,]+$/)?.[0]}</p>
           </div>
           <p className="lp-invest__detalhe">
             {OFERTA.parcelas ? <strong>{OFERTA.parcelas}</strong> : `${OFERTA.acessoPor} de acesso, pagamento único`}
