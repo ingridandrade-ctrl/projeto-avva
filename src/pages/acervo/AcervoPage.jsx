@@ -575,7 +575,7 @@ export default function AcervoPage() {
             <Reveal className="lp-dentro__texto">
               <span className="lp-dentro__num">01</span>
               <h3>{OFERTA.totalColecoes} coleções, uma pra cada <em>momento da venda.</em></h3>
-              <p>De atrair seguidores a vender agora, em vídeo, imagem e carrossel. Você entra pela porta que precisa hoje, e no fim do mês os melhores anúncios viram a coleção Melhores do mês.</p>
+              <p>De atrair seguidores a vender agora, em vídeo, imagem e carrossel. Você escolhe o seu objetivo e acessa uma curadoria feita pro seu negócio. Além disso, todo mês os melhores anúncios do momento viram parte da coleção Melhores do mês.</p>
             </Reveal>
             <ol className="lp-cards">
               {COLECOES.map((c, i) => <CardColecao key={c.slug} c={c} index={i} />)}
