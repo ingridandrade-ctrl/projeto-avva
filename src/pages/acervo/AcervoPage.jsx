@@ -247,32 +247,12 @@ const FAQ = [
     a: 'Não. A nossa ferramenta monta tudo pronto e abre na IA que você preferir, ChatGPT ou Claude, e funciona nas versões gratuitas. Se quiser usar outra, é só copiar.',
   },
   {
-    q: 'O que são os bônus?',
-    a: 'Três especiais que entram junto, sem custo: Black Friday, Mini VSL e Páginas. Cada um vem com análise e com a nossa ferramenta, igual ao resto do acervo.',
-  },
-  {
-    q: 'É só pra Instagram e Facebook ou serve pra outras plataformas?',
-    a: 'Os anúncios do acervo são do Instagram e do Facebook, e a estrutura que a análise te mostra (gancho, prova, oferta) vale pra qualquer canal.',
-  },
-  {
-    q: 'Preciso saber editar vídeo ou ter designer?',
-    a: 'Não. Boa parte dos anúncios que mais vendem do acervo foi gravada no celular, sem edição elaborada. O que faz diferença é a estrutura, e é isso que a análise te mostra.',
-  },
-  {
     q: 'Posso copiar os anúncios?',
     a: 'A referência serve pra você entender por que funciona e adaptar a lógica pra sua comunicação. Gancho, sequência, prova e fechamento são a referência. O produto, a fala e o visual são seus.',
   },
   {
-    q: 'Nunca rodei um anúncio. É pra mim?',
-    a: 'É, se você quer começar pelo caminho mais curto: ver o que já dá certo antes de criar o seu. Aqui você vê o que colocar dentro do anúncio. Configurar a campanha é outra etapa, e o acervo não cobre essa parte.',
-  },
-  {
-    q: 'Preciso de verba mínima pra usar o acervo?',
-    a: 'Não. O acervo trata do criativo, e criativo com estrutura rende mais com verba pequena ou grande.',
-  },
-  {
-    q: 'Eu só impulsiono pelo Instagram. Serve pra mim?',
-    a: 'Serve. Impulsionar também é anúncio, e o que decide se vende é o que está no post. Você escolhe a estrutura no acervo, adapta e impulsiona.',
+    q: 'Nunca rodei um anúncio, tenho pouca verba ou só impulsiono. É pra mim?',
+    a: 'É. O acervo mostra o que colocar dentro do anúncio, e criativo com estrutura rende mais com verba pequena ou grande. Impulsionar também é anúncio: você escolhe a estrutura, adapta e impulsiona. Configurar a campanha é outra etapa, e o acervo não cobre essa parte.',
   },
   {
     q: `Depois de ${OFERTA.acessoPor} de acesso, o que acontece?`,
