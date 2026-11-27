@@ -366,11 +366,8 @@ function CardColecao({ c, index }) {
     el.style.setProperty('--ry', '0deg')
   }
   return (
-    <Reveal as="li" className={`lp-card ${index % 2 ? 'lp-card--areia' : 'lp-card--terra'} ${c.larga ? 'lp-card--larga' : ''}`} delay={index * 60}>
-      <div ref={ref} className="lp-card__tilt" onMouseMove={move} onMouseLeave={leave} style={{ backgroundImage: c.gradient }}>
-        {c.capa && <img src={c.capa} alt="" loading="lazy" onError={e => { e.currentTarget.remove() }} />}
-      </div>
-      <div className="lp-card__info">
+    <Reveal as="li" className={`lp-card ${index % 2 ? 'lp-card--teal' : 'lp-card--terra'}`} delay={index * 60}>
+      <div ref={ref} className="lp-card__tilt" onMouseMove={move} onMouseLeave={leave}>
         <span className="lp-card__kicker">{c.kicker}</span>
         <h3>{c.titulo}</h3>
         <p>{c.subtitulo}</p>
