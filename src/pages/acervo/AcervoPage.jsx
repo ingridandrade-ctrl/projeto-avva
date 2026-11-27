@@ -369,6 +369,7 @@ function CardColecao({ c, index }) {
     <Reveal as="li" className={`lp-card ${index % 2 ? 'lp-card--teal' : 'lp-card--terra'}`} delay={index * 60}>
       <div ref={ref} className="lp-card__tilt" onMouseMove={move} onMouseLeave={leave}>
         <span className="lp-card__kicker">{c.kicker}</span>
+        <span className="lp-card__orbita" aria-hidden="true"><i>✦</i></span>
         <h3>{c.titulo}</h3>
         <p>{c.subtitulo}</p>
       </div>

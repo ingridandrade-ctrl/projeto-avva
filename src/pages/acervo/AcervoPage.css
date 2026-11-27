@@ -154,17 +154,27 @@
 .lp-dentro__texto h3 em { font-family: var(--lp-serif); font-style: italic; font-weight: 400; font-size: 1.08em; color: var(--lp-terra); }
 .lp-dentro__texto p { margin-top: 14px; font-size: 1.02rem; line-height: 1.55; color: var(--lp-ink-2); }
 
-/* Cards das coleções: só texto, fundo da marca, mesmo recorte */
+/* Cards das coleções: mini-capas (fundo escuro com grade fina, brilho, órbita e etiqueta) */
 .lp-cards { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; max-width: 720px; margin: 0 auto; }
 .lp-card { border-radius: var(--radius); perspective: 800px; }
-.lp-card__tilt { --rx: 0deg; --ry: 0deg; height: 100%; padding: 22px 18px 24px; border-radius: var(--radius); color: #fff; border: var(--cut-border); box-shadow: var(--cut-shadow); transform: rotateX(var(--rx)) rotateY(var(--ry)); transition: transform 0.35s var(--lp-ease); }
-.lp-card--terra .lp-card__tilt { background: var(--lp-terra); }
-.lp-card--teal .lp-card__tilt { background: var(--lp-teal); }
-.lp-card__kicker { display: inline-block; padding: 5px 10px; border-radius: 100px; background: rgba(255, 255, 255, 0.16); color: var(--lp-areia-claro); font-size: 0.62rem; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; }
-.lp-card h3 { margin-top: 14px; font-size: 1.25rem; font-weight: 800; letter-spacing: -0.03em; line-height: 1.1; }
-.lp-card p { margin-top: 8px; font-size: 0.88rem; line-height: 1.45; color: rgba(255, 255, 255, 0.82); }
+.lp-card__tilt {
+  --rx: 0deg; --ry: 0deg; --brilho: rgba(150, 94, 65, 0.6);
+  position: relative; overflow: hidden; height: 100%; padding: 46px 16px 24px; text-align: center;
+  border-radius: var(--radius); color: #fff; border: 1.5px solid rgba(212, 185, 154, 0.3); box-shadow: var(--cut-shadow);
+  background-color: #1b1512;
+  background-image: radial-gradient(120% 90% at 50% 0%, var(--brilho), transparent 60%), linear-gradient(rgba(212, 185, 154, 0.08) 1px, transparent 1px), linear-gradient(90deg, rgba(212, 185, 154, 0.08) 1px, transparent 1px);
+  background-size: auto, 28px 28px, 28px 28px;
+  transform: rotateX(var(--rx)) rotateY(var(--ry)); transition: transform 0.35s var(--lp-ease);
+}
+.lp-card--teal .lp-card__tilt { background-color: #083232; --brilho: rgba(26, 104, 104, 0.7); }
+.lp-cards .lp-card:last-child .lp-card__tilt { background-color: #2a1d17; --brilho: rgba(212, 185, 154, 0.35); }
+.lp-card__kicker { position: absolute; top: 12px; left: 12px; padding: 5px 10px; border-radius: 100px; background: var(--lp-areia); color: var(--lp-ink); font-size: 0.6rem; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; rotate: -4deg; box-shadow: 0 0 0 2px #fff, 3px 3px 0 rgba(46, 33, 27, 0.9); }
+.lp-card__orbita { position: relative; display: grid; place-items: center; width: 120px; height: 44px; margin: 0 auto 10px; }
+.lp-card__orbita::before { content: ''; position: absolute; inset: 0; border-radius: 50%; border: 1px solid rgba(212, 185, 154, 0.5); transform: rotate(-14deg); }
+.lp-card__orbita i { font-style: normal; font-size: 1.2rem; color: var(--lp-areia); }
+.lp-card h3 { font-size: 1.2rem; font-weight: 800; letter-spacing: -0.03em; line-height: 1.1; text-wrap: balance; }
+.lp-card p { margin-top: 8px; font-size: 0.82rem; line-height: 1.4; color: var(--lp-areia); }
 .lp-cards .lp-card:last-child { grid-column: 1 / -1; }
-.lp-cards .lp-card:last-child .lp-card__tilt { background: var(--lp-umber); }
 
 /* Etiquetas dos tipos de negócio */
 .lp-tipos { margin-top: 20px; display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; }
@@ -436,11 +446,9 @@
   .lp-dentro__mock { margin-bottom: 120px; }
   .lp-dentro__mock .lp-mock { width: min(720px, 100%); }
   .lp-cards { max-width: 960px; grid-template-columns: repeat(3, 1fr); gap: 16px; }
-  .lp-card__tilt { padding: 26px 24px 28px; }
-  .lp-cards .lp-card:last-child { grid-column: 1 / -1; }
-  .lp-cards .lp-card:last-child .lp-card__tilt { display: grid; grid-template-columns: auto 1fr; column-gap: 20px; align-items: center; }
-  .lp-cards .lp-card:last-child h3 { margin-top: 0; }
-  .lp-cards .lp-card:last-child p { grid-column: 2; margin-top: 2px; }
+  .lp-card__tilt { padding: 52px 18px 28px; }
+  .lp-card h3 { font-size: 1.3rem; }
+  .lp-cards .lp-card:last-child { grid-column: auto; }
 
   .lp-espiada__cards { grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: var(--s-6); }
   .lp-espiada__card { padding: 26px 24px; }
