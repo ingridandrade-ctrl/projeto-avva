@@ -32,8 +32,8 @@ const OFERTA = {
 
 // Prints do passo a passo (AJUSTAR: trocar pelos prints reais da área de membros no celular)
 const PASSOS_PRINTS = [
-  { n: '1', titulo: 'Você entra e escolhe o objetivo', texto: 'Atrair seguidores, captar leads, provar que funciona, vender agora. Cada coleção é um momento do funil, e você entra pela porta que precisa hoje.', src: '/acervo/passo-1.webp', alt: 'As seis coleções por objetivo na área de membros' },
-  { n: '2', titulo: 'Você filtra pelo seu nicho', texto: 'Dentro da coleção, você marca o seu tipo de negócio e vê só o que serve pro seu caso.', src: '', alt: '' },
+  { n: '1', titulo: 'Você entra e escolhe o objetivo', texto: 'Atrair seguidores, captar leads, provar que funciona, vender agora. Cada coleção é um momento da venda. Você escolhe pelo objetivo do anúncio que quer fazer.', src: '/acervo/passo-1.webp', alt: 'As seis coleções por objetivo na área de membros' },
+  { n: '2', titulo: 'Você filtra pelo seu tipo de negócio', texto: 'Dentro da coleção, você marca o seu tipo de negócio e vê só os anúncios voltados pro que você vende.', src: '', alt: '' },
   { n: '3', titulo: 'Você abre o anúncio, lê a análise e faz a sua versão', texto: 'A análise explica por que ele vende. Do lado, o botão Fazer a minha versão: você preenche a sua ficha e abre direto na sua IA.', src: '/acervo/passo-3.webp', alt: 'Anúncio aberto na área de membros, com a análise do lado' },
 ]
 
@@ -210,9 +210,9 @@ const CENARIOS = [
     letra: 'B',
     titulo: 'Com o acervo',
     itens: [
-      'Você abre o celular, entra na coleção do que precisa hoje e encontra um anúncio que já funcionou pra um negócio como o seu',
-      'Você lê a análise, entende por que ele vende, e a ferramenta escreve a sua versão. Em poucos minutos o anúncio está pronto pra gravar',
-      'Você já tem anúncios rodando com estrutura, a sua ficha pronta pra fazer o próximo, e olha pra qualquer anúncio sabendo o que faz ele vender',
+      'Você abre o celular, escolhe a coleção pelo objetivo e encontra um anúncio que já funcionou pra um negócio como o seu',
+      'Você lê a análise, entende por que ele vende e a ferramenta escreve a sua versão. Em poucos minutos o anúncio está pronto pra gravar',
+      'Você tem anúncios rodando com estrutura e a ficha pronta pra fazer o próximo. E olha pra qualquer anúncio sabendo por que ele vende',
     ],
   },
 ]
@@ -232,11 +232,11 @@ const FAQ = [
   },
   {
     q: 'Mas eu já comprei curso de anúncio e não saí do lugar…',
-    a: 'Aqui você recebe a referência pronta, com a análise do lado: você abre, escolhe pelo objetivo, lê por que funciona, faz a sua versão e coloca no ar. Dá pra publicar o primeiro ainda hoje.',
+    a: 'Aqui você não precisa estudar antes de fazer. A referência vem pronta, com a análise do lado, e a ferramenta escreve a sua versão. Dá pra publicar o primeiro anúncio ainda hoje.',
   },
   {
     q: 'Mas eu nem sei se vou ter tempo de usar…',
-    a: 'Cada análise tem poucas linhas. Em dez minutos no celular você escolhe um anúncio, lê por que ele vende e sai com a sua versão pronta pra gravar.',
+    a: 'Cada análise tem poucas linhas. Dez minutos no celular bastam pra escolher um anúncio e sair com a sua versão pronta pra gravar.',
   },
   {
     q: 'A ferramenta vai fazer o anúncio por mim?',
@@ -709,8 +709,8 @@ export default function AcervoPage() {
         <div className="lp-container">
           <Reveal className="lp-combinado" delay={60}>
             <div className="lp-combinado__head">
-              <span className="lp-pill lp-pill--terra">O combinado</span>
-              <h3>O combinado <em>com a ferramenta.</em></h3>
+              <span className="lp-pill lp-pill--terra">Regras</span>
+              <h3>As regras que <em>a ferramenta segue.</em></h3>
             </div>
             <ul className="lp-combinado__lista">
               {FERRAMENTA_REGRAS.map((r) => (
@@ -848,8 +848,9 @@ export default function AcervoPage() {
       {/* ── 10. Fechamento: cenário A x cenário B ── */}
       <section className="lp-section lp-cenarios">
         <div className="lp-container lp-container--narrow">
-          <Reveal as="h2" className="lp-titulo lp-titulo--grande lp-titulo--centro">
-            Daqui a 30 dias,<br /><strong>onde você vai estar?</strong>
+          <Reveal className="lp-head">
+            <span className="lp-pill">Na prática</span>
+            <h2 className="lp-titulo lp-titulo--grande">Daqui a 30 dias,<br /><strong>onde você vai estar?</strong></h2>
           </Reveal>
           <div className="lp-cenarios__grid">
             {CENARIOS.map((c, i) => (

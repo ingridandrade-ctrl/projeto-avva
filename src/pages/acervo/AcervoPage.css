@@ -394,6 +394,8 @@
 .lp-quem__foto--2 { width: 44%; right: 2%; top: 5%; transform: rotate(4deg); z-index: 1; }
 .lp-quem__foto--3 { width: 42%; right: 0; bottom: 3%; transform: rotate(-3deg); z-index: 3; }
 .lp-quem__foto--4 { width: 50%; left: 3%; bottom: 0; transform: rotate(3deg); z-index: 4; }
+.lp-quem__texto { text-align: center; }
+.lp-quem__texto p { text-align: left; }
 .lp-quem__texto h2 { margin-top: var(--s-3); }
 .lp-quem__nomes { font-weight: 300; }
 .lp-quem__nomes em { font-family: var(--lp-serif); font-style: italic; font-weight: 400; color: var(--lp-terra); }
@@ -404,7 +406,7 @@
 
 /* ── 15. Daqui a 30 dias (branco) ── */
 .lp-cenarios { background: #fff; }
-.lp-cenarios__grid { margin-top: var(--s-5); display: grid; gap: 16px; }
+.lp-cenarios__grid { display: grid; gap: 16px; }
 .lp-cenario { display: flex; flex-direction: column; padding: 22px 22px; border-radius: var(--radius); border: var(--cut-border); box-shadow: var(--cut-shadow); }
 .lp-cenario--a { background: var(--lp-cream); }
 .lp-cenario--b { background: var(--lp-teal); color: #fff; border-color: var(--lp-teal-ink); }
@@ -516,9 +518,10 @@
   .lp-quem__grid { grid-template-columns: 0.95fr 1.05fr; gap: 64px; align-items: center; }
   .lp-quem__colagem { width: 100%; max-width: 480px; }
 
-  .lp-cenarios__grid { grid-template-columns: 1fr 1fr; gap: 20px; max-width: 800px; margin-inline: auto; align-items: stretch; }
+  .lp-cenarios__grid { grid-template-columns: 1fr 1fr; gap: 20px; max-width: 800px; margin-inline: auto; align-items: start; }
   .lp-cenario { padding: 26px 26px; }
   .lp-cenarios .lp-cta { margin-top: var(--s-6); }
+  .lp-quem__texto { text-align: left; }
   .lp-garantia { grid-template-columns: auto 1fr; align-items: center; text-align: left; gap: 30px; padding: 34px 40px; }
   .lp-garantia__texto p { margin-left: 0; }
 
