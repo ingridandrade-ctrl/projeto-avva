@@ -1,0 +1,16 @@
+{
+  "name": "acervo-por-dentro",
+  "private": true,
+  "version": "1.0.0",
+  "scripts": {
+    "render": "remotion render src/index.ts PorDentro out/por-dentro.mp4 --codec h264 --crf 17",
+    "render:vertical": "remotion render src/index.ts PorDentroVertical out/por-dentro-vertical.mp4 --codec h264 --crf 17"
+  },
+  "dependencies": {
+    "@remotion/cli": "^4.0.547",
+    "@remotion/google-fonts": "^4.0.547",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "remotion": "^4.0.547"
+  }
+}
