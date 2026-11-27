@@ -560,7 +560,7 @@ export default function AcervoPage() {
                 <div className="lp-mock" aria-hidden="true">
                   <div className="lp-laptop">
                     <div className="lp-laptop__screen">
-                      <img src="/acervo/tela-acervo.webp" alt="" width="1400" height="742" loading="lazy" />
+                      <img src="/acervo/tela-acervo.webp" alt="" width="1400" height="897" loading="lazy" />
                     </div>
                     <div className="lp-laptop__base" />
                   </div>
