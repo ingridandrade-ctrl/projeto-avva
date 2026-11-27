@@ -51,6 +51,14 @@ const DEPOIMENTOS = [
   // { nome: 'Nome', nicho: 'Clínica de estética', texto: '...' },
 ]
 
+// Os quatro tipos de negócio do filtro, com o que a pessoa encontra em cada um
+const TIPOS_NEGOCIO = [
+  { nome: 'Negócio local', icone: 'pino', texto: 'Clínica, salão, loja de rua, restaurante: anúncios que trazem gente até o seu endereço' },
+  { nome: 'Prestação de serviço', icone: 'agenda', texto: 'Consultoria, estética, nutrição, advocacia: anúncios que fecham agenda e orçamento' },
+  { nome: 'Infoproduto', icone: 'play', texto: 'Curso, mentoria, comunidade: anúncios que captam, provam e vendem no digital' },
+  { nome: 'E-commerce', icone: 'sacola', texto: 'Loja online e produto físico: anúncios que mostram, convencem e levam pro carrinho' },
+]
+
 const PRA_QUEM = [
   <><strong>Tem um negócio local, presta serviço, vende infoproduto ou tem e-commerce</strong> e roda (ou quer rodar) os próprios anúncios</>,
   <><strong>Acabou de colocar um produto no mundo</strong> e está sem ideia de anúncio</>,
@@ -242,6 +250,17 @@ const FAQ = [
     a: `Tem. São ${OFERTA.garantiaDias} dias de garantia. Se você entrar e não fizer sentido pra você, é só pedir e você recebe 100% de volta.`,
   },
 ]
+
+function IconeTipo({ nome }) {
+  const p = { width: 22, height: 22, viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', strokeWidth: 2, strokeLinecap: 'round', strokeLinejoin: 'round' }
+  switch (nome) {
+    case 'pino': return <svg {...p}><path d="M12 21s7-6.2 7-11a7 7 0 0 0-14 0c0 4.8 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>
+    case 'agenda': return <svg {...p}><rect x="3" y="4" width="18" height="17" rx="3"/><path d="M8 2v4M16 2v4M3 10h18M8 15l2.5 2.5L16 12"/></svg>
+    case 'play': return <svg {...p}><rect x="3" y="4" width="18" height="16" rx="3"/><path d="M10 9l5 3-5 3z" fill="currentColor"/></svg>
+    case 'sacola': return <svg {...p}><path d="M5 8h14l-1 12H6z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg>
+    default: return null
+  }
+}
 
 function Cta({ children, variante = 'terracotta', largo = false }) {
   return (
@@ -587,11 +606,17 @@ export default function AcervoPage() {
             <Reveal className="lp-dentro__texto">
               <span className="lp-dentro__num">02</span>
               <h3>Dentro de cada coleção, você filtra pelo <em>seu tipo de negócio.</em></h3>
-              <p>A estrutura que faz uma loja de roupa vender é a mesma que faz uma nutricionista fechar agenda. Você vê só o exemplo do seu mundo.</p>
-              <ul className="lp-tipos" aria-label="Tipos de negócio">
-                <li>Negócio local</li><li>Prestação de serviço</li><li>Infoproduto</li><li>E-commerce</li>
-              </ul>
+              <p>Cada anúncio do acervo é marcado pelo tipo de negócio que ele serve. Você escolhe o objetivo, marca o seu tipo e vê os anúncios de quem vende como você, com a estrutura que também funciona pro seu caso.</p>
             </Reveal>
+            <ul className="lp-tipos">
+              {TIPOS_NEGOCIO.map((t, i) => (
+                <Reveal as="li" key={t.nome} delay={i * 60}>
+                  <span className="lp-tipos__icone" aria-hidden="true"><IconeTipo nome={t.icone} /></span>
+                  <strong>{t.nome}</strong>
+                  <span>{t.texto}</span>
+                </Reveal>
+              ))}
+            </ul>
           </div>
 
           {/* 3. Análise + ferramenta, com o mockup ou o vídeo */}

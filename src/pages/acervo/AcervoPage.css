@@ -176,9 +176,12 @@
 .lp-card p { margin-top: 8px; font-size: 0.82rem; line-height: 1.4; color: var(--lp-areia); }
 .lp-cards .lp-card:last-child { grid-column: 1 / -1; }
 
-/* Etiquetas dos tipos de negócio */
-.lp-tipos { margin-top: 20px; display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; }
-.lp-tipos li { padding: 8px 14px; border-radius: 100px; background: var(--lp-cream); border: var(--cut-border); font-size: 0.86rem; font-weight: 700; box-shadow: 3px 3px 0 var(--lp-areia); }
+/* Os quatro tipos de negócio: cards com ícone e uma linha cada */
+.lp-tipos { margin-top: var(--s-5); display: grid; gap: 12px; max-width: 720px; margin-inline: auto; }
+.lp-tipos li { display: grid; grid-template-columns: auto 1fr; column-gap: 14px; align-items: center; padding: 18px 18px 18px 16px; border-radius: 18px; background: var(--lp-cream); border: var(--cut-border); box-shadow: var(--cut-shadow); text-align: left; }
+.lp-tipos__icone { grid-row: 1 / span 2; display: grid; place-items: center; width: 44px; height: 44px; border-radius: 50%; background: var(--lp-terra); color: #fff; box-shadow: 0 0 0 3px #fff, 3px 3px 0 var(--lp-ink); }
+.lp-tipos strong { font-size: 1.05rem; font-weight: 800; letter-spacing: -0.02em; }
+.lp-tipos span:last-child { font-size: 0.92rem; line-height: 1.45; color: var(--lp-ink-2); }
 
 /* Mockup: laptop + celular + adesivos */
 .lp-mock { position: relative; width: min(560px, 100%); margin: 8px auto 0; padding: 0 14px 40px; }
@@ -437,6 +440,8 @@
   .lp-dentro__head { margin-bottom: 80px; }
   .lp-dentro__bloco { margin-top: 112px; }
   .lp-dentro__bloco--filtro .lp-dentro__texto { max-width: 640px; }
+  .lp-tipos { max-width: 960px; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+  .lp-tipos li { padding: 22px 22px 22px 20px; }
   .lp-dentro__mock { margin-bottom: 120px; }
   .lp-dentro__mock .lp-mock { width: min(720px, 100%); }
   .lp-cards { max-width: 960px; grid-template-columns: repeat(3, 1fr); gap: 16px; }
