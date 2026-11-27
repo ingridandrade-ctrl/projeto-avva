@@ -16,7 +16,7 @@ import './AcervoPage.css'
 // ══════════════════════════════════════════════════════════════
 const OFERTA = {
   checkoutUrl: 'https://pay.cakto.com.br/kcpowk4',
-  precoDe: 'R$ 107',   // valor cheio, aparece riscado acima do preço ('' esconde)
+  precoDe: 'R$ 127',   // valor cheio, aparece riscado acima do preço ('' esconde)
   preco: 'R$ 67',
   precoNota: 'Preço de lançamento', // etiqueta ao lado do preço ('' esconde)
   parcelas: '',        // AJUSTAR: parcelamento do checkout, ex.: 'ou 9x de R$ 11,38' ('' esconde)
