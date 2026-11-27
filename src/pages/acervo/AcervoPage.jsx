@@ -548,11 +548,10 @@ export default function AcervoPage() {
       {/* ── 1. Hero ── */}
       <div className="lp-moldura">
       <div className="lp-moldura__inner">
-      <section className="lp-hero lp-palco lp-palco--claro" id="topo">
+      <section className="lp-hero" id="topo">
         <div className="lp-hero__inner">
-          <div className="lp-palco-logo">
+          <div className="lp-hero__logo">
             <img className="lp-logomarca" src="/acervo/logo.webp" alt="acervo de anúncios" width="1140" height="970" fetchPriority="high" />
-            <span className="lp-hero__sombra" aria-hidden="true" />
           </div>
           <h1 className="lp-hero__frase">
             A biblioteca de anúncios das empreendedoras que <em>cansaram de começar do zero.</em>
@@ -661,7 +660,7 @@ export default function AcervoPage() {
       </section>
 
       {/* ── 2b. Dar uma espiadinha (seção própria, marrom) ── */}
-      <section className="lp-section lp-escuro lp-escuro--umber lp-palco lp-espiada" id="espiadinha">
+      <section className="lp-section lp-espiada" id="espiadinha">
         <div className="lp-container">
           <Reveal className="lp-espiada__head">
             <span className="lp-pill lp-pill--terra">Dar uma espiadinha</span>
@@ -737,8 +736,7 @@ export default function AcervoPage() {
           </ol>
           <Reveal className="lp-ia__painel" delay={120}>
             <div className="lp-celular">
-              <span className="lp-sticker lp-sticker--celular">na sua voz</span>
-              <span className="lp-celular__notch" />
+                            <span className="lp-celular__notch" />
               <PainelIA />
             </div>
             <p className="lp-ia__legenda">O painel de verdade, do jeito que abre dentro de cada anúncio. Pode mexer.</p>
@@ -780,7 +778,7 @@ export default function AcervoPage() {
       <section className="lp-section lp-praquem">
         <i className="lp-ondas lp-ondas--praquem" aria-hidden="true" />
         <div className="lp-container">
-          <Reveal as="h2" className="lp-titulo lp-titulo--colchete">Pra quem é</Reveal>
+          <Reveal as="h2" className="lp-titulo lp-titulo--grande lp-titulo--centro">Pra quem <strong>é.</strong></Reveal>
           <Reveal as="p" className="lp-praquem__intro" delay={80}>
             <em>O acervo é pra você que:</em>
           </Reveal>
@@ -925,7 +923,7 @@ export default function AcervoPage() {
       </section>
 
       {/* ── 9. FAQ ── */}
-      <section className="lp-section lp-escuro lp-palco lp-faq">
+      <section className="lp-section lp-faq">
         <div className="lp-container lp-container--narrow">
           <Reveal className="lp-faq__head">
             <span className="lp-pill lp-pill--terra">Dúvidas</span>
@@ -957,7 +955,7 @@ export default function AcervoPage() {
       </section>
 
       {/* ── Rodapé ── */}
-      <footer className="lp-escuro lp-palco lp-fim">
+      <footer className="lp-fim">
         <div className="lp-container lp-container--narrow lp-fim__inner">
           <Logo className="lp-logo--rodape" />
           <div className="lp-rodape">
