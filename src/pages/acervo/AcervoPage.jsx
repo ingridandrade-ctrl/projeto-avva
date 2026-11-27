@@ -456,7 +456,6 @@ function Logo({ className = '' }) {
 }
 
 export default function AcervoPage() {
-  const [stickyVisible, setStickyVisible] = useState(false)
   const [aberta, setAberta] = useState(-1)
   const [analiseAberta, setAnaliseAberta] = useState(null) // índice da análise no pop-up
   const fecharRef = useRef(null)
@@ -515,10 +514,6 @@ export default function AcervoPage() {
 
   useEffect(() => {
     document.title = 'Acervo de Anúncios — AVVA Hub'
-    const onScroll = () => setStickyVisible(window.scrollY > 640)
-    onScroll()
-    window.addEventListener('scroll', onScroll, { passive: true })
-    return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
   return (
@@ -601,7 +596,7 @@ export default function AcervoPage() {
             <Reveal className="lp-filtro" delay={80} aria-hidden="true">
               <span className="lp-filtro__rotulo">Filtrar por</span>
               <div className="lp-filtro__chips">
-                <span>Todos</span><span className="is-on">O seu tipo de negócio ✓</span><span>Vídeo</span><span>Imagem</span><span>Carrossel</span>
+                <span>Todos</span><span>Infoproduto</span><span className="is-on">E-commerce ✓</span><span>Negócio local</span><span>Serviço</span>
               </div>
               <p className="lp-filtro__resultado">Mostrando só o que serve pro seu caso</p>
             </Reveal>
@@ -652,7 +647,7 @@ export default function AcervoPage() {
         <div className="lp-container">
           <Reveal className="lp-ia__head">
             <span className="lp-pill">Como funciona</span>
-            <h2 className="lp-titulo lp-titulo--grande">Três toques e o seu anúncio <strong>sai pronto pra gravar.</strong></h2>
+            <h2 className="lp-titulo lp-titulo--grande">Três passos e o seu anúncio <strong>sai pronto pra gravar.</strong></h2>
           </Reveal>
           <ol className="lp-passos__lista">
             {PASSOS_PRINTS.map((p, i) => (
@@ -702,22 +697,30 @@ export default function AcervoPage() {
           </ol>
           <Reveal className="lp-ia__painel" delay={120}>
             <div className="lp-celular">
-                            <span className="lp-celular__notch" />
-              <PainelIA />
+              <div className="lp-celular__tela">
+                <span className="lp-celular__notch" />
+                <PainelIA />
+              </div>
             </div>
             <p className="lp-ia__legenda">O painel de verdade, do jeito que abre dentro de cada anúncio. Pode mexer.</p>
           </Reveal>
         </div>
 
         <div className="lp-container">
-          <ul className="lp-ia__regras">
-            {FERRAMENTA_REGRAS.map((r, i) => (
-              <Reveal as="li" key={r.titulo} className="lp-ia__regra" delay={i * 50}>
-                <strong>{r.titulo}</strong>
-                <span>{r.texto}</span>
-              </Reveal>
-            ))}
-          </ul>
+          <Reveal className="lp-combinado" delay={60}>
+            <div className="lp-combinado__head">
+              <span className="lp-pill lp-pill--terra">O combinado</span>
+              <h3>O combinado <em>com a ferramenta.</em></h3>
+            </div>
+            <ul className="lp-combinado__lista">
+              {FERRAMENTA_REGRAS.map((r) => (
+                <li key={r.titulo}>
+                  <strong>{r.titulo}</strong>
+                  <span>{r.texto}</span>
+                </li>
+              ))}
+            </ul>
+          </Reveal>
 
           <Reveal className="lp-center" delay={100}>
             <Cta>Quero a ferramenta junto com o acervo</Cta>
@@ -1010,11 +1013,6 @@ export default function AcervoPage() {
         )
       })()}
 
-      {/* ── Barra fixa (mobile) ── */}
-      <div className={`lp-sticky ${stickyVisible ? 'is-visible' : ''}`} aria-hidden={!stickyVisible}>
-        <span className="lp-sticky__preco">{OFERTA.preco}</span>
-        <Cta>Quero o acervo</Cta>
-      </div>
     </div>
   )
 }
