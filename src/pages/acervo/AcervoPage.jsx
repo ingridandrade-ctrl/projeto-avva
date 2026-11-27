@@ -20,7 +20,7 @@ const OFERTA = {
   preco: 'R$ 67',
   precoNota: 'Preço de lançamento', // etiqueta ao lado do preço ('' esconde)
   parcelas: '',        // AJUSTAR: parcelamento do checkout, ex.: 'ou 9x de R$ 11,38' ('' esconde)
-  reforco: 'Dá menos de R$ 0,20 por dia. Um criativo que não converte queima isso em um minuto de impulsionamento.',
+  reforco: 'Dá menos de R$ 0,20 por dia. Um anúncio que não vende custa beeeem mais que isso.',
   garantiaDias: 7,
   acessoPor: '1 ano',
   totalColecoes: 6,
@@ -192,7 +192,7 @@ const INCLUSO = [
   <><strong>Acervo vivo</strong>: anúncios novos toda semana, garimpados e analisados pela gente</>,
   <><strong>Análise em cada anúncio</strong>: por que funciona e o que importa nele</>,
   <><strong>Fazer a minha versão</strong>, a nossa ferramenta, ao lado de todo anúncio e página</>,
-  <><strong>{OFERTA.totalColecoes} coleções por objetivo</strong> e filtro por tipo de negócio</>,
+  <><strong>{OFERTA.totalColecoes} coleções por objetivo</strong>, do topo ao fundo do funil, com filtro por tipo de negócio</>,
   <><strong>Melhores do mês</strong> e os dois especiais: Mini VSL e Páginas</>,
   <><strong>Área de membros no celular</strong>, com favoritos, busca e marcação do que você já viu</>,
   <><strong>{OFERTA.acessoPor} de acesso</strong>, com tudo que entrar nesse período</>,
@@ -891,7 +891,7 @@ export default function AcervoPage() {
               Nós nos conhecemos em 2024, dentro do Subido Pro, e logo descobrimos que <strong>quase fomos separadas na maternidade</strong>: uma nasceu no dia 28 e a outra no dia 29 de maio de 1995. Desde então, a amizade só cresceu, e o sonho de criar algo juntas também. Desse sonho nasceu o acervo.
             </p>
             <p>
-              O acervo é a nossa curadoria: a gente garimpa o mercado toda semana, separa o que está vendendo de verdade e analisa por que vende. Você recebe pronto, com <strong>referências novas toda semana</strong>, selecionadas por quem passa o dia olhando anúncio. A gente acredita em entregar pronto, mas também em desenvolver a sua leitura, por isso cada anúncio vem com a análise, pra você aprender junto com a gente. E como no digital o tempo é rei, criamos uma ferramenta que transforma as suas referências favoritas em anúncios feitos pro seu negócio.
+              O acervo é a nossa curadoria de anúncios, um projeto vivo, feito pra você ter <strong>referências novas toda semana</strong>, garimpadas e selecionadas por quem entende do assunto. A gente acredita em entregar pronto, mas também em desenvolver a sua leitura, por isso analisamos cada anúncio, pra você aprender junto com a gente. E como no digital o tempo é rei, criamos uma ferramenta exclusiva que transforma as suas referências favoritas em anúncios feitos pro seu negócio.
             </p>
           </Reveal>
         </div>
