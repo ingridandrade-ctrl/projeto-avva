@@ -187,10 +187,8 @@
 .lp-laptop__screen img { width: 100%; height: auto; }
 .lp-laptop__base { height: 10px; margin: 0 -3%; border-radius: 0 0 12px 12px; background: linear-gradient(#3a2a22, #2a1d17); }
 .lp-mockphone { position: absolute; right: 6px; bottom: 0; width: 34%; border-radius: 26px; border: 5px solid var(--lp-umber); background: var(--lp-umber); overflow: hidden; rotate: 4deg; box-shadow: 0 24px 50px -16px rgba(0, 0, 0, 0.55); }
-.lp-mockphone__notch { position: absolute; top: 6px; left: 50%; width: 36%; height: 7px; translate: -50% 0; border-radius: 100px; background: var(--lp-umber); z-index: 2; }
+.lp-mockphone__notch { position: absolute; top: 5px; left: 50%; width: 36%; height: 7px; translate: -50% 0; border-radius: 100px; background: var(--lp-umber); z-index: 2; }
 .lp-mockphone__screen { background: var(--lp-cream); }
-.lp-mockphone__bar { display: flex; align-items: center; gap: 6px; padding: 16px 10px 6px; background: var(--lp-teal); color: #fff; font-size: 0.55rem; font-weight: 700; }
-.lp-mockphone__bar b { display: grid; place-items: center; width: 14px; height: 14px; border-radius: 50%; background: var(--lp-areia); color: var(--lp-ink); font-size: 0.5rem; }
 .lp-mockphone__screen img { width: 100%; height: auto; }
 .lp-sticker--1 { position: absolute; left: 0; top: -12px; rotate: -5deg; }
 .lp-sticker--2 { position: absolute; right: 0; bottom: 42%; rotate: 5deg; background: var(--lp-teal); }

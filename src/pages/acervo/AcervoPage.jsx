@@ -567,8 +567,7 @@ export default function AcervoPage() {
                   <div className="lp-mockphone">
                     <span className="lp-mockphone__notch" />
                     <div className="lp-mockphone__screen">
-                      <div className="lp-mockphone__bar"><b>A</b><span>AVVA Hub</span></div>
-                      <img src="/acervo/card-melhores.webp" alt="" width="720" height="1158" loading="lazy" />
+                      <img src="/acervo/card-melhores.webp" alt="" width="720" height="1233" loading="lazy" />
                     </div>
                   </div>
                   <span className="lp-sticker lp-sticker--1">anúncios novos toda semana</span>
