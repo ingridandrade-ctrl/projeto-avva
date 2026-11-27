@@ -602,7 +602,6 @@ export default function AcervoPage() {
         </div>
 
       </section>
-      </div>
 
       <Letreiro />
 
@@ -1054,6 +1053,7 @@ NÃO ESCREVA
           </div>
         </div>
       </footer>
+      </div>
 
       {/* ── Pop-up: prévia do anúncio aberto, como na área de membros ── */}
       {analiseAberta !== null && (() => {

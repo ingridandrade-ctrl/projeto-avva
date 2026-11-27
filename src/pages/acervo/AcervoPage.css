@@ -2508,3 +2508,15 @@
   .lp-card__info h3 { font-size: 1.05rem; }
   .lp-card__info p { font-size: 0.85rem; }
 }
+
+/* ═══════════ Moldura marrom na página inteira; letreiro menor ═══════════ */
+.lp-moldura { padding: 10px; }
+.lp-moldura > .lp-fim { border-radius: 0 0 26px 26px; overflow: hidden; }
+.lp-letreiro { padding: 11px 0; }
+.lp-letreiro__faixa span { font-size: 0.72rem; letter-spacing: 0.16em; }
+.lp-letreiro__faixa em { font-size: 0.68rem; }
+@media (min-width: 720px) {
+  .lp-moldura { padding: 14px; }
+  .lp-moldura > .lp-fim { border-radius: 0 0 32px 32px; }
+  .lp-letreiro__faixa span { font-size: 0.78rem; }
+}
