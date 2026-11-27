@@ -273,7 +273,7 @@
 .lp-ia .lp-center { margin-top: var(--s-6); }
 
 /* ── 10. Bônus (creme) ── */
-.lp-bonus { background: var(--lp-cream); }
+.lp-bonus { background: #fff; }
 .lp-bonus__head { max-width: 640px; margin: 0 auto var(--s-5); }
 .lp-bonus__head h2 { margin-top: var(--s-3); }
 .lp-bonus__grid { display: grid; gap: 18px; }
