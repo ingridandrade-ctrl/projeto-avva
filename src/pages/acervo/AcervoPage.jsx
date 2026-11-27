@@ -606,7 +606,7 @@ export default function AcervoPage() {
             <Reveal className="lp-dentro__texto">
               <span className="lp-dentro__num">02</span>
               <h3>Dentro de cada coleção, você filtra pelo <em>seu tipo de negócio.</em></h3>
-              <p>Você acessa a coleção, filtra pelo seu tipo de negócio e já cai nos melhores anúncios voltados pro que você vende. Sem precisar garimpar no meio de coisa que não tem nada a ver com você.</p>
+              <p>Você acessa a coleção, filtra pelo seu tipo de negócio e já cai nos melhores anúncios voltados pro que você vende. Sem precisar ficar garimpando na sua pasta de salvos do Instagram.</p>
             </Reveal>
             <ul className="lp-tipos">
               {TIPOS_NEGOCIO.map((t, i) => (
@@ -851,10 +851,12 @@ export default function AcervoPage() {
       <section className="lp-section lp-garantia-sec">
         <div className="lp-container lp-container--narrow">
           <Reveal className="lp-garantia">
-            <Selo id="selo-garantia" texto={`${OFERTA.garantiaDias} dias de garantia ✦ sem perguntas ✦ `} className="lp-garantia__selo" />
+            <span className="lp-garantia__selo" aria-hidden="true">
+              <strong>{OFERTA.garantiaDias}</strong>
+              <small>dias</small>
+            </span>
             <div className="lp-garantia__texto">
-              <span className="lp-garantia__dias"><strong>{OFERTA.garantiaDias}</strong> dias</span>
-              <h2>Você entra, usa com calma e, <em>se não fizer sentido, a gente devolve.</em></h2>
+              <h2>Garantia de {OFERTA.garantiaDias} dias, <em>sem perguntas.</em></h2>
               <p>Você entra, navega e lê as análises no seu tempo. Se não fizer sentido pra você, é só pedir o reembolso dentro de {OFERTA.garantiaDias} dias: você recebe 100% de volta, sem precisar explicar.</p>
             </div>
           </Reveal>

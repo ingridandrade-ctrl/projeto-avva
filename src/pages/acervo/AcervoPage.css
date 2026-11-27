@@ -341,19 +341,15 @@
 .lp-selos { margin-top: 16px; display: flex; flex-wrap: wrap; justify-content: center; gap: 6px 16px; font-size: 0.78rem; font-weight: 600; color: var(--lp-ink-2); }
 .lp-selos li::before { content: '✔ '; color: var(--lp-teal); }
 
-/* ── 13b. Garantia (branco): card recortado com selo girando ── */
+/* ── 13b. Garantia (branco): card escuro com o selo "7 dias" no meio ── */
 .lp-garantia-sec { background: #fff; padding-top: 0; }
-.lp-garantia { position: relative; display: grid; justify-items: center; gap: 20px; padding: 36px 24px 32px; border-radius: var(--radius-lg); background: var(--lp-cream); border: 2px solid var(--lp-ink); box-shadow: 8px 8px 0 var(--lp-areia); text-align: center; }
-.lp-garantia__selo { width: 120px; height: 120px; background: var(--lp-teal); color: rgba(255, 255, 255, 0.92); box-shadow: 0 0 0 4px #fff, 6px 6px 0 var(--lp-ink); }
-.lp-garantia__selo .lp-selo__anel { animation: lp-gira 18s linear infinite; }
-.lp-garantia__selo .lp-selo__anel text { font-size: 10px; }
-.lp-garantia__selo > i { color: var(--lp-areia); font-size: 1.6rem; }
-.lp-garantia__dias { display: block; font-family: var(--lp-serif); font-style: italic; font-size: 1.1rem; color: var(--lp-terra); }
-.lp-garantia__dias strong { font-family: var(--font-titulo); font-style: normal; font-size: 2.6rem; font-weight: 800; letter-spacing: -0.05em; color: var(--lp-ink); margin-right: 4px; }
-.lp-garantia__texto h2 { margin-top: 6px; font-size: clamp(1.5rem, 6vw, 2rem); font-weight: 800; letter-spacing: -0.035em; line-height: 1.08; }
-.lp-garantia__texto h2 em { font-family: var(--lp-serif); font-style: italic; font-weight: 400; font-size: 1.08em; color: var(--lp-terra); }
-.lp-garantia__texto p { margin: 14px auto 0; max-width: 520px; font-size: 1rem; line-height: 1.55; color: var(--lp-ink-2); }
-@keyframes lp-gira { to { rotate: 360deg; } }
+.lp-garantia { display: grid; justify-items: center; gap: 18px; padding: 32px 24px; border-radius: var(--radius-lg); background: var(--lp-umber); color: #fff; border: 2px solid var(--lp-ink); box-shadow: 8px 8px 0 var(--lp-areia); text-align: center; }
+.lp-garantia__selo { display: grid; place-items: center; width: 100px; height: 100px; border-radius: 50%; background: var(--lp-terra); box-shadow: 0 0 0 4px var(--lp-areia-claro), 0 0 0 7px var(--lp-umber), 0 0 0 9px rgba(212, 185, 154, 0.35); line-height: 1; }
+.lp-garantia__selo strong { font-size: 2.6rem; font-weight: 800; letter-spacing: -0.04em; }
+.lp-garantia__selo small { font-size: 0.62rem; font-weight: 800; letter-spacing: 0.16em; text-transform: uppercase; color: var(--lp-areia); margin-top: 2px; }
+.lp-garantia__texto h2 { font-size: clamp(1.45rem, 5.8vw, 1.9rem); font-weight: 800; letter-spacing: -0.03em; line-height: 1.1; }
+.lp-garantia__texto h2 em { font-family: var(--lp-serif); font-style: italic; font-weight: 400; font-size: 1.08em; color: var(--lp-areia); }
+.lp-garantia__texto p { margin: 12px auto 0; max-width: 520px; font-size: 0.98rem; line-height: 1.55; color: rgba(255, 255, 255, 0.82); }
 
 /* ── 14. Quem faz o acervo (rosé, com picote) ── */
 .lp-quem { position: relative; background: var(--lp-rose); }
@@ -493,7 +489,7 @@
   .lp-cenarios__grid { grid-template-columns: 1fr 1fr; gap: 20px; max-width: 760px; margin-inline: auto; }
   .lp-cenario { padding: 28px 28px 30px; }
   .lp-cenarios .lp-cta { margin-top: var(--s-6); }
-  .lp-garantia { grid-template-columns: auto 1fr; align-items: center; text-align: left; gap: 32px; padding: 40px 44px; }
+  .lp-garantia { grid-template-columns: auto 1fr; align-items: center; text-align: left; gap: 30px; padding: 34px 40px; }
   .lp-garantia__texto p { margin-left: 0; }
 
   .lp-faq__q { padding: 26px 0; font-size: 1.08rem; }
