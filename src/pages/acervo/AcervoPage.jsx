@@ -544,7 +544,7 @@ export default function AcervoPage() {
             <h2 className="lp-titulo lp-titulo--grande">
               O que você vai<br /><strong>encontrar no acervo.</strong>
             </h2>
-            <p>O acervo é uma plataforma com os anúncios que a gente vê funcionar nos bastidores dos nossos projetos, organizados pelo que você precisa hoje, cada um com a análise de por que vende e com a ferramenta que escreve a sua versão. Você entra pelo celular e sai com o anúncio pronto.</p>
+            <p>O acervo é uma plataforma que reúne os anúncios que funcionam, organizados por objetivo e com filtro por tipo de negócio, pra você que quer escalar o seu negócio no digital, mas está cansada de perder horas tentando acertar o criativo.</p>
           </Reveal>
 
           <Reveal className="lp-dentro__mock" delay={100}>
