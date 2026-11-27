@@ -186,6 +186,7 @@ const INCLUSO = [
   <><strong>Fazer a minha versão</strong>, a nossa ferramenta, ao lado de todo anúncio e página</>,
   <><strong>{OFERTA.totalColecoes} coleções por objetivo</strong> e filtro por tipo de negócio</>,
   <><strong>Melhores do mês</strong> e os dois especiais: Mini VSL e Páginas</>,
+  <><strong>Área de membros no celular</strong>, com favoritos, busca e marcação do que você já viu</>,
   <><strong>{OFERTA.acessoPor} de acesso</strong>, com tudo que entrar nesse período</>,
 ]
 
@@ -583,7 +584,7 @@ export default function AcervoPage() {
             <Reveal className="lp-dentro__texto">
               <span className="lp-dentro__num">01</span>
               <h3>{OFERTA.totalColecoes} coleções, uma pra cada <em>momento da venda.</em></h3>
-              <p>De atrair seguidores a vender agora. Você entra pela porta que precisa hoje, e no fim do mês os melhores anúncios viram a coleção Melhores do mês.</p>
+              <p>De atrair seguidores a vender agora, em vídeo, imagem e carrossel. Você entra pela porta que precisa hoje, e no fim do mês os melhores anúncios viram a coleção Melhores do mês.</p>
             </Reveal>
             <ol className="lp-cards">
               {COLECOES.map((c, i) => <CardColecao key={c.slug} c={c} index={i} />)}
