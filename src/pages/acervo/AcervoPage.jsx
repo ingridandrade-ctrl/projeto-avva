@@ -56,6 +56,8 @@ const PRA_QUEM = [
   <><strong>Acabou de colocar um produto no mundo</strong> e está sem ideia de anúncio</>,
   <><strong>Cansou de garimpar referência sozinha</strong> e quer entender por que cada uma funciona</>,
   <><strong>Prefere ver o que já funciona</strong> antes de inventar o seu</>,
+  <><strong>Já gastou com anúncio que não vendeu</strong> e quer saber o que faltou no criativo</>,
+  <><strong>Quer criar o anúncio em minutos</strong>, com uma ferramenta que escreve a sua versão na sua voz</>,
 ]
 
 // Coleções mostradas nos cards (as 6 por objetivo + a curadoria mensal)
@@ -230,20 +232,8 @@ const FAQ = [
     a: 'Cada análise tem poucas linhas. Em dez minutos no celular você escolhe um anúncio, lê por que ele vende e sai com a sua versão pronta pra gravar.',
   },
   {
-    q: 'O acesso é imediato?',
-    a: 'Sim. Assim que o pagamento é aprovado, você recebe um e-mail e entra na área de membros com o mesmo e-mail da compra. No Pix e no cartão, leva minutos.',
-  },
-  {
     q: 'A ferramenta vai fazer o anúncio por mim?',
     a: 'Ela escreve a sua versão, mas a partir do que você entendeu. Primeiro você lê a análise e vê por que aquele anúncio funciona. Depois preenche a sua ficha (o que vende, pra quem, uma prova real, como a sua cliente fala) e a ferramenta escreve na sua voz, com a sua prova, sem inventar número. O objetivo é você ganhar autonomia, e a ferramenta encurtar o caminho.',
-  },
-  {
-    q: 'Preciso pagar ChatGPT ou Claude pra usar a ferramenta?',
-    a: 'Não. A nossa ferramenta monta tudo pronto e abre na IA que você preferir, ChatGPT ou Claude, e funciona nas versões gratuitas. Se quiser usar outra, é só copiar.',
-  },
-  {
-    q: 'Posso copiar os anúncios?',
-    a: 'A referência serve pra você entender por que funciona e adaptar a lógica pra sua comunicação. Gancho, sequência, prova e fechamento são a referência. O produto, a fala e o visual são seus.',
   },
   {
     q: 'Nunca rodei um anúncio, tenho pouca verba ou só impulsiono. É pra mim?',
